@@ -7,6 +7,9 @@
   },
   "client": [
     "PipelineCacheProgressMixin",
+    "fixes.backend.VulkanRenderPipelineDepthFormatMixin",
+    "fixes.backend.VulkanCommandEncoderDepthFormatMixin",
+    "fixes.backend.VulkanRenderPassDepthFormatMixin",
     "GeneratedItemSideFacesMixin",
     "OptionsHubMixin",
     "OptionDetailLayoutMixin",
