@@ -8,6 +8,8 @@
                    "SceneUniformMixin",
                    "ProjectionMixin",
                    "GeographicSunSkyMixin",
+                   "UnderwaterSkyStateMixin",
+                   "UnderwaterSkyRenderMixin",
                    "AstronomicalLightmapMixin",
                    "SmallStarsMixin",
                    "WorldHeightFogMixin",
