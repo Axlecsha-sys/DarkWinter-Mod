@@ -11,7 +11,7 @@
 
 ## Лицензии и уведомления
 
-- [Корневой LICENSE](../../LICENSE).
+- [GNU GPLv3 — исходный код проекта](../../LICENSE).
 - [Процедурный звук движения](../third-party/audio/AUDIO_LICENSE.txt): обозначение CC0 ограничено перечисленными оригинальными звуковыми файлами.
 - [Шрифт интерфейса](../../src/client/resources/assets/darkwinter/font/license.txt).
 - [Уведомления лаунчера](../../darkwinter-launcher/THIRD_PARTY_NOTICES.md) и [тексты лицензий](../../darkwinter-launcher/third-party/licenses/).

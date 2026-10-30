@@ -3,7 +3,7 @@
 Generated from Cargo.lock and cargo metadata for x86_64-pc-windows-msvc on 2026-10-29.
 Includes runtime, build and test dependencies reachable in this workspace; it is intentionally broader than the final executable.
 
-Application source: CC0-1.0. Third-party code retains its own licenses.
+Application source: GPL-3.0-only. Third-party code retains its own licenses.
 
 | Crate | Version | SPDX license |
 |---|---|---|
