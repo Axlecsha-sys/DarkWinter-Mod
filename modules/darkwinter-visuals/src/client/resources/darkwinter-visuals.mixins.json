@@ -4,6 +4,10 @@
     "compatibilityLevel":  "JAVA_25",
     "client":  [
                    "WorldRendererMixin",
+                   "vanillafog.VanillaFogLevelRendererMixin",
+                   "vanillafog.VanillaFogSkyTargetMixin",
+                   "vanillafog.VanillaFogTerrainBindingsMixin",
+                   "vanillafog.VanillaFogTerrainPipelineMixin",
                    "ViewAreaAccessor",
                    "SceneUniformMixin",
                    "ProjectionMixin",
