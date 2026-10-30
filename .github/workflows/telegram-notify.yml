@@ -1,0 +1,38 @@
+name: DarkWinter Telegram notifications
+
+on:
+  push:
+    branches:
+      - '**'
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      # Checkout notifier from default branch, not an old release tag.
+      - name: Checkout notifier
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout: |
+            .github/telegram_notify.py
+          sparse-checkout-cone-mode: false
+
+      - name: Validate notifier syntax
+        run: python3 -m py_compile .github/telegram_notify.py
+
+      - name: Publish commits or release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: '@winterkore'
+        run: python3 .github/telegram_notify.py
