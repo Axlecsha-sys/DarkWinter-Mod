@@ -98,7 +98,7 @@ def format_commit(commit, branch, repo):
     ]
     if body.strip():
         lines += ["", safe(body, 1300)]
-    return "\n".join(lines + [link(url, "Посмотреть коммит")])
+    return "\n".join(lines + ["", link(url, "Посмотреть коммит")])
 
 
 def format_release(release, repo):
