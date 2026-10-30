@@ -15,4 +15,4 @@ Minecraft **26.3**, Fabric, Java **25 x64**. [Единая документац�
 
 Исходный код мода и лаунчера распространяется по [GNU GPLv3](LICENSE) (`GPL-3.0-only`). Сторонние компоненты и ресурсы с отдельными уведомлениями сохраняют указанные в них лицензии.
 
-[![Telegram](https://shields.io)](https://t.me/winterkore)
+[![Telegram канал мода](https://shields.io)](https://t.me/winterkore)
