@@ -10,6 +10,8 @@
     "fixes.backend.VulkanRenderPipelineDepthFormatMixin",
     "fixes.backend.VulkanCommandEncoderDepthFormatMixin",
     "fixes.backend.VulkanRenderPassDepthFormatMixin",
+    "VulkanPresentationFeaturesMixin",
+    "VulkanPresentationSurfaceMixin",
     "GeneratedItemSideFacesMixin",
     "OptionsHubMixin",
     "OptionDetailLayoutMixin",
