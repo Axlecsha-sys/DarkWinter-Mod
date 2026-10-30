@@ -89,16 +89,16 @@ def format_commit(commit, branch, repo):
     name = author.get("name") or author.get("login") or inner_author.get("name") or "Неизвестен"
     url = "https://github.com/" + repo + "/commit/" + sha
     lines = [
-        "❄️ <b>DarkWinter — новый коммит</b>",
-        "🌿 <b>Ветка:</b> <code>" + safe(branch, 230) + "</code>",
-        "👤 <b>Автор:</b> " + safe(name, 120),
-        "🔖 <b>SHA:</b> <code>" + sha[:12] + "</code>",
+        "<b>DarkWinter — новый коммит</b>",
+        "<b>Ветка:</b> <code>" + safe(branch, 230) + "</code>",
+        "<b>Автор:</b> " + safe(name, 120),
+        "<b>SHA:</b> <code>" + sha[:12] + "</code>",
         "",
-        "📝 <b>" + safe(title or "Без описания", 320) + "</b>",
+        "<b>" + safe(title or "Без описания", 320) + "</b>",
     ]
     if body.strip():
         lines += ["", safe(body, 1300)]
-    return "\n".join(lines + ["", "🔗 " + link(url, "Посмотреть коммит")])
+    return "\n".join(lines + [link(url, "Посмотреть коммит")])
 
 
 def format_release(release, repo):
@@ -107,23 +107,23 @@ def format_release(release, repo):
     url = release.get("html_url") or "https://github.com/" + repo + "/releases"
     if not url.startswith("https://github.com/" + repo + "/"):
         url = "https://github.com/" + repo + "/releases"
-    heading = "🧪 <b>DarkWinter — предварительный релиз</b>" if release.get("prerelease") else "❄️ <b>DarkWinter — новый релиз</b>"
-    lines = [heading, "📦 <b>Версия:</b> " + safe(name, 180),
-             "🏷 <b>Тег:</b> <code>" + safe(tag, 180) + "</code>"]
+    heading = "<b>DarkWinter — предварительный релиз</b>" if release.get("prerelease") else "<b>DarkWinter — новый релиз</b>"
+    lines = [heading, "<b>Версия:</b> " + safe(name, 180),
+             "<b>Тег:</b> <code>" + safe(tag, 180) + "</code>"]
     if release.get("body"):
-        lines += ["", "📝 <b>Описание:</b>", safe(release["body"], 2400)]
+        lines += ["", "<b>Описание:</b>", safe(release["body"], 2400)]
     assets = []
     for asset in (release.get("assets") or [])[:10]:
         asset_url = asset.get("browser_download_url") or ""
         if asset_url.startswith("https://github.com/" + repo + "/"):
             assets.append("• " + link(asset_url, asset.get("name") or "Скачать файл"))
     if assets:
-        lines += ["", "📥 <b>Файлы:</b>", *assets]
-    lines += ["", "🔗 " + link(url, "Открыть релиз на GitHub")]
+        lines += ["", "<b>Файлы:</b>", *assets]
+    lines += [link(url, "Открыть релиз на GitHub")]
     result = "\n".join(lines)
     if len(result) > 4096:
         result = "\n".join(lines[:3] + ["", "Полный список изменений и файлов — на GitHub.",
-                                          "", "🔗 " + link(url, "Открыть релиз")])
+                                           + link(url, "Открыть релиз")])
     return result
 
 
@@ -182,7 +182,7 @@ def main():
         send(format_release(event.get("release") or {}, repo))
         print("Published release notification")
     elif event_name == "workflow_dispatch":
-        send("🧪 <b>DarkWinter GitBot</b>\nGitHub Actions успешно отправил тест в @winterkore.")
+        send("<b>DarkWinter GitBot</b>\nGitHub Actions успешно отправил тест в @winterkore.")
         print("Published manual test")
     else:
         print("Event not handled, skipping")
