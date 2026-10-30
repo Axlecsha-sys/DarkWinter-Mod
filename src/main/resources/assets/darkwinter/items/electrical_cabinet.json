@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "darkwinter:block/furniture/electrical_cabinet_inventory"
+  }
+}

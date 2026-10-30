@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "darkwinter:worn_sofa",
+    "darkwinter:wooden_chair",
+    "darkwinter:dining_table",
+    "darkwinter:writing_desk",
+    "darkwinter:low_cabinet",
+    "darkwinter:wooden_wardrobe",
+    "darkwinter:kitchen_sink",
+    "darkwinter:old_fridge",
+    "darkwinter:old_tv",
+    "darkwinter:radiator"
+  ]
+}

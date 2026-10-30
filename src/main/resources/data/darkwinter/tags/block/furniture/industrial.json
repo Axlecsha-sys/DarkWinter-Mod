@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "darkwinter:steel_locker",
+    "darkwinter:rusty_workbench",
+    "darkwinter:storage_shelf",
+    "darkwinter:electrical_cabinet",
+    "darkwinter:control_console",
+    "darkwinter:pipe_rack",
+    "darkwinter:metal_crate",
+    "darkwinter:cable_spool",
+    "darkwinter:rusty_barrel",
+    "darkwinter:ventilation_unit"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "top": "darkwinter:block/weathered_planks_spruce",
+    "bottom": "darkwinter:block/weathered_planks_spruce",
+    "side": "darkwinter:block/weathered_planks_spruce"
+  }
+}

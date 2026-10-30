@@ -1,0 +1,32 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "darkwinter:entity/clothing"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "darkwinter:entity/clothing_cotton"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "darkwinter:entity/clothing_wool"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "darkwinter:entity/clothing_canvas"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "darkwinter:entity/clothing_leather"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "darkwinter:entity/clothing_rubber"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "darkwinter:entity/expedition_parka"
+    }
+  ]
+}

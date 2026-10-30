@@ -1,0 +1,41 @@
+{
+  "block": "DarkWinterScene",
+  "bytes": 416,
+  "vec4_order": [
+    "Inv0",
+    "Inv1",
+    "Inv2",
+    "Inv3",
+    "Light0",
+    "Light1",
+    "Light2",
+    "Light3",
+    "Sun",
+    "Air",
+    "Shadow",
+    "Climate",
+    "WindTime",
+    "Flags",
+    "CameraInfo",
+    "Options",
+    "Look",
+    "Analog",
+    "FogLayer",
+    "FogStyle",
+    "FogRange",
+    "WeatherShape",
+    "WeatherTint",
+    "CloudDrift",
+    "Film",
+    "FilmTiming"
+  ],
+  "namespace": "darkwinter_visuals",
+  "pass_order": [
+    "surface",
+    "volume",
+    "composite",
+    "sky_clouds",
+    "sky_merge",
+    "film"
+  ]
+}

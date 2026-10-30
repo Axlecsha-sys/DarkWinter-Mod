@@ -1,0 +1,31 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:grass_block",
+    "minecraft:dirt",
+    "minecraft:coarse_dirt",
+    "minecraft:podzol",
+    "minecraft:rooted_dirt",
+    "minecraft:mycelium",
+    "minecraft:dirt_path",
+    "minecraft:farmland",
+    "minecraft:snow_block",
+    "minecraft:snow",
+    "minecraft:stone",
+    "minecraft:granite",
+    "minecraft:diorite",
+    "minecraft:andesite",
+    "minecraft:deepslate",
+    "minecraft:tuff",
+    "minecraft:calcite",
+    "minecraft:gravel",
+    "minecraft:sand",
+    "minecraft:red_sand",
+    "minecraft:mud",
+    "minecraft:clay",
+    "minecraft:moss_block",
+    "minecraft:ice",
+    "minecraft:packed_ice",
+    "minecraft:blue_ice"
+  ]
+}

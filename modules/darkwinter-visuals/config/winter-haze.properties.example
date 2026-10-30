@@ -1,0 +1,12 @@
+# Optional values: copy chosen keys into run/config/darkwinter/visuals.properties.
+# Defaults already work without copying this file. Do not replace the whole live config.
+winterHaze=true
+hazeDensity=0.0050
+hazeBaseHeight=72
+hazeHeightFalloff=42
+hazeStartDistance=12
+hazeDetailStrength=0.42
+hazeAirDensity=0.00028
+hazeWindSpeed=0.28
+hazeEdgeStart=0.55
+hazeEdgeEnd=0.88

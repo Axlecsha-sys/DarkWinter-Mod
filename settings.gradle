@@ -1,0 +1,14 @@
+// Configure plugin repositories and the Gradle project name.
+pluginManagement {
+	repositories {
+		maven {
+			name = 'Fabric'
+			url = 'https://maven.fabricmc.net/'
+		}
+		mavenCentral()
+		gradlePluginPortal()
+	}
+}
+
+// Gradle publication and archive name.
+rootProject.name = 'dark-winter'

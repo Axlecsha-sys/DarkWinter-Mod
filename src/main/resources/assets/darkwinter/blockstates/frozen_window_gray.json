@@ -1,0 +1,24 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "darkwinter:block/frozen_window_gray",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east": {
+      "model": "darkwinter:block/frozen_window_gray",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south": {
+      "model": "darkwinter:block/frozen_window_gray",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west": {
+      "model": "darkwinter:block/frozen_window_gray",
+      "y": 270,
+      "uvlock": true
+    }
+  }
+}

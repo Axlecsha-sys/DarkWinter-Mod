@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "darkwinter:dry_grass_tuft",
+    "darkwinter:snowy_shrub",
+    "darkwinter:forest_fern",
+    "darkwinter:test_spruce_bough"
+  ]
+}

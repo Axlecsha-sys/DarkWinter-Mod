@@ -1,0 +1,46 @@
+{
+  "replace": false,
+  "values": [
+    "darkwinter:wall_segment",
+    "darkwinter:weathered_wall_segment_gray",
+    "darkwinter:weathered_wall_segment_dark",
+    "darkwinter:weathered_wall_segment_patchwork",
+    "darkwinter:weathered_wall_segment_painted",
+    "darkwinter:frozen_window",
+    "darkwinter:frozen_window_gray",
+    "darkwinter:frozen_window_dark",
+    {
+      "id": "#minecraft:fences",
+      "required": false
+    },
+    {
+      "id": "#minecraft:walls",
+      "required": false
+    },
+    {
+      "id": "#minecraft:fence_gates",
+      "required": false
+    },
+    {
+      "id": "#minecraft:doors",
+      "required": false
+    },
+    {
+      "id": "#minecraft:trapdoors",
+      "required": false
+    },
+    {
+      "id": "#minecraft:logs",
+      "required": false
+    },
+    {
+      "id": "#minecraft:leaves",
+      "required": false
+    },
+    "minecraft:powder_snow",
+    "minecraft:cactus",
+    "minecraft:magma_block",
+    "minecraft:campfire",
+    "minecraft:soul_campfire"
+  ]
+}

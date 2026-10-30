@@ -1,0 +1,4 @@
+# Exclude generated visual-module test classes and render output.
+tests/results/classes/
+**/__pycache__/
+tests/results/render_output/

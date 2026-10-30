@@ -1,0 +1,7 @@
+{
+  "parent": "darkwinter:block/thin_column",
+  "textures": {
+    "end": "minecraft:block/spruce_log",
+    "side": "minecraft:block/spruce_log"
+  }
+}

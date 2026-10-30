@@ -1,0 +1,113 @@
+DarkWinter - selected Iroh native source availability
+Prepared 2026-10-30. This is a selected component record, not a complete native
+target/feature license audit or a claim of reproducible binary correspondence.
+
+The Iroh FFI input artifact is the original upstream library below.
+Fabric Loom adds only generated fabric.mod.json to the nested JAR; every
+original entry, including JVM classes and native binaries, is preserved.
+The SHA-256 below identifies the upstream input before this metadata injection:
+computer.iroh:iroh:1.2.0
+SHA-256: acdbccf07885300e9e2f3a04c368b7647981f53aae9d2b97ce61276f97017d4b
+FFI source commit: 66a8d619a4d791d458d582f312df6e0ab42bc541
+https://github.com/n0-computer/iroh-ffi/tree/66a8d619a4d791d458d582f312df6e0ab42bc541
+Source archive:
+https://github.com/n0-computer/iroh-ffi/archive/66a8d619a4d791d458d582f312df6e0ab42bc541.tar.gz
+Exact lock file:
+https://raw.githubusercontent.com/n0-computer/iroh-ffi/66a8d619a4d791d458d582f312df6e0ab42bc541/Cargo.lock
+
+MPL-2.0 source forms
+-------------------
+UniFFI runtime/support code is separately covered by MPL-2.0; the FFI wrapper's
+MIT license does not relicense it. Its complete MPL-2.0 text is supplied in
+LICENSE-MPL-2.0.txt, copied without changes from the UniFFI source commit below.
+The covered Source Code Form can be obtained without charge from the following
+exact upstream source archive or the original per-crate source packages listed
+below. Those sources retain their MPL-2.0 terms and original notices.
+
+UniFFI release v0.31.2 resolves to commit:
+05b45b110f652d58d94c653992aeb3adc3a094f4
+Full source tree (including all uniffi_* crates listed below):
+https://github.com/mozilla/uniffi-rs/tree/05b45b110f652d58d94c653992aeb3adc3a094f4
+Full source archive:
+https://github.com/mozilla/uniffi-rs/archive/05b45b110f652d58d94c653992aeb3adc3a094f4.tar.gz
+Exact license source:
+https://raw.githubusercontent.com/mozilla/uniffi-rs/05b45b110f652d58d94c653992aeb3adc3a094f4/LICENSE
+Official MPL text:
+https://www.mozilla.org/en-US/MPL/2.0/
+
+Every uniffi* entry in the pinned FFI Cargo.lock is included below. These are
+lockfile entries, not a claim that all build-time generator crates are linked
+into every platform's DLL. The checksums were compared with the registry
+metadata for these exact versions on 2026-10-30. Each URL downloads original
+Source Code Form, not a platform binary:
+
+uniffi 0.31.2 - MPL-2.0
+  Source: https://crates.io/api/v1/crates/uniffi/0.31.2/download
+  SHA-256: 46eefd5468602930da46b1f49d3448c6dfc2e81295f93120f23f8174fd70267f
+
+uniffi_bindgen 0.31.2 - MPL-2.0
+  Source: https://crates.io/api/v1/crates/uniffi_bindgen/0.31.2/download
+  SHA-256: c4a0c9b375d32e1365cdb2bdd7cb495eecf6fac851ddbad077412b4ee1888514
+
+uniffi_build 0.31.2 - MPL-2.0
+  Source: https://crates.io/api/v1/crates/uniffi_build/0.31.2/download
+  SHA-256: 744fe15bcd3e2b1712a4573a45ce749af19cf28d69027ca5789619014955668c
+
+uniffi_core 0.31.2 - MPL-2.0
+  Source: https://crates.io/api/v1/crates/uniffi_core/0.31.2/download
+  SHA-256: eec017b112701681f6fbbe5d92014b5c468eb0b177a94389de03ceec40665095
+
+uniffi_internal_macros 0.31.2 - MPL-2.0
+  Source: https://crates.io/api/v1/crates/uniffi_internal_macros/0.31.2/download
+  SHA-256: 4641669b48fefbc5e80ff08c5004d9c7617fb91232131a6734ab6712779cb04c
+
+uniffi_macros 0.31.2 - MPL-2.0
+  Source: https://crates.io/api/v1/crates/uniffi_macros/0.31.2/download
+  SHA-256: eeb8617ee814de22caf7417bf514715ba0b3f46bd9d5a5d794413fd8282cb737
+
+uniffi_meta 0.31.2 - MPL-2.0
+  Source: https://crates.io/api/v1/crates/uniffi_meta/0.31.2/download
+  SHA-256: 58d5b94fc92803d21b2928bd15c6f06e57609b95caf98ea561c99cda1b6d2a25
+
+uniffi_pipeline 0.31.2 - MPL-2.0
+  Source: https://crates.io/api/v1/crates/uniffi_pipeline/0.31.2/download
+  SHA-256: 032739b3ec725576914c15899dedaf080163ced86b6934566c20ec2b20ce90ca
+
+uniffi_udl 0.31.2 - MPL-2.0
+  Source: https://crates.io/api/v1/crates/uniffi_udl/0.31.2/download
+  SHA-256: fc0a1d0a0252ce1af9e8ce78ba67ac0d8937fb2bedaf10cbddd43d3614d06ec6
+
+ring 0.17.14
+------------
+Original source package:
+https://crates.io/api/v1/crates/ring/0.17.14/download
+SHA-256 (verified before extracting the three notices):
+a4689e6c2294d81e88dc6261c768b63bc4fcdb852be6d1352498b114f61383b7
+The package's .cargo_vcs_info.json records source commit:
+2723abbca9e83347d82b056d5b239c6604f786df
+https://github.com/briansmith/ring/tree/2723abbca9e83347d82b056d5b239c6604f786df
+
+These files are exact unmodified copies from that checksum-verified source
+package, preserving its own division of notices and conditions:
+  RING-LICENSE.txt             <- ring-0.17.14/LICENSE
+  RING-LICENSE-BoringSSL.txt   <- ring-0.17.14/LICENSE-BoringSSL
+  RING-LICENSE-other-bits.txt  <- ring-0.17.14/LICENSE-other-bits
+The crate's declared expression is Apache-2.0 AND ISC. Read all three supplied
+texts; the short root LICENSE explicitly points to the other two files.
+
+Important scope of the official sources JAR
+-------------------------------------------
+The reviewed official iroh-1.2.0-sources.jar has SHA-256:
+e71e919d06758a148e378b4a2c07600964c588db8b364b4c5463047c26ee5257
+It contains computer/iroh/iroh_ffi.kt and the platform native libraries. It does
+NOT contain Rust .rs files, Cargo.lock or the Rust dependency source forms.
+Therefore that sources.jar alone is not the corresponding Rust source package.
+Use the exact source retrieval links above for the selected MPL-covered source.
+
+Remaining verification
+----------------------
+This supplement supplies selected exact notices and source retrieval paths.
+It does not establish the full native feature/target graph, collect every
+crate's applicable notices, or reproduce the published native binary build.
+The complete distribution audit is still unfinished. Existing WebRTC and other
+DarkWinter dependency obligations are separate and are not superseded here.

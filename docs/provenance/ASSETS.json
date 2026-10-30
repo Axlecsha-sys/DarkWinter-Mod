@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "snapshotDate": "2026-10-31",
+  "note": "Current file hashes associated with recorded DarkWinter image-generation preparation. Detailed local prompts and duplicate originals are archived; this record is not a license grant.",
+  "assets": [
+    {
+      "path": "darkwinter-launcher/assets/journal-blue/panorama.png",
+      "sha256": "4b0243befc87f9172f8fce63e049a173038abc11f532511f4ff77a27adf7988f",
+      "recordedOrigin": "launcher-journal-imagegen"
+    },
+    {
+      "path": "darkwinter-launcher/assets/journal-blue/paper.png",
+      "sha256": "7e7f6cdb3417a82996c8c7e0f123559a9c48354a697f5215481f9f1372a13ec2",
+      "recordedOrigin": "launcher-journal-imagegen"
+    },
+    {
+      "path": "darkwinter-launcher/assets/journal-blue/wordmark.png",
+      "sha256": "076fb040ff1167b46c450bc2b7363f35b73f91215d370bf2d63e2edbf0b4fecd",
+      "recordedOrigin": "launcher-journal-imagegen"
+    },
+    {
+      "path": "src/client/resources/assets/darkwinter/textures/gui/cinematic/northern_lake.png",
+      "sha256": "b196521d63883afc9f5c8ed1cf61731a0b15f547a70c9e73a7f8a1177480b709",
+      "recordedOrigin": "cinematic-menu-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/decor/aged_concrete.png",
+      "sha256": "29293e4dfcf943621ffe2135d8259cc25fdf29d1011e9d2ec9faf648b5c536da",
+      "recordedOrigin": "recent-catastrophe-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/decor/chipped_enamel.png",
+      "sha256": "6cf4be077ec5ebe2c14cb18662e7eec34b5f0c07e56858ef55c827edb1656a8d",
+      "recordedOrigin": "recent-catastrophe-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/decor/cracked_ceramic.png",
+      "sha256": "8f0205fe15cdbd2fe6bdf8eff18ffc7cc55c2f2c8bcf134502ecd1d9d8ed3100",
+      "recordedOrigin": "recent-catastrophe-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/decor/faded_fabric.png",
+      "sha256": "a90a29de5c7d40b0d5ff801c738ea928ea63c0faea9f4d2b81d23e0d0efd709b",
+      "recordedOrigin": "recent-catastrophe-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/decor/rusted_steel.png",
+      "sha256": "8a18ae63590303d7c301220593fe3313fa950f997c59399118934478a61bbd32",
+      "recordedOrigin": "recent-catastrophe-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/frozen_glass.png",
+      "sha256": "800b53cc764cada5c8ff2ecc2e69a5d44d8d28503455781e1d78aef8c5209b7d",
+      "recordedOrigin": "recent-catastrophe-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/nature/cut_spruce.png",
+      "sha256": "141925ae1cf7151eb7d4d932455332add261b6c028425d032dea97fcb6a97115",
+      "recordedOrigin": "recent-catastrophe-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/nature/foliage.png",
+      "sha256": "67fb7e59514fbe3c79baaa291239e0c5508d91b63a439ea5b6681844e641bb5e",
+      "recordedOrigin": "recent-catastrophe-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/nature/granite.png",
+      "sha256": "5a37e6ae26d05c9c2af05d6f53264949a774512f8565f3baf384335a8a9d3092",
+      "recordedOrigin": "recent-catastrophe-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/nature/spruce_bark.png",
+      "sha256": "b24a8337d6e9a48096a366d21f438f23bae890f8bfd1934c997c22b98dc979ed",
+      "recordedOrigin": "recent-catastrophe-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/outdoor/asphalt.png",
+      "sha256": "19b195566b3314fef3a6fafd4adf130f54dd4093f0684b2e467a069bfb823ebd",
+      "recordedOrigin": "recent-catastrophe-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/test_spruce_bark.png",
+      "sha256": "e036c5372e446602ca8781046a71d9125a8c5ca4d1a69f7d773a2f1a0cff2781",
+      "recordedOrigin": "test-spruce-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/test_spruce_needles.png",
+      "sha256": "c768c0155d240c6350dd460f9aec88e493d9c22e54082de13c357984b30f7894",
+      "recordedOrigin": "test-spruce-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/test_spruce_snow.png",
+      "sha256": "1bd9c50e8d16bbe9a4dbb593321a2256e32e435eabe12bab5e21872eea4975a7",
+      "recordedOrigin": "test-spruce-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/weathered_planks_dark.png",
+      "sha256": "fe6780c3ed45021ae6a934eff97569b7b6c61fe01e4ea572d7d94641ee91656c",
+      "recordedOrigin": "recent-catastrophe-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/weathered_planks_gray.png",
+      "sha256": "bf31608080fa2a864d2b993f3b8e5dc6e10119931305c7b1eb797b08769661ec",
+      "recordedOrigin": "recent-catastrophe-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/weathered_planks_painted.png",
+      "sha256": "a98620769c41118d7d174fe56c4c551981a6313a05f386814604c8067352a231",
+      "recordedOrigin": "recent-catastrophe-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/weathered_planks_patchwork.png",
+      "sha256": "2312d9d94bb8563d850a51a232457f6682a14a4c2ea537c5bf9b67adafbc409a",
+      "recordedOrigin": "recent-catastrophe-imagegen"
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/weathered_planks_spruce.png",
+      "sha256": "588e5fdeccb7b65b909a624389227ded31e26e186289db23f93a09524cada979",
+      "recordedOrigin": "recent-catastrophe-imagegen"
+    }
+  ]
+}

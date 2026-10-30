@@ -1,0 +1,49 @@
+{
+  "variants": [
+    {
+      "title": "Кино",
+      "sha256": "F99E76A12CA0C3BA584DCE1A3DDF6B37CDC34867A2FA02DDE8484492953C235B",
+      "number": 1,
+      "file": "01-cinema.png",
+      "original": "exec-615414f1-e482-4d75-bc5b-7a22fc283044.png"
+    },
+    {
+      "title": "Светлый север",
+      "sha256": "9AC20EAE4B31C80045CFCA639F6867657166703F0D1F4084437A71E9F862A94C",
+      "number": 2,
+      "file": "02-light-north.png",
+      "original": "exec-b23d8a21-a8f2-4334-9b77-34455a07554b.png"
+    },
+    {
+      "title": "Радиостанция 1997",
+      "sha256": "E4847488B26A7E8E1E094F6466AC1CFB80A692565083149AC2A93DBACAEB5B82",
+      "number": 3,
+      "file": "03-radio-1997.png",
+      "original": "exec-8fd3ad85-962e-447f-83a0-a6aecfae4937.png"
+    },
+    {
+      "title": "Чёрный лёд",
+      "sha256": "04A51DA3EE8032C528AFDFD9F79BFCE62F89E4963C9AC0EF0F1BA088BB6408FD",
+      "number": 4,
+      "file": "04-black-ice.png",
+      "original": "exec-ab490a76-656c-4167-9b6a-3746827bfbb0.png"
+    },
+    {
+      "title": "Полевой дневник",
+      "sha256": "5231BEDEBA4C16E0AE3AE4CA816FBE971851353E0CB60258ACBBF20046793639",
+      "number": 5,
+      "file": "05-field-journal.png",
+      "original": "exec-f4924709-5e34-4e54-a011-8dcb28e98f82.png"
+    },
+    {
+      "title": "Тихая ночь",
+      "sha256": "6D103AA1C794B5D6F8DCCFD439D5ACA6717C5DC667D80A1B4E0A8842BF75B52B",
+      "number": 6,
+      "file": "06-quiet-night.png",
+      "original": "exec-b695a5f0-7acd-4c5c-ad4b-342c48d1870a.png"
+    }
+  ],
+  "purpose": "Визуальные концепты для выбора; демонстрационные данные, без изменений кода лаунчера.",
+  "generator": "built-in image_gen",
+  "schema": 1
+}

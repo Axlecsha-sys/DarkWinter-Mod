@@ -1,0 +1,113 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "metal": "darkwinter:block/decor/rusted_steel",
+    "enamel": "darkwinter:block/decor/chipped_enamel",
+    "fabric": "darkwinter:block/decor/faded_fabric",
+    "concrete": "darkwinter:block/decor/aged_concrete",
+    "ceramic": "darkwinter:block/decor/cracked_ceramic",
+    "wood": "darkwinter:block/weathered_planks_gray",
+    "dark_wood": "darkwinter:block/weathered_planks_dark",
+    "black": "minecraft:block/black_concrete",
+    "glass": "darkwinter:block/frozen_glass",
+    "asphalt": "darkwinter:block/outdoor/asphalt",
+    "bark": "darkwinter:block/nature/spruce_bark",
+    "cut_wood": "darkwinter:block/nature/cut_spruce",
+    "rock": "darkwinter:block/nature/granite",
+    "foliage": "darkwinter:block/nature/foliage",
+    "white": "minecraft:block/white_concrete",
+    "red": "minecraft:block/red_concrete",
+    "yellow": "minecraft:block/yellow_concrete",
+    "orange": "minecraft:block/orange_concrete",
+    "soil": "minecraft:block/dirt",
+    "snow": "minecraft:block/snow",
+    "cardboard": "minecraft:block/brown_concrete",
+    "dry_grass": "minecraft:block/hay_block_side",
+    "locker_h_enamel": "darkwinter:block/decor/locker_h_enamel",
+    "locker_h_hardware": "darkwinter:block/decor/locker_h_hardware",
+    "locker_h_labels": "darkwinter:block/decor/locker_h_labels",
+    "home_pine_n": "darkwinter:block/decor/home_pine_n",
+    "home_pine_n_end": "darkwinter:block/decor/home_pine_n_end",
+    "street_s_wood": "darkwinter:block/decor/street_s_wood",
+    "street_s_wood_end": "darkwinter:block/decor/street_s_wood_end",
+    "street_s_glass": "darkwinter:block/decor/street_s_glass",
+    "outdoor_d_asphalt": "darkwinter:block/outdoor/d_asphalt",
+    "outdoor_d_concrete": "darkwinter:block/outdoor/d_concrete",
+    "outdoor_d_paint": "darkwinter:block/outdoor/d_paint",
+    "outdoor_d_snow": "darkwinter:block/outdoor/d_snow",
+    "outdoor_d_asphalt_v2": "darkwinter:block/outdoor/d_asphalt_v2",
+    "outdoor_d_asphalt_v3": "darkwinter:block/outdoor/d_asphalt_v3",
+    "outdoor_d_asphalt_v4": "darkwinter:block/outdoor/d_asphalt_v4",
+    "outdoor_d_snow_cover": "darkwinter:block/outdoor/d_snow_cover",
+    "outdoor_d_gravel": "darkwinter:block/outdoor/d_gravel",
+    "outdoor_f1_wood": "darkwinter:block/outdoor/f1_grey_timber",
+    "particle": "darkwinter:block/decor/locker_h_hardware"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        1.0,
+        7.55
+      ],
+      "to": [
+        16,
+        1.55,
+        8.45
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        1.0,
+        7.93
+      ],
+      "to": [
+        16,
+        16,
+        8.07
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    }
+  ]
+}

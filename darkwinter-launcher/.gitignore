@@ -1,0 +1,4 @@
+# Exclude launcher build products and local distribution output.
+/target/
+/artifacts/
+

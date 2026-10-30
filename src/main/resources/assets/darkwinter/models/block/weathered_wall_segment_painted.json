@@ -1,0 +1,7 @@
+{
+  "parent": "darkwinter:block/wall_segment",
+  "textures": {
+    "all": "darkwinter:block/weathered_planks_painted",
+    "particle": "darkwinter:block/weathered_planks_painted"
+  }
+}

@@ -1,0 +1,1721 @@
+{
+  "targets": {
+    "darkwinter_visuals:surface": {},
+    "darkwinter_visuals:volume": {
+      "width": 384,
+      "height": 216
+    },
+    "darkwinter_visuals:composite": {},
+    "darkwinter_visuals:sky_clouds": {
+      "width": 640,
+      "height": 360
+    }
+  },
+  "passes": [
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "darkwinter_visuals:post/surface",
+      "inputs": [
+        {
+          "sampler_name": "Main",
+          "target": "minecraft:main"
+        },
+        {
+          "sampler_name": "Depth",
+          "target": "minecraft:main",
+          "use_depth_buffer": true
+        },
+        {
+          "sampler_name": "Shadow",
+          "target": "darkwinter_visuals:shadow",
+          "use_depth_buffer": true
+        }
+      ],
+      "output": "darkwinter_visuals:surface",
+      "uniforms": {
+        "DarkWinterScene": [
+          {
+            "name": "Inv0",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Inv1",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Inv2",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "Inv3",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "name": "Light0",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Light1",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Light2",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "Light3",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "name": "Sun",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Air",
+            "type": "vec4",
+            "value": [
+              0.0009,
+              0.055,
+              0.09,
+              60
+            ]
+          },
+          {
+            "name": "Shadow",
+            "type": "vec4",
+            "value": [
+              1024,
+              0.078125,
+              7.5e-05,
+              0.5
+            ]
+          },
+          {
+            "name": "Climate",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0.12,
+              1
+            ]
+          },
+          {
+            "name": "WindTime",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              12
+            ]
+          },
+          {
+            "name": "Flags",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "CameraInfo",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              40
+            ]
+          },
+          {
+            "name": "Options",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              239.9,
+              0.012
+            ]
+          },
+          {
+            "name": "Look",
+            "type": "vec4",
+            "value": [
+              1,
+              0.76,
+              0.28,
+              0.92
+            ]
+          },
+          {
+            "name": "Analog",
+            "type": "vec4",
+            "value": [
+              0.025,
+              0.34,
+              0.14,
+              0.012
+            ]
+          },
+          {
+            "name": "FogLayer",
+            "type": "vec4",
+            "value": [
+              0.005,
+              72,
+              42,
+              12
+            ]
+          },
+          {
+            "name": "FogStyle",
+            "type": "vec4",
+            "value": [
+              0.42,
+              0,
+              0,
+              0.00028
+            ]
+          },
+          {
+            "name": "FogRange",
+            "type": "vec4",
+            "value": [
+              114,
+              183,
+              4,
+              1
+            ]
+          },
+          {
+            "name": "WeatherShape",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "WeatherTint",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "CloudDrift",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Film",
+            "type": "vec4",
+            "value": [
+              0.6,
+              0.12,
+              0.18,
+              0.12
+            ]
+          },
+          {
+            "name": "FilmTiming",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "darkwinter_visuals:post/volume",
+      "inputs": [
+        {
+          "sampler_name": "Depth",
+          "target": "minecraft:main",
+          "use_depth_buffer": true
+        },
+        {
+          "sampler_name": "Shadow",
+          "target": "darkwinter_visuals:shadow",
+          "use_depth_buffer": true
+        }
+      ],
+      "output": "darkwinter_visuals:volume",
+      "uniforms": {
+        "DarkWinterScene": [
+          {
+            "name": "Inv0",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Inv1",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Inv2",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "Inv3",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "name": "Light0",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Light1",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Light2",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "Light3",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "name": "Sun",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Air",
+            "type": "vec4",
+            "value": [
+              0.0009,
+              0.055,
+              0.09,
+              60
+            ]
+          },
+          {
+            "name": "Shadow",
+            "type": "vec4",
+            "value": [
+              1024,
+              0.078125,
+              7.5e-05,
+              0.5
+            ]
+          },
+          {
+            "name": "Climate",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0.12,
+              1
+            ]
+          },
+          {
+            "name": "WindTime",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              12
+            ]
+          },
+          {
+            "name": "Flags",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "CameraInfo",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              40
+            ]
+          },
+          {
+            "name": "Options",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              239.9,
+              0.012
+            ]
+          },
+          {
+            "name": "Look",
+            "type": "vec4",
+            "value": [
+              1,
+              0.76,
+              0.28,
+              0.92
+            ]
+          },
+          {
+            "name": "Analog",
+            "type": "vec4",
+            "value": [
+              0.025,
+              0.34,
+              0.14,
+              0.012
+            ]
+          },
+          {
+            "name": "FogLayer",
+            "type": "vec4",
+            "value": [
+              0.005,
+              72,
+              42,
+              12
+            ]
+          },
+          {
+            "name": "FogStyle",
+            "type": "vec4",
+            "value": [
+              0.42,
+              0,
+              0,
+              0.00028
+            ]
+          },
+          {
+            "name": "FogRange",
+            "type": "vec4",
+            "value": [
+              114,
+              183,
+              4,
+              1
+            ]
+          },
+          {
+            "name": "WeatherShape",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "WeatherTint",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "CloudDrift",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Film",
+            "type": "vec4",
+            "value": [
+              0.6,
+              0.12,
+              0.18,
+              0.12
+            ]
+          },
+          {
+            "name": "FilmTiming",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "darkwinter_visuals:post/composite",
+      "inputs": [
+        {
+          "sampler_name": "Main",
+          "target": "darkwinter_visuals:surface"
+        },
+        {
+          "sampler_name": "Depth",
+          "target": "minecraft:main",
+          "use_depth_buffer": true
+        },
+        {
+          "sampler_name": "Volume",
+          "target": "darkwinter_visuals:volume"
+        }
+      ],
+      "output": "darkwinter_visuals:composite",
+      "uniforms": {
+        "DarkWinterScene": [
+          {
+            "name": "Inv0",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Inv1",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Inv2",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "Inv3",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "name": "Light0",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Light1",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Light2",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "Light3",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "name": "Sun",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Air",
+            "type": "vec4",
+            "value": [
+              0.0009,
+              0.055,
+              0.09,
+              60
+            ]
+          },
+          {
+            "name": "Shadow",
+            "type": "vec4",
+            "value": [
+              1024,
+              0.078125,
+              7.5e-05,
+              0.5
+            ]
+          },
+          {
+            "name": "Climate",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0.12,
+              1
+            ]
+          },
+          {
+            "name": "WindTime",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              12
+            ]
+          },
+          {
+            "name": "Flags",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "CameraInfo",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              40
+            ]
+          },
+          {
+            "name": "Options",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              239.9,
+              0.012
+            ]
+          },
+          {
+            "name": "Look",
+            "type": "vec4",
+            "value": [
+              1,
+              0.76,
+              0.28,
+              0.92
+            ]
+          },
+          {
+            "name": "Analog",
+            "type": "vec4",
+            "value": [
+              0.025,
+              0.34,
+              0.14,
+              0.012
+            ]
+          },
+          {
+            "name": "FogLayer",
+            "type": "vec4",
+            "value": [
+              0.005,
+              72,
+              42,
+              12
+            ]
+          },
+          {
+            "name": "FogStyle",
+            "type": "vec4",
+            "value": [
+              0.42,
+              0,
+              0,
+              0.00028
+            ]
+          },
+          {
+            "name": "FogRange",
+            "type": "vec4",
+            "value": [
+              114,
+              183,
+              4,
+              1
+            ]
+          },
+          {
+            "name": "WeatherShape",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "WeatherTint",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "CloudDrift",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Film",
+            "type": "vec4",
+            "value": [
+              0.6,
+              0.12,
+              0.18,
+              0.12
+            ]
+          },
+          {
+            "name": "FilmTiming",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "darkwinter_visuals:post/sky_clouds",
+      "inputs": [
+        {
+          "sampler_name": "Depth",
+          "target": "minecraft:main",
+          "use_depth_buffer": true
+        }
+      ],
+      "output": "darkwinter_visuals:sky_clouds",
+      "uniforms": {
+        "DarkWinterScene": [
+          {
+            "name": "Inv0",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Inv1",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Inv2",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "Inv3",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "name": "Light0",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Light1",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Light2",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "Light3",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "name": "Sun",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Air",
+            "type": "vec4",
+            "value": [
+              0.0009,
+              0.055,
+              0.09,
+              60
+            ]
+          },
+          {
+            "name": "Shadow",
+            "type": "vec4",
+            "value": [
+              1024,
+              0.078125,
+              7.5e-05,
+              0.5
+            ]
+          },
+          {
+            "name": "Climate",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0.12,
+              1
+            ]
+          },
+          {
+            "name": "WindTime",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              12
+            ]
+          },
+          {
+            "name": "Flags",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "CameraInfo",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              40
+            ]
+          },
+          {
+            "name": "Options",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              239.9,
+              0.012
+            ]
+          },
+          {
+            "name": "Look",
+            "type": "vec4",
+            "value": [
+              1,
+              0.76,
+              0.28,
+              0.92
+            ]
+          },
+          {
+            "name": "Analog",
+            "type": "vec4",
+            "value": [
+              0.025,
+              0.34,
+              0.14,
+              0.012
+            ]
+          },
+          {
+            "name": "FogLayer",
+            "type": "vec4",
+            "value": [
+              0.005,
+              72,
+              42,
+              12
+            ]
+          },
+          {
+            "name": "FogStyle",
+            "type": "vec4",
+            "value": [
+              0.42,
+              0,
+              0,
+              0.00028
+            ]
+          },
+          {
+            "name": "FogRange",
+            "type": "vec4",
+            "value": [
+              114,
+              183,
+              4,
+              1
+            ]
+          },
+          {
+            "name": "WeatherShape",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "WeatherTint",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "CloudDrift",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Film",
+            "type": "vec4",
+            "value": [
+              0.6,
+              0.12,
+              0.18,
+              0.12
+            ]
+          },
+          {
+            "name": "FilmTiming",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "darkwinter_visuals:post/sky_merge",
+      "inputs": [
+        {
+          "sampler_name": "Main",
+          "target": "darkwinter_visuals:composite"
+        },
+        {
+          "sampler_name": "Depth",
+          "target": "minecraft:main",
+          "use_depth_buffer": true
+        },
+        {
+          "sampler_name": "Sky",
+          "target": "darkwinter_visuals:sky_clouds"
+        },
+        {
+          "sampler_name": "Atmosphere",
+          "target": "darkwinter_visuals:volume"
+        }
+      ],
+      "output": "darkwinter_visuals:sky_final",
+      "uniforms": {
+        "DarkWinterScene": [
+          {
+            "name": "Inv0",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Inv1",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Inv2",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "Inv3",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "name": "Light0",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Light1",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Light2",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "Light3",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "name": "Sun",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Air",
+            "type": "vec4",
+            "value": [
+              0.0009,
+              0.055,
+              0.09,
+              60
+            ]
+          },
+          {
+            "name": "Shadow",
+            "type": "vec4",
+            "value": [
+              1024,
+              0.078125,
+              7.5e-05,
+              0.5
+            ]
+          },
+          {
+            "name": "Climate",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0.12,
+              1
+            ]
+          },
+          {
+            "name": "WindTime",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              12
+            ]
+          },
+          {
+            "name": "Flags",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "CameraInfo",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              40
+            ]
+          },
+          {
+            "name": "Options",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              239.9,
+              0.012
+            ]
+          },
+          {
+            "name": "Look",
+            "type": "vec4",
+            "value": [
+              1,
+              0.76,
+              0.28,
+              0.92
+            ]
+          },
+          {
+            "name": "Analog",
+            "type": "vec4",
+            "value": [
+              0.025,
+              0.34,
+              0.14,
+              0.012
+            ]
+          },
+          {
+            "name": "FogLayer",
+            "type": "vec4",
+            "value": [
+              0.005,
+              72,
+              42,
+              12
+            ]
+          },
+          {
+            "name": "FogStyle",
+            "type": "vec4",
+            "value": [
+              0.42,
+              0,
+              0,
+              0.00028
+            ]
+          },
+          {
+            "name": "FogRange",
+            "type": "vec4",
+            "value": [
+              114,
+              183,
+              4,
+              1
+            ]
+          },
+          {
+            "name": "WeatherShape",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "WeatherTint",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "CloudDrift",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Film",
+            "type": "vec4",
+            "value": [
+              0.6,
+              0.12,
+              0.18,
+              0.12
+            ]
+          },
+          {
+            "name": "FilmTiming",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "darkwinter_visuals:post/film",
+      "inputs": [
+        {
+          "sampler_name": "Main",
+          "target": "darkwinter_visuals:sky_final",
+          "bilinear": true
+        },
+        {
+          "sampler_name": "Previous",
+          "target": "darkwinter_visuals:previous_frame",
+          "bilinear": true
+        },
+        {
+          "sampler_name": "Held",
+          "target": "darkwinter_visuals:held_frame",
+          "bilinear": true
+        },
+        {
+          "sampler_name": "Depth",
+          "target": "minecraft:main",
+          "use_depth_buffer": true
+        }
+      ],
+      "output": "minecraft:main",
+      "uniforms": {
+        "DarkWinterScene": [
+          {
+            "name": "Inv0",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Inv1",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Inv2",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "Inv3",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "name": "Light0",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Light1",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Light2",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "Light3",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "name": "Sun",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Air",
+            "type": "vec4",
+            "value": [
+              0.0009,
+              0.055,
+              0.09,
+              60
+            ]
+          },
+          {
+            "name": "Shadow",
+            "type": "vec4",
+            "value": [
+              1024,
+              0.078125,
+              7.5e-05,
+              0.5
+            ]
+          },
+          {
+            "name": "Climate",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0.12,
+              1
+            ]
+          },
+          {
+            "name": "WindTime",
+            "type": "vec4",
+            "value": [
+              1,
+              0,
+              0,
+              12
+            ]
+          },
+          {
+            "name": "Flags",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "CameraInfo",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              40
+            ]
+          },
+          {
+            "name": "Options",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              239.9,
+              0.012
+            ]
+          },
+          {
+            "name": "Look",
+            "type": "vec4",
+            "value": [
+              1,
+              0.76,
+              0.28,
+              0.92
+            ]
+          },
+          {
+            "name": "Analog",
+            "type": "vec4",
+            "value": [
+              0.025,
+              0.34,
+              0.14,
+              0.012
+            ]
+          },
+          {
+            "name": "FogLayer",
+            "type": "vec4",
+            "value": [
+              0.005,
+              72,
+              42,
+              12
+            ]
+          },
+          {
+            "name": "FogStyle",
+            "type": "vec4",
+            "value": [
+              0.42,
+              0,
+              0,
+              0.00028
+            ]
+          },
+          {
+            "name": "FogRange",
+            "type": "vec4",
+            "value": [
+              114,
+              183,
+              4,
+              1
+            ]
+          },
+          {
+            "name": "WeatherShape",
+            "type": "vec4",
+            "value": [
+              0,
+              1,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "WeatherTint",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "CloudDrift",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "name": "Film",
+            "type": "vec4",
+            "value": [
+              0.6,
+              0.12,
+              0.18,
+              0.12
+            ]
+          },
+          {
+            "name": "FilmTiming",
+            "type": "vec4",
+            "value": [
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

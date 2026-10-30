@@ -1,0 +1,79 @@
+// Attach visual renderer sources and validate the shared Java/GLSL pipeline contract.
+import groovy.json.JsonSlurper
+import groovy.io.FileType
+
+def visualsRoot = rootProject.file('modules/darkwinter-visuals')
+if (sourceSets.findByName('client') == null) {
+    throw new GradleException('DarkWinter Visuals requires the existing split client source set.')
+}
+sourceSets.named('client') {
+    java.srcDir(new File(visualsRoot, 'src/client/java'))
+    resources.srcDir(new File(visualsRoot, 'src/client/resources'))
+}
+
+tasks.register('visualsDoctor') {
+    group = 'verification'
+    description = 'Check the active Visuals pipeline resources and old-renderer migration.'
+    def resources = new File(visualsRoot, 'src/client/resources')
+    def contractFile = new File(visualsRoot, 'config/pipeline_contract.json')
+    def sceneJava = new File(visualsRoot, 'src/client/java/com/dark/winter/visuals/SceneFrame.java')
+    def retired = rootProject.file('src/client/java/com/dark/winter/northernlight')
+    inputs.dir(resources)
+    inputs.file(contractFile)
+    inputs.file(sceneJava)
+    inputs.files(rootProject.fileTree(retired).matching { include '**/*.java' })
+    doLast {
+        def json = new JsonSlurper()
+        def contract = json.parse(contractFile)
+        def namespace = contract.namespace.toString()
+        def expected = contract.pass_order.collect { "${namespace}:post/${it}".toString() }
+        def expectedNames = contract.pass_order.collect { it.toString() }
+        def expectedVec4 = contract.vec4_order.collect { it.toString() }
+        def expectedBytes = ((Number)contract.bytes).intValue()
+        ['low','balanced','high'].each { quality ->
+            def file = new File(resources, "assets/${namespace}/post_effect/${quality}.json")
+            def chain = json.parse(file)
+            def actual = chain.passes.collect { it.fragment_shader.toString() }
+            if (actual != expected) {
+                throw new GradleException("Unexpected pass order in ${file}\n"
+                        + "Expected: ${expectedNames.join(' -> ')}\n"
+                        + "Actual:   ${chain.passes.collect { it.fragment_shader.toString().split(':',2)[1].replace('post/','') }.join(' -> ')}")
+            }
+            chain.passes.each { pass ->
+                def name = pass.fragment_shader.toString().split(':', 2)[1]
+                def shader = new File(resources, "assets/${namespace}/shaders/${name}.fsh")
+                if (!shader.isFile()) throw new GradleException("Missing active shader: ${shader}")
+                def block = pass.uniforms.DarkWinterScene
+                if (block.size() != expectedVec4.size()) {
+                    throw new GradleException("DarkWinterScene must have ${expectedVec4.size()} vec4 values in ${file}")
+                }
+                def declared = block.collect { it.name.toString() }
+                if (declared != expectedVec4) {
+                    throw new GradleException("DarkWinterScene vec4 order mismatch in ${file}\n"
+                            + "Expected: ${expectedVec4.join(', ')}\n"
+                            + "Actual:   ${declared.join(', ')}")
+                }
+            }
+        }
+        def sceneFrame = sceneJava.text
+        def bytesMatch = (sceneFrame =~ /public static final int BYTES = (\d+);/)
+        if (!bytesMatch.find() || Integer.parseInt(bytesMatch.group(1)) != expectedBytes) {
+            throw new GradleException("SceneFrame BYTES must equal ${expectedBytes}")
+        }
+        def sceneGlsl = new File(resources, "assets/${namespace}/shaders/include/scene.glsl").text
+        def blockMatch = (sceneGlsl =~ /(?s)uniform DarkWinterScene\s*\{(.*?)\};/)
+        if (!blockMatch.find()) throw new GradleException('Missing GLSL DarkWinterScene block')
+        def glslNames = (blockMatch.group(1) =~ /vec4\s+(\w+)\s*;/).collect { it[1].toString() }
+        if (glslNames != expectedVec4 || expectedBytes != expectedVec4.size()*16) {
+            throw new GradleException('GLSL scene block order/size does not match the Java/JSON contract')
+        }
+        def oldJava = []
+        if (retired.isDirectory()) retired.eachFileRecurse(FileType.FILES) { f -> if (f.name.endsWith('.java')) oldJava.add(f) }
+        if (!oldJava.isEmpty()) {
+            throw new GradleException('Old RC1 Java is still in src/client/java. Use the migration installer, do not run both renderers.')
+        }
+        logger.lifecycle("DarkWinter Visuals: ${expectedNames.join(' -> ')}; ${expectedBytes}-byte scene block; resources OK.")
+        logger.lifecycle('This is a resource check, NOT an in-game renderer test.')
+    }
+}
+tasks.named('compileClientJava') { dependsOn(tasks.named('visualsDoctor')) }

@@ -1,0 +1,19 @@
+{
+    "required":  true,
+    "package":  "com.dark.winter.visuals.mixin",
+    "compatibilityLevel":  "JAVA_25",
+    "client":  [
+                   "WorldRendererMixin",
+                   "ViewAreaAccessor",
+                   "SceneUniformMixin",
+                   "ProjectionMixin",
+                   "GeographicSunSkyMixin",
+                   "AstronomicalLightmapMixin",
+                   "SmallStarsMixin",
+                   "WorldHeightFogMixin",
+                   "VanillaCloudBypassMixin"
+               ],
+    "injectors":  {
+                      "defaultRequire":  1
+                  }
+}

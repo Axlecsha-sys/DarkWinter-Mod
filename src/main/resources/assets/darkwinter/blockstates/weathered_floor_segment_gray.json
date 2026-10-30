@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "darkwinter:block/weathered_floor_segment_gray"
+    },
+    "type=top": {
+      "model": "darkwinter:block/weathered_floor_segment_gray_top"
+    },
+    "type=double": {
+      "model": "darkwinter:block/weathered_floor_segment_gray_double"
+    }
+  }
+}

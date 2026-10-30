@@ -1,0 +1,20 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "darkwinter:item/thick_hiking_socks",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": 11636816
+      },
+      {
+        "type": "minecraft:constant",
+        "value": 7429171
+      },
+      {
+        "type": "minecraft:constant",
+        "value": 12170660
+      }
+    ]
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "gait.snow_0": {
+    "subtitle": "subtitles.darkwinter_motion.step",
+    "sounds": [
+      {
+        "name": "darkwinter_motion:gait/snow_0",
+        "stream": false
+      }
+    ]
+  },
+  "gait.snow_1": {
+    "subtitle": "subtitles.darkwinter_motion.step",
+    "sounds": [
+      {
+        "name": "darkwinter_motion:gait/snow_1",
+        "stream": false
+      }
+    ]
+  },
+  "gait.snow_2": {
+    "subtitle": "subtitles.darkwinter_motion.step",
+    "sounds": [
+      {
+        "name": "darkwinter_motion:gait/snow_2",
+        "stream": false
+      }
+    ]
+  },
+  "gait.snow_3": {
+    "subtitle": "subtitles.darkwinter_motion.step",
+    "sounds": [
+      {
+        "name": "darkwinter_motion:gait/snow_3",
+        "stream": false
+      }
+    ]
+  },
+  "gait.ice_0": {
+    "subtitle": "subtitles.darkwinter_motion.step",
+    "sounds": [
+      {
+        "name": "darkwinter_motion:gait/ice_0",
+        "stream": false
+      }
+    ]
+  },
+  "gait.ice_1": {
+    "subtitle": "subtitles.darkwinter_motion.step",
+    "sounds": [
+      {
+        "name": "darkwinter_motion:gait/ice_1",
+        "stream": false
+      }
+    ]
+  },
+  "gait.ice_2": {
+    "subtitle": "subtitles.darkwinter_motion.step",
+    "sounds": [
+      {
+        "name": "darkwinter_motion:gait/ice_2",
+        "stream": false
+      }
+    ]
+  },
+  "gait.ice_3": {
+    "subtitle": "subtitles.darkwinter_motion.step",
+    "sounds": [
+      {
+        "name": "darkwinter_motion:gait/ice_3",
+        "stream": false
+      }
+    ]
+  },
+  "gait.earth_0": {
+    "subtitle": "subtitles.darkwinter_motion.step",
+    "sounds": [
+      {
+        "name": "darkwinter_motion:gait/earth_0",
+        "stream": false
+      }
+    ]
+  },
+  "gait.earth_1": {
+    "subtitle": "subtitles.darkwinter_motion.step",
+    "sounds": [
+      {
+        "name": "darkwinter_motion:gait/earth_1",
+        "stream": false
+      }
+    ]
+  },
+  "gait.earth_2": {
+    "subtitle": "subtitles.darkwinter_motion.step",
+    "sounds": [
+      {
+        "name": "darkwinter_motion:gait/earth_2",
+        "stream": false
+      }
+    ]
+  },
+  "gait.earth_3": {
+    "subtitle": "subtitles.darkwinter_motion.step",
+    "sounds": [
+      {
+        "name": "darkwinter_motion:gait/earth_3",
+        "stream": false
+      }
+    ]
+  },
+  "gait.cloth_0": {
+    "subtitle": "subtitles.darkwinter_motion.cloth",
+    "sounds": [
+      {
+        "name": "darkwinter_motion:gait/cloth_0",
+        "stream": false
+      }
+    ]
+  },
+  "gait.cloth_1": {
+    "subtitle": "subtitles.darkwinter_motion.cloth",
+    "sounds": [
+      {
+        "name": "darkwinter_motion:gait/cloth_1",
+        "stream": false
+      }
+    ]
+  },
+  "gait.cloth_2": {
+    "subtitle": "subtitles.darkwinter_motion.cloth",
+    "sounds": [
+      {
+        "name": "darkwinter_motion:gait/cloth_2",
+        "stream": false
+      }
+    ]
+  },
+  "gait.sole_0": {
+    "subtitle": "subtitles.darkwinter_motion.step",
+    "sounds": [
+      {
+        "name": "darkwinter_motion:gait/sole_0",
+        "stream": false
+      }
+    ]
+  },
+  "gait.sole_1": {
+    "subtitle": "subtitles.darkwinter_motion.step",
+    "sounds": [
+      {
+        "name": "darkwinter_motion:gait/sole_1",
+        "stream": false
+      }
+    ]
+  }
+}

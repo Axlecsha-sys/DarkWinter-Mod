@@ -1,0 +1,20 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "darkwinter:item/cinematic_northern_wanderer_gloves",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": 2698290
+      },
+      {
+        "type": "minecraft:constant",
+        "value": 1711136
+      },
+      {
+        "type": "minecraft:constant",
+        "value": 12170660
+      }
+    ]
+  }
+}

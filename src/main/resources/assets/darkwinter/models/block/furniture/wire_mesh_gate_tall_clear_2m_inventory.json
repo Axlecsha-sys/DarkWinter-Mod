@@ -1,0 +1,1881 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "metal": "darkwinter:block/decor/rusted_steel",
+    "enamel": "darkwinter:block/decor/chipped_enamel",
+    "fabric": "darkwinter:block/decor/faded_fabric",
+    "concrete": "darkwinter:block/decor/aged_concrete",
+    "ceramic": "darkwinter:block/decor/cracked_ceramic",
+    "wood": "darkwinter:block/weathered_planks_gray",
+    "dark_wood": "darkwinter:block/weathered_planks_dark",
+    "black": "minecraft:block/black_concrete",
+    "glass": "darkwinter:block/frozen_glass",
+    "asphalt": "darkwinter:block/outdoor/asphalt",
+    "bark": "darkwinter:block/nature/spruce_bark",
+    "cut_wood": "darkwinter:block/nature/cut_spruce",
+    "rock": "darkwinter:block/nature/granite",
+    "foliage": "darkwinter:block/nature/foliage",
+    "white": "minecraft:block/white_concrete",
+    "red": "minecraft:block/red_concrete",
+    "yellow": "minecraft:block/yellow_concrete",
+    "orange": "minecraft:block/orange_concrete",
+    "soil": "minecraft:block/dirt",
+    "snow": "minecraft:block/snow",
+    "cardboard": "minecraft:block/brown_concrete",
+    "dry_grass": "minecraft:block/hay_block_side",
+    "locker_h_enamel": "darkwinter:block/decor/locker_h_enamel",
+    "locker_h_hardware": "darkwinter:block/decor/locker_h_hardware",
+    "locker_h_labels": "darkwinter:block/decor/locker_h_labels",
+    "home_pine_n": "darkwinter:block/decor/home_pine_n",
+    "home_pine_n_end": "darkwinter:block/decor/home_pine_n_end",
+    "street_s_wood": "darkwinter:block/decor/street_s_wood",
+    "street_s_wood_end": "darkwinter:block/decor/street_s_wood_end",
+    "street_s_glass": "darkwinter:block/decor/street_s_glass",
+    "outdoor_d_asphalt": "darkwinter:block/outdoor/d_asphalt",
+    "outdoor_d_concrete": "darkwinter:block/outdoor/d_concrete",
+    "outdoor_d_paint": "darkwinter:block/outdoor/d_paint",
+    "outdoor_d_snow": "darkwinter:block/outdoor/d_snow",
+    "outdoor_d_asphalt_v2": "darkwinter:block/outdoor/d_asphalt_v2",
+    "outdoor_d_asphalt_v3": "darkwinter:block/outdoor/d_asphalt_v3",
+    "outdoor_d_asphalt_v4": "darkwinter:block/outdoor/d_asphalt_v4",
+    "outdoor_d_snow_cover": "darkwinter:block/outdoor/d_snow_cover",
+    "outdoor_d_gravel": "darkwinter:block/outdoor/d_gravel",
+    "outdoor_f1_wood": "darkwinter:block/outdoor/f1_grey_timber",
+    "particle": "darkwinter:block/decor/locker_h_hardware"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        1.0,
+        3.96042,
+        7.77833
+      ],
+      "to": [
+        1.23333,
+        8.46667,
+        8.245
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        1.0,
+        3.8,
+        7.66167
+      ],
+      "to": [
+        1.30625,
+        3.96042,
+        8.36167
+      ],
+      "faces": {
+        "down": {
+          "texture": "#outdoor_d_concrete"
+        },
+        "up": {
+          "texture": "#outdoor_d_concrete"
+        },
+        "north": {
+          "texture": "#outdoor_d_concrete"
+        },
+        "south": {
+          "texture": "#outdoor_d_concrete"
+        },
+        "west": {
+          "texture": "#outdoor_d_concrete"
+        },
+        "east": {
+          "texture": "#outdoor_d_concrete"
+        }
+      }
+    },
+    {
+      "from": [
+        2.86667,
+        3.8,
+        7.6325
+      ],
+      "to": [
+        3.33333,
+        8.46667,
+        8.39083
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        1.23333,
+        4.09167,
+        7.88042
+      ],
+      "to": [
+        1.39375,
+        8.46667,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        2.67708,
+        4.09167,
+        7.88042
+      ],
+      "to": [
+        2.8375,
+        8.46667,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        1.23333,
+        4.09167,
+        7.88042
+      ],
+      "to": [
+        2.8375,
+        4.25208,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        1.23333,
+        4.09167,
+        7.99125
+      ],
+      "to": [
+        2.8375,
+        8.46667,
+        8.03208
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        3.36833,
+        4.09167,
+        7.88042
+      ],
+      "to": [
+        3.52875,
+        8.46667,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        3.36833,
+        4.09167,
+        7.88042
+      ],
+      "to": [
+        5.66667,
+        4.25208,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        3.36833,
+        4.09167,
+        7.99125
+      ],
+      "to": [
+        5.66667,
+        8.46667,
+        8.03208
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        3.36833,
+        4.09167,
+        8.13417
+      ],
+      "to": [
+        3.55792,
+        8.46667,
+        8.3325
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        3.17292,
+        6.152,
+        7.67625
+      ],
+      "to": [
+        3.56667,
+        6.37075,
+        7.90958
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        5.66667,
+        4.09167,
+        7.88042
+      ],
+      "to": [
+        10.33333,
+        4.25208,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        5.66667,
+        4.09167,
+        7.99125
+      ],
+      "to": [
+        10.33333,
+        8.46667,
+        8.03208
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        14.76667,
+        3.96042,
+        7.77833
+      ],
+      "to": [
+        15.0,
+        8.46667,
+        8.245
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        14.69375,
+        3.8,
+        7.66167
+      ],
+      "to": [
+        15.0,
+        3.96042,
+        8.36167
+      ],
+      "faces": {
+        "down": {
+          "texture": "#outdoor_d_concrete"
+        },
+        "up": {
+          "texture": "#outdoor_d_concrete"
+        },
+        "north": {
+          "texture": "#outdoor_d_concrete"
+        },
+        "south": {
+          "texture": "#outdoor_d_concrete"
+        },
+        "west": {
+          "texture": "#outdoor_d_concrete"
+        },
+        "east": {
+          "texture": "#outdoor_d_concrete"
+        }
+      }
+    },
+    {
+      "from": [
+        12.66667,
+        3.8,
+        7.6325
+      ],
+      "to": [
+        13.13333,
+        8.46667,
+        8.39083
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        13.1625,
+        4.09167,
+        7.88042
+      ],
+      "to": [
+        13.32292,
+        8.46667,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        14.60625,
+        4.09167,
+        7.88042
+      ],
+      "to": [
+        14.76667,
+        8.46667,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        13.1625,
+        4.09167,
+        7.88042
+      ],
+      "to": [
+        14.76667,
+        4.25208,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        13.1625,
+        4.09167,
+        7.99125
+      ],
+      "to": [
+        14.76667,
+        8.46667,
+        8.03208
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        12.47125,
+        4.09167,
+        7.88042
+      ],
+      "to": [
+        12.63167,
+        8.46667,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        10.33333,
+        4.09167,
+        7.88042
+      ],
+      "to": [
+        12.63167,
+        4.25208,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        10.33333,
+        4.09167,
+        7.99125
+      ],
+      "to": [
+        12.63167,
+        8.46667,
+        8.03208
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        12.44208,
+        4.09167,
+        8.13417
+      ],
+      "to": [
+        12.63167,
+        8.46667,
+        8.3325
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        12.44792,
+        8.168,
+        7.69083
+      ],
+      "to": [
+        12.62292,
+        8.46667,
+        7.90958
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        12.41875,
+        8.27008,
+        7.60917
+      ],
+      "to": [
+        12.64333,
+        8.3605,
+        7.70542
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        1.0,
+        8.46667,
+        7.77833
+      ],
+      "to": [
+        1.23333,
+        12.05417,
+        8.245
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        1.0,
+        12.05417,
+        7.72
+      ],
+      "to": [
+        1.29167,
+        12.2,
+        8.30333
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        2.86667,
+        8.46667,
+        7.6325
+      ],
+      "to": [
+        3.33333,
+        12.05417,
+        8.39083
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        2.80833,
+        12.05417,
+        7.6325
+      ],
+      "to": [
+        3.33333,
+        12.2,
+        8.39083
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        1.23333,
+        8.46667,
+        7.88042
+      ],
+      "to": [
+        1.39375,
+        11.90833,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        2.67708,
+        8.46667,
+        7.88042
+      ],
+      "to": [
+        2.8375,
+        11.90833,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        1.23333,
+        11.74792,
+        7.88042
+      ],
+      "to": [
+        2.8375,
+        11.90833,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        1.23333,
+        8.46667,
+        7.99125
+      ],
+      "to": [
+        2.8375,
+        11.90833,
+        8.03208
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        3.36833,
+        8.46667,
+        7.88042
+      ],
+      "to": [
+        3.52875,
+        11.90833,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        3.36833,
+        11.74792,
+        7.88042
+      ],
+      "to": [
+        5.66667,
+        11.90833,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        3.36833,
+        8.46667,
+        7.99125
+      ],
+      "to": [
+        5.66667,
+        11.90833,
+        8.03208
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        3.36833,
+        8.46667,
+        8.13417
+      ],
+      "to": [
+        3.55792,
+        11.90833,
+        8.3325
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        3.17292,
+        9.848,
+        7.67625
+      ],
+      "to": [
+        3.56667,
+        10.06675,
+        7.90958
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        5.66667,
+        11.74792,
+        7.88042
+      ],
+      "to": [
+        10.33333,
+        11.90833,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        5.66667,
+        8.46667,
+        7.99125
+      ],
+      "to": [
+        10.33333,
+        11.90833,
+        8.03208
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        14.76667,
+        8.46667,
+        7.77833
+      ],
+      "to": [
+        15.0,
+        12.05417,
+        8.245
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        14.70833,
+        12.05417,
+        7.72
+      ],
+      "to": [
+        15.0,
+        12.2,
+        8.30333
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        12.66667,
+        8.46667,
+        7.6325
+      ],
+      "to": [
+        13.13333,
+        12.05417,
+        8.39083
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        12.66667,
+        12.05417,
+        7.6325
+      ],
+      "to": [
+        13.19167,
+        12.2,
+        8.39083
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        13.1625,
+        8.46667,
+        7.88042
+      ],
+      "to": [
+        13.32292,
+        11.90833,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        14.60625,
+        8.46667,
+        7.88042
+      ],
+      "to": [
+        14.76667,
+        11.90833,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        13.1625,
+        11.74792,
+        7.88042
+      ],
+      "to": [
+        14.76667,
+        11.90833,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        13.1625,
+        8.46667,
+        7.99125
+      ],
+      "to": [
+        14.76667,
+        11.90833,
+        8.03208
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        12.47125,
+        8.46667,
+        7.88042
+      ],
+      "to": [
+        12.63167,
+        11.90833,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        10.33333,
+        11.74792,
+        7.88042
+      ],
+      "to": [
+        12.63167,
+        11.90833,
+        8.14292
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        10.33333,
+        8.46667,
+        7.99125
+      ],
+      "to": [
+        12.63167,
+        11.90833,
+        8.03208
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        12.44208,
+        8.46667,
+        8.13417
+      ],
+      "to": [
+        12.63167,
+        11.90833,
+        8.3325
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        12.44792,
+        8.46667,
+        7.69083
+      ],
+      "to": [
+        12.62292,
+        8.48883,
+        7.90958
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    }
+  ]
+}

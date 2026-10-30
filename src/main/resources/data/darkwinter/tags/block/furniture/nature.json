@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "darkwinter:spruce_stump",
+    "darkwinter:fallen_spruce_log",
+    "darkwinter:log_pile",
+    "darkwinter:boulder_large",
+    "darkwinter:boulder_small",
+    "darkwinter:forest_root_cluster",
+    "darkwinter:forest_branch_pile",
+    "darkwinter:dry_grass_tuft",
+    "darkwinter:snowy_shrub",
+    "darkwinter:forest_fern",
+    "darkwinter:rock_scatter",
+    "darkwinter:forest_trail_marker"
+  ]
+}

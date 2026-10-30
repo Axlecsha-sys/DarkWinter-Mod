@@ -1,0 +1,40 @@
+{
+  "reference": "../../designs/2026-10-29/05-field-journal-blue-v1.png",
+  "approved_by_user": true,
+  "user_instruction": "Вот это наш референс, так и делай",
+  "generation_mode": "built-in image_gen",
+  "assets": [
+    {
+      "name": "winter-panorama",
+      "transparent": true,
+      "prompt": "Edit the supplied approved DARKWINTER blue field-journal design into ONE production illustration asset for the native launcher. Extract/recreate ONLY the winter landscape visible in its center-left: dense snow-laden spruce in the left foreground, a tiny northern lakeside settlement with church tower, pine-covered cliffs in fog behind, frozen blue water to the right, the same composition, photographic details, rich dark navy trees, frosty light blue snow and mist, a few tiny warm windows. Remove EVERY UI element, word, letter, number, logo, profile, avatar, right sidebar, bottom bar, button, map contour, border and marker. Output a wide panoramic landscape approximately 2.1:1. The photograph fills the width, with the TOP sky edge softly dissolving into genuinely transparent alpha and the bottom edge also having a thin irregular paper-print fade to transparent. These transparent areas will reveal icy paper underneath in the actual app. Preserve the selected illustration's atmosphere and visual identity; do not introduce people, objects or new buildings. The asset itself contains NO text and NO interface. Transparent background and natural feathered upper edge required."
+    },
+    {
+      "name": "ice-paper",
+      "transparent": false,
+      "prompt": "Edit the supplied approved DARKWINTER blue field-journal design into ONE production background texture asset. Extract/recreate ONLY its pale icy-light-blue archival paper material and subtle tactile grain. Match the selected image's pale cold blue color, delicate fibers, tiny natural specks and extremely subtle weathered edge texture. Remove ALL landscape, trees, map contours, diagrams, frames, lettering, words, numbers, buttons, avatars, logos and UI. The image must be a quiet, low contrast, uniform and finely textured light ice-blue paper surface, flat front view, wide landscape aspect. No darker central objects or bands; it will be stretched over the app window behind live native text. No orange/beige hue. No text. Opaque background."
+    },
+    {
+      "name": "wordmark",
+      "transparent": true,
+      "prompt": "Edit the supplied approved DARKWINTER blue field-journal design into ONE isolated production logo asset. Retain ONLY the exact large DARKWINTER lettering from the upper left, in its same bold high-contrast editorial serif style, letter proportions, spacing, dark midnight-navy blue ink and subtle weathered printed texture. Remove the tiny registered trademark symbol, remove the subtitle completely, remove all other text, map, UI, scenery and paper. The only visible content is the word DARKWINTER, spelled exactly in uppercase. Transparent background with clean alpha around the glyphs and in letter counters. Very wide horizontal logo, tightly framed with a small even transparent margin, about 7.5:1 aspect. Do not add icons, mountain symbols, trees, outlines, decorative swashes, glows or shadows. This is a faithful extraction of the already approved lettering, not a logo redesign."
+    }
+  ],
+  "files": [
+    {
+      "file": "paper.png",
+      "sha256": "7E7F6CDB3417A82996C8C7E0F123559A9C48354A697F5215481F9F1372A13EC2",
+      "bytes": 2406376
+    },
+    {
+      "file": "panorama.png",
+      "sha256": "4B0243BEFC87F9172F8FCE63E049A173038ABC11F532511F4FF77A27ADF7988F",
+      "bytes": 2942932
+    },
+    {
+      "file": "wordmark.png",
+      "sha256": "076FB040FF1167B46C450BC2B7363F35B73F91215D370BF2D63E2EDBF0B4FECD",
+      "bytes": 640918
+    }
+  ]
+}

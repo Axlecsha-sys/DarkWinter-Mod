@@ -1,0 +1,232 @@
+{
+  "variants": {
+    "facing=north,part=0,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part0"
+    },
+    "facing=north,part=0,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part0"
+    },
+    "facing=east,part=0,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part0",
+      "y": 90
+    },
+    "facing=east,part=0,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part0",
+      "y": 90
+    },
+    "facing=south,part=0,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part0",
+      "y": 180
+    },
+    "facing=south,part=0,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part0",
+      "y": 180
+    },
+    "facing=west,part=0,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part0",
+      "y": 270
+    },
+    "facing=west,part=0,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part0",
+      "y": 270
+    },
+    "facing=north,part=1,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part1"
+    },
+    "facing=north,part=1,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part1"
+    },
+    "facing=east,part=1,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part1",
+      "y": 90
+    },
+    "facing=east,part=1,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part1",
+      "y": 90
+    },
+    "facing=south,part=1,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part1",
+      "y": 180
+    },
+    "facing=south,part=1,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part1",
+      "y": 180
+    },
+    "facing=west,part=1,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part1",
+      "y": 270
+    },
+    "facing=west,part=1,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part1",
+      "y": 270
+    },
+    "facing=north,part=2,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part2"
+    },
+    "facing=north,part=2,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part2"
+    },
+    "facing=east,part=2,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part2",
+      "y": 90
+    },
+    "facing=east,part=2,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part2",
+      "y": 90
+    },
+    "facing=south,part=2,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part2",
+      "y": 180
+    },
+    "facing=south,part=2,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part2",
+      "y": 180
+    },
+    "facing=west,part=2,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part2",
+      "y": 270
+    },
+    "facing=west,part=2,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part2",
+      "y": 270
+    },
+    "facing=north,part=3,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part3"
+    },
+    "facing=north,part=3,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part3"
+    },
+    "facing=east,part=3,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part3",
+      "y": 90
+    },
+    "facing=east,part=3,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part3",
+      "y": 90
+    },
+    "facing=south,part=3,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part3",
+      "y": 180
+    },
+    "facing=south,part=3,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part3",
+      "y": 180
+    },
+    "facing=west,part=3,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part3",
+      "y": 270
+    },
+    "facing=west,part=3,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part3",
+      "y": 270
+    },
+    "facing=north,part=4,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part4"
+    },
+    "facing=north,part=4,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part4"
+    },
+    "facing=east,part=4,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part4",
+      "y": 90
+    },
+    "facing=east,part=4,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part4",
+      "y": 90
+    },
+    "facing=south,part=4,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part4",
+      "y": 180
+    },
+    "facing=south,part=4,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part4",
+      "y": 180
+    },
+    "facing=west,part=4,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part4",
+      "y": 270
+    },
+    "facing=west,part=4,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part4",
+      "y": 270
+    },
+    "facing=north,part=5,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part5"
+    },
+    "facing=north,part=5,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part5"
+    },
+    "facing=east,part=5,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part5",
+      "y": 90
+    },
+    "facing=east,part=5,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part5",
+      "y": 90
+    },
+    "facing=south,part=5,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part5",
+      "y": 180
+    },
+    "facing=south,part=5,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part5",
+      "y": 180
+    },
+    "facing=west,part=5,snowy=false": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part5",
+      "y": 270
+    },
+    "facing=west,part=5,snowy=true": {
+      "model": "darkwinter:block/furniture/horizontal_gate_tall_clear_2m_part5",
+      "y": 270
+    },
+    "facing=north,part=6,snowy=false": {
+      "model": "darkwinter:block/furniture/empty"
+    },
+    "facing=north,part=6,snowy=true": {
+      "model": "darkwinter:block/furniture/empty"
+    },
+    "facing=east,part=6,snowy=false": {
+      "model": "darkwinter:block/furniture/empty"
+    },
+    "facing=east,part=6,snowy=true": {
+      "model": "darkwinter:block/furniture/empty"
+    },
+    "facing=south,part=6,snowy=false": {
+      "model": "darkwinter:block/furniture/empty"
+    },
+    "facing=south,part=6,snowy=true": {
+      "model": "darkwinter:block/furniture/empty"
+    },
+    "facing=west,part=6,snowy=false": {
+      "model": "darkwinter:block/furniture/empty"
+    },
+    "facing=west,part=6,snowy=true": {
+      "model": "darkwinter:block/furniture/empty"
+    },
+    "facing=north,part=7,snowy=false": {
+      "model": "darkwinter:block/furniture/empty"
+    },
+    "facing=north,part=7,snowy=true": {
+      "model": "darkwinter:block/furniture/empty"
+    },
+    "facing=east,part=7,snowy=false": {
+      "model": "darkwinter:block/furniture/empty"
+    },
+    "facing=east,part=7,snowy=true": {
+      "model": "darkwinter:block/furniture/empty"
+    },
+    "facing=south,part=7,snowy=false": {
+      "model": "darkwinter:block/furniture/empty"
+    },
+    "facing=south,part=7,snowy=true": {
+      "model": "darkwinter:block/furniture/empty"
+    },
+    "facing=west,part=7,snowy=false": {
+      "model": "darkwinter:block/furniture/empty"
+    },
+    "facing=west,part=7,snowy=true": {
+      "model": "darkwinter:block/furniture/empty"
+    }
+  }
+}

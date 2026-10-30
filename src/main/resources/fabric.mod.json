@@ -1,0 +1,45 @@
+{
+    "schemaVersion":  1,
+    "id":  "dark-winter",
+    "version":  "${version}",
+    "name":  "Dark Winter",
+    "description":  "This is an example description! Tell everyone what your mod is about!",
+    "authors":  [
+                    "Me!"
+                ],
+    "contact":  {
+                    "homepage":  "https://fabricmc.net/",
+                    "sources":  "https://github.com/FabricMC/fabric-example-mod"
+                },
+    "license":  "CC0-1.0",
+    "icon":  "assets/dark-winter/icon.png",
+    "environment":  "*",
+    "entrypoints":  {
+                        "main":  [
+                                     "com.dark.winter.DarkWinter"
+                                 ],
+                        "client":  [
+                                       "com.dark.winter.client.DarkWinterClient"
+                                   ],
+                        "fabric-datagen":  [
+                                               "com.dark.winter.client.DarkWinterDataGenerator"
+                                           ]
+                    },
+    "depends":  {
+                    "fabricloader":  "\u003e=0.19.5",
+                    "minecraft":  "~26.3",
+                    "java":  "\u003e=25",
+                    "fabric-api":  "*"
+                },
+    "mixins":  [
+                   "dark-winter.mixins.json",
+                   {
+                       "config":  "dark-winter.client.mixins.json",
+                       "environment":  "client"
+                   },
+                   {
+                       "config":  "darkwinter-visuals.mixins.json",
+                       "environment":  "client"
+                   }
+               ]
+}

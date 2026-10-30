@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "darkwinter:hospital_bed",
+    "darkwinter:hospital_gurney",
+    "darkwinter:bedside_cabinet",
+    "darkwinter:medical_cabinet",
+    "darkwinter:examination_table",
+    "darkwinter:privacy_screen",
+    "darkwinter:waiting_chair",
+    "darkwinter:medical_cart",
+    "darkwinter:oxygen_cylinder",
+    "darkwinter:wheelchair"
+  ]
+}

@@ -1,0 +1,39 @@
+# Define source line endings and preserve binary asset bytes.
+#
+# https://help.github.com/articles/dealing-with-line-endings/
+#
+# Linux start script should use lf
+/gradlew        text eol=lf
+
+# These are Windows script files and should use crlf
+*.bat           text eol=crlf
+
+
+* text=auto
+*.java text eol=lf
+*.gradle text eol=lf
+*.properties text eol=lf
+*.py text eol=lf
+*.rs text eol=lf
+*.go text eol=lf
+*.sh text eol=lf
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.glsl text eol=lf
+*.fsh text eol=lf
+*.vsh text eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ogg binary
+*.wav binary
+*.ttf binary
+*.otf binary
+*.jar binary
+*.exe binary
+*.dll binary
+*.zip binary

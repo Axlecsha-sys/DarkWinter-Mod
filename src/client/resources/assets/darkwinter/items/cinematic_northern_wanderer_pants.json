@@ -1,0 +1,20 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "darkwinter:item/cinematic_northern_wanderer_pants",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": 4342346
+      },
+      {
+        "type": "minecraft:constant",
+        "value": 2763311
+      },
+      {
+        "type": "minecraft:constant",
+        "value": 12170660
+      }
+    ]
+  }
+}

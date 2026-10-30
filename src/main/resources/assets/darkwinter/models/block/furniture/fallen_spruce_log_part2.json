@@ -1,0 +1,159 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "metal": "darkwinter:block/decor/rusted_steel",
+    "enamel": "darkwinter:block/decor/chipped_enamel",
+    "fabric": "darkwinter:block/decor/faded_fabric",
+    "concrete": "darkwinter:block/decor/aged_concrete",
+    "ceramic": "darkwinter:block/decor/cracked_ceramic",
+    "wood": "darkwinter:block/weathered_planks_gray",
+    "dark_wood": "darkwinter:block/weathered_planks_dark",
+    "black": "minecraft:block/black_concrete",
+    "glass": "darkwinter:block/frozen_glass",
+    "asphalt": "darkwinter:block/outdoor/asphalt",
+    "bark": "darkwinter:block/nature/spruce_bark",
+    "cut_wood": "darkwinter:block/nature/cut_spruce",
+    "rock": "darkwinter:block/nature/granite",
+    "foliage": "darkwinter:block/nature/foliage",
+    "white": "minecraft:block/white_concrete",
+    "red": "minecraft:block/red_concrete",
+    "yellow": "minecraft:block/yellow_concrete",
+    "orange": "minecraft:block/orange_concrete",
+    "soil": "minecraft:block/dirt",
+    "snow": "minecraft:block/snow",
+    "cardboard": "minecraft:block/brown_concrete",
+    "dry_grass": "minecraft:block/hay_block_side",
+    "particle": "darkwinter:block/nature/spruce_bark"
+  },
+  "elements": [
+    {
+      "from": [
+        4,
+        0,
+        0
+      ],
+      "to": [
+        12,
+        12,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#bark"
+        },
+        "up": {
+          "texture": "#bark"
+        },
+        "north": {
+          "texture": "#bark"
+        },
+        "south": {
+          "texture": "#bark"
+        },
+        "west": {
+          "texture": "#bark"
+        },
+        "east": {
+          "texture": "#bark"
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        2,
+        0
+      ],
+      "to": [
+        14,
+        10,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#bark"
+        },
+        "up": {
+          "texture": "#bark"
+        },
+        "north": {
+          "texture": "#bark"
+        },
+        "south": {
+          "texture": "#bark"
+        },
+        "west": {
+          "texture": "#bark"
+        },
+        "east": {
+          "texture": "#bark"
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        1,
+        15.75
+      ],
+      "to": [
+        12,
+        11,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cut_wood"
+        },
+        "up": {
+          "texture": "#cut_wood"
+        },
+        "north": {
+          "texture": "#cut_wood"
+        },
+        "south": {
+          "texture": "#cut_wood"
+        },
+        "west": {
+          "texture": "#cut_wood"
+        },
+        "east": {
+          "texture": "#cut_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        3,
+        3,
+        15.75
+      ],
+      "to": [
+        13,
+        9,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cut_wood"
+        },
+        "up": {
+          "texture": "#cut_wood"
+        },
+        "north": {
+          "texture": "#cut_wood"
+        },
+        "south": {
+          "texture": "#cut_wood"
+        },
+        "west": {
+          "texture": "#cut_wood"
+        },
+        "east": {
+          "texture": "#cut_wood"
+        }
+      }
+    }
+  ]
+}

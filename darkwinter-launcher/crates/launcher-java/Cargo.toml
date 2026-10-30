@@ -1,0 +1,17 @@
+# Declares metadata and dependencies for the launcher-java crate.
+[package]
+name = "launcher-java"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+serde.workspace = true
+wait-timeout.workspace = true
+
+[lints]
+workspace = true
+

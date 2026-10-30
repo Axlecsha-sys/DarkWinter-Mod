@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "darkwinter:asphalt_block",
+    "darkwinter:asphalt_white_line",
+    "darkwinter:asphalt_dashed_line",
+    "darkwinter:asphalt_crosswalk",
+    "darkwinter:concrete_curb",
+    "darkwinter:drain_grate",
+    "darkwinter:manhole_cover",
+    "darkwinter:traffic_cone",
+    "darkwinter:road_delineator",
+    "darkwinter:road_sign_warning",
+    "darkwinter:road_sign_stop",
+    "darkwinter:guardrail_section"
+  ]
+}

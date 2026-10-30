@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "darkwinter:floor_segment",
+    "darkwinter:weathered_floor_segment_gray",
+    "darkwinter:weathered_floor_segment_dark",
+    "darkwinter:weathered_floor_segment_patchwork",
+    "darkwinter:weathered_floor_segment_painted"
+  ]
+}

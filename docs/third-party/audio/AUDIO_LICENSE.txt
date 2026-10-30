@@ -1,0 +1,14 @@
+DarkWinter Weighted Walk RC1 — sound asset provenance
+
+The 17 OGG assets under assets/darkwinter_motion/sounds/gait were generated
+procedurally for this patch from filtered noise, short impacts and envelopes.
+No The Long Dark recordings, Minecraft sound files, sample libraries, or other
+third-party recordings are bundled in the bank.
+The patch references installed vanilla material sounds for non-snow/ice/earth
+surfaces; those are not copied or relicensed by this package.
+
+The new procedural audio assets are provided under CC0 1.0 Universal:
+https://creativecommons.org/publicdomain/zero/1.0/
+Use, modify, replace and distribute them with the project; attribution is not
+required for these original assets. This designation is limited to these 17
+new audio files, not to Minecraft, Fabric, or the user's pre-existing source.

@@ -1,0 +1,46 @@
+{
+  "required": true,
+  "package": "com.dark.winter.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "PlayerEquipmentMixin",
+    "EquipmentMenuMixin",
+    "EquipmentRespawnMixin",
+    "ExampleMixin",
+    "FoodStarvationMixin",
+    "TestingFoodMixin",
+    "TestingPlacementMixin",
+    "TestingNativeGameModeMixin",
+    "TestingNativePlacementScopeMixin",
+    "TestingNativeBlockObserverMixin",
+    "TestingNativeDropGuardMixin",
+    "TestingNativeChunkSaveMixin",
+    "TestingEditLockMixin",
+    "TestingPrecipitationMixin",
+    "EntityTerrainStepMixin",
+    "PlayerWindTravelMixin",
+    "RotatedPillarBlockMixin",
+    "SpruceLeavesCollisionMixin",
+    "WorldPreloadPlayerMixin",
+    "WorldPreloadConnectionMixin",
+    "DoorWallAlignmentMixin",
+    "online.OnlineConnectionListenerAccess",
+    "online.OnlineCommonListenerAccess",
+    "online.OnlineConfigurationAccess",
+    "online.OnlineLoginAccess",
+    "online.OnlineLoginMixin",
+    "online.OnlineConfigurationMixin",
+    "online.OnlineGamePacketGuardMixin",
+    "online.OnlineGameModeGuardMixin",
+    "online.OnlineBlockUseGuardMixin",
+    "online.OnlineItemUseGuardMixin",
+    "online.OnlineVanillaAuthorityMixin",
+    "online.OnlineCommonGuardMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

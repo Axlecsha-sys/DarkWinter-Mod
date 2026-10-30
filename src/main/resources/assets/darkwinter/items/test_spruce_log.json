@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "darkwinter:block/test_spruce_log"
+  }
+}

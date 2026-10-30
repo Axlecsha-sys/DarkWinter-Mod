@@ -1,0 +1,529 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "metal": "darkwinter:block/decor/rusted_steel",
+    "enamel": "darkwinter:block/decor/chipped_enamel",
+    "fabric": "darkwinter:block/decor/faded_fabric",
+    "concrete": "darkwinter:block/decor/aged_concrete",
+    "ceramic": "darkwinter:block/decor/cracked_ceramic",
+    "wood": "darkwinter:block/weathered_planks_gray",
+    "dark_wood": "darkwinter:block/weathered_planks_dark",
+    "black": "minecraft:block/black_concrete",
+    "glass": "darkwinter:block/frozen_glass",
+    "asphalt": "darkwinter:block/outdoor/asphalt",
+    "bark": "darkwinter:block/nature/spruce_bark",
+    "cut_wood": "darkwinter:block/nature/cut_spruce",
+    "rock": "darkwinter:block/nature/granite",
+    "foliage": "darkwinter:block/nature/foliage",
+    "white": "minecraft:block/white_concrete",
+    "red": "minecraft:block/red_concrete",
+    "yellow": "minecraft:block/yellow_concrete",
+    "orange": "minecraft:block/orange_concrete",
+    "soil": "minecraft:block/dirt",
+    "snow": "minecraft:block/snow",
+    "cardboard": "minecraft:block/brown_concrete",
+    "dry_grass": "minecraft:block/hay_block_side",
+    "locker_h_enamel": "darkwinter:block/decor/locker_h_enamel",
+    "locker_h_hardware": "darkwinter:block/decor/locker_h_hardware",
+    "locker_h_labels": "darkwinter:block/decor/locker_h_labels",
+    "home_pine_n": "darkwinter:block/decor/home_pine_n",
+    "home_pine_n_end": "darkwinter:block/decor/home_pine_n_end",
+    "street_s_wood": "darkwinter:block/decor/street_s_wood",
+    "street_s_wood_end": "darkwinter:block/decor/street_s_wood_end",
+    "street_s_glass": "darkwinter:block/decor/street_s_glass",
+    "outdoor_d_asphalt": "darkwinter:block/outdoor/d_asphalt",
+    "outdoor_d_concrete": "darkwinter:block/outdoor/d_concrete",
+    "outdoor_d_paint": "darkwinter:block/outdoor/d_paint",
+    "outdoor_d_snow": "darkwinter:block/outdoor/d_snow",
+    "outdoor_d_asphalt_v2": "darkwinter:block/outdoor/d_asphalt_v2",
+    "outdoor_d_asphalt_v3": "darkwinter:block/outdoor/d_asphalt_v3",
+    "outdoor_d_asphalt_v4": "darkwinter:block/outdoor/d_asphalt_v4",
+    "outdoor_d_snow_cover": "darkwinter:block/outdoor/d_snow_cover",
+    "outdoor_d_gravel": "darkwinter:block/outdoor/d_gravel",
+    "outdoor_f1_wood": "darkwinter:block/outdoor/f1_grey_timber",
+    "particle": "darkwinter:block/outdoor/f1_grey_timber"
+  },
+  "elements": [
+    {
+      "from": [
+        14.7,
+        0,
+        6.7
+      ],
+      "to": [
+        16,
+        16,
+        9.3
+      ],
+      "faces": {
+        "down": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "up": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "north": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "south": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "west": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "east": {
+          "texture": "#outdoor_f1_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        8,
+        0,
+        6.7
+      ],
+      "to": [
+        10.6,
+        16,
+        9.3
+      ],
+      "faces": {
+        "down": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "up": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "north": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "south": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "west": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "east": {
+          "texture": "#outdoor_f1_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        11.06,
+        1.0,
+        7.53
+      ],
+      "to": [
+        12.34,
+        16,
+        8.47
+      ],
+      "faces": {
+        "down": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "up": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "north": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "south": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "west": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "east": {
+          "texture": "#outdoor_f1_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        13.06,
+        1.0,
+        7.53
+      ],
+      "to": [
+        14.34,
+        16,
+        8.47
+      ],
+      "faces": {
+        "down": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "up": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "north": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "south": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "west": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "east": {
+          "texture": "#outdoor_f1_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        10.7,
+        8.352,
+        8.35
+      ],
+      "to": [
+        14.7,
+        9.002,
+        9.1
+      ],
+      "faces": {
+        "down": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "up": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "north": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "south": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "west": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "east": {
+          "texture": "#outdoor_f1_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        1.0,
+        7.53
+      ],
+      "to": [
+        0.65,
+        16,
+        8.47
+      ],
+      "faces": {
+        "down": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "up": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "north": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "south": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "west": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "east": {
+          "texture": "#outdoor_f1_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        1.601429,
+        1.0,
+        7.53
+      ],
+      "to": [
+        2.901429,
+        16,
+        8.47
+      ],
+      "faces": {
+        "down": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "up": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "north": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "south": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "west": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "east": {
+          "texture": "#outdoor_f1_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        3.852857,
+        1.0,
+        7.53
+      ],
+      "to": [
+        5.152857,
+        16,
+        8.47
+      ],
+      "faces": {
+        "down": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "up": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "north": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "south": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "west": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "east": {
+          "texture": "#outdoor_f1_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        6.104286,
+        1.0,
+        7.53
+      ],
+      "to": [
+        7.404286,
+        16,
+        8.47
+      ],
+      "faces": {
+        "down": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "up": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "north": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "south": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "west": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "east": {
+          "texture": "#outdoor_f1_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        8.352,
+        8.35
+      ],
+      "to": [
+        7.88,
+        9.002,
+        9.1
+      ],
+      "faces": {
+        "down": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "up": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "north": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "south": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "west": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "east": {
+          "texture": "#outdoor_f1_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        7.23,
+        1.0,
+        8.42
+      ],
+      "to": [
+        7.88,
+        16,
+        9.1
+      ],
+      "faces": {
+        "down": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "up": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "north": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "south": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "west": {
+          "texture": "#outdoor_f1_wood"
+        },
+        "east": {
+          "texture": "#outdoor_f1_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        7.25,
+        14.976,
+        6.9
+      ],
+      "to": [
+        7.85,
+        16,
+        7.65
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        7.15,
+        15.326,
+        6.62
+      ],
+      "to": [
+        7.92,
+        15.636,
+        6.95
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        8.352,
+        7.28
+      ],
+      "to": [
+        7.88,
+        9.002,
+        7.58
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    },
+    {
+      "from": [
+        7.21,
+        8.537,
+        7.17
+      ],
+      "to": [
+        7.49,
+        8.817,
+        7.29
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    }
+  ]
+}

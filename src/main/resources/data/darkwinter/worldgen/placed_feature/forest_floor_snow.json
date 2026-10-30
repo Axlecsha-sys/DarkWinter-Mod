@@ -1,0 +1,6 @@
+{
+  "feature": "darkwinter:forest_floor_snow",
+  "placement": [
+    { "type": "minecraft:biome" }
+  ]
+}

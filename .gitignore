@@ -1,0 +1,125 @@
+# Exclude local state, downloaded tools and generated build output from the source repository.
+# gradle
+
+.gradle/
+build/
+out/
+classes/
+
+# eclipse
+
+*.launch
+
+# idea
+
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# vscode
+
+.settings/
+.vscode/
+bin/
+.classpath
+.project
+
+# macos
+
+*.DS_Store
+
+# fabric
+
+run/
+
+# java
+
+hs_err_*.log
+replay_*.log
+*.hprof
+*.jfr
+
+# Private DarkWinter Lab state and per-process loopback credentials
+.darkwinter-lab/
+**/.darkwinter-lab-client/
+
+# Local DarkWinter snapshots and runtime logs (not project sources)
+/.darkwinter-backups/
+/logs/
+
+# Python script and test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Disposable editor / tool files
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# Local machine and operator configuration (keep public examples)
+.env
+.env.*
+!.env.example
+!.env.*.example
+!.env.sample
+!.env.template
+/tools/online-node/node-config.json
+/tools/online-node/data/
+/tools/online-relay/config.local.json
+
+# Personal Codex auto-resume utility: local paths and chat/thread IDs
+/tools/codex-auto-continue.ps1
+/src/test/java/CodexResumerSetup.java
+
+# Downloaded development binary (the Lab sources and licenses stay tracked)
+/tools/darkwinter-lab/cloudflared.exe
+
+# Frontend, Worker and launcher caches
+node_modules/
+target/
+.wrangler/
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+!.dev.vars.*.example
+
+# Local game profiles and saves
+.minecraft/
+darkwinter-online/
+saves/
+screenshots/
+crash-reports/
+
+# Local certificates and credentials
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+.credentials/
+credentials.local.*
+secrets.local.*
+
+# Generated archives and editor/tool output
+/dist/
+/releases/
+/artifacts/
+*.class
+*.jfr
+*.heapdump
+*.dmp
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local development tools and test suites are kept on disk, outside the publication snapshot.
+**/tools/
+**/tests/

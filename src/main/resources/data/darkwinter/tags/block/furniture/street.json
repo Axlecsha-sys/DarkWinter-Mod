@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "darkwinter:park_bench",
+    "darkwinter:trash_bin",
+    "darkwinter:street_lamp",
+    "darkwinter:road_barrier",
+    "darkwinter:concrete_bollard",
+    "darkwinter:bus_stop_sign",
+    "darkwinter:mailbox",
+    "darkwinter:fire_hydrant",
+    "darkwinter:pallet_stack",
+    "darkwinter:concrete_planter"
+  ]
+}

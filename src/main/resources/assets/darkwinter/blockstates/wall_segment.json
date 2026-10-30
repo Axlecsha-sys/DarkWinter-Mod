@@ -1,0 +1,23 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "darkwinter:block/wall_segment",
+      "uvlock": true
+    },
+    "facing=east": {
+      "model": "darkwinter:block/wall_segment",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south": {
+      "model": "darkwinter:block/wall_segment",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west": {
+      "model": "darkwinter:block/wall_segment",
+      "y": 270,
+      "uvlock": true
+    }
+  }
+}
