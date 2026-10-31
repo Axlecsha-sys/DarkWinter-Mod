@@ -77,7 +77,7 @@ public final class WeatherClient {
         WeatherValues sky=settings.enabled("weather")?chosen:WeatherPreset.CLEAR.profile();ClimateSample air=labClimate(settings);
         return new WeatherValues(sky.cloudCover(),settings.enabled("precipitation")?chosen.snowfall():0,
                 settings.enabled("wind")?settings.windSpeed/18:0,air.windX(),air.windZ(),
-                settings.enabled("atmosphere")?chosen.fogMultiplier():1,sky.sunVisibility(),sky.cloudRoundness(),
+                sky.fogMultiplier(),sky.sunVisibility(),sky.cloudRoundness(),
                 sky.cloudScale(),sky.cloudStretch(),sky.fogBlue(),sky.skyBlue());
     }
     private static ClimateSample labClimate(com.dark.winter.testing.TestingSettings settings){

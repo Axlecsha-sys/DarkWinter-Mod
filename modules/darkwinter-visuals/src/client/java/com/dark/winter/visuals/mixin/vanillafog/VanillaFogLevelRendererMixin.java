@@ -1,4 +1,4 @@
-// Schedules coherent vanilla fog backgrounds and cloud OIT phases without replacing the world's draw lists.
+// Schedules coherent sky/cloud backgrounds before terrain and preserves cloud depth in every transparency mode.
 package com.dark.winter.visuals.mixin.vanillafog;
 
 import com.dark.winter.visuals.vanillafog.VanillaFogRenderer;
@@ -9,6 +9,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.resource.GraphicsResourceAllocator;
 import com.mojang.renderpearl.api.buffers.GpuBufferSlice;
 import com.mojang.renderpearl.api.commands.RenderPass;
+import com.mojang.renderpearl.api.textures.GpuSampler;
 import com.mojang.renderpearl.api.textures.GpuTextureView;
 import net.minecraft.client.CloudStatus;
 import net.minecraft.client.renderer.CloudRenderer;
@@ -51,35 +52,48 @@ public abstract class VanillaFogLevelRendererMixin {
     @Inject(method="prepareTranslucents",at=@At("TAIL"),require=1)
     private void darkwinter$resolveCloudBackground(CallbackInfo ci) {
         VanillaFogRenderer frame=VanillaFogRenderer.current();
-        if(frame!=null && optionsRenderState.cloudStatus!=CloudStatus.OFF && ARGB.alpha(levelRenderState.cloudColor)>0)
-            frame.prepareClouds(cloudRenderer,optionsRenderState.cloudStatus);
+        if(frame!=null) frame.prepareClouds(cloudRenderer,optionsRenderState.cloudStatus,
+                optionsRenderState.cloudStatus!=CloudStatus.OFF && ARGB.alpha(levelRenderState.cloudColor)>0);
     }
 
     @Inject(method="executeSolid",at=@At("HEAD"),require=1)
     private void darkwinter$blitSkyBeforeTerrain(ChunkSectionsToRender sections,FeatureRenderDispatcher.PreparedFrame features,
             RenderPass pass,CallbackInfo ci) {
         VanillaFogRenderer frame=VanillaFogRenderer.current();
-        if(frame!=null)frame.blitSky(pass);
+        if(frame!=null) frame.blitSky(pass);
     }
 
     @WrapOperation(method="executeOit",at=@At(value="INVOKE",
-            target="Lnet/minecraft/client/renderer/LevelRenderer;executeDepthBoundsCull()V"),require=1)
-    private void darkwinter$cloudBoundsBeforeCull(LevelRenderer renderer,Operation<Void> original,
+            target="Lnet/minecraft/client/renderer/chunk/ChunkSectionsToRender;renderOit(Lcom/mojang/renderpearl/api/textures/GpuSampler;Lnet/minecraft/client/renderer/oit/OitStage;Lnet/minecraft/client/renderer/oit/OitRenderPassProvider$Parameters;Lcom/mojang/renderpearl/api/textures/GpuTextureView;Lcom/mojang/renderpearl/api/textures/GpuTextureView;)V"),require=1)
+    private void darkwinter$cloudStagesBeforeTerrain(ChunkSectionsToRender sections,GpuSampler sampler,OitStage stage,
+            OitRenderPassProvider.Parameters terrainParams,GpuTextureView atlas,GpuTextureView lightmap,Operation<Void> original,
             @Local(ordinal=0) OitRenderPassProvider.Parameters params) {
+        // This is unconditional on native cloud options: custom weather has independent visibility.
+        // DEPTH_BOUNDS is emitted before culling; later iterations see the updated culled bounds.
         VanillaFogRenderer frame=VanillaFogRenderer.current();
-        if(frame!=null && optionsRenderState.cloudStatus!=CloudStatus.OFF && ARGB.alpha(levelRenderState.cloudColor)>0)
-            frame.blitClouds(OitStage.DEPTH_BOUNDS,params);
-        original.call(renderer);
+        if(frame!=null) frame.blitClouds(stage,params);
+        original.call(sections,sampler,stage,terrainParams,atlas,lightmap);
     }
 
     @WrapOperation(method="executeOit",at=@At(value="INVOKE",
             target="Lnet/minecraft/client/renderer/CloudRenderer;renderOit(Lnet/minecraft/client/CloudStatus;Lnet/minecraft/client/renderer/oit/OitStage;Lcom/mojang/renderpearl/api/textures/GpuTextureView;Lnet/minecraft/client/renderer/oit/OitRenderPassProvider$Parameters;)V"),require=1)
-    private void darkwinter$resolvedCloudStages(CloudRenderer renderer,CloudStatus status,OitStage stage,
-            GpuTextureView mainDepth,OitRenderPassProvider.Parameters oldCloudParams,Operation<Void> original,
-            @Local(ordinal=0) OitRenderPassProvider.Parameters params) {
+    private void darkwinter$skipResolvedNativeClouds(CloudRenderer renderer,CloudStatus status,OitStage stage,
+            GpuTextureView mainDepth,OitRenderPassProvider.Parameters oldCloudParams,Operation<Void> original) {
+        if(VanillaFogRenderer.current()==null) original.call(renderer,status,stage,mainDepth,oldCloudParams);
+    }
+
+    @WrapOperation(method="executeClassicTransparency",at=@At(value="INVOKE",
+            target="Lnet/minecraft/client/renderer/CloudRenderer;render(Lnet/minecraft/client/CloudStatus;Lcom/mojang/renderpearl/api/commands/RenderPass;)V"),require=1)
+    private void darkwinter$skipResolvedClassicClouds(CloudRenderer renderer,CloudStatus status,RenderPass pass,Operation<Void> original) {
+        if(VanillaFogRenderer.current()==null) original.call(renderer,status,pass);
+    }
+
+    @Inject(method="executeClassicTransparency",at=@At(value="INVOKE",
+            target="Lnet/minecraft/client/renderer/WeatherEffectRenderer;render(Lnet/minecraft/client/renderer/state/level/WeatherRenderState;Lcom/mojang/renderpearl/api/commands/RenderPass;)V"),require=1)
+    private void darkwinter$resolvedClassicClouds(ChunkSectionsToRender sections,FeatureRenderDispatcher.PreparedFrame features,
+            RenderPass pass,CallbackInfo ci) {
         VanillaFogRenderer frame=VanillaFogRenderer.current();
-        if(frame==null) original.call(renderer,status,stage,mainDepth,oldCloudParams);
-        else if(stage!=OitStage.DEPTH_BOUNDS) frame.blitClouds(stage,params);
+        if(frame!=null) frame.blitCloudsClassic(pass);
     }
 
     @Inject(method="close",at=@At("HEAD"))

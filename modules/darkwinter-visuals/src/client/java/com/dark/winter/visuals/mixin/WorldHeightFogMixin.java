@@ -1,4 +1,4 @@
-// Applies world-height atmospheric fog to ordinary Overworld rendering.
+// Retains per-layer streaming fog while finite world-height haze owns ordinary environmental extinction.
 package com.dark.winter.visuals.mixin;
 
 import com.dark.winter.visuals.VisualRenderer;
@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/** Replace only ordinary Overworld distance fog with the world-height atmosphere. */
+/** Preserve terrain-layer distance fade while ordinary environmental extinction follows world height. */
 @Mixin(FogRenderer.class)
 public abstract class WorldHeightFogMixin {
     @Inject(method = "setupFog(Lnet/minecraft/client/Camera;ILnet/minecraft/client/DeltaTracker;FLnet/minecraft/client/multiplayer/ClientLevel;)Lnet/minecraft/client/renderer/fog/FogData;",
@@ -35,11 +35,10 @@ public abstract class WorldHeightFogMixin {
         if (Minecraft.getInstance().gui.hud.getBossOverlay().shouldCreateWorldFog()) return;
 
         FogData fog = cir.getReturnValue();
-        // Vanilla's 'cylindrical' distance is max(length(XZ), abs(Y)). It erases the
-        // ground under a climbing camera before post-processing can recover it.
-        // Use the same sentinel as vanilla's empty Fog UBO; retain sky/cloud colour
-        // and distances so celestial rendering keeps its existing behavior.
+        // Finite world-height extinction replaces only the ordinary environmental component.
+        // Keep the engine's streaming range for each opaque/translucent layer before OIT.
+        // Its selected terrain vertex variant measures XZ only, so elevation cannot erase
+        // nearby ground directly below the camera.
         fog.environmentalStart = fog.environmentalEnd = Float.MAX_VALUE;
-        fog.renderDistanceStart = fog.renderDistanceEnd = Float.MAX_VALUE;
     }
 }

@@ -5,6 +5,8 @@ uniform sampler2D MainSampler;
 uniform sampler2D DepthSampler;
 uniform sampler2D SkySampler;
 uniform sampler2D AtmosphereSampler;
+uniform sampler2D NativeSkySampler;
+uniform sampler2D NativeCloudSampler;
 #include <darkwinter_visuals:scene.glsl>
 #include <darkwinter_visuals:winter_haze.glsl>
 #include <darkwinter_visuals:cloud_shell.glsl>
@@ -129,7 +131,7 @@ vec3 stellarHalo(vec2 uv,vec3 center) {
     return vec3(.19,.27,.44)*soft*.016+vec3(.48,.62,.92)*isolated*.020;
 }
 
-void main() {
+void legacyBackground() {
     vec4 source=texture(MainSampler,texCoord);
     if(Flags.w>.5 || Flags.z>.5) { fragColor=source; return; }
     float depth=nlDepth(DepthSampler,texCoord);
@@ -161,6 +163,41 @@ void main() {
         color=mix(source.rgb,cloud.rgb,localCloud);
         color=mix(color,air,fog.x);
         // World-height mist starts the fade; only the final horizontal strip guarantees full blending.
+        color=mix(color,background,edgeFade);
+    }
+    fragColor=vec4(clamp(color,0.0,1.0),source.a);
+}
+
+
+// Sky and clouds have already passed through the native depth/OIT path.
+// This stage owns only the independently enabled world-height atmosphere.
+void main() {
+    if(!nlModuleFlag(4)) { legacyBackground();return; }
+    vec4 source=texture(MainSampler,texCoord);
+    if(Flags.w>.5 || Flags.z>.5 || FogRange.w<.5) { fragColor=source;return; }
+    float depth=nlDepth(DepthSampler,texCoord);
+    bool sky=nlSky(depth);
+    vec3 ray=nlRay(texCoord);
+    vec3 p=sky?vec3(0):nlReconstruct(texCoord,depth);
+    float distanceBlocks=sky?dwBackgroundFogDistance(ray):length(p);
+    vec2 fog=gatherHaze(texCoord,ray,distanceBlocks,sky);
+    vec3 air=dwFogColour(ray);
+    if(sky) {
+        fragColor=vec4(mix(source.rgb,air,fog.y),source.a);
+        return;
+    }
+    vec3 color=mix(source.rgb,air,fog.x);
+    float edgeFade=smoothstep(FogRange.x,FogRange.y,length(p.xz))*dwTerrainEdgeOpacity(ray,distanceBlocks);
+    if(edgeFade>0.0) {
+        vec3 background=texture(NativeSkySampler,texCoord).rgb;
+        vec4 cloud=texture(NativeCloudSampler,texCoord);
+        float alpha=cloud.a;
+        if(nlModuleFlag(2)) alpha=dwVisibleCloudAlpha(ray,dwBackgroundSurfaceDistance(ray),alpha);
+        vec3 cloudColor=cloud.rgb/max(cloud.a,1e-6);
+        background=mix(background,cloudColor,alpha);
+        // An unavailable distant background must never remove extinction already
+        // accumulated by the actual foreground along this ray.
+        background=mix(background,air,max(fog.y,fog.x));
         color=mix(color,background,edgeFade);
     }
     fragColor=vec4(clamp(color,0.0,1.0),source.a);

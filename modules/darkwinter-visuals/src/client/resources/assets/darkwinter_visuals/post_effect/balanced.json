@@ -1158,6 +1158,14 @@
         {
           "sampler_name": "Atmosphere",
           "target": "darkwinter_visuals:volume"
+        },
+        {
+          "sampler_name": "NativeSky",
+          "target": "darkwinter_visuals:sky_background"
+        },
+        {
+          "sampler_name": "NativeCloud",
+          "target": "darkwinter_visuals:cloud_background"
         }
       ],
       "output": "darkwinter_visuals:sky_final",

@@ -21,7 +21,7 @@ vec4 calculateFinalColor(vec4 color, float deviceDepth) {
 }
 
 void main() {
-    ivec2 pixelCoords = ivec2(gl_FragCoord.xy);
+    ivec2 pixelCoords = clamp(ivec2(texCoord*vec2(textureSize(InSampler,0))),ivec2(0),textureSize(InSampler,0)-1);
     vec4 color = texelFetch(InSampler, pixelCoords, 0);
     if (color.a <= 0.0) {
         discard;

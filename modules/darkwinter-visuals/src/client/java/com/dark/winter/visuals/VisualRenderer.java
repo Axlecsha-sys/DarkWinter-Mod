@@ -78,6 +78,21 @@ public final class VisualRenderer implements AutoCloseable {
 
     public static boolean needsStableDepth() { return stableDepthRequested; }
 
+    /** The same captured scene drives early sky, terrain backgrounds and the final post chain. */
+    public static SceneFrame currentFrame() {
+        VisualRenderer renderer=activeRenderer.get();
+        return renderer!=null && renderer.frameReady && !renderer.resolveFailed
+                && renderer.world==Minecraft.getInstance().level?renderer.frame:null;
+    }
+
+    public static boolean ordinaryAtmosphere(ClientLevel level,
+            net.minecraft.client.renderer.state.level.CameraRenderState camera) {
+        return level!=null && net.minecraft.world.level.Level.OVERWORLD.equals(level.dimension())
+                && !camera.isPanoramicMode && camera.fogType==FogType.NONE
+                && !camera.entityRenderState.doesMobEffectBlockSky
+                && !Minecraft.getInstance().gui.hud.getBossOverlay().shouldCreateWorldFog();
+    }
+
     /** Vanilla distance fog must remain available if our world atmosphere is disabled or fails. */
     public static boolean controlsAtmosphere(ClientLevel level) {
         VisualRenderer renderer = activeRenderer.get();
@@ -145,6 +160,9 @@ public final class VisualRenderer implements AutoCloseable {
             frame.intensity = surfaceWorld ? elevation * directSun * frame.weather.sunVisibility()
                     * (WeatherClient.active()?1f:1-.70f*frame.weather.cloudCover()) : 0;
             frame.inFluid = camera.fogType != FogType.NONE;
+            frame.atmosphereAllowed=ordinaryAtmosphere(client.level,camera);
+            frame.weatherSky=frame.atmosphereAllowed && com.dark.winter.client.TestingAccess.enabled("weather");
+            frame.backgroundAvailable=com.dark.winter.visuals.vanillafog.VanillaFogRenderer.current()!=null;
             if (frame.inFluid) frame.intensity = 0;
             frame.inverseViewProjection.set(((ProjectionAccess)(Object)game).darkwinter$renderProjection())
                     .mul(camera.viewRotationMatrix).invert();
@@ -156,6 +174,9 @@ public final class VisualRenderer implements AutoCloseable {
             advanceWeatherDrift(client);
             frame.clipRange = 6 * config.quality.radius - .1f;
             frameReady = true;
+            var nativeBackground=com.dark.winter.visuals.vanillafog.VanillaFogRenderer.current();
+            if(frame.weatherSky && nativeBackground!=null && !nativeBackground.weatherSky().prepare(frame))
+                frame.weatherSky=false;
             if (shadowFailed || !com.dark.winter.client.TestingAccess.resolve("visuals",config.shadows) || frame.intensity <= .001f) return;
 
             float radius = config.quality.radius;
@@ -175,6 +196,9 @@ public final class VisualRenderer implements AutoCloseable {
             ProjectionType oldType = RenderSystem.getProjectionType();
             GpuBufferSlice oldFog = RenderSystem.getShaderFog();
             GpuBufferSlice oldLights = RenderSystem.getShaderLights();
+            // Background-aware camera fog must never replace the shadow capture's terrain pipelines.
+            var cameraBackground=com.dark.winter.visuals.vanillafog.VanillaFogRenderer.current();
+            com.dark.winter.visuals.vanillafog.VanillaFogRenderer.restore(null);
             try {
                 RenderSystem.setProjectionMatrix(shadowProjection.getBuffer(lightProjection), ProjectionType.ORTHOGRAPHIC);
                 RenderSystem.setShaderFog(terrainFog);
@@ -189,6 +213,7 @@ public final class VisualRenderer implements AutoCloseable {
                     terrain.renderGroup(ChunkSectionLayerGroup.OPAQUE,pass,terrainSampler,atlas,false);
                 }
             } finally {
+                com.dark.winter.visuals.vanillafog.VanillaFogRenderer.restore(cameraBackground);
                 if (oldProjection!=null) RenderSystem.setProjectionMatrix(oldProjection,oldType);
                 if (oldFog!=null) RenderSystem.setShaderFog(oldFog);
                 if (oldLights!=null) RenderSystem.setShaderLights(oldLights);
@@ -237,13 +262,22 @@ public final class VisualRenderer implements AutoCloseable {
             RenderTarget main = game.mainRenderTarget();
             filmHistory.prepare(Minecraft.getInstance(), state, main, frame, config);
             PostChain chain = shaders.getPostChain(chainId,Set.of(MAIN,SHADOW,
-                    FilmHistory.CURRENT_RAW, FilmHistory.PREVIOUS_FRAME, FilmHistory.HELD_FRAME));
+                    FilmHistory.CURRENT_RAW, FilmHistory.PREVIOUS_FRAME, FilmHistory.HELD_FRAME,
+                    com.dark.winter.visuals.vanillafog.VanillaFogRenderer.SKY_BACKGROUND,
+                    com.dark.winter.visuals.vanillafog.VanillaFogRenderer.CLOUD_BACKGROUND));
             if (chain==null) throw new IllegalStateException("Cannot load "+chainId+". See the first shader error above.");
             FrameGraphBuilder graph = new FrameGraphBuilder();
             Map<Identifier,ResourceHandle<RenderTarget>> targets = new HashMap<>();
             targets.put(MAIN,graph.importExternal("DarkWinter world",main));
             targets.put(SHADOW,graph.importExternal("DarkWinter shadow",shadowTarget));
             filmHistory.importTargets(graph, targets);
+            var background=com.dark.winter.visuals.vanillafog.VanillaFogRenderer.latest();
+            boolean backgroundReady=background!=null && background.cloudTarget()!=null;
+            frame.backgroundAvailable=backgroundReady;
+            targets.put(com.dark.winter.visuals.vanillafog.VanillaFogRenderer.SKY_BACKGROUND,
+                    graph.importExternal("DarkWinter native sky background",backgroundReady?background.skyTarget():main));
+            targets.put(com.dark.winter.visuals.vanillafog.VanillaFogRenderer.CLOUD_BACKGROUND,
+                    graph.importExternal("DarkWinter native cloud background",backgroundReady?background.cloudTarget():main));
             PostChain.TargetBundle bundle = new PostChain.TargetBundle() {
                 @Override public void replace(Identifier id, ResourceHandle<RenderTarget> value) { targets.put(id,value); }
                 @Override public ResourceHandle<RenderTarget> get(Identifier id) { return targets.get(id); }

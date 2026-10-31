@@ -14,7 +14,7 @@ public final class TestingWeather {
         ClimateSample air=climate(server);
         return new WeatherValues(sky.cloudCover(),s.enabled("precipitation")?chosen.snowfall():0,
                 s.enabled("wind")?s.windSpeed/18:0,air.windX(),air.windZ(),
-                s.enabled("atmosphere")?chosen.fogMultiplier():1,sky.sunVisibility(),
+                sky.fogMultiplier(),sky.sunVisibility(),
                 sky.cloudRoundness(),sky.cloudScale(),sky.cloudStretch(),sky.fogBlue(),sky.skyBlue());
     }
     public static ClimateSample climate(MinecraftServer server) {

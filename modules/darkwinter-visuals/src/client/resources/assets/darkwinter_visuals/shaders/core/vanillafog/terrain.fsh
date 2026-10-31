@@ -33,8 +33,10 @@ const float ENVIRONMENTAL_BACKGROUND_BLEND_START = 0.9;
 #ifdef IMPROVED_FOG
 vec3 sampleBackgroundColor(ivec2 pixelCoords) {
     vec3 skyColor = texelFetch(SkySampler, pixelCoords, 0).rgb;
-    vec4 cloudColor = texelFetch(CloudsSampler, pixelCoords, 0);
-    float cloudDepth = texelFetch(CloudsDepthSampler, pixelCoords, 0).r;
+    ivec2 cloudPixel=clamp(ivec2((vec2(pixelCoords)+.5)/vec2(textureSize(SkySampler,0))*vec2(textureSize(CloudsSampler,0))),
+            ivec2(0),textureSize(CloudsSampler,0)-1);
+    vec4 cloudColor = texelFetch(CloudsSampler, cloudPixel, 0);
+    float cloudDepth = texelFetch(CloudsDepthSampler, cloudPixel, 0).r;
     float cloudsBehind = step(cloudDepth, gl_FragCoord.z);
     return mix(skyColor, cloudColor.rgb / (cloudColor.a > 0.0 ? cloudColor.a : 1.0), cloudColor.a * cloudsBehind);
 }

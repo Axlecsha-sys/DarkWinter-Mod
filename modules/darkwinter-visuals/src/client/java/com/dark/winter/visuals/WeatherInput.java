@@ -33,6 +33,14 @@ public final class WeatherInput {
     public static State snapshot(float vanillaRainBrightness,float partialTicks) {
         State state=override;
         if(state!=null) return state;
+        var lab=com.dark.winter.client.TestingAccess.settings();
+        if(lab!=null && !lab.enabled("weather")) {
+            // The atmosphere and film do not select a weather sky. Keep independent wind and snowfall inputs.
+            WeatherValues independent=WeatherClient.sample(partialTicks);
+            float clear=range(vanillaRainBrightness,0,1);
+            return new State(1-clear,independent.snowfall(),independent.windSpeed(),
+                    independent.windX(),independent.windZ(),1,clear,0,1,1,0,0);
+        }
         if(WeatherClient.active()) {
             WeatherValues weather=WeatherClient.sample(partialTicks);
             return new State(weather.cloudCover(),weather.snowfall(),weather.windSpeed(),

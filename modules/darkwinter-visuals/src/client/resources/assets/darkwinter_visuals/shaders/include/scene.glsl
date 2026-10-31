@@ -10,7 +10,7 @@ layout(std140) uniform DarkWinterScene {
     vec4 Shadow;      // resolution; world texel; min depth bias; shadow strength
     vec4 Climate;    // cloud cover; snowfall; wind speed; fog multiplier
     vec4 WindTime;   // wind X,Z; seconds; sample count
-    vec4 Flags;      // shadow valid; volume enabled; debug; in fluid
+    vec4 Flags;      // shadow valid; mask: 1 volume,2 weather sky,4 captured background; debug; in fluid
     vec4 CameraInfo; // camera X,Y,Z (XZ modulo4096); terrain render distance
     vec4 Options;    // depth flip Y; shadow flip Y; clip span; normal offset/block
     vec4 Look;       // film strength; saturation; coldness; exposure
@@ -24,6 +24,7 @@ layout(std140) uniform DarkWinterScene {
     vec4 Film;         // chromatic offset (1080p px); interlace; shutter; step printing
     vec4 FilmTiming;   // history valid; previous frame age; held exposure age; 50 Hz field parity
 };
+bool nlModuleFlag(int value) { return (int(Flags.y)&value)!=0; }
 float nlLuma(vec3 c) { return dot(c,vec3(.2126,.7152,.0722)); }
 // Snowfall above one is the severe-blizzard extension, not an extrapolated colour mix.
 float nlStormStrength() { return clamp(Climate.y,0.0,2.0)*smoothstep(.40,.95,Climate.z); }

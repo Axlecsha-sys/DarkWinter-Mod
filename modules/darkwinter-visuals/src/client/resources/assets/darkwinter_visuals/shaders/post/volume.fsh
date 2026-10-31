@@ -19,7 +19,7 @@ void main() {
         localFog=dwFogOpacity(fogRay,localDistance,true);
         backgroundFog=nlSky(depth)?localFog:dwFogOpacity(fogRay,dwBackgroundFogDistance(fogRay),true);
     }
-    if(Flags.x<.5 || Flags.y<.5 || Flags.w>.5 || Sun.w<.001 || distanceBlocks<.1) {
+    if(Flags.x<.5 || !nlModuleFlag(1) || Flags.w>.5 || Sun.w<.001 || distanceBlocks<.1) {
         fragColor=vec4(0,distanceCode,localFog,backgroundFog);return;
     }
     vec3 direction=nlRay(texCoord);

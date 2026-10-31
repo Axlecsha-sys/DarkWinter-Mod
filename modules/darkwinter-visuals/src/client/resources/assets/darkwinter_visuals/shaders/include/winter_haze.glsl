@@ -161,7 +161,10 @@ float dwBackgroundFogDistance(vec3 ray) {
     // Sky is beyond the local streaming range. Integrate a long WORLD-space path,
     // so distant clouds dissolve into air before the geometric cloud-shell horizon.
     // Upward rays naturally leave the exponential layer, rather than receiving a fixed alpha.
-    return min(12000.0,dwBackgroundSurfaceDistance(ray));
+    // A captured sky has no actual sea-plane geometry. Stopping its extinction at that
+    // hypothetical plane made the terminal background clearer than the foreground.
+    // Both volume sampling and its full-resolution resolve use this same distant path.
+    return nlModuleFlag(4)?12000.0:min(12000.0,dwBackgroundSurfaceDistance(ray));
 }
 vec3 dwFogColour(vec3 ray) {
     float day=dwDaylight();

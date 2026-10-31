@@ -12,6 +12,7 @@
                    "SceneUniformMixin",
                    "ProjectionMixin",
                    "GeographicSunSkyMixin",
+                   "WeatherSkyRenderMixin",
                    "UnderwaterSkyStateMixin",
                    "UnderwaterSkyRenderMixin",
                    "AstronomicalLightmapMixin",

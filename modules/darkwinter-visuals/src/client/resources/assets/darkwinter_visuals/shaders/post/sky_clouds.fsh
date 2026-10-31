@@ -133,6 +133,8 @@ float cloudField(vec3 world) {
 
 void main() {
     fragColor=vec4(0.0);
+    // Early weather clouds have already been shaded once and composited through native OIT.
+    if(nlModuleFlag(4)) return;
     if(Flags.w>.5) return;
     if(Flags.z>.5) { fragColor=vec4(vec3(nlDepth(DepthSampler,texCoord)),0.0); return; }
     if(Climate.x<=.00001) return;
