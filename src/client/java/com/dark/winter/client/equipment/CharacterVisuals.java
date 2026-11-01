@@ -89,10 +89,12 @@ public final class CharacterVisuals {
     public static String describeBodyContext(Camera camera) {
         Minecraft mc=Minecraft.getInstance();
         var player=mc.player;
+        var cameraEntity=camera.entity();
+        String cameraIdentity=cameraEntity==null?"null":cameraEntity.getClass().getSimpleName()+"#"+Integer.toHexString(System.identityHashCode(cameraEntity));
         String shoulder=camera instanceof com.dark.winter.client.CameraViewDiagnostics view
                 ?view.darkwinter$describeShoulderView():"unavailable";
         return "cameraType="+mc.options.getCameraType()+",detached="+camera.isDetached()
-                +",cameraEntity="+camera.entity()+",samePlayer="+(camera.entity()==player)
+                +",cameraEntity="+cameraIdentity+",samePlayer="+(cameraEntity==player)
                 +",initialized="+initialized+",extraction="+lastExtraction+",shoulder={"+shoulder+"}"
                 +",playerFlags="+(player==null?"null":"spectator="+player.isSpectator()+",invisible="+player.isInvisible()
                 +",sleep="+player.isSleeping()+",fallFlying="+player.isFallFlying()+",swim="+player.isVisuallySwimming()
