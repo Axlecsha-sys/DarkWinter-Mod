@@ -14,19 +14,36 @@ import net.minecraft.network.chat.contents.TranslatableContents;
 /** Presentation of actual calendar/climate readings. No climate state is modified. */
 public final class DateTimeHud {
     private DateTimeHud() {}
+    private static int panelWidth(int width) {
+        // Standard native toasts occupy the top-right 160-pixel band.
+        int available=Math.min(width-SurvivalNeedsHud.MARGIN*2,width-160-SurvivalNeedsHud.MARGIN-6);
+        if(TestingClient.active()) {
+            available=Math.min(available,TestingClient.hudPanelLeft(width)-SurvivalNeedsHud.MARGIN-6);
+        }
+        return Math.min(176,available);
+    }
+    private static int weatherNameLines(int width) {
+        int panelWidth=panelWidth(width);
+        int textSpace=Math.max(56,panelWidth-56);
+        return Math.max(1,Math.min(2,Minecraft.getInstance().font.split(HudStyle.font(
+                Component.translatable(WeatherClient.targetPreset().translationKey())),(int)(textSpace/.81f)).size()));
+    }
+    public static int panelBottom(int width) {
+        return SurvivalNeedsHud.MARGIN+(WeatherClient.active()?66+weatherNameLines(width)*10:26);
+    }
     public static void render(GuiGraphicsExtractor g) {
         if (!TestingAccess.enabled("hud")) return;
         var c=Minecraft.getInstance();
         if(c.player==null||c.level==null||c.gui.hud.isHidden()||(c.gui.screen()!=null&&!(c.gui.screen() instanceof ChatScreen))) return;
         var date=VisualTime.snapshot(c.level,0);
-        int x=SurvivalNeedsHud.MARGIN,y=SurvivalNeedsHud.MARGIN,w=Math.min(176,g.guiWidth()-x*2);
+        int x=SurvivalNeedsHud.MARGIN,y=SurvivalNeedsHud.MARGIN,w=panelWidth(g.guiWidth());
         boolean weather=WeatherClient.active();
         Component name=weather?Component.translatable(WeatherClient.targetPreset().translationKey()):Component.empty();
         boolean transition=weather&&WeatherClient.weatherName().getContents() instanceof TranslatableContents t
                 &&t.getKey().equals("weather.darkwinter.transition");
         float nameScale=.81f;
         int textSpace=Math.max(56,w-56);
-        int nameLines=weather?Math.max(1,Math.min(2,c.font.split(HudStyle.font(name),(int)(textSpace/nameScale)).size())):1;
+        int nameLines=weather?weatherNameLines(g.guiWidth()):1;
         int nameY=y+26;
         int airY=nameY+nameLines*10+5;
         int feelsY=airY+10;
@@ -37,7 +54,10 @@ public final class DateTimeHud {
 
         // Shared optical header band: time and date sit on the same row, with the date eased slightly lower.
         HudStyle.text(g,date.timeText(),x+7,y+5,1.17f,HudStyle.INK);
-        HudStyle.fit(g,Component.literal(date.dateTextRu()),x+62,y+8,w-71,.72f,HudStyle.MUTED);
+        Component calendar=date.historical()||c.options.languageCode.startsWith("ru")?Component.literal(date.dateTextRu()):Component.translatable("hud.darkwinter.calendar.date",
+                date.dayOfMonth(),java.time.Month.of(date.monthIndex()+1).getDisplayName(java.time.format.TextStyle.FULL,
+                        Locale.forLanguageTag(c.options.languageCode.replace('_','-'))),date.yearIndex());
+        HudStyle.fit(g,calendar,x+62,y+8,w-71,.72f,HudStyle.MUTED);
         if(!weather) return;
 
         var climate=WeatherClient.climate(0);
@@ -58,7 +78,7 @@ public final class DateTimeHud {
         int cx=x+w-22,cy=y+45+(nameLines-1)*5;
         UiArt.shadow(g,cx,cy,18,.70f);
         UiArt.compass(g,cx-16,cy-16,32,0xC7ACCEDD);
-        HudStyle.centered(g,Component.literal("С"),cx,cy-21,.60f,HudStyle.MUTED);
+        HudStyle.centered(g,Component.translatable("wind.darkwinter.north"),cx,cy-21,.60f,HudStyle.MUTED);
         if(climate.windMetersPerSecond()>=.3f) {
             g.pose().pushMatrix();g.pose().translate(cx,cy);
             // Source bearing, geographic north up, not the direction of the camera.

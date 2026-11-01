@@ -36,8 +36,10 @@ public final class IllustratedModeButton extends Button {
         HudStyle.halo(g,x,y,w,h,HudStyle.STABLE,.18f+light*.70f);
         String mode=story?"story":"free";
         int titleY=y+picture+9;
-        UiArt.modeBadge(g,story,x+9,titleY-1,14,HudStyle.INK);
-        HudStyle.fit(g,HudStyle.strong(Component.translatable("menu.darkwinter."+mode+".short")),x+29,titleY,w-39,Math.max(.92f,Math.min(1.08f,w/200f)),HudStyle.INK);
+        boolean badge=w>=130;
+        if(badge) UiArt.modeBadge(g,story,x+9,titleY-1,14,HudStyle.INK);
+        int titleLeft=badge?29:10;
+        HudStyle.fit(g,HudStyle.strong(Component.translatable("menu.darkwinter."+mode+".short")),x+titleLeft,titleY,w-titleLeft-10,Math.max(.92f,Math.min(1.08f,w/200f)),HudStyle.INK);
         float body=Math.min(.90f,Math.max(.78f,w/265f));
         int summaryY=titleY+18,limit=Math.max(0,(int)((y+h-26-summaryY)/(body*12)));
         HudStyle.paragraph(g,Component.translatable("menu.darkwinter."+mode+".card"),x+10,summaryY,w-22,body,0xFFB2C8D3,limit);

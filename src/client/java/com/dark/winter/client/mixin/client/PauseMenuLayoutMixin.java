@@ -29,7 +29,7 @@ public abstract class PauseMenuLayoutMixin extends Screen {
         for(var child:new java.util.ArrayList<>(children())) if(child instanceof AbstractWidget w
                 &&(w instanceof FriendsButton||local&&remove.contains(w.getMessage().getString())))removeWidget(w);
         if(local)addRenderableWidget(net.minecraft.client.gui.components.Button.builder(Component.translatable("menu.darkwinter.interface"),b->minecraft.gui.setScreen(new com.dark.winter.client.UiPreferencesScreen((Screen)(Object)this))).build());
-        var friends=testing?addRenderableWidget(net.minecraft.client.gui.components.Button.builder(Component.literal("Соединения"),
+        var friends=testing?addRenderableWidget(net.minecraft.client.gui.components.Button.builder(Component.translatable("menu.darkwinter.connections.short"),
                 b->com.dark.winter.client.online.FriendsScreen.open((Screen)(Object)this)).build()):null;
         int top=com.dark.winter.client.UiLayout.pauseTop(height),row=0;
         var buttons=new java.util.ArrayList<AbstractButton>();

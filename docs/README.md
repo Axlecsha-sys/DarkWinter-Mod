@@ -2,8 +2,10 @@
 
 | Раздел | Руководство |
 | --- | --- |
+| Релизы | [DarkWinter 1.0.1](development/RELEASE_1.0.1_RU.md) |
 | Разработка | [Сборка и запуск](development/BUILD_RU.md), [подготовка к GitHub](development/GITHUB_RU.md), [исправления из 26.4](development/26.4_FIXES_RU.md) |
 | Тестовый режим | [Остров, редактор, история и испытания](testing/README_RU.md) |
+| Проверка интерфейса | [GUI/HUD 1.0.1: матрица, кадры и границы проверки](testing/GUI_1.0.1_RU.md) |
 | Совместная игра | [Соединения и допуск на остров](online/README_RU.md) |
 | Лаунчер | [Состояние и запуск](launcher/README_RU.md) |
 | Рендерер | [Visuals и ограничения](visuals/README_RU.md), [небо, облака и горизонт](development/SHADER_HORIZON_RU.md) |

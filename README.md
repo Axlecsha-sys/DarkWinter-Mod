@@ -2,6 +2,8 @@
 
 Minecraft **26.3**, Fabric, Java **25 x64**. [Единая документация](docs/README.md) содержит актуальные руководства по тестовому режиму, совместной игре, лаунчеру и рендеру.
 
+**1.0.1:** [релиз и JAR](https://github.com/Axlecsha-sys/DarkWinter-Mod/releases/tag/v1.0.1) · [изменения](docs/development/RELEASE_1.0.1_RU.md) · [проверка GUI/HUD](docs/testing/GUI_1.0.1_RU.md).
+
 Из корня проекта с установленным JDK 25:
 
 ```powershell

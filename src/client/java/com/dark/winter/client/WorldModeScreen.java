@@ -36,18 +36,20 @@ public final class WorldModeScreen extends Screen {
         this.returnToParent=returnToParent;
     }
     private static Component text(String key) { return Component.translatable("menu.darkwinter."+key); }
+    private int testingTop() { return Math.max(74, Math.min(height-142, height/2-52)); }
 
     @Override protected void init() {
         if(chooseTesting) {
-            int w=Math.min(340,width-42),x=(width-w)/2,y=Math.max(42,height/2-100);
+            int w=Math.min(340,width-42),x=(width-w)/2,y=testingTop();
             addRenderableWidget(Button.builder(Component.translatable("menu.darkwinter.test.template",
                     Component.translatable("menu.darkwinter.test."+testTemplate.name().toLowerCase(java.util.Locale.ROOT))),
                     b->{int index=java.util.Arrays.asList(TEST_TYPES).indexOf(testTemplate);testTemplate=TEST_TYPES[(index+1)%TEST_TYPES.length];rebuildWidgets();})
                     .bounds(x,y,w,24).build());
-            addRenderableWidget(Button.builder(Component.literal("Радиус острова: " + ISLAND_RADII[islandSizeIndex] + " м"),
+            addRenderableWidget(Button.builder(Component.translatable("menu.darkwinter.test.radius",ISLAND_RADII[islandSizeIndex]),
                     b->{islandSizeIndex=(islandSizeIndex+1)%ISLAND_RADII.length;rebuildWidgets();})
                     .bounds(x,y+30,(w-8)/2,24).build()).active=testTemplate==TestingWorlds.Template.ISLAND;
-            addRenderableWidget(Button.builder(Component.literal("Форма: " + new String[]{"Круглая","Овальная","Полумесяц"}[islandShapeIndex]),
+            addRenderableWidget(Button.builder(Component.translatable("menu.darkwinter.test.shape",
+                    Component.translatable("menu.darkwinter.test.shape."+new String[]{"round","oval","crescent"}[islandShapeIndex])),
                     b->{islandShapeIndex=(islandShapeIndex+1)%3;rebuildWidgets();})
                     .bounds(x+(w+8)/2,y+30,(w-8)/2,24).build()).active=testTemplate==TestingWorlds.Template.ISLAND;
             addRenderableWidget(Button.builder(Component.translatable("menu.darkwinter.test.create"),
@@ -94,7 +96,8 @@ public final class WorldModeScreen extends Screen {
             state.setDifficulty(Difficulty.NORMAL);
             state.setGenerateStructures(false);
             state.setBonusChest(false);
-            setField(create,"selectWorld.enterName", testTemplate==TestingWorlds.Template.ISLAND ? "DarkWinter — тестовый остров" : "DarkWinter — лаборатория");
+            setField(create,"selectWorld.enterName",Component.translatable(testTemplate==TestingWorlds.Template.ISLAND
+                    ? "menu.darkwinter.test.island_name" : "menu.darkwinter.test.lab_name").getString());
             if(testTemplate == TestingWorlds.Template.ISLAND || testTemplate == TestingWorlds.Template.TEST_MAP) {
                 var registries=state.getSettings().worldgenLoadContext();
                 state.setWorldType(new WorldCreationUiState.WorldTypeEntry(
@@ -156,8 +159,9 @@ public final class WorldModeScreen extends Screen {
 
     @Override public void extractRenderState(GuiGraphicsExtractor g,int mouseX,int mouseY,float partialTick) {
         if(chooseTesting) {
-            HudStyle.logo(g,(width-320)/2,Math.max(10,height/2-148),1.2f,2.2f,320,HudStyle.INK);
-            HudStyle.centered(g,Component.translatable("menu.darkwinter.test.note"),width/2,Math.max(42,height/2-124),.85f,HudStyle.MUTED);
+            int w=Math.min(340,width-42),x=(width-w)/2,y=testingTop();
+            HudStyle.logo(g,x,y-62,1.2f,2.2f,w,HudStyle.INK);
+            HudStyle.paragraph(g,Component.translatable("menu.darkwinter.test.note"),x,y-36,w,.80f,HudStyle.MUTED,3);
         } else if(story) {
             var l=UiLayout.story(width,height);var p=l.panel();int x=p.x(),y=p.y(),w=p.w(),image=l.imageHeight();
             HudStyle.logo(g,x,Math.max(2,y-35),1.28f,2.4f,w,HudStyle.INK);
@@ -172,8 +176,9 @@ public final class WorldModeScreen extends Screen {
             HudStyle.text(g,text("difficulty.label"),x+10,l.difficultyY()+7,.8f,HudStyle.MUTED);
         } else {
             var c=UiLayout.cards(width,height);
-            HudStyle.logo(g,c.left().x(),c.titleY(),1.4f,2.2f,c.left().w()+c.right().w(),HudStyle.INK);
-            HudStyle.text(g,title,c.left().x(),c.titleY()+23,.84f,HudStyle.MUTED);
+            int cardWidth=Math.max(70,Math.min(200,(width-68)/3)),total=cardWidth*3+20,x=(width-total)/2;
+            HudStyle.logo(g,x,c.titleY(),1.4f,2.2f,total,HudStyle.INK);
+            HudStyle.fit(g,title,x,c.titleY()+23,total,.84f,HudStyle.MUTED);
         }
         super.extractRenderState(g,mouseX,mouseY,partialTick);
     }

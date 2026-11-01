@@ -74,12 +74,26 @@ public abstract class OptionDetailLayoutMixin {
     private void darkwinter$panel(GuiGraphicsExtractor g,int mx,int my,float dt,CallbackInfo ci) {
         Screen self=(Screen)(Object)this;
         if(!darkwinter$detail(self)) return;
+        // Video settings can rebuild their native header/list from tick() (restart warning,
+        // monitor change), without Screen.resize(). Keep hit bounds aligned for that frame too.
+        darkwinter$arrange(self);
         SettingsNavigation.frame(g,self);
     }
 
     @Unique
     private void darkwinter$arrange(Screen self) {
         int contentW=SettingsNavigation.contentWidth(self),contentX=SettingsNavigation.contentLeft(self),contentY=72,footerY=height-28;
+        for(var child:children()) if(child instanceof StringWidget label) {
+            if(label.getMessage().getString().equals(getTitle().getString())) {
+                label.visible=false;
+                continue;
+            }
+            // Native warning visibility is owned by the native screen. Only its position changes.
+            label.setMaxWidth(contentW);
+            label.setPosition(contentX,contentY);
+            label.setTooltip(net.minecraft.client.gui.components.Tooltip.create(HudStyle.font(label.getMessage())));
+            if(label.visible)contentY+=14;
+        }
         AbstractWidget done=null,search=null,list=null;
         var footer=new ArrayList<AbstractWidget>();
         var movable=new ArrayList<AbstractWidget>();
@@ -87,7 +101,7 @@ public abstract class OptionDetailLayoutMixin {
         for(var child:children()) if(child instanceof AbstractWidget widget) {
             if(widget==darkwinter$languageToggle) continue;
             if(SettingsNavigation.sidebar(widget)) continue;
-            if(widget instanceof StringWidget) {widget.visible=false;continue;}
+            if(widget instanceof StringWidget) continue;
             if(MenuStyle.key(widget,"gui.done")) {done=widget;continue;}
             if(darkwinter$language(self) && widget instanceof EditBox field) {search=field;continue;}
             if(darkwinter$language(self) && widget instanceof AbstractSelectionList) {list=widget;continue;}
@@ -95,7 +109,7 @@ public abstract class OptionDetailLayoutMixin {
             if(widget instanceof AbstractSelectionList<?> selection) {
                 if(widget instanceof net.minecraft.client.gui.components.OptionsList options) SettingsNavigation.rowHeights(options,self);
                 if(widget instanceof net.minecraft.client.gui.screens.options.controls.KeyBindsList keys) SettingsNavigation.keyRowHeights(keys,self);
-                selection.updateSizeAndPosition(contentW+8,Math.max(40,footerY-contentY-10),contentX-4,contentY);
+                selection.updateSizeAndPosition(contentW+8,Math.max(40,footerY-contentY-20),contentX-4,contentY);
                 continue;
             }
             // Accessibility's help link and similar native footer actions must not
@@ -138,7 +152,7 @@ public abstract class OptionDetailLayoutMixin {
         }
         if(list!=null) {
             list.visible=darkwinter$languageExpanded;
-            ((AbstractSelectionList<?>)list).updateSizeAndPosition(contentW,Math.max(40,footerY-bodyY-10),contentX,bodyY);
+            ((AbstractSelectionList<?>)list).updateSizeAndPosition(contentW,Math.max(40,footerY-bodyY-20),contentX,bodyY);
         }
         if(search!=null && !search.visible && ((Screen)(Object)this).getFocused()==search)
             ((Screen)(Object)this).setFocused(darkwinter$languageToggle);
