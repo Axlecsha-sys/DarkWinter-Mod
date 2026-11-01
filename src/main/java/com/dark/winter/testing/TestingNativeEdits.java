@@ -142,7 +142,7 @@ public final class TestingNativeEdits {
     public static long suppressedDrops(){return suppressed;}
     private static boolean physicalSame(TestingEdits.Cell a,TestingEdits.Cell b){return a.state().equals(b.state())&&Objects.equals(a.entity(),b.entity());}
     private static void origin(TestingServer.Context context,BlockPos pos,String value){
-        if(value==null)context.edits.origins.remove(pos.asLong());else context.edits.origins.put(pos.asLong(),value);
+        context.edits.setOrigin(pos.asLong(),value);
     }
     private static void finish(Gesture gesture){
         gesture.finishing=true;List<TestingEdits.Change> changes=new ArrayList<>();

@@ -26,7 +26,7 @@ public final class TestingImportLoader {
     private static TicketType ticket;
     private static final Map<MinecraftServer,Pool> POOLS=new java.util.concurrent.ConcurrentHashMap<>();
     private static final Map<MinecraftServer,Diagnostics> COMPLETED=new java.util.concurrent.ConcurrentHashMap<>();
-    private record Owner(Set<ChunkPos> chunks,long started) {}
+    private record Owner(Set<ChunkPos> chunks,long started,List<ChunkPos> ordered) {}
     private static final class Pool {
         final Map<String,Owner> owners=new LinkedHashMap<>();
         final Map<ChunkPos,CompletableFuture<?>> futures=new LinkedHashMap<>();
@@ -364,14 +364,16 @@ public final class TestingImportLoader {
         if(owner==null) {
             Set<ChunkPos> union=new HashSet<>(chunks);for(Owner current:pool.owners.values())union.addAll(current.chunks());
             if(union.size()>MAX_CHUNKS)throw new IOException("Совместные операции требуют больше 4096 чанков");
-            owner=new Owner(chunks,System.nanoTime());pool.owners.put(token,owner);
+            long started=System.nanoTime();
+            List<ChunkPos> orderedFootprint=new ArrayList<>(chunks);
+            orderedFootprint.sort(Comparator.comparingInt(ChunkPos::x).thenComparingInt(ChunkPos::z));
+            owner=new Owner(chunks,started,List.copyOf(orderedFootprint));pool.owners.put(token,owner);
         }else if(!owner.chunks().equals(chunks))throw new IOException("Footprint native операции изменился во время подготовки");
         if(System.nanoTime()-owner.started()>180_000_000_000L)throw new IOException("Native chunk IO превысил 180 секунд");
         int tick=server.getTickCount();if(pool.tick!=tick){pool.tick=tick;pool.starts=0;}
         int inFlight=0;
         for(var entry:pool.futures.entrySet())if(!chunkReady(server,entry.getValue(),entry.getKey()))inFlight++;
-        List<ChunkPos> ordered=new ArrayList<>(chunks);ordered.sort(Comparator.comparingInt(ChunkPos::x).thenComparingInt(ChunkPos::z));
-        for(ChunkPos chunk:ordered) {
+        for(ChunkPos chunk:owner.ordered()) {
             if(pool.futures.containsKey(chunk))continue;
             if(pool.starts>=IN_FLIGHT||inFlight>=IN_FLIGHT)break;
             // Loading tickets have no simulation/persist flag; future completion is polled, never joined while pending.

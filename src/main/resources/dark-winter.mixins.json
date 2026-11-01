@@ -7,6 +7,8 @@
     "EquipmentMenuMixin",
     "EquipmentRespawnMixin",
     "ExampleMixin",
+    "ServerPerformanceMixin",
+    "SingleValuePalettePackingMixin",
     "FoodStarvationMixin",
     "TestingFoodMixin",
     "TestingPlacementMixin",

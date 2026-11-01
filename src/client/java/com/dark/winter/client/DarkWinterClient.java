@@ -28,6 +28,9 @@ public class DarkWinterClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         UiPreferences.initialize();
+        com.dark.winter.client.diagnostics.performance.PerformanceClient.initialize();
+        com.dark.winter.client.fixes.voxel.VoxelFaceRuntime.initialize();
+        com.dark.winter.client.fixes.mesh.ChunkMeshRuntime.initialize();
         TestingClient.init();
         com.dark.winter.client.online.OnlineClientRuntime.init();
         com.dark.winter.testing.TestingServer.setClientModules((level,module)->TestingAccess.enabled(module));

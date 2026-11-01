@@ -39,7 +39,7 @@ final class FilmHistory implements AutoCloseable {
         frame.filmDeltaSeconds = 0;
         frame.filmHeldAgeSeconds = 0;
         frame.filmFieldPhase = 0;
-        boolean temporalEnabled = com.dark.winter.client.TestingAccess.enabled("visuals") && config.atmosphere && config.filmStrength > 0 && config.debug == 0
+        boolean temporalEnabled = (frame.lab==null||frame.lab.enabled("visuals")) && config.atmosphere && config.filmStrength > 0 && config.debug == 0
                 && (config.shutterStrength > 0 || config.stepPrintStrength > 0 || config.interlaceStrength > 0);
         if (!temporalEnabled || client.isPaused() || client.gui.screen() != null) {
             invalidate();

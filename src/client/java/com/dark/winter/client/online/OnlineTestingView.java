@@ -31,7 +31,7 @@ public final class OnlineTestingView {
     private record Advanced(History history,TestState test,Prefabs prefabs,Library library,Timeline timeline,Operation operation) {}
     private record Binding(long authentication,OnlineConnectionClient.ExpectedHost host,MinecraftServer local) {}
     private record View(Binding binding,long revision,String worldId,String worldName,String dimension,TestingWorlds.Template template,
-            TestingSettings settings,String status,boolean busy,boolean recoveryBlocked,
+            TestingSettings settings,TestingPresentation presentation,String status,boolean busy,boolean recoveryBlocked,
             List<TestingScene.ObjectView> scene,List<TestingServer.ZoneView> zones,List<TestingScenarios.TriggerView> triggers,
             List<BlockPos> protectedPreview,List<String> scenarioNames,List<String> spawnerNames,List<String> spawnableTypes,
             String scenarioStatus,JsonObject selectedDocument,Generator generator,Map<String,Boolean> capabilities,
@@ -123,6 +123,7 @@ public final class OnlineTestingView {
     public static String worldName(){View value=view();return value==null?pending()?"Подключённый остров":"":value.worldName();}
     public static TestingWorlds.Template template(){View value=view();return value==null?null:value.template();}
     public static TestingSettings settings(){View value=view();return value==null?pending()?neutral():null:copy(value.settings());}
+    public static TestingPresentation presentation(){View value=view();return value==null?pending()?TestingPresentation.neutral():null:value.presentation();}
     private static TestingSettings copy(TestingSettings value){
         TestingSettings target=new TestingSettings();target.schema=value.schema;target.modules.putAll(value.modules);
         target.mode=value.mode;target.biome=value.biome;target.weather=value.weather;target.brush=value.brush;
@@ -227,7 +228,7 @@ public final class OnlineTestingView {
         JsonObject document=child(scenarios,"selectedDocument").deepCopy();
         if(document.has("document")&&document.get("document").isJsonObject())document=document.getAsJsonObject("document").deepCopy();
         if(document.toString().length()>1048576)throw new IllegalArgumentException("Scenario document limit");
-        return new View(binding,number(root,"revision",0),id,name,dimension,template,settings,bounded(root,"status",2048),bool(root,"busy"),bool(root,"recoveryBlocked"),
+        return new View(binding,number(root,"revision",0),id,name,dimension,template,settings,TestingPresentation.capture(settings,null),bounded(root,"status",2048),bool(root,"busy"),bool(root,"recoveryBlocked"),
                 List.copyOf(scene),List.copyOf(zones),List.copyOf(triggers),List.copyOf(protectedPreview),
                 strings(scenarios,"names",512),strings(scenarios,"spawners",1024),strings(scenarios,"spawnableTypes",512),
                 bounded(scenarios,"status",2048),document,gen,Map.copyOf(capabilities),Map.copyOf(reasons),Map.copyOf(values),parseAdvanced(root));

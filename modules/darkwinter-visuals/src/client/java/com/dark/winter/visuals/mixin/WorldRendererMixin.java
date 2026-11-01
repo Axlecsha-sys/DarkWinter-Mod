@@ -75,10 +75,16 @@ public abstract class WorldRendererMixin implements SceneAccess {
              GpuBufferSlice fog,Vector4f fogColor,boolean sky,boolean consistentDepthRequired,CallbackInfo ci) {
         if(darkwinter$visuals!=null) darkwinter$visuals.resolve(gameRenderer,shaderManager,levelRenderState,allocator);
     }
-    @Inject(method="close",at=@At("HEAD"))
-    private void darkwinter$close(CallbackInfo ci) {
+    @Inject(method={"close", "resetLevelRenderData"},at=@At("HEAD"))
+    private void darkwinter$close(CallbackInfo ci) { darkwinter$releaseWorldResources(); }
+    @Override public void darkwinter$releaseVisualResources(VisualRenderer expectedOwner) {
+        if(darkwinter$visuals==expectedOwner) darkwinter$releaseWorldResources();
+    }
+    @Unique private void darkwinter$releaseWorldResources() {
         if(darkwinter$visuals!=null) {darkwinter$visuals.close();darkwinter$visuals=null;}
         if(darkwinter$shadowGpuData!=null) {darkwinter$shadowGpuData.close();darkwinter$shadowGpuData=null;}
+        if(darkwinter$casters!=null) {darkwinter$casters.clear();darkwinter$casters=null;}
+        darkwinter$selectCasters=false;
     }
     @Redirect(method="extractSectionDrawGroups",at=@At(value="FIELD",
         target="Lnet/minecraft/client/renderer/LevelRenderer;visibleSections:Lit/unimi/dsi/fastutil/objects/ObjectArrayList;",

@@ -156,7 +156,9 @@ public final class TestingScene {
         }
         repairParents(nodes);
         Map<Long,String> owned=blockOwners(nodes);
-        List<Long> positions=c.edits.origins.entrySet().stream().filter(e->authored(e.getValue())).map(Map.Entry::getKey).sorted().toList();
+        List<Long> positions=new ArrayList<>();
+        c.edits.origins.forEach((position,origin)->{if(authored(origin))positions.add(position);});
+        positions.sort(Long::compareTo);
         for(long packed:positions)if(!owned.containsKey(packed)) {
             BlockPos pos=BlockPos.of(packed);if(!world.hasChunkAt(pos)||world.getBlockState(pos).isAir())continue;
             var cell=c.edits.read(pos);List<Long> footprint=new ArrayList<>();

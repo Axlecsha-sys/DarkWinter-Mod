@@ -47,12 +47,13 @@ public final class VisualRenderer implements AutoCloseable {
     static {
         ClientPlayConnectionEvents.DISCONNECT.register((listener, client) -> {
             VisualRenderer renderer = activeRenderer.get();
+            Object disconnectedWorld = renderer == null ? null : renderer.world;
             if (renderer != null) client.execute(() -> {
-                // LevelRenderer survives a world disconnect; no further world render need occur.
-                // Minecraft's executor owns the render thread and all TextureTarget operations.
-                renderer.filmHistory.close();
-                renderer.frame.filmHistoryValid = false;
-                renderer.frameReady = false;
+                // A queued old disconnect must not close resources of a newly opened world.
+                if (renderer.world == disconnectedWorld) {
+                    ((SceneAccess) client.levelRenderer).darkwinter$releaseVisualResources(renderer);
+                    renderer.close();
+                }
             });
         });
     }
@@ -96,16 +97,18 @@ public final class VisualRenderer implements AutoCloseable {
     /** Vanilla distance fog must remain available if our world atmosphere is disabled or fails. */
     public static boolean controlsAtmosphere(ClientLevel level) {
         VisualRenderer renderer = activeRenderer.get();
-        return com.dark.winter.client.TestingAccess.enabled("atmosphere") && renderer != null && renderer.world == level && renderer.frameReady && !renderer.resolveFailed
-                && com.dark.winter.client.TestingAccess.pipeline(renderer.config.enabled) && com.dark.winter.client.TestingAccess.resolve("atmosphere",renderer.config.winterHaze) && renderer.config.debug == 0
-                && WeatherClient.active();
+        if(renderer==null||renderer.world!=level||!renderer.frameReady||renderer.resolveFailed)return false;
+        var lab=renderer.frame.lab;
+        return module(lab,"atmosphere",true)&&pipeline(lab,renderer.config.enabled)
+                &&module(lab,"atmosphere",renderer.config.winterHaze)&&renderer.config.debug==0&&WeatherClient.active(lab);
     }
 
     /** Runs BEFORE vanilla prepares its main-view chunk draw list. No deferred terrain draw handles. */
     public void renderShadow(SceneAccess scene, GameRenderer game, LevelRenderState state,
                              GpuBufferSlice terrainFog) {
         config.poll();
-        stableDepthRequested = com.dark.winter.client.TestingAccess.pipeline(config.enabled);
+        frame.lab=com.dark.winter.client.TestingAccess.presentation();
+        stableDepthRequested = pipeline(frame.lab,config.enabled);
         frameReady = false;
         frame.shadowValid = false;
         Object activeWorld = Minecraft.getInstance().level;
@@ -120,7 +123,7 @@ public final class VisualRenderer implements AutoCloseable {
             shadowFailed = resolveFailed = false; grid.reset(); frozenAngle = Double.NaN;
             filmHistory.invalidate();
         }
-        if (!com.dark.winter.client.TestingAccess.pipeline(config.enabled) || resolveFailed || activeWorld == null || !state.cameraRenderState.initialized) {
+        if (!pipeline(frame.lab,config.enabled) || resolveFailed || activeWorld == null || !state.cameraRenderState.initialized) {
             filmHistory.invalidate();
             return;
         }
@@ -137,7 +140,7 @@ public final class VisualRenderer implements AutoCloseable {
             frame.config = config;
             var client=Minecraft.getInstance();
             frame.weather = WeatherInput.snapshot(state.skyRenderState.rainBrightness,
-                    client.getDeltaTracker().getGameTimeDeltaPartialTick(false));
+                    client.getDeltaTracker().getGameTimeDeltaPartialTick(false),frame.lab);
             double angle = state.skyRenderState.sunAngle; // Already radians, from SkyRenderer render state.
             if (config.freezeSun) {
                 if (!Double.isFinite(frozenAngle)) frozenAngle = angle;
@@ -145,7 +148,7 @@ public final class VisualRenderer implements AutoCloseable {
             } else frozenAngle = Double.NaN;
             // The same extracted solar position drives the visible sun AND the shadow map.
             SolarEphemeris.Position geographic = config.geographicSun
-                    ? SolarRuntime.current(Minecraft.getInstance().level) : null;
+                    ? SolarRuntime.current(Minecraft.getInstance().level,frame.lab) : null;
             if (geographic != null) {
                 frame.sun.set((float)geographic.x(), (float)geographic.y(), (float)geographic.z()).normalize();
             } else {
@@ -158,10 +161,10 @@ public final class VisualRenderer implements AutoCloseable {
                     ? smoothstep(0.35f, 5.0f, (float)geographic.elevationDegrees())
                     : smoothstep(.04f, .22f, frame.sun.y);
             frame.intensity = surfaceWorld ? elevation * directSun * frame.weather.sunVisibility()
-                    * (WeatherClient.active()?1f:1-.70f*frame.weather.cloudCover()) : 0;
+                    * (WeatherClient.active(frame.lab)?1f:1-.70f*frame.weather.cloudCover()) : 0;
             frame.inFluid = camera.fogType != FogType.NONE;
             frame.atmosphereAllowed=ordinaryAtmosphere(client.level,camera);
-            frame.weatherSky=frame.atmosphereAllowed && com.dark.winter.client.TestingAccess.enabled("weather");
+            frame.weatherSky=frame.atmosphereAllowed && module(frame.lab,"weather",true);
             frame.backgroundAvailable=com.dark.winter.visuals.vanillafog.VanillaFogRenderer.current()!=null;
             if (frame.inFluid) frame.intensity = 0;
             frame.inverseViewProjection.set(((ProjectionAccess)(Object)game).darkwinter$renderProjection())
@@ -177,7 +180,7 @@ public final class VisualRenderer implements AutoCloseable {
             var nativeBackground=com.dark.winter.visuals.vanillafog.VanillaFogRenderer.current();
             if(frame.weatherSky && nativeBackground!=null && !nativeBackground.weatherSky().prepare(frame))
                 frame.weatherSky=false;
-            if (shadowFailed || !com.dark.winter.client.TestingAccess.resolve("visuals",config.shadows) || frame.intensity <= .001f) return;
+            if (shadowFailed || !module(frame.lab,"visuals",config.shadows) || frame.intensity <= .001f) return;
 
             float radius = config.quality.radius;
             // Preserve the proven stable original grid in vanilla fallback mode.
@@ -233,7 +236,7 @@ public final class VisualRenderer implements AutoCloseable {
         double dt=lastWeatherNanos==0 || client.isPaused()?0:Math.min((now-lastWeatherNanos)*1e-9,.25);
         lastWeatherNanos=now;
         // Integrate velocity: changing weather never multiplies accumulated time by a new speed.
-        double speed=WeatherClient.active()?frame.weather.windSpeed():.12;
+        double speed=WeatherClient.active(frame.lab)?frame.weather.windSpeed():.12;
         double vx=frame.weather.windX()*speed, vz=frame.weather.windZ()*speed;
         cloudDriftX+=vx*18.0*dt;
         cloudDriftZ+=vz*18.0*dt;
@@ -309,6 +312,12 @@ public final class VisualRenderer implements AutoCloseable {
                 shadowTarget.getColorTexture(),new Vector4f(0),shadowTarget.getDepthTexture(),0.0);
         currentResolution=n;
     }
+    private static boolean module(com.dark.winter.testing.TestingPresentation lab,String name,boolean ordinary) {
+        return lab==null?ordinary:lab.enabled(name);
+    }
+    private static boolean pipeline(com.dark.winter.testing.TestingPresentation lab,boolean ordinary) {
+        return lab==null?ordinary:lab.enabled("visuals")||lab.enabled("weather")||lab.enabled("atmosphere");
+    }
     private static float smoothstep(float a,float b,float x) {
         float t=Math.max(0,Math.min(1,(x-a)/(b-a))); return t*t*(3-2*t);
     }
@@ -319,5 +328,13 @@ public final class VisualRenderer implements AutoCloseable {
         if (terrainSampler!=null) { terrainSampler.close(); terrainSampler=null; }
         currentResolution=0; frame.shadowValid=false; grid.reset(); frozenAngle=Double.NaN;
     }
-    @Override public void close() { release(); }
+    @Override public void close() {
+        release();
+        world = null;
+        frameReady = false;
+        frame.filmHistoryValid = false;
+        frame.weather = null;
+        frame.lab = null;
+        lastWeatherNanos = 0;
+    }
 }

@@ -2,6 +2,7 @@
 package com.dark.winter.visuals;
 
 import com.dark.winter.client.weather.WeatherClient;
+import com.dark.winter.testing.TestingPresentation;
 import com.dark.winter.weather.ClimateGeography;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.level.Level;
@@ -15,7 +16,10 @@ public final class SolarRuntime {
 
     /** One geographic frame for server wind, solar shadows, Moon and displayed local time. */
     public static ClimateGeography geography() {
-        ClimateGeography synced=WeatherClient.geography();
+        return geography(com.dark.winter.client.TestingAccess.presentation());
+    }
+    public static ClimateGeography geography(TestingPresentation lab) {
+        ClimateGeography synced=WeatherClient.geography(lab);
         if (synced!=null) return synced;
         VisualConfig config=VisualConfig.shared();
         return new ClimateGeography(config.latitude,config.longitude,config.utcOffsetHours,config.northRotation,
@@ -25,13 +29,16 @@ public final class SolarRuntime {
     public static void capture(ClientLevel level, float partialTicks) {
         VisualConfig config=VisualConfig.shared();
         config.poll();
-        if (!com.dark.winter.client.TestingAccess.resolve("visuals",config.enabled && config.geographicSun) || level==null || level.dimension()!=Level.OVERWORLD) {
+        var lab=com.dark.winter.client.TestingAccess.presentation();
+        if (!(lab==null?config.enabled && config.geographicSun:lab.enabled("visuals")) || level==null || level.dimension()!=Level.OVERWORLD) {
             lastWorld=null;lastPosition=null;lastMoon=null;return;
         }
         lastWorld=level;
-        ClimateGeography geography=geography();
-        double scaledTicks=VisualTime.clockTicks(level,partialTicks);
+        ClimateGeography geography=geography(lab);
         var epoch=com.dark.winter.client.CalendarClient.modern();
+        double rawTicks=level.getDefaultClockTime()+(double)partialTicks;
+        double scaledTicks=epoch!=null?epoch.clockTicks(rawTicks)
+                :VisualTime.scaledClockTicks(rawTicks,geography.visualDayLengthMultiplier());
         if (epoch!=null) {
             var date=epoch.at(level.getDefaultClockTime()+(double)partialTicks).date();
             lastPosition=SolarEphemeris.calculateCalendar(scaledTicks,geography.latitude(),geography.longitude(),
@@ -48,11 +55,17 @@ public final class SolarRuntime {
                 geography.calendarStartDay(),geography.calendarDaysPerMinecraftDay());
     }
     public static SolarEphemeris.Position current(ClientLevel level) {
-        if (com.dark.winter.client.TestingAccess.enabled("visuals") && level == lastWorld) return lastPosition;
+        return current(level,com.dark.winter.client.TestingAccess.presentation());
+    }
+    public static SolarEphemeris.Position current(ClientLevel level,TestingPresentation lab) {
+        if ((lab==null||lab.enabled("visuals")) && level == lastWorld) return lastPosition;
         return null;
     }
     /** Same clock, geography and ephemeris as GeographicSunSkyMixin's visible lunar quad. */
     public static LunarEphemeris.Position currentMoon(ClientLevel level) {
-        return com.dark.winter.client.TestingAccess.enabled("visuals") && level == lastWorld ? lastMoon : null;
+        return currentMoon(level,com.dark.winter.client.TestingAccess.presentation());
+    }
+    public static LunarEphemeris.Position currentMoon(ClientLevel level,TestingPresentation lab) {
+        return (lab==null||lab.enabled("visuals")) && level == lastWorld ? lastMoon : null;
     }
 }

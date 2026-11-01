@@ -42,7 +42,9 @@ public final class TestingServer {
     static Context context(MinecraftServer server){return server==null?null:STATES.get(server);}
     static final class Context {
         final MinecraftServer server;final Path directory;final TestingEdits edits;final boolean readOnlyPreview;
+        private final TestingMetadataCache settingsCache=new TestingMetadataCache(),islandCache=new TestingMetadataCache();
         volatile TestingSettings settings;
+        volatile TestingPresentation presentation=TestingPresentation.neutral();
         volatile String message="Лаборатория готова";
         BlockPos a,b;
         final Map<String,Zone> zones=new ConcurrentHashMap<>();
@@ -67,13 +69,14 @@ public final class TestingServer {
                 TestingWorldDocuments.loadLegacyZones(this,root);
                 for(JsonElement e:root.getAsJsonArray("vegetation")) vegetation.add(e.getAsString());
             }
+            presentation=TestingPresentation.capture(settings,null);
             save();
         }
         void save() throws IOException {
-            TestingEdits.atomic(directory.resolve("settings.json"),GSON.toJsonTree(settings));
+            settingsCache.write(directory.resolve("settings.json"),GSON.toJsonTree(settings),TestingEdits::atomic);
             JsonObject root=new JsonObject();root.addProperty("schema",2);
             root.add("heights",GSON.toJsonTree(heights));root.add("zones",GSON.toJsonTree(zones));root.add("zoneRules",GSON.toJsonTree(zoneRules));
-            root.add("vegetation",GSON.toJsonTree(vegetation));TestingEdits.atomic(directory.resolve("island.json"),root);
+            root.add("vegetation",GSON.toJsonTree(vegetation));islandCache.write(directory.resolve("island.json"),root,TestingEdits::atomic);
             edits.saveProvenance();
         }
         void event(String action,String value) {
@@ -116,6 +119,8 @@ public final class TestingServer {
                 if(!enabled(server,"weather")) server.setWeatherParameters(6000,0,false,false);
                 try {c.edits.saveProvenance();} catch(IOException e) {c.message="Ошибка сохранения лаборатории: "+e.getMessage();LOG.error(c.message,e);}
             }
+            // Publish only final shared settings, after temporary actor scopes restore their owner.
+            c.presentation=TestingPresentation.capture(c.settings,c.presentation);
         });
         net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents.BEFORE.register((world,player,pos,state,entity)->!busy(world.getServer()));
         net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents.AFTER.register((world,player,pos,state,entity)->authored(world,pos));
@@ -150,6 +155,7 @@ public final class TestingServer {
         Context c=STATES.get(server);return c!=null&&c.settings.enabled(module);
     }
     public static TestingSettings settings(MinecraftServer server) {Context c=server==null?null:STATES.get(server);return c==null?OFF:c.settings;}
+    public static TestingPresentation presentation(MinecraftServer server) {Context c=server==null?null:STATES.get(server);return c==null?TestingPresentation.neutral():c.presentation;}
     public static String value(MinecraftServer server,String key) {
         Context c=STATES.get(server);if(c==null)return OFF.value(key);
         if(key.equals("scene_selected"))return TestingScene.selected(server);
@@ -441,7 +447,7 @@ public final class TestingServer {
     public static void authored(net.minecraft.world.level.Level level,BlockPos pos) {
         if(level.isClientSide()||level.getServer()==null)return;Context c=STATES.get(level.getServer());if(c==null)return;
         String previous=c.edits.origins.get(pos.asLong());
-        c.edits.origins.put(pos.asLong(),("building".equals(previous)||"object".equals(previous))?previous:category(level.getBlockState(pos)));c.event("author",pos.toShortString());
+        c.edits.setOrigin(pos.asLong(),("building".equals(previous)||"object".equals(previous))?previous:category(level.getBlockState(pos)));c.event("author",pos.toShortString());
     }
     public static void applyBatch(MinecraftServer server,String label,Map<BlockPos,BlockState> states,
             Map<BlockPos,net.minecraft.nbt.CompoundTag> entities,String origin) throws IOException {

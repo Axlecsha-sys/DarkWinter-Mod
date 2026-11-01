@@ -1,0 +1,54 @@
+// Generates a checkout-independent identity for production code, assets and build configuration.
+import groovy.json.JsonOutput
+import java.nio.charset.StandardCharsets
+import java.security.MessageDigest
+import org.gradle.api.tasks.*
+
+@CacheableTask
+abstract class GeneratePerformanceIdentity extends DefaultTask {
+    @InputFiles @PathSensitive(PathSensitivity.RELATIVE)
+    abstract ConfigurableFileCollection getProductionInputs()
+    @Internal abstract DirectoryProperty getSourceRoot()
+    @Input abstract Property<String> getGameVersion()
+    @Input abstract Property<String> getModVersion()
+    @OutputDirectory abstract DirectoryProperty getOutputDirectory()
+
+    @TaskAction
+    void generate() {
+        File root = sourceRoot.get().asFile
+        def digest = MessageDigest.getInstance('SHA-256')
+        def textExtensions = ['java','json','gradle','properties','glsl','fsh','vsh','txt','mcmeta','toml','accesswidener','c','cc','cpp','cxx','h','hpp','cmake'] as Set
+        productionInputs.files.findAll { it.isFile() }.sort { input -> root.toPath().relativize(input.toPath()).toString().replace('\\','/') }.each { input ->
+            def relative = root.toPath().relativize(input.toPath()).toString().replace('\\','/')
+            byte[] bytes = input.bytes
+            def extension = input.name.contains('.') ? input.name.substring(input.name.lastIndexOf('.')+1) : ''
+            if (textExtensions.contains(extension)) {
+                bytes = new String(bytes, StandardCharsets.UTF_8).replace('\r\n','\n').getBytes(StandardCharsets.UTF_8)
+            }
+            digest.update(relative.getBytes(StandardCharsets.UTF_8))
+            digest.update((byte)0)
+            digest.update(bytes)
+            digest.update((byte)0)
+        }
+        File output = outputDirectory.file('darkwinter-performance-build.json').get().asFile
+        output.parentFile.mkdirs()
+        output.setText(JsonOutput.toJson([schema:1,sourceHash:digest.digest().encodeHex().toString(),
+            minecraftVersion:gameVersion.get(),modVersion:modVersion.get(),javaRelease:25]),'UTF-8')
+    }
+}
+
+def identity = tasks.register('generatePerformanceIdentity', GeneratePerformanceIdentity) {
+    productionInputs.from(fileTree('src/main/java'),fileTree('src/main/resources'),
+        fileTree('src/client/java'),fileTree('src/client/resources'),
+        fileTree('modules/darkwinter-visuals/src/client'),
+        fileTree('experiments/voxel-faces/native'),fileTree('experiments/light-prefix/native'),
+        files('build.gradle','settings.gradle','gradle.properties','gradle/performance.gradle','gradle/client-runtime.gradle',
+              'gradle/voxel-faces.gradle','gradle/light-prefix.gradle',
+              'modules/darkwinter-visuals/module.gradle','modules/darkwinter-visuals/config/pipeline_contract.json'))
+    sourceRoot = layout.projectDirectory
+    gameVersion = providers.gradleProperty('minecraft_version')
+    modVersion = providers.gradleProperty('version')
+    outputDirectory = layout.buildDirectory.dir('generated/performance-resources')
+}
+sourceSets.main.resources.srcDir(identity.flatMap { it.outputDirectory })
+tasks.named('processResources') { dependsOn(identity) }

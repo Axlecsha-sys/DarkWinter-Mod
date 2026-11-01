@@ -1,0 +1,59 @@
+// Select an optional local client runtime profile without changing server or Gradle JVMs.
+import java.util.Locale
+import java.util.Properties
+
+def runtimeProfile = new Properties()
+def profileText = providers.fileContents(layout.projectDirectory.file(
+    'run/config/darkwinter/client-runtime.properties')).asText.orNull
+if (profileText != null) runtimeProfile.load(new StringReader(profileText))
+def allowedKeys = ['gc', 'heap', 'backend'] as Set
+if (runtimeProfile.stringPropertyNames().any { !allowedKeys.contains(it) }) {
+    throw new GradleException('Unknown key in local client runtime profile; use gc, heap and backend.')
+}
+def setting = { String property, String key, String fallback ->
+    def override = providers.gradleProperty(property)
+    override.isPresent() ? override.get().trim() : runtimeProfile.getProperty(key, fallback).trim()
+}
+def collector = setting('darkwinter.clientGc', 'gc', 'system').toLowerCase(Locale.ROOT)
+def heap = setting('darkwinter.clientHeap', 'heap', '')
+def backend = setting('darkwinter.graphicsBackend', 'backend', 'SYSTEM').toUpperCase(Locale.ROOT)
+if (!(collector in ['system', 'g1', 'zgc'])) throw new GradleException('Client gc must be system, g1 or zgc.')
+if (!heap.isEmpty() && !(heap ==~ /[1-9][0-9]{0,5}[mMgG]/)) {
+    throw new GradleException('Client heap must be empty or a positive size such as 4G or 4096M.')
+}
+if (!(backend in ['SYSTEM', 'OPENGL', 'VULKAN'])) {
+    throw new GradleException('Client backend must be SYSTEM, OPENGL or VULKAN.')
+}
+def inheritedOptions = ['JAVA_TOOL_OPTIONS', 'JDK_JAVA_OPTIONS', '_JAVA_OPTIONS'].collect {
+    providers.environmentVariable(it).orElse('').get()
+}.join(' ')
+loom.runs.named('client') {
+    def existing = (getVmArgs().join(' ') + ' ' + inheritedOptions)
+    def collectors = (existing =~ /-XX:\+Use[A-Za-z0-9]+GC/).findAll().unique()
+    String requested = collector == 'g1' ? '-XX:+UseG1GC' : '-XX:+UseZGC'
+    if (collector != 'system') {
+        String disabled = requested.replace(':+', ':-')
+        if (collectors.any { it != requested } || existing.contains(disabled)) {
+            throw new GradleException('Conflicting inherited client collector; remove it or use gc=system.')
+        }
+        if (!collectors.contains(requested)) vmArg requested
+    }
+    if (!heap.isEmpty()) {
+        if (existing =~ /(?:-Xmx\S+|-XX:MaxHeapSize=\S+)/) {
+            throw new GradleException('Existing client heap limit conflicts with the local profile; use an empty heap or remove that limit.')
+        }
+        vmArg '-Xmx' + heap
+    }
+    if (backend != 'SYSTEM') {
+        def args = getProgramArgs()
+        int index = args.indexOf('--graphicsBackend')
+        if (index >= 0) {
+            if (index + 1 >= args.size() || args[index + 1] != backend) {
+                throw new GradleException('Existing client graphics backend conflicts with the local profile.')
+            }
+        } else {
+            programArg '--graphicsBackend'
+            programArg backend
+        }
+    }
+}

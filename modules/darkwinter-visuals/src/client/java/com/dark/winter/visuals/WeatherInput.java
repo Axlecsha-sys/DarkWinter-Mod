@@ -31,18 +31,20 @@ public final class WeatherInput {
         return snapshot(vanillaRainBrightness,1);
     }
     public static State snapshot(float vanillaRainBrightness,float partialTicks) {
+        return snapshot(vanillaRainBrightness,partialTicks,com.dark.winter.client.TestingAccess.presentation());
+    }
+    public static State snapshot(float vanillaRainBrightness,float partialTicks,com.dark.winter.testing.TestingPresentation lab) {
         State state=override;
         if(state!=null) return state;
-        var lab=com.dark.winter.client.TestingAccess.settings();
         if(lab!=null && !lab.enabled("weather")) {
             // The atmosphere and film do not select a weather sky. Keep independent wind and snowfall inputs.
-            WeatherValues independent=WeatherClient.sample(partialTicks);
+            WeatherValues independent=WeatherClient.sample(partialTicks,lab);
             float clear=range(vanillaRainBrightness,0,1);
             return new State(1-clear,independent.snowfall(),independent.windSpeed(),
                     independent.windX(),independent.windZ(),1,clear,0,1,1,0,0);
         }
-        if(WeatherClient.active()) {
-            WeatherValues weather=WeatherClient.sample(partialTicks);
+        if(WeatherClient.active(lab)) {
+            WeatherValues weather=WeatherClient.sample(partialTicks,lab);
             return new State(weather.cloudCover(),weather.snowfall(),weather.windSpeed(),
                     weather.windX(),weather.windZ(),weather.fogMultiplier(),weather.sunVisibility(),
                     weather.cloudRoundness(),weather.cloudScale(),weather.cloudStretch(),weather.fogBlue(),weather.skyBlue());

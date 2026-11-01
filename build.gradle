@@ -104,8 +104,20 @@ publishing {
 // Include the visual renderer source module.
 apply from: 'modules/darkwinter-visuals/module.gradle'
 
+// Bind diagnostic reports to the exact production source and assets.
+apply from: 'gradle/performance.gradle'
+
+// Optional ignored profile affects only the normal development client.
+apply from: 'gradle/client-runtime.gradle'
+
 // Load optional local development tasks only when their infrastructure is installed.
 def developmentScript = file('tools/gradle/development.gradle')
 if (file('tools').isDirectory() && file('tests').isDirectory() && developmentScript.isFile()) {
     apply from: developmentScript
 }
+
+// Opt-in standalone Java/C++ voxel experiment. No production classes or libraries added.
+apply from: 'gradle/voxel-faces.gradle'
+
+// Detached block-light prefix prototype; native compilation requires an explicit opt-in task.
+apply from: 'gradle/light-prefix.gradle'

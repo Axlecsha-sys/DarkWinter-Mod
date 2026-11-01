@@ -6,4 +6,6 @@ import org.joml.Matrix4fc;
 /** Shadow preparation reads compiled chunk sections, not world block data. */
 public interface SceneAccess {
     ChunkSectionsToRender darkwinter$prepareShadowTerrain(Matrix4fc lightView, Matrix4f lightClip);
+    /** Releases only this visual owner's resources, without resetting native world state. */
+    void darkwinter$releaseVisualResources(VisualRenderer expectedOwner);
 }

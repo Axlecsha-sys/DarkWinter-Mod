@@ -1,0 +1,101 @@
+// Builds only the explicit detached light experiment; ordinary build/client tasks do not depend on it.
+import groovy.json.JsonOutput
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import java.security.MessageDigest
+
+def nativeSource=file('experiments/light-prefix/native')
+def windows=System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('win')
+def mac=System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('mac')
+def libraryName=windows?'dw_light_prefix.dll':mac?'libdw_light_prefix.dylib':'libdw_light_prefix.so'
+def output=layout.buildDirectory.file('light-prefix/bin/'+libraryName)
+def receipt=layout.buildDirectory.file('light-prefix/bin/build-receipt.json')
+def zig=layout.buildDirectory.file('voxel-faces/toolchains/zig-0.14.1/zig.exe')
+def zigMarker=layout.buildDirectory.file('voxel-faces/toolchains/zig-0.14.1/.install-complete')
+def archiveSha='554f5378228923ffd558eac35e21af020c73789d87afeabf4bfd16f2e6feed2c'
+def compilerSha='1ddf230367e07738c4a769eae66c1db7469e37bd520e81c86356453d0db2b9fd'
+
+tasks.register('lightPrefixBuildNative') {
+    group='verification'
+    description='Build the detached block-light increase prototype and record source/toolchain/artifact hashes.'
+    notCompatibleWithConfigurationCache('Explicit local native compiler invocation writes an owned build receipt.')
+    inputs.files(new File(nativeSource,'dw_light_prefix.h'),new File(nativeSource,'dw_light_prefix.cpp'),
+            new File(nativeSource,'CMakeLists.txt'),file('gradle/light-prefix.gradle'))
+    inputs.property('abi',1)
+    inputs.property('os',System.getProperty('os.name'))
+    inputs.property('architecture',System.getProperty('os.arch'))
+    if(windows){
+        inputs.file(zig).optional()
+        inputs.file(zigMarker).optional()
+        inputs.property('verifiedCompilerSha256',compilerSha)
+    }
+    outputs.file(output)
+    outputs.file(receipt)
+    // External non-Windows CMake/compiler installation changes are not fingerprinted by this task.
+    outputs.upToDateWhen { windows }
+    doLast {
+        File root=projectDir.canonicalFile
+        File destination=output.get().asFile.canonicalFile
+        if(!destination.toPath().startsWith(new File(root,'build/light-prefix/bin').canonicalFile.toPath()))
+            throw new GradleException('Light-prefix output must stay in its owned build directory.')
+        def sha={File path->
+            def digest=MessageDigest.getInstance('SHA-256')
+            path.withInputStream { stream->
+                byte[] bytes=new byte[65536]
+                int count
+                while((count=stream.read(bytes))!=-1)digest.update(bytes,0,count)
+            }
+            digest.digest().encodeHex().toString()
+        }
+        def relative={File path->root.toPath().relativize(path.toPath()).toString().replace('\\','/')}
+        Map<String,String> sourceHashes=new TreeMap<>()
+        inputs.files.files.findAll { it.isFile() && it.toPath().startsWith(nativeSource.toPath()) }.each {
+            sourceHashes[relative(it.canonicalFile)]=sha(it)
+        }
+        sourceHashes['gradle/light-prefix.gradle']=sha(file('gradle/light-prefix.gradle'))
+        List<List<String>> commands=[]
+        def runCommand={List<String> command->
+            commands.add(List.copyOf(command))
+            def process=new ProcessBuilder(command).directory(root).redirectErrorStream(true).start()
+            String text=process.inputStream.getText('UTF-8')
+            int exit=process.waitFor()
+            if(!text.isBlank())logger.lifecycle(text.trim())
+            if(exit!=0)throw new GradleException('Light-prefix native command failed with exit '+exit+'.')
+            text.trim()
+        }
+        destination.parentFile.mkdirs()
+        Map<String,Object> toolchain=new LinkedHashMap<>()
+        if(windows){
+            File compiler=zig.get().asFile
+            File marker=zigMarker.get().asFile
+            if(!compiler.isFile()||!marker.isFile())
+                throw new GradleException('Existing verified Zig0.14.1 is required under build/voxel-faces/toolchains; this task never downloads it.')
+            if(marker.readLines('UTF-8')!=['zig 0.14.1',archiveSha]||sha(compiler)!=compilerSha)
+                throw new GradleException('Existing Zig installation identity does not match the verified Windows x64 toolchain.')
+            String version=runCommand([compiler.absolutePath,'version'])
+            if(version!='0.14.1')throw new GradleException('Expected existing Zig0.14.1.')
+            toolchain=[name:'Zig',version:version,archiveSha256:archiveSha,executableSha256:compilerSha]
+            runCommand([compiler.absolutePath,'c++','-std=c++17','-O3','-fno-fast-math','-ffp-contract=off','-Wall','-Wextra','-Wpedantic',
+                    '-target','x86_64-windows-gnu','-shared',
+                    new File(nativeSource,'dw_light_prefix.cpp').absolutePath,'-o',destination.absolutePath])
+        }else{
+            File cmakeBuild=layout.buildDirectory.dir('light-prefix/cmake').get().asFile
+            cmakeBuild.mkdirs()
+            toolchain=[name:'CMake',version:runCommand(['cmake','--version']),validation:'NOT_VALIDATED_ON_THIS_PLATFORM']
+            runCommand(['cmake','-S',nativeSource.absolutePath,'-B',cmakeBuild.absolutePath,'-DCMAKE_BUILD_TYPE=Release'])
+            runCommand(['cmake','--build',cmakeBuild.absolutePath,'--config','Release','--parallel','2'])
+            File built=fileTree(cmakeBuild).files.find { it.name==libraryName && it.parentFile.name=='Release' } ?:
+                    fileTree(cmakeBuild).files.find { it.name==libraryName }
+            if(built==null)throw new GradleException('CMake did not produce the expected light-prefix library.')
+            Files.copy(built.toPath(),destination.toPath(),StandardCopyOption.REPLACE_EXISTING)
+        }
+        if(!destination.isFile()||destination.length()==0)throw new GradleException('Light-prefix library is missing or empty.')
+        Map<String,Object> evidence=[schema:1,experiment:'DVCPP-004 detached scalar block-light increase prefix',
+                abi:1,sourceSha256:sourceHashes,toolchain:toolchain,commands:commands,
+                output:[path:relative(destination),bytes:destination.length(),sha256:sha(destination)],
+                validation:'BUILD_ONLY; run the independent oracle against this exact artifact before use',
+                liveEngineIntegration:false,modJarBundled:false]
+        receipt.get().asFile.setText(JsonOutput.prettyPrint(JsonOutput.toJson(evidence))+'\n','UTF-8')
+        logger.lifecycle('Detached light-prefix artifact: '+destination.absolutePath)
+    }
+}

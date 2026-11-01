@@ -17,6 +17,7 @@ public final class SceneFrame {
     public final Vector3f sun = new Vector3f(0,1,0);
     public VisualConfig config;
     public WeatherInput.State weather;
+    public com.dark.winter.testing.TestingPresentation lab;
     public boolean shadowValid, inFluid, weatherSky, atmosphereAllowed, backgroundAvailable;
     public float intensity, timeSeconds, cameraHeight, cameraX, cameraZ, clipRange;
 
@@ -25,18 +26,21 @@ public final class SceneFrame {
     public float filmDeltaSeconds, filmHeldAgeSeconds, filmFieldPhase;
 
     public void write(ByteBuffer buffer) {
-        if (buffer.capacity()<BYTES) throw new IllegalArgumentException("DarkWinterScene requires "+BYTES+" bytes");
+        // JOML writes native memory directly; heap/read-only views must never reach its Unsafe path.
+        // The layout uses absolute offsets from zero, independently of the caller position.
+        if (!buffer.isDirect() || buffer.isReadOnly() || buffer.limit()<BYTES)
+            throw new IllegalArgumentException("DarkWinterScene requires a writable direct buffer with limit >= "+BYTES);
         ByteBuffer b=buffer.duplicate().order(ByteOrder.nativeOrder());
         inverseViewProjection.get(0,b);
         shadowFromRelative.get(64,b);
         var q=config.quality;
-        boolean visual=com.dark.winter.client.TestingAccess.enabled("visuals");
-        boolean air=atmosphereAllowed && com.dark.winter.client.TestingAccess.enabled("atmosphere");
-        var settings=com.dark.winter.client.TestingAccess.settings();
+        var settings=this.lab;
+        boolean visual=settings==null||settings.enabled("visuals");
+        boolean air=atmosphereAllowed && (settings==null||settings.enabled("atmosphere"));
         boolean lab=settings!=null;
         vec(b,128,sun.x,sun.y,sun.z,intensity);
         vec(b,144,air?config.fogDensity:0,air?config.maxFog:0,visual?config.shaftStrength:0,config.rayDistance);
-        vec(b,160,q.resolution,2*q.radius/q.resolution,config.depthBiasBlocks/clipRange,lab?settings.shadowStrength:config.shadowStrength);
+        vec(b,160,q.resolution,2*q.radius/q.resolution,config.depthBiasBlocks/clipRange,lab?settings.shadowStrength():config.shadowStrength);
         vec(b,176,weather.cloudCover(),weather.snowfall(),weather.windSpeed(),weather.fogMultiplier());
         vec(b,192,weather.windX(),weather.windZ(),timeSeconds,q.steps);
         int moduleFlags=(config.volume&&visual?1:0)|(weatherSky?2:0)|(backgroundAvailable?4:0);
@@ -45,10 +49,10 @@ public final class SceneFrame {
                 net.minecraft.client.Minecraft.getInstance().options.getEffectiveRenderDistance());
         vec(b,224,cameraX,cameraHeight,cameraZ,terrainDistance);
         vec(b,240,config.flipDepthY?1:0,config.flipShadowY?1:0,clipRange,config.normalOffsetBlocks);
-        vec(b,256,visual?(lab?settings.filmStrength:(config.atmosphere?config.filmStrength:0)):0,config.saturation,config.coldness,config.exposure);
+        vec(b,256,visual?(lab?settings.filmStrength():(config.atmosphere?config.filmStrength:0)):0,config.saturation,config.coldness,config.exposure);
         vec(b,272,config.grain,config.chromaBleed,config.vignette,config.scanlines);
-        boolean haze=air && com.dark.winter.client.TestingAccess.resolve("atmosphere",config.winterHaze);
-        vec(b,288,haze?(lab?settings.hazeDensity:config.hazeDensity):0,config.hazeBaseHeight,
+        boolean haze=air && (settings==null?config.winterHaze:settings.enabled("atmosphere"));
+        vec(b,288,haze?(lab?settings.hazeDensity():config.hazeDensity):0,config.hazeBaseHeight,
                 config.hazeHeightFalloff,config.hazeStartDistance);
         vec(b,304,config.hazeDetailStrength,hazeDriftX,hazeDriftZ,haze?config.hazeAirDensity:0);
         // Horizontal visibility only. Climbing does NOT erase the ground below the player.
@@ -56,7 +60,7 @@ public final class SceneFrame {
         vec(b,320,available*config.hazeEdgeStart,available*config.hazeEdgeEnd,
                 q==VisualConfig.Quality.LOW?4f:6f,haze?1f:0f);
         vec(b,336,weather.cloudRoundness(),weather.cloudScale(),weather.cloudStretch(),weather.skyBlue());
-        var moon=SolarRuntime.currentMoon(net.minecraft.client.Minecraft.getInstance().level);
+        var moon=SolarRuntime.currentMoon(net.minecraft.client.Minecraft.getInstance().level,this.lab);
         // Spare components carry the exact geographic Moon direction; zero selects vanilla fallback.
         vec(b,352,weather.fogBlue(),moon==null?0:(float)moon.x(),moon==null?0:(float)moon.y(),moon==null?0:(float)moon.z());
         // Angular bounds enclose the full textured quad, including crescents and enlarged discs.
