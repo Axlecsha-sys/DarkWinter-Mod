@@ -251,6 +251,9 @@ public final class PerformanceClient {
         values.put("chunkMeshDetailedTiming", Boolean.toString(com.dark.winter.client.fixes.mesh.ChunkMeshRuntime.detailedTiming()));
         values.put("voxelMode", com.dark.winter.client.fixes.voxel.VoxelFaceRuntime.requested().name());
         values.put("voxelEffective", com.dark.winter.client.fixes.voxel.VoxelFaceRuntime.effective());
+        values.put("sectionLightCache", Boolean.toString(com.dark.winter.client.fixes.render.SectionLightCache.enabled()));
+        values.put("sectionLightCacheSlots", Integer.toString(com.dark.winter.client.fixes.render.SectionLightCache.slots()));
+        values.put("sectionLightCachePrimitiveBytesPerCache", Long.toString(com.dark.winter.client.fixes.render.SectionLightCache.enabled() ? com.dark.winter.client.fixes.render.SectionLightCache.primitivePayloadBytes() : 0L));
         values.put("configHash", hash(configuration(client))); values.put("sourceHash", sourceHash());
         values.put("minecraftVersion", net.minecraft.SharedConstants.getCurrentVersion().name());
         values.put("modVersion", modVersion("dark-winter")); values.put("fabricVersion", modVersion("fabricloader"));
@@ -289,6 +292,9 @@ public final class PerformanceClient {
         values.put("chunkMeshDetailedTiming", Boolean.toString(com.dark.winter.client.fixes.mesh.ChunkMeshRuntime.detailedTiming()));
         values.put("voxelMode", com.dark.winter.client.fixes.voxel.VoxelFaceRuntime.requested().name());
         values.put("voxelEffective", com.dark.winter.client.fixes.voxel.VoxelFaceRuntime.effective());
+        values.put("sectionLightCache", com.dark.winter.client.fixes.render.SectionLightCache.enabled());
+        values.put("sectionLightCacheSlots", com.dark.winter.client.fixes.render.SectionLightCache.slots());
+        values.put("sectionLightCachePrimitiveBytesPerCache", com.dark.winter.client.fixes.render.SectionLightCache.enabled() ? com.dark.winter.client.fixes.render.SectionLightCache.primitivePayloadBytes() : 0L);
         if (client.player != null) {
             var camera = client.gameRenderer.mainCamera();
             values.put("camera", String.format(Locale.ROOT, "%.4f,%.4f,%.4f,%.4f,%.4f",
