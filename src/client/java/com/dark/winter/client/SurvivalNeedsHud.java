@@ -20,8 +20,14 @@ public final class SurvivalNeedsHud {
     public static int panelX(int width){return MARGIN;}
     public static int panelY(int width,int height,boolean chat) {
         var p=Minecraft.getInstance().player;
-        boolean reserve=width<620&&p!=null&&(p.getArmorValue()>0||p.getAirSupply()<p.getMaxAirSupply()||p.getVehicle()!=null);
-        return height-HEIGHT-(reserve?52:chat?24:MARGIN);
+        int bottom=chat?24:MARGIN;
+        // The custom instrument intersects the centered native HUD only in narrow viewports.
+        // Testing keeps its real 1-9 hotbar even when the custom instruments are enabled.
+        boolean intersectsNative=panelX(width)+panelWidth(width)+16>width/2-91;
+        if(intersectsNative&&TestingWorlds.isTesting()) bottom=Math.max(bottom,32);
+        if(intersectsNative&&p!=null&&(!p.hasInfiniteMaterials()||p.getArmorValue()>0
+                ||p.getAirSupply()<p.getMaxAirSupply()||p.getVehicle()!=null)) bottom=Math.max(bottom,52);
+        return Math.max(MARGIN,height-HEIGHT-bottom);
     }
     public static int chatBottom(int width,int height){return panelY(width,height,Minecraft.getInstance().gui.screen() instanceof ChatScreen)-8;}
     public static void render(GuiGraphicsExtractor g) {

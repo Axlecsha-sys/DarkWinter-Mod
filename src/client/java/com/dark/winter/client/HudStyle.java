@@ -72,6 +72,7 @@ public final class HudStyle {
     }
     public static void text(GuiGraphicsExtractor g,String s,float x,float y,float scale,int color){text(g,Component.literal(s),x,y,scale,color);}
     public static void fit(GuiGraphicsExtractor g,Component text,float x,float y,int w,float scale,int color) {
+        if(w<=0||scale<=0)return;
         text(g,MenuText.fit(font(text),Math.max(0,(int)(w/(scale*TEXT_WIDTH)))),x,y,scale,color);
     }
     public static void centered(GuiGraphicsExtractor g,Component text,int center,int y,float scale,int color){text(g,text,center-width(text)*scale/2,y,scale,color);}
@@ -79,7 +80,7 @@ public final class HudStyle {
         paragraph(g,text,x,y,width,scale,color,Integer.MAX_VALUE);
     }
     public static void paragraph(GuiGraphicsExtractor g,Component text,int x,int y,int width,float scale,int color,int maxLines) {
-        if(width<=0||maxLines<=0) return;
+        if(width<=0||scale<=0||maxLines<=0) return;
         var f=Minecraft.getInstance().font;
         g.pose().pushMatrix();g.pose().translate(x,y);g.pose().scale(scale*TEXT_WIDTH,scale);
         int lineY=0,count=0;

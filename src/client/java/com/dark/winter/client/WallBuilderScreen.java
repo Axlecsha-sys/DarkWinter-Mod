@@ -199,20 +199,20 @@ public final class WallBuilderScreen extends Screen implements LabUiProvider {
             g.outline(x, y, w, h, edge);
             if (selected || highlighted) g.fill(x + 1, y + 1, x + w - 1, y + 3, edge);
             HudStyle.centered(g, getMessage(), x + w / 2, y + 7, .9f, selected ? HudStyle.STABLE : HudStyle.INK);
-            int cell = Math.max(3, Math.min(12, Math.min((w - 18) / shape.width(), (h - 38) / shape.height())));
+            int cell = Math.max(1, Math.min(12, Math.min((w - 18) / shape.width(), (h - 38) / shape.height())));
             int gridX = x + (w - shape.width() * cell) / 2;
             int gridY = y + 22 + Math.max(0, (h - 38 - shape.height() * cell) / 2);
             for (int row = 0; row < shape.height(); row++) {
                 for (int col = 0; col < shape.width(); col++) {
                     int sx = gridX + col * cell, sy = gridY + row * cell;
                     g.fill(sx, sy, sx + cell, sy + cell, 0xFF304D5B);
-                    g.fill(sx + 1, sy + 1, sx + cell - 1, sy + cell - 1, selected ? 0xFFABCAD4 : 0xFF7899A8);
+                    if(cell>2) g.fill(sx + 1, sy + 1, sx + cell - 1, sy + cell - 1, selected ? 0xFFABCAD4 : 0xFF7899A8);
                     if (cell > 6) g.fill(sx + 2, sy + 3, sx + cell - 2, sy + 4, 0xFF526F7D);
                 }
             }
             Component status = selected ? Component.translatable("wall.builder.selected")
                     : Component.translatable("wall.builder.segment_count", shape.width() * shape.height());
-            HudStyle.centered(g, status, x + w / 2, y + h - 12, .65f,
+            HudStyle.centered(g, MenuText.fit(HudStyle.font(status),(int)((w-10)/.65f)), x + w / 2, y + h - 12, .65f,
                     selected ? HudStyle.STABLE : HudStyle.MUTED);
         }
     }

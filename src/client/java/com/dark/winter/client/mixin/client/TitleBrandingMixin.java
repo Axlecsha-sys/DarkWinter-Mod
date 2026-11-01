@@ -24,10 +24,10 @@ public abstract class TitleBrandingMixin extends Screen {
     @Inject(method="init",at=@At("TAIL"))
     private void darkwinter$singleplayerMenu(CallbackInfo ci) {
         addRenderableWidget(net.minecraft.client.gui.components.Button.builder(Component.translatable("menu.darkwinter.interface"),b->minecraft.gui.setScreen(new com.dark.winter.client.UiPreferencesScreen((Screen)(Object)this))).build());
-        addRenderableWidget(net.minecraft.client.gui.components.Button.builder(Component.literal("Соединения"),
+        addRenderableWidget(net.minecraft.client.gui.components.Button.builder(Component.translatable("menu.darkwinter.connections.short"),
                 b->com.dark.winter.client.online.FriendsScreen.open((Screen)(Object)this)).build());
         int left=MenuStyle.left(width),w=MenuStyle.rowWidth(width),step=MenuStyle.rowStep(height),small=0;
-        int top=Math.max(65,Math.min(MenuStyle.menuTop(height),height-5*step-42));
+        int top=MenuStyle.titleMenuTop(height);
         for(var child:new java.util.ArrayList<>(children())) if(child instanceof AbstractWidget widget) {
             String label=widget.getMessage().getString();
             if(widget instanceof FriendsButton || label.equals(Component.translatable("menu.multiplayer").getString())
@@ -35,7 +35,7 @@ public abstract class TitleBrandingMixin extends Screen {
                 removeWidget(widget); continue;
             }
             int row=label.equals(Component.translatable("menu.singleplayer").getString())?0
-                    :label.equals("Соединения")?1
+                    :MenuStyle.key(widget,"menu.darkwinter.connections.short")?1
                     :label.equals(Component.translatable("menu.options").getString())?2
                     :label.equals(Component.translatable("menu.darkwinter.interface").getString())?3
                     :label.equals(Component.translatable("menu.quit").getString())?4:-1;

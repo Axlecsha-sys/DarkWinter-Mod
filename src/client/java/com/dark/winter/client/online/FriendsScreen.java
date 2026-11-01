@@ -6,6 +6,7 @@ import com.dark.winter.client.MenuStyle;
 import com.dark.winter.client.TestingWorlds;
 import com.dark.winter.online.signaling.IslandJoinFailure;
 import com.dark.winter.client.lab.LabUiProvider;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.google.gson.*;
 import java.util.*;
 import java.util.function.BooleanSupplier;
@@ -54,7 +55,8 @@ public final class FriendsScreen extends Screen implements LabUiProvider {
     private AbstractWidget pendingFocus;
     private int panelLeft,panelWidth,panelBottom,contentTop,contentBottom,cursor,scroll,contentHeight,refreshTicks;
 
-    public FriendsScreen(Screen parent){super(Component.literal("Соединения DarkWinter"));this.parent=parent;}
+    private static String tr(String key,Object... args){return Component.translatable("menu.darkwinter.connections."+key,args).getString();}
+    public FriendsScreen(Screen parent){super(Component.literal(tr("title")));this.parent=parent;}
     public static void open(Screen parent){
         Minecraft client=Minecraft.getInstance();
         if(client.level==null||TestingWorlds.isTesting()||flag(object(read(),"session"),"active",false))
@@ -69,6 +71,16 @@ public final class FriendsScreen extends Screen implements LabUiProvider {
     public int panelBottom(){return panelBottom;}
     public PreviewRect previewRectangle(){return null;}
 
+    @Override protected void rebuildWidgets(){
+        AbstractWidget focused=getFocused() instanceof AbstractWidget widget?widget:null;
+        super.rebuildWidgets();
+        if(pendingFocus==null&&focused!=null){
+            for(var child:children())if(child instanceof AbstractWidget widget&&widget.active
+                    &&widget.getClass()==focused.getClass()&&widget.getMessage().equals(focused.getMessage())){
+                reveal(widget);setFocused(widget);break;
+            }
+        }
+    }
     @Override protected void init(){
         view=read();fingerprint=viewFingerprint(view);
         panelWidth=minecraft.level==null?Math.min(560,width-24):Math.min(380,Math.max(224,width/2));
@@ -78,21 +90,21 @@ public final class FriendsScreen extends Screen implements LabUiProvider {
         if((page==Page.DETAILS||page==Page.ISLAND||page==Page.ISLAND_JOIN)&&selectedRow().isEmpty())page=Page.LIST;
         int half=(panelWidth-20)/2;
         if(page==Page.LIST){
-            fixed("Создать",panelLeft+8,48,half,()->show(Page.CREATE));
-            fixed("Присоединиться",panelLeft+12+half,48,half,()->show(Page.JOIN));
+            fixed(tr("create"),panelLeft+8,48,half,()->show(Page.CREATE));
+            fixed(tr("join"),panelLeft+12+half,48,half,()->show(Page.JOIN));
         }else if(page==Page.CREATE||page==Page.JOIN){
-            fixed("‹ Соединения",panelLeft+8,48,panelWidth-16,()->show(Page.LIST));
+            fixed(tr("back_connections"),panelLeft+8,48,panelWidth-16,()->show(Page.LIST));
         }else if(page==Page.DETAILS){
-            fixed("‹ Соединения",panelLeft+8,48,half,()->show(Page.LIST));
-            Button island=fixed("Остров",panelLeft+12+half,48,half,()->show(Page.ISLAND));
+            fixed(tr("back_connections"),panelLeft+8,48,half,()->show(Page.LIST));
+            Button island=fixed(tr("island"),panelLeft+12+half,48,half,()->show(Page.ISLAND));
             island.active=flag(selectedRow(),"active",false);
-            if(!island.active)island.setTooltip(Tooltip.create(Component.literal("Сначала подключитесь к этому соединению.")));
+            if(!island.active)island.setTooltip(Tooltip.create(Component.literal(tr("connect_first"))));
         }else{
-            fixed("‹ Соединение",panelLeft+8,48,half,()->show(Page.DETAILS));
-            fixed("Участники",panelLeft+12+half,48,half,()->show(Page.DETAILS));
+            fixed(tr("back_connection"),panelLeft+8,48,half,()->show(Page.DETAILS));
+            fixed(tr("members"),panelLeft+12+half,48,half,()->show(Page.DETAILS));
         }
-        fixed(minecraft.level==null?"Назад":"В мир",panelLeft+8,panelBottom-23,half,this::onClose);
-        fixed("Обновить",panelLeft+12+half,panelBottom-23,half,this::rebuildWidgets);
+        fixed(minecraft.level==null?tr("back"):tr("return_world"),panelLeft+8,panelBottom-23,half,this::onClose);
+        fixed(tr("refresh"),panelLeft+12+half,panelBottom-23,half,this::rebuildWidgets);
         cursor=contentTop-scroll;
         switch(page){
             case LIST->list();case CREATE->create();case JOIN->join();case DETAILS->details();case ISLAND->island();case ISLAND_JOIN->islandJoin();
@@ -110,8 +122,25 @@ public final class FriendsScreen extends Screen implements LabUiProvider {
             for(int i=0;i<lines.size();i++){Line line=lines.get(i);lines.set(i,new Line(line.text(),line.y()+offset,line.color()));}
             for(AbstractWidget widget:content)widget.setY(widget.getY()+offset);
         }
-        for(AbstractWidget widget:content)widget.visible=widget.getY()>=contentTop&&widget.getBottom()<=contentBottom;
+        updateVisibility();
         refreshGates();
+    }
+    private void updateVisibility(){
+        for(AbstractWidget widget:content)widget.visible=widget.getY()>=contentTop&&widget.getBottom()<=contentBottom;
+    }
+    /** Move existing controls: scrolling must not reconstruct a field or discard its caret/selection. */
+    private void scrollTo(int requested){
+        int next=Math.clamp(requested,0,Math.max(0,contentHeight-(contentBottom-contentTop)));
+        if(next==scroll)return;
+        int offset=scroll-next;scroll=next;
+        for(int i=0;i<lines.size();i++){Line line=lines.get(i);lines.set(i,new Line(line.text(),line.y()+offset,line.color()));}
+        for(AbstractWidget widget:content)widget.setY(widget.getY()+offset);
+        updateVisibility();
+    }
+    private void reveal(AbstractWidget widget){
+        if(!content.contains(widget))return;
+        if(widget.getY()<contentTop)scrollTo(scroll+widget.getY()-contentTop);
+        else if(widget.getBottom()>contentBottom)scrollTo(scroll+widget.getBottom()-contentBottom);
     }
     private Button fixed(String label,int x,int y,int w,Runnable action){
         return addRenderableWidget(Button.builder(Component.literal(label),unused->action.run()).bounds(x,y,w,18).build());
@@ -124,23 +153,23 @@ public final class FriendsScreen extends Screen implements LabUiProvider {
         Button button=row(title,()->{
             if(!condition.getAsBoolean()){feedback=why;return;}
             try{
-                if(submit(action,args.get())){pendingAction=action;feedback="Выполняется действие…";}
+                if(submit(action,args.get())){pendingAction=action;feedback=tr("busy");}
                 else feedback=actionReason(action);
-            }catch(IllegalArgumentException invalid){feedback="Проверьте заполненные поля.";}
+            }catch(IllegalArgumentException invalid){feedback=tr("check_fields");}
         });
         gates.add(new Gate(button,action,condition,why));return button;
     }
     private String actionReason(String action){
         String known=string(object(view,"capabilityReasons"),action,string(object(view,"reasons"),action,""));
         if(!known.isBlank())return publicText(known);
-        if(flag(view,"busy",false))return "Дождитесь завершения текущего действия.";
-        return action.startsWith("connection_")?"Действие пока недоступно.":OnlineUiBridge.reason(view,action);
+        if(flag(view,"busy",false))return tr("wait");
+        return action.startsWith("connection_")?tr("unavailable"):OnlineUiBridge.reason(view,action);
     }
     private void refreshGates(){
         for(Gate gate:gates){
             boolean valid=gate.condition().getAsBoolean();gate.button().active=valid&&allowed(view,gate.action());
             String reason=valid?actionReason(gate.action()):gate.reason();
-            gate.button().setTooltip(gate.button().active?null:Tooltip.create(Component.literal(reason.isBlank()?"Действие пока недоступно.":reason)));
+            gate.button().setTooltip(gate.button().active?null:Tooltip.create(Component.literal(reason.isBlank()?tr("unavailable"):reason)));
         }
     }
     private void text(String text){text(text,HudStyle.MUTED);}
@@ -151,8 +180,8 @@ public final class FriendsScreen extends Screen implements LabUiProvider {
             if(paragraph.isEmpty()){cursor+=12;continue;}
             String remaining=paragraph;
             while(!remaining.isEmpty()){
-                String part=font.plainSubstrByWidth(remaining,budget);
-                while(!part.isEmpty()&&(font.width(part)>budget||HudStyle.width(Component.literal(part))*.70f>budget))
+                String part=font.substrByWidth(HudStyle.font(Component.literal(remaining)),(int)(budget/.70f)).getString();
+                while(!part.isEmpty()&&HudStyle.width(Component.literal(part))*.70f>budget)
                     part=part.substring(0,part.offsetByCodePoints(part.length(),-1));
                 if(part.isEmpty())part=remaining.substring(0,remaining.offsetByCodePoints(0,1));
                 lines.add(new Line(part,cursor,color));cursor+=12;remaining=remaining.substring(part.length());
@@ -177,10 +206,10 @@ public final class FriendsScreen extends Screen implements LabUiProvider {
     private JsonObject selectedRow(){
         for(JsonObject row:connections())if(selected.equals(string(row,"id","")))return row;return new JsonObject();
     }
-    private static String title(JsonObject row){return string(row,"name","Соединение");}
+    private static String title(JsonObject row){return string(row,"name",tr("connection"));}
     private void show(Page next){
         eraseSecrets();page=next;scroll=0;feedback="";
-        focusRequest=next==Page.CREATE?"Имя соединения":next==Page.JOIN?"Имя соединения":next==Page.ISLAND_JOIN?"Код острова (скрыт)":"";
+        focusRequest=next==Page.CREATE?tr("name"):next==Page.JOIN?tr("name"):next==Page.ISLAND_JOIN?tr("island_code"):"";
         rebuildWidgets();
     }
     private void choose(String id){selected=id;show(Page.DETAILS);}
@@ -188,76 +217,76 @@ public final class FriendsScreen extends Screen implements LabUiProvider {
         approvals();
         if(flag(object(view,"privacy"),"relayOnly",false)){
             text(actionReason("connection_create"),HudStyle.INK);
-            command("Включить автоматическое подключение","privacy_update",()->{
+            command(tr("automatic"),"privacy_update",()->{
                 JsonObject result=args("scope","profile");result.addProperty("key","relayOnly");result.addProperty("value",false);return result;
             });
         }
         List<JsonObject> rows=connections();
-        if(rows.isEmpty()){text("Сохранённых соединений пока нет.");text("Создайте соединение или узнайте у другого участника его имя и пароль.");return;}
+        if(rows.isEmpty()){text(tr("no_connections"));text(tr("get_credentials"));return;}
         for(JsonObject connection:rows){
             String id=string(connection,"id","");if(id.isBlank())continue;
             boolean reachable=flag(connection,"reachable",false);
-            String label=title(connection)+(flag(connection,"active",false)?" • подключено":"");
-            Button entry=row(label,()->choose(id));entry.setTooltip(Tooltip.create(Component.literal(string(connection,"status",reachable?"Доступно":"Не в сети"))));
+            String label=title(connection)+(flag(connection,"active",false)?tr("connected_suffix"):"");
+            Button entry=row(label,()->choose(id));entry.setTooltip(Tooltip.create(Component.literal(string(connection,"status",reachable?tr("reachable"):tr("offline")))));
             indicators.add(new Indicator(entry,reachable));
         }
     }
     private void create(){
-        field("connection_name","Имя соединения",96);
-        if(password==null)password=new PasswordBox(font);privateField(password,"Пароль");
-        Button create=command("Создать соединение","connection_create",()->{
+        field("connection_name",tr("name"),96);
+        if(password==null)password=new PasswordBox(font);privateField(password,tr("password"));
+        Button create=command(tr("create_connection"),"connection_create",()->{
             JsonObject result=args("name",draft.getOrDefault("connection_name","").strip());result.addProperty("password",password.take());return result;
-        },()->validName("connection_name"),"Введите имя: от 1 до 48 символов.");
+        },()->validName("connection_name"),tr("valid_name"));
         create.setHeight(18);cursor-=3;
     }
     private boolean validName(String key){String value=draft.getOrDefault(key,"").strip();return !value.isEmpty()&&value.codePointCount(0,value.length())<=48;}
     private void join(){
-        field("join_name","Имя соединения",96);
-        if(password==null)password=new PasswordBox(font);privateField(password,"Пароль (если требуется)");
-        Button join=command("Присоединиться к соединению","connection_join",()->{
+        field("join_name",tr("name"),96);
+        if(password==null)password=new PasswordBox(font);privateField(password,tr("optional_password"));
+        Button join=command(tr("join_connection"),"connection_join",()->{
             JsonObject result=args("name",draft.getOrDefault("join_name","").strip());result.addProperty("password",password.take());return result;
-        },()->validName("join_name"),"Введите имя: от 1 до 48 символов.");
+        },()->validName("join_name"),tr("valid_name"));
         join.setHeight(18);cursor-=3;
     }
     private void details(){
         approvals();
         JsonObject connection=selectedRow();boolean active=flag(connection,"active",false),reachable=flag(connection,"reachable",false);
-        if(active)copy("Скопировать имя",()->string(selectedRow(),"name",""));
-        else command("Подключиться","connection_open",()->args("id",selected));
-        heading("Участники");
+        if(active)copy(tr("copy_name"),()->string(selectedRow(),"name",""));
+        else command(tr("connect"),"connection_open",()->args("id",selected));
+        heading(tr("members"));
         List<JsonObject> members=records(array(connection,"members"));
-        if(members.isEmpty())text(reachable?"Список участников ещё не получен.":"Участники недоступны.");
+        if(members.isEmpty())text(reachable?tr("members_pending"):tr("members_unavailable"));
         for(JsonObject member:members){
-            String name=string(member,"name","Участник")+(flag(member,"self",false)?" (вы)":"");
+            String name=string(member,"name",tr("member"))+(flag(member,"self",false)?tr("self_suffix"):"");
             text(name,reachable&&flag(member,"online",false)?0xFF78D99C:HudStyle.MUTED);
         }
-        if(active)command("Отключиться от соединения","connection_close",JsonObject::new);
-        else command("Забыть соединение","connection_forget",()->args("id",selected));
+        if(active)command(tr("disconnect"),"connection_close",JsonObject::new);
+        else command(tr("forget"),"connection_forget",()->args("id",selected));
     }
     private void island(){
         approvals();
         JsonObject connection=selectedRow();
-        if(!flag(connection,"active",false)){text("Сначала подключитесь к соединению.");return;}
+        if(!flag(connection,"active",false)){text(tr("connect_before_island"));return;}
         JsonObject session=object(view,"session");
         if(!flag(session,"active",false)){
             String sessionStatus=safeSessionStatus(session),phase=safeSessionPhase(session);
             if(!sessionStatus.isBlank()&&(!phase.equals("offline")||!Set.of("Совместный сеанс не открыт.","Совместный сеанс закрыт.").contains(sessionStatus)))
                 text(sessionStatus,HudStyle.INK);
-            command("Открыть остров для игры","online_host",()->{
+            command(tr("open_island"),"online_host",()->{
                 JsonObject result=new JsonObject();result.addProperty("limit",8);result.addProperty("privacy","invited");result.addProperty("trustedLead","");return result;
             });
-            Button enter=row("Ввести код острова",()->show(Page.ISLAND_JOIN));
-            gates.add(new Gate(enter,"connect_invite",()->minecraft.level==null,"Сначала сохраните и закройте текущий мир."));
-            text("Откройте свой тестовый остров для игры или введите приглашение от ведущего.");
+            Button enter=row(tr("enter_code"),()->show(Page.ISLAND_JOIN));
+            gates.add(new Gate(enter,"connect_invite",()->minecraft.level==null,tr("close_world")));
+            text(tr("island_help"));
         }else{
-            text(string(session,"status","Сеанс острова открыт."));
-            command("Создать приглашение на остров","invite_create",()->{
+            text(string(session,"status",tr("island_active")));
+            command(tr("create_invitation"),"invite_create",()->{
                 JsonObject result=args("recipient","");result.addProperty("role","tester");result.addProperty("ttlMinutes",30);
                 result.addProperty("maxUses",1);result.addProperty("oneUse",true);result.addProperty("approval",true);return result;
             });
-            copy("Скопировать выданное приглашение",this::islandCode);
-            text("Приглашение даёт роль тестировщика. Ведущий подтверждает вход.");
-            command("Завершить сеанс острова","online_close",JsonObject::new);
+            copy(tr("copy_invitation"),this::islandCode);
+            text(tr("invitation_help"));
+            command(tr("close_island"),"online_close",JsonObject::new);
         }
     }
     private String islandCode(){
@@ -276,21 +305,21 @@ public final class FriendsScreen extends Screen implements LabUiProvider {
         String sessionStatus=safeSessionStatus(object(view,"session"));
         if(!sessionStatus.isBlank()&&!Set.of("Совместный сеанс не открыт.","Совместный сеанс закрыт.").contains(sessionStatus))
             text(sessionStatus,HudStyle.INK);
-        if(invitationCode==null)invitationCode=new InvitationCodeBox(font);privateField(invitationCode,"Код острова (скрыт)");
-        command("Войти на остров","connect_invite",()->args("code",invitationCode.take().strip()),
-                ()->invitationCode!=null&&invitationCode.hasSecret()&&minecraft.level==null,"Вставьте приглашение и закройте текущий мир.");
+        if(invitationCode==null)invitationCode=new InvitationCodeBox(font);privateField(invitationCode,tr("island_code"));
+        command(tr("join_island"),"connect_invite",()->args("code",invitationCode.take().strip()),
+                ()->invitationCode!=null&&invitationCode.hasSecret()&&minecraft.level==null,tr("paste_invitation"));
     }
     private void copy(String label,Supplier<String> source){
-        row(label,()->{view=read();String actual=source.get();if(!actual.isBlank()){minecraft.keyboardHandler.setClipboard(actual);feedback="Скопировано.";}})
+        row(label,()->{view=read();String actual=source.get();if(!actual.isBlank()){minecraft.keyboardHandler.setClipboard(actual);feedback=tr("copied");}})
                 .active=!source.get().isBlank();
     }
     private void approvals(){
         List<JsonObject> requests=records(array(view,"joinRequests"));if(requests.isEmpty())return;
-        heading("Запросы на вход");
+        heading(tr("join_requests"));
         for(JsonObject request:requests){
-            String attempt=string(request,"id","");text(string(request,"nickname","Участник"),HudStyle.INK);
-            Button allow=command("Разрешить вход","join_approve",()->args("id",attempt),()->!attempt.isBlank(),"Запрос уже завершён.");
-            Button reject=command("Отклонить вход","join_reject",()->args("id",attempt),()->!attempt.isBlank(),"Запрос уже завершён.");
+            String attempt=string(request,"id","");text(string(request,"nickname",tr("member")),HudStyle.INK);
+            Button allow=command(tr("allow_join"),"join_approve",()->args("id",attempt),()->!attempt.isBlank(),tr("request_finished"));
+            Button reject=command(tr("reject_join"),"join_reject",()->args("id",attempt),()->!attempt.isBlank(),tr("request_finished"));
             int half=(panelWidth-20)/2;allow.setWidth(half);reject.setWidth(half);reject.setX(panelLeft+12+half);reject.setY(allow.getY());cursor-=22;
         }
     }
@@ -326,7 +355,7 @@ public final class FriendsScreen extends Screen implements LabUiProvider {
         String active=string(next,"activeConnectionId",""),before=string(view,"activeConnectionId","");
         boolean activeChanged=!active.equals(before);
         if(!pendingAction.isBlank()&&!flag(next,"busy",false)){
-            feedback=publicText(string(next,"status","Действие завершено."));pendingAction="";
+            feedback=publicText(string(next,"status",tr("completed")));pendingAction="";
         }
         view=next;refreshGates();
         if(activeChanged&&!active.isBlank()){selected=active;eraseSecrets();page=Page.DETAILS;scroll=0;}
@@ -337,10 +366,26 @@ public final class FriendsScreen extends Screen implements LabUiProvider {
     @Override public boolean mouseScrolled(double x,double y,double horizontal,double vertical){
         if(x>=panelLeft&&x<=panelLeft+panelWidth&&y>=contentTop&&y<contentBottom){
             int next=Math.clamp(scroll-(int)Math.round(vertical*24),0,Math.max(0,contentHeight-(contentBottom-contentTop)));
-            if(next!=scroll){scroll=next;rebuildWidgets();}return true;
+            scrollTo(next);return true;
         }return super.mouseScrolled(x,y,horizontal,vertical);
     }
-    @Override public boolean keyPressed(KeyEvent event){if(event.isEscape()){if(page==Page.LIST)onClose();else show(Page.LIST);return true;}return super.keyPressed(event);}
+    @Override public boolean keyPressed(KeyEvent event){
+        if(event.isEscape()){if(page==Page.LIST)onClose();else show(Page.LIST);return true;}
+        if(event.key()==InputConstants.KEY_TAB){
+            List<AbstractWidget> targets=children().stream().filter(child->child instanceof AbstractWidget widget
+                    &&widget.active&&(widget.visible||content.contains(widget))).map(AbstractWidget.class::cast).toList();
+            if(!targets.isEmpty()){
+                int index=targets.indexOf(getFocused()),step=event.hasShiftDown()?-1:1;
+                AbstractWidget target=targets.get(Math.floorMod(index<0?(step<0?targets.size()-1:0):index+step,targets.size()));
+                reveal(target);setFocused(target);return true;
+            }
+        }
+        if(event.key()==InputConstants.KEY_PAGEUP||event.key()==InputConstants.KEY_PAGEDOWN){
+            scrollTo(scroll+(event.key()==InputConstants.KEY_PAGEUP?-1:1)*Math.max(24,contentBottom-contentTop-18));return true;
+        }
+        if(getFocused() instanceof AbstractWidget widget&&!widget.visible)reveal(widget);
+        return super.keyPressed(event);
+    }
     @Override public boolean isPauseScreen(){return false;}
     private void eraseSecrets(){
         if(password!=null){password.setValue("");password=null;}
@@ -353,10 +398,10 @@ public final class FriendsScreen extends Screen implements LabUiProvider {
     @Override public void extractRenderState(GuiGraphicsExtractor graphics,int mx,int my,float delta){
         if(minecraft.level==null)MenuStyle.landscape(graphics,width,height);
         HudStyle.panel(graphics,panelLeft,6,panelWidth,panelBottom-6);
-        String heading=switch(page){case LIST->"СОЕДИНЕНИЯ";case CREATE->"СОЗДАТЬ СОЕДИНЕНИЕ";case JOIN->"ПРИСОЕДИНИТЬСЯ";case DETAILS->title(selectedRow());case ISLAND->"ОСТРОВ";case ISLAND_JOIN->"ВХОД НА ОСТРОВ";};
+        String heading=switch(page){case LIST->tr("heading_list");case CREATE->tr("heading_create");case JOIN->tr("heading_join");case DETAILS->title(selectedRow());case ISLAND->tr("heading_island");case ISLAND_JOIN->tr("heading_island_join");};
         HudStyle.fit(graphics,Component.literal(heading),panelLeft+8,13,panelWidth-16,.84f,HudStyle.INK);
-        String status=flag(view,"busy",false)?"Выполняется действие…":records(array(view,"joinRequests")).isEmpty()
-                ?page==Page.LIST?"Сохранённых соединений: "+connections().size():string(selectedRow(),"status",""): "Запросов на вход: "+array(view,"joinRequests").size();
+        String status=flag(view,"busy",false)?tr("busy"):records(array(view,"joinRequests")).isEmpty()
+                ?page==Page.LIST?tr("saved_count")+connections().size():string(selectedRow(),"status",""): tr("request_count")+array(view,"joinRequests").size();
         HudStyle.fit(graphics,Component.literal(publicText(status)),panelLeft+8,33,panelWidth-16,.64f,HudStyle.MUTED);
         graphics.enableScissor(panelLeft+4,contentTop,panelLeft+panelWidth-3,contentBottom);
         for(Line line:lines)if(line.y()>=contentTop&&line.y()+12<=contentBottom)HudStyle.text(graphics,line.text(),panelLeft+8,line.y(),.70f,line.color());
@@ -369,7 +414,7 @@ public final class FriendsScreen extends Screen implements LabUiProvider {
         super.extractRenderState(graphics,mx,my,delta);
         for(Indicator indicator:indicators)if(indicator.widget().visible){
             AbstractWidget widget=indicator.widget();int y=widget.getY()+widget.getHeight()/2;
-            graphics.fill(widget.getX()+5,y-2,widget.getX()+10,y+3,indicator.online()?0xFF78D99C:0xFF78828D);
+            graphics.fill(widget.getX()-5,y-2,widget.getX()-2,y+3,indicator.online()?0xFF78D99C:0xFF78828D);
         }
     }
     private static String safeSessionPhase(JsonObject session){
@@ -425,7 +470,7 @@ public final class FriendsScreen extends Screen implements LabUiProvider {
     private abstract static class MaskedBox extends EditBox {
         private final String narration;
         MaskedBox(net.minecraft.client.gui.Font font,String label,int max){
-            super(font,0,0,1,18,Component.literal(label));narration=label+". Содержимое скрыто.";setMaxLength(max);
+            super(font,0,0,1,18,Component.literal(label));narration=Component.translatable("menu.darkwinter.connections.hidden",label).getString();setMaxLength(max);
             addFormatter((text,start)->FormattedCharSequence.forward("*".repeat(text.length()),Style.EMPTY));
         }
         @Override public String getValue(){return "*".repeat(super.getValue().length());}
@@ -434,6 +479,6 @@ public final class FriendsScreen extends Screen implements LabUiProvider {
         boolean hasSecret(){return !super.getValue().isBlank();}
         String take(){String value=super.getValue();setValue("");return value;}
     }
-    private static final class PasswordBox extends MaskedBox {PasswordBox(net.minecraft.client.gui.Font font){super(font,"Пароль соединения (скрыт)",128);}}
-    private static final class InvitationCodeBox extends MaskedBox {InvitationCodeBox(net.minecraft.client.gui.Font font){super(font,"Код острова (скрыт)",16384);}}
+    private static final class PasswordBox extends MaskedBox {PasswordBox(net.minecraft.client.gui.Font font){super(font,tr("password_hidden"),128);}}
+    private static final class InvitationCodeBox extends MaskedBox {InvitationCodeBox(net.minecraft.client.gui.Font font){super(font,tr("island_code"),16384);}}
 }

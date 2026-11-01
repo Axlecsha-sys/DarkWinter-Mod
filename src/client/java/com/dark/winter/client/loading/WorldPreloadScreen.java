@@ -65,7 +65,8 @@ public final class WorldPreloadScreen extends Screen {
                     highlighted ? 0x80405e70 : 0x30192e3d);
             graphics.fill(this.getX(), this.getY() + this.getHeight() - 1,
                     this.getX() + this.getWidth(), this.getY() + this.getHeight(), highlighted ? 0xff91b9cd : 0xff3d596a);
-            com.dark.winter.client.HudStyle.centered(graphics, this.getMessage(),
+            Component caption=com.dark.winter.client.MenuText.fit(com.dark.winter.client.HudStyle.font(this.getMessage()),this.getWidth()-12);
+            com.dark.winter.client.HudStyle.centered(graphics, caption,
                     this.getX() + this.getWidth() / 2, this.getY() + 6, 1f, highlighted ? 0xffe2edf2 : 0xff9ab3c2);
         }
     }

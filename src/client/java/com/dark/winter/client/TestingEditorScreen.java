@@ -76,7 +76,8 @@ public final class TestingEditorScreen extends Screen implements LabUiProvider {
         panelWidth=Math.min(panelWidth,width-16);
         panelLeft=width-panelWidth-8;
         panelBottom=height-34; // Keep the native nine-slot hotbar below every editor surface.
-        contentTop=108;contentBottom=Math.max(contentTop+20,panelBottom-62);
+        contentTop=height<280?100:108;
+        contentBottom=Math.max(contentTop+24,panelBottom-62);
         captions.clear();libraryIcons.clear();moduleButtons.clear();contentWidgets.clear();actionGates.clear();
         int navWidth=(panelWidth-16)/3;
         for(Tab t:Tab.values()){
@@ -96,6 +97,7 @@ public final class TestingEditorScreen extends Screen implements LabUiProvider {
         // Build every native control in one local coordinate system, then anchor the whole sidebar.
         for(var child:children())if(child instanceof AbstractWidget widget)widget.setX(widget.getX()+panelLeft-8);
         contentHeight=Math.max(0,cursor-(contentTop-scroll));
+        scrollTo(scroll); // A resize or a shorter page must not leave the viewport beyond its contents.
         for(AbstractWidget w:contentWidgets){
             w.visible=w.getY()>=contentTop && w.getBottom()<=contentBottom;
             if(w instanceof Button button&&OnlineTestingView.active()&&actionGates.containsKey(button))button.active&=OnlineTestingView.allowed(actionGates.get(button));
@@ -113,23 +115,24 @@ public final class TestingEditorScreen extends Screen implements LabUiProvider {
         if(!button.active)button.setTooltip(Tooltip.create(Component.literal(OnlineTestingView.reason(command))));return button;
     }
     private void caption(String text){caption(text,HudStyle.MUTED);}
-    private void caption(String text,int color){captions.add(new Caption(text,cursor,color));cursor+=14;}
-    private void captionWrapped(String text){captionWrapped(text,HudStyle.MUTED);}
-    private void captionWrapped(String text,int color){
+    private void caption(String text,int color){
         int available=Math.max(1,panelWidth-20);
         for(String paragraph:text.split("\\R",-1)){
-            if(paragraph.isEmpty()){caption("",color);continue;}
             String rest=paragraph;
-            while(!rest.isEmpty()){
-                String line=font.plainSubstrByWidth(rest,available);
-                // Native substring selection uses fractional advances; Font.width rounds its rendered width up.
-                while(!line.isEmpty()&&(font.width(line)>available||HudStyle.width(Component.literal(line))*.69f>available))
-                    line=line.substring(0,line.offsetByCodePoints(line.length(),-1));
-                if(line.isEmpty())line=rest.substring(0,rest.offsetByCodePoints(0,1));
-                caption(line,color);rest=rest.substring(line.length());
-            }
+            do{
+                int end=0;
+                while(end<rest.length()){
+                    int next=rest.offsetByCodePoints(end,1);
+                    if(end>0&&HudStyle.width(Component.literal(rest.substring(0,next)))*.69f>available)break;
+                    end=next;
+                }
+                captions.add(new Caption(rest.substring(0,end),cursor,color));cursor+=14;
+                rest=rest.substring(end);
+            }while(!rest.isEmpty());
         }
     }
+    private void captionWrapped(String text){captionWrapped(text,HudStyle.MUTED);}
+    private void captionWrapped(String text,int color){caption(text,color);}
     private Button row(String label,Runnable action){
         Button button=Button.builder(Component.literal(label),b->action.run()).bounds(16,cursor,panelWidth-16,20).build();
         contentWidgets.add(addRenderableWidget(button));cursor+=24;return button;
@@ -1142,6 +1145,31 @@ public final class TestingEditorScreen extends Screen implements LabUiProvider {
     @Override public void onClose(){if(minecraft!=null)minecraft.gui.setScreen(parent);}
     @Override public boolean keyPressed(KeyEvent event){
         if(event.isEscape() || DarkWinterClient.isTestingEditorKey(event)){onClose();return true;}
+        if(event.key()==com.mojang.blaze3d.platform.InputConstants.KEY_TAB){
+            List<AbstractWidget> order=new ArrayList<>();
+            for(var child:children())if(child instanceof AbstractWidget widget&&widget.active
+                    &&(widget.visible||contentWidgets.contains(widget)))order.add(widget);
+            if(!order.isEmpty()){
+                int current=order.indexOf(getFocused()),direction=event.hasShiftDown()?-1:1;
+                int index=current<0?(direction>0?0:order.size()-1):Math.floorMod(current+direction,order.size());
+                AbstractWidget next=order.get(index);
+                if(contentWidgets.contains(next)){
+                    if(next.getY()<contentTop)scrollTo(scroll+next.getY()-contentTop);
+                    else if(next.getBottom()>contentBottom)scrollTo(scroll+next.getBottom()-contentBottom);
+                }
+                setInitialFocus(next);return true;
+            }
+        }
+        if(!(getFocused() instanceof EditBox)){
+            int page=Math.max(24,contentBottom-contentTop-24);
+            switch(event.key()){
+                case com.mojang.blaze3d.platform.InputConstants.KEY_PAGEUP -> {scrollTo(scroll-page);return true;}
+                case com.mojang.blaze3d.platform.InputConstants.KEY_PAGEDOWN -> {scrollTo(scroll+page);return true;}
+                case com.mojang.blaze3d.platform.InputConstants.KEY_HOME -> {scrollTo(0);return true;}
+                case com.mojang.blaze3d.platform.InputConstants.KEY_END -> {scrollTo(contentHeight);return true;}
+                default -> { }
+            }
+        }
         if(!(getFocused() instanceof EditBox) && event.hasControlDown()){
             if(event.key()==com.mojang.blaze3d.platform.InputConstants.KEY_Z){action("undo","");return true;}
             if(event.key()==com.mojang.blaze3d.platform.InputConstants.KEY_Y){action("redo","");return true;}
@@ -1150,12 +1178,23 @@ public final class TestingEditorScreen extends Screen implements LabUiProvider {
     }
     @Override public boolean mouseScrolled(double x,double y,double horizontal,double vertical){
         if(x>=panelLeft && x<=panelLeft+panelWidth && y>=contentTop && y<contentBottom){
-            int max=Math.max(0,contentHeight-(contentBottom-contentTop));
-            int next=Math.clamp(scroll-(int)Math.round(vertical*28),0,max);
-            if(next!=scroll){scroll=next;rebuildWidgets();}
+            scrollTo(scroll-(int)Math.round(vertical*28));
             return true;
         }
         return super.mouseScrolled(x,y,horizontal,vertical);
+    }
+    private void scrollTo(int requested){
+        int next=Math.clamp(requested,0,Math.max(0,contentHeight-(contentBottom-contentTop))),delta=scroll-next;
+        scroll=next;
+        for(AbstractWidget widget:contentWidgets){
+            widget.setY(widget.getY()+delta);
+            widget.visible=widget.getY()>=contentTop&&widget.getBottom()<=contentBottom;
+        }
+        if(delta!=0){
+            captions.replaceAll(c->new Caption(c.text(),c.y()+delta,c.color()));
+            libraryIcons.replaceAll(icon->new LibraryIcon(icon.texture(),icon.y()+delta));
+        }
+        if(getFocused() instanceof AbstractWidget focused&&!focused.visible)clearFocus();
     }
     @Override public boolean mouseClicked(MouseButtonEvent event,boolean doubleClick){
         if(event.x()>=0 && event.x()<panelLeft-4 && event.y()>=0 && event.y()<height && TestingClient.active()){
@@ -1248,7 +1287,7 @@ public final class TestingEditorScreen extends Screen implements LabUiProvider {
     }
     @Override public void extractRenderState(GuiGraphicsExtractor g,int mx,int my,float dt){
         HudStyle.panel(g,panelLeft,6,panelWidth,panelBottom-6);
-        HudStyle.text(g,"DARKWINTER / ЛАБОРАТОРИЯ",panelLeft+8,13,.82f,HudStyle.INK);
+        HudStyle.fit(g,Component.literal("DARKWINTER / ЛАБОРАТОРИЯ"),panelLeft+8,13,panelWidth-16,.82f,HudStyle.INK);
         String world=TestingClient.worldName();
         HudStyle.fit(g,Component.literal(world+" • "+TestingClient.value("mode")),panelLeft+8,27,panelWidth-16,.63f,HudStyle.MUTED);
         g.enableScissor(panelLeft+4,contentTop,panelLeft+panelWidth-3,contentBottom);

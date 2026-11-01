@@ -49,7 +49,7 @@ public final class TestingClient {
     private static final String[] FRAME_SCREEN = new String[120];
     private static final TestingDiagnosticSampler DIAGNOSTIC_SAMPLER = new TestingDiagnosticSampler();
     private static long lastFrameSampleMillis,cpuSampleMillis,diagnosticTextAt;
-    private static String diagnosticUsageText="",diagnosticFrameText="",diagnosticCpuText="";
+    private static Component diagnosticUsageText=Component.empty(),diagnosticFrameText=Component.empty(),diagnosticCpuText=Component.empty();
     private static int frameIndex, frameCount;
     private static double cpuLoad = -1;
     private static String reportStatus="";
@@ -378,14 +378,20 @@ public final class TestingClient {
             }
         }
     }
+    public static int hudPanelWidth(int guiWidth) {
+        return Math.min(198,Math.max(125,guiWidth/3));
+    }
+    public static int hudPanelLeft(int guiWidth) {
+        return guiWidth-hudPanelWidth(guiWidth)-8;
+    }
     public static void render(GuiGraphicsExtractor g) {
         Minecraft c=Minecraft.getInstance();
         if(!active()){lastRender=0;return;}
         if(diagnostic)sampleDiagnostics(c);else lastRender=0;
         if(c.gui.screen()!=null)return;
-        int panelY=enabled("hud")?44:8;
-        int w=Math.min(198,Math.max(125,g.guiWidth()/3)),h=collapsed?30:Math.max(30,Math.min(g.guiHeight()-panelY-34,198));
-        int x=g.guiWidth()-w-8;
+        int panelY=44; // Leave the native notification band clear with either HUD setting.
+        int w=hudPanelWidth(g.guiWidth()),h=collapsed?30:Math.max(30,Math.min(g.guiHeight()-panelY-34,198));
+        int x=hudPanelLeft(g.guiWidth());
         HudStyle.instrumentPanel(g,x,panelY,w,h);
         HudStyle.fit(g,Component.literal("DARKWINTER • ЛАБОРАТОРИЯ"),x+8,panelY+7,w-16,.72f,HudStyle.INK);
         if(collapsed) {
@@ -394,16 +400,24 @@ public final class TestingClient {
             String name=worldName();
             HudStyle.fit(g,Component.literal(name+"  /  "+value("mode")+(TestingDrone.active()?" / DRONE":"")),x+8,panelY+20,w-16,.68f,HudStyle.MUTED);
             int y=panelY+34;
+            int rowStep=Math.min(11,Math.max(8,(h-62)/MODULES.length));
             for(String module:MODULES) {
                 if(y+10>panelY+h-28)break;
                 HudStyle.fit(g,Component.literal((enabled(module)?"● ":"○ ")+label(module)),x+8,y,w-58,.66f,enabled(module)?HudStyle.STABLE:HudStyle.MUTED);
                 HudStyle.fit(g,Component.literal(shortcut(module)),x+w-45,y,40,.59f,HudStyle.MUTED);
-                y+=11;
+                y+=rowStep;
             }
             HudStyle.fit(g,Component.literal("Num1–Num0 • быстрые системы"),x+8,panelY+h-26,w-16,.59f,HudStyle.MUTED);
             HudStyle.fit(g,Component.literal("F8 • настройки   F7 • свернуть"),x+8,panelY+h-13,w-16,.62f,HudStyle.INK);
         }
-        if(diagnostic){int diagnosticWidth=Math.min(230,x-16);if(diagnosticWidth>=100)renderDiagnostics(g,x-diagnosticWidth-8,panelY,diagnosticWidth);}
+        if(diagnostic && !((ChatHudVisibility)c.gui.hud.getChat()).darkwinter$hasVisibleMessages(c.gui.hud.getGuiTicks())){
+            int diagnosticWidth=Math.min(230,x-16);
+            int diagnosticY=enabled("hud")?Math.max(panelY,DateTimeHud.panelBottom(g.guiWidth())+6):panelY;
+            int diagnosticBottom=enabled("hud")?SurvivalNeedsHud.panelY(g.guiWidth(),g.guiHeight(),false)-6:g.guiHeight()-34;
+            int diagnosticHeight=Math.min(102,diagnosticBottom-diagnosticY);
+            if(diagnosticWidth>=100&&diagnosticHeight>=26)
+                renderDiagnostics(g,x-diagnosticWidth-8,diagnosticY,diagnosticWidth,diagnosticHeight);
+        }
     }
     private static void sampleDiagnostics(Minecraft client) {
         long now=System.nanoTime();
@@ -417,27 +431,28 @@ public final class TestingClient {
     }
 
     public static int measuredFrames(){return frameCount;}
-    private static void renderDiagnostics(GuiGraphicsExtractor g,int x,int y,int width) {
-        HudStyle.instrumentPanel(g,x,y,width,102);
+    private static void renderDiagnostics(GuiGraphicsExtractor g,int x,int y,int width,int height) {
+        HudStyle.instrumentPanel(g,x,y,width,height);
         long now=System.nanoTime();
         if(diagnosticTextAt==0 || now-diagnosticTextAt>=200_000_000L) {
             diagnosticTextAt=now;
             var rt=Runtime.getRuntime();
-            diagnosticUsageText="FPS "+Minecraft.getInstance().getFps()+" • память "+(rt.totalMemory()-rt.freeMemory())/1048576+" MiB";
+            diagnosticUsageText=Component.literal("FPS "+Minecraft.getInstance().getFps()+" • память "+(rt.totalMemory()-rt.freeMemory())/1048576+" MiB");
             float sum=0,max=0;
             for(int i=0;i<frameCount;i++){float ms=FRAME_MS[(frameIndex-frameCount+i+FRAME_MS.length)%FRAME_MS.length];sum+=ms;max=Math.max(max,ms);}
-            diagnosticFrameText=String.format(java.util.Locale.ROOT,"Кадр: средн. %.1f / max %.1f мс",frameCount==0?0:sum/frameCount,max);
-            diagnosticCpuText="CPU процесса: "+(cpuLoad<0?"недоступно":Math.round(cpuLoad*100)+"%")+" • GPU: недоступно";
+            diagnosticFrameText=Component.literal(String.format(java.util.Locale.ROOT,"Кадр: средн. %.1f / max %.1f мс",frameCount==0?0:sum/frameCount,max));
+            diagnosticCpuText=Component.literal("CPU процесса: "+(cpuLoad<0?"недоступно":Math.round(cpuLoad*100)+"%")+" • GPU: недоступно");
         }
-        HudStyle.text(g,diagnosticUsageText,x+8,y+8,.7f,HudStyle.INK);
-        HudStyle.text(g,diagnosticFrameText,x+8,y+20,.65f,HudStyle.MUTED);
-        HudStyle.text(g,diagnosticCpuText,x+8,y+31,.62f,HudStyle.MUTED);
+        HudStyle.fit(g,diagnosticUsageText,x+8,y+8,width-16,.7f,HudStyle.INK);
+        if(height>=36)HudStyle.fit(g,diagnosticFrameText,x+8,y+20,width-16,.65f,HudStyle.MUTED);
+        if(height>=48)HudStyle.fit(g,diagnosticCpuText,x+8,y+31,width-16,.62f,HudStyle.MUTED);
+        if(height<66)return;
         int gw=width-16;
         for(int i=0;i<Math.min(frameCount,gw);i++) {
             float ms=FRAME_MS[(frameIndex-1-i+FRAME_MS.length)%FRAME_MS.length];
-            int gh=Math.min(40,Math.round(ms*.7f));
-            g.fill(x+width-9-i,y+91-gh,x+width-8-i,y+91,ms>33?HudStyle.AMBER:HudStyle.STABLE);
+            int gh=Math.min(Math.min(40,height-54),Math.round(ms*.7f));
+            g.fill(x+width-9-i,y+height-11-gh,x+width-8-i,y+height-11,ms>33?HudStyle.AMBER:HudStyle.STABLE);
         }
-        g.horizontalLine(x+8,x+width-8,y+92,HudStyle.LINE);
+        g.horizontalLine(x+8,x+width-8,y+height-10,HudStyle.LINE);
     }
 }

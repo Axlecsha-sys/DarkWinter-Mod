@@ -32,7 +32,7 @@ public final class NorthernLoadingArt {
         String stage=progress==null?"opening":switch(progress.stage()) {
             case LOADING->"chunks";case SAVING->"saving";case READY->"ready";case FAILED->"failed";case CANCELLED->"cancelled";
         };
-        HudStyle.centered(g,Component.translatable("loading.darkwinter."+stage),width/2,stageY,.9f,HudStyle.INK);
+        fitCentered(g,Component.translatable("loading.darkwinter."+stage),width,stageY,.9f,HudStyle.INK);
         g.fill(left-1,barY-1,left+barWidth+1,barY+4,0x90537384);
         g.fill(left,barY,left+barWidth,barY+3,0xDD07111B);
         if(progress!=null||hasVanillaProgress) {
@@ -44,15 +44,16 @@ public final class NorthernLoadingArt {
             }
         } // Unknown progress remains empty, never a fake advancing percentage.
         if(progress!=null) {
-            HudStyle.fit(g,Component.translatable("loading.darkwinter.count",progress.completed(),progress.total()),left,barY+12,barWidth-38,.83f,HudStyle.MUTED);
             String elapsed=elapsed(progress.elapsedMillis());
-            HudStyle.text(g,elapsed,left+barWidth-HudStyle.width(Component.literal(elapsed))*.83f,barY+12,.83f,HudStyle.MUTED);
-            if(progress.stage()==WorldPreloadPayload.Stage.FAILED) HudStyle.centered(g,Component.translatable("loading.darkwinter.failed_hint"),width/2,barY+27,.8f,HudStyle.AMBER);
-        } else HudStyle.centered(g,Component.translatable("loading.darkwinter.opening_hint"),width/2,barY+12,.8f,HudStyle.MUTED);
+            int elapsedWidth=(int)Math.ceil(HudStyle.width(Component.literal(elapsed))*.83f);
+            HudStyle.fit(g,Component.translatable("loading.darkwinter.count",progress.completed(),progress.total()),left,barY+12,barWidth-elapsedWidth-8,.83f,HudStyle.MUTED);
+            HudStyle.text(g,elapsed,left+barWidth-elapsedWidth,barY+12,.83f,HudStyle.MUTED);
+            if(progress.stage()==WorldPreloadPayload.Stage.FAILED) HudStyle.paragraph(g,Component.translatable("loading.darkwinter.failed_hint"),left,barY+27,barWidth,.8f,HudStyle.AMBER,2);
+        } else fitCentered(g,Component.translatable("loading.darkwinter.opening_hint"),width,barY+12,.8f,HudStyle.MUTED);
         if(height>230) {
-            int markW=Math.min(134,width/3),markX=width-markW-24;
-            UiArt.wordmark(g,markX,height-74,markW,HudStyle.INK);
-            HudStyle.fit(g,Component.translatable("loading.darkwinter.north"),markX,height-49,markW,.72f,HudStyle.MUTED);
+            int markW=Math.min(134,width/3),markX=width-markW-24,markY=height<330?24:height-74;
+            UiArt.wordmark(g,markX,markY,markW,HudStyle.INK);
+            HudStyle.fit(g,Component.translatable("loading.darkwinter.north"),markX,markY+25,markW,.72f,HudStyle.MUTED);
         }
     }
     public static int buttonY(int height){return Math.max(0,height-28);}
@@ -61,11 +62,16 @@ public final class NorthernLoadingArt {
     public static void transferForeground(GuiGraphicsExtractor g,int width,int height,float progress,boolean known) {
         int y=Math.max(38,Math.min(height-70,Math.round(height*.57f)));
         int w=Math.max(1,Math.min(330,width-48));
-        HudStyle.centered(g,Component.translatable("multiplayer.downloadingTerrain"),width/2,y,.9f,HudStyle.INK);
+        fitCentered(g,Component.translatable("multiplayer.downloadingTerrain"),width,y,.9f,HudStyle.INK);
         progressLine(g,(width-w)/2,y+20,w,known?progress:0);
         if(known) HudStyle.centered(g,Component.translatable("loading.progress",Math.round(Math.clamp(progress,0,1)*100)),
                 width/2,y+32,.8f,HudStyle.MUTED);
-        if(height>230) UiArt.wordmark(g,width-Math.min(134,width/3)-24,height-74,Math.min(134,width/3),HudStyle.INK);
+        if(height>230) UiArt.wordmark(g,width-Math.min(134,width/3)-24,height<330?24:height-74,Math.min(134,width/3),HudStyle.INK);
+    }
+
+    private static void fitCentered(GuiGraphicsExtractor g,Component text,int width,int y,float scale,int color){
+        Component fitted=com.dark.winter.client.MenuText.fit(HudStyle.font(text),Math.max(1,(int)((width-48)/scale)));
+        HudStyle.centered(g,fitted,width/2,y,scale,color);
     }
 
     /** Shared measured progress styling; callers retain the meaning and lifecycle of their value. */
