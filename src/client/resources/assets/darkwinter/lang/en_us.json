@@ -365,5 +365,11 @@
   "key.darkwinter.testing_motion": "Laboratory: movement",
   "key.darkwinter.testing_camera": "Laboratory: character camera",
   "key.darkwinter.friends": "Open DarkWinter Connections",
-  "key.categories.darkwinter.online": "DarkWinter: Friends"
+  "key.categories.darkwinter.online": "DarkWinter: Friends",
+  "options.darkwinter.transparency": "Transparency quality",
+  "options.darkwinter.transparency.balanced": "Balanced",
+  "options.darkwinter.transparency.precise": "Precise",
+  "options.darkwinter.transparency.tooltip": "Precision for overlapping transparent layers. Active now: %s. Used with Improved Transparency.",
+  "options.darkwinter.transparency.requires_forced_vulkan": "This choice requires Vulkan to be explicitly selected at launch.",
+  "options.darkwinter.transparency.save_failed": "Could not save this setting. The previous value was kept."
 }

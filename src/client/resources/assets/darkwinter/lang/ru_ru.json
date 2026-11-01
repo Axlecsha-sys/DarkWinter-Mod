@@ -365,5 +365,11 @@
   "key.darkwinter.testing_motion": "Лаборатория: движение",
   "key.darkwinter.testing_camera": "Лаборатория: камера персонажа",
   "key.darkwinter.friends": "Открыть соединения DarkWinter",
-  "key.categories.darkwinter.online": "DarkWinter: друзья"
+  "key.categories.darkwinter.online": "DarkWinter: друзья",
+  "options.darkwinter.transparency": "Прозрачность",
+  "options.darkwinter.transparency.balanced": "Сбалансированная",
+  "options.darkwinter.transparency.precise": "Точная",
+  "options.darkwinter.transparency.tooltip": "Точность наложения прозрачных слоёв. Сейчас: %s. Используется с улучшенной прозрачностью.",
+  "options.darkwinter.transparency.requires_forced_vulkan": "Выбор доступен только при запуске с явно выбранным Vulkan.",
+  "options.darkwinter.transparency.save_failed": "Не удалось сохранить настройку. Предыдущее значение сохранено."
 }
