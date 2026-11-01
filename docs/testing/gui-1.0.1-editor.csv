@@ -1,0 +1,17 @@
+case,width,height,language,scale_option,effective_scale,gui_width,gui_height,status,captures,scroll_checks,keyboard_actions
+854x480-s0-ru_ru,854,480,ru_ru,0,2,427,240,passed_geometry_and_navigation,6,2,42
+854x480-s1-ru_ru,854,480,ru_ru,1,1,854,480,passed_geometry_and_navigation,6,2,42
+1280x720-s0-ru_ru,1280,720,ru_ru,0,3,427,240,passed_geometry_and_navigation,6,2,42
+1280x720-s1-ru_ru,1280,720,ru_ru,1,1,1280,720,passed_geometry_and_navigation,6,2,42
+1366x768-s0-ru_ru,1366,768,ru_ru,0,3,456,256,passed_geometry_and_navigation,6,2,42
+1366x768-s1-ru_ru,1366,768,ru_ru,1,1,1366,768,passed_geometry_and_navigation,6,2,42
+1920x1080-s0-ru_ru,1920,1080,ru_ru,0,4,480,270,passed_geometry_and_navigation,15,2,42
+1920x1080-s1-ru_ru,1920,1080,ru_ru,1,1,1920,1080,passed_geometry_and_navigation,6,2,42
+2560x1440-s0-ru_ru,2560,1440,ru_ru,0,6,427,240,passed_geometry_and_navigation,6,2,42
+2560x1440-s1-ru_ru,2560,1440,ru_ru,1,1,2560,1440,passed_geometry_and_navigation,6,2,42
+3840x2160-s0-ru_ru,3840,2160,ru_ru,0,9,427,240,passed_geometry_and_navigation,6,2,42
+3840x2160-s1-ru_ru,3840,2160,ru_ru,1,1,3840,2160,passed_geometry_and_navigation,6,2,42
+3440x1440-s0-ru_ru,3440,1440,ru_ru,0,6,574,240,passed_geometry_and_navigation,6,2,42
+3440x1440-s1-ru_ru,3440,1440,ru_ru,1,1,3440,1440,passed_geometry_and_navigation,6,2,42
+960x720-s0-ru_ru,960,720,ru_ru,0,3,320,240,passed_geometry_and_navigation,15,2,42
+960x720-s1-ru_ru,960,720,ru_ru,1,1,960,720,passed_geometry_and_navigation,6,2,42

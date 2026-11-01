@@ -187,10 +187,11 @@ public final class SettingsNavigation {
         private NavButton(Screen owner,Section section) {
             super(0,0,100,20,Component.translatable(section.key),button -> open(owner,section),DEFAULT_NARRATION);
             this.section=section;
+            setTooltip(net.minecraft.client.gui.components.Tooltip.create(HudStyle.font(getMessage())));
         }
         @Override protected void extractContents(GuiGraphicsExtractor g,int mx,int my,float dt) {
             MenuStyle.button(g,this,alpha,isHoveredOrFocused()?1:0);
-            HudStyle.fit(g,getMessage(),getX()+8,getY()+(getHeight()-10)/2f,getWidth()-16,.86f,HudStyle.INK);
+            HudStyle.fit(g,getMessage(),getX()+8,getY()+(getHeight()-9)/2f,getWidth()-16,1f,HudStyle.INK);
         }
     }
 }

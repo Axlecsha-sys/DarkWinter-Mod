@@ -28,6 +28,10 @@ public final class MenuStyle {
     public static int rowWidth(int width){return UiLayout.menuWidth(width);}
     public static int rowStep(int height){return UiLayout.menuStep(height);}
     public static int menuTop(int height){return UiLayout.menuTop(height);}
+    public static int titleMenuTop(int height){
+        int step=rowStep(height);
+        return Math.max(65,Math.min(menuTop(height),height-5*step-42));
+    }
     public static void landscape(GuiGraphicsExtractor g,int width,int height) {
         double t=UiPreferences.seconds();
         // UV motion inside a crop: no shifting edges or half-pixel movement of widgets.
@@ -71,6 +75,8 @@ public final class MenuStyle {
     public static void title(GuiGraphicsExtractor g,int width,int height,float opacity) {
         int x=left(width),y=Math.max(14,Math.round(height*.125f));
         int wordmark=Math.min(width-x-22,Math.round(width*.465f));
+        // Short ultrawide viewports need the full wordmark and strap above the first row.
+        y=Math.max(8,Math.min(y,titleMenuTop(height)-wordmark/8-22));
         UiArt.wordmark(g,x,y,wordmark,HudStyle.alpha(HudStyle.INK,opacity));
         if(UiPreferences.full()&&(UiPreferences.seconds()+6.4)%19<.16)
             UiArt.wordmark(g,x+1,y,wordmark,HudStyle.alpha(HudStyle.STABLE,.12f*opacity*UiPreferences.strength()));

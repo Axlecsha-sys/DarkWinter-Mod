@@ -3,16 +3,16 @@
     "id":  "dark-winter",
     "version":  "${version}",
     "name":  "Dark Winter",
-    "description":  "This is an example description! Tell everyone what your mod is about!",
+    "description":  "DarkWinter brings winter environments, survival systems, a testing-island editor and integrated visual systems to Minecraft.",
     "authors":  [
-                    "Me!"
+                    "Axlecsha-sys"
                 ],
     "contact":  {
-                    "homepage":  "https://fabricmc.net/",
-                    "sources":  "https://github.com/FabricMC/fabric-example-mod"
+                    "homepage":  "https://github.com/Axlecsha-sys/DarkWinter-Mod",
+                    "sources":  "https://github.com/Axlecsha-sys/DarkWinter-Mod",
+                    "issues":  "https://github.com/Axlecsha-sys/DarkWinter-Mod/issues"
                 },
     "license":  "GPL-3.0-only",
-    "icon":  "assets/dark-winter/icon.png",
     "environment":  "*",
     "entrypoints":  {
                         "main":  [
