@@ -124,3 +124,9 @@ Desktop.ini
 # Local development tools and test suites are kept on disk, outside the publication snapshot.
 **/tools/
 **/tests/
+
+# Local launch shortcuts and IDE run configurations are not part of the published sources.
+/.run/
+/Start-DarkWinter-Core.cmd
+/Start-DarkWinter-Workshop.cmd
+/Stop-DarkWinter-Workshop.cmd

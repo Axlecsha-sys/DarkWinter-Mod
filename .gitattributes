@@ -45,3 +45,9 @@ CMakeLists.txt text eol=lf
 *.exe binary
 *.dll binary
 *.zip binary
+
+# Build, asset-generation and notification helpers are not game implementation languages.
+/.github/*.py -linguist-detectable
+/native/darkwinter-client/build-tools/*.py -linguist-detectable
+/darkwinter-biome-editor/shaders/generate_spirv.py -linguist-detectable
+/darkwinter-biome-editor/shaders/generate_scene_spirv.py -linguist-detectable
