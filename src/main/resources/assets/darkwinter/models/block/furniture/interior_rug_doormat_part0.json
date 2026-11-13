@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "interior_rug_doormat": "darkwinter:block/interior/interior_rug_doormat",
+    "particle": "darkwinter:block/interior/interior_rug_doormat"
+  },
+  "elements": [
+    {
+      "from": [
+        1.25,
+        0,
+        3.5
+      ],
+      "to": [
+        14.75,
+        0.24,
+        12.5
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_doormat"
+        },
+        "up": {
+          "texture": "#interior_rug_doormat"
+        },
+        "north": {
+          "texture": "#interior_rug_doormat"
+        },
+        "south": {
+          "texture": "#interior_rug_doormat"
+        },
+        "west": {
+          "texture": "#interior_rug_doormat"
+        },
+        "east": {
+          "texture": "#interior_rug_doormat"
+        }
+      }
+    }
+  ]
+}

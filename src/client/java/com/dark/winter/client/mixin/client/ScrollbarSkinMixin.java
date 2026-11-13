@@ -13,6 +13,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import com.dark.winter.client.vector.MenuSurface;
+import com.dark.winter.client.vector.SvgHud;
 
 /** Keeps scrollbar hit areas, drag calculations and cursor feedback unchanged. */
 @Mixin(AbstractScrollArea.class)
@@ -22,11 +24,10 @@ public abstract class ScrollbarSkinMixin {
     @Redirect(method="extractScrollbar",at=@At(value="INVOKE",target="Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V"))
     private void darkwinter$scrollbar(GuiGraphicsExtractor g,RenderPipeline pipeline,Identifier sprite,int x,int y,int w,int h) {
         if(!MenuStyle.themed(Minecraft.getInstance().gui.screen())) { g.blitSprite(pipeline,sprite,x,y,w,h);return; }
-        if(sprite.equals(scrollbarSettings.backgroundSprite())) g.fill(x+1,y,x+w-1,y+h,0xA0071018);
+        if(sprite.equals(scrollbarSettings.backgroundSprite())) SvgHud.surface(g,x+2,y,Math.max(1,w-4),h,MenuSurface.TRACK,0,0xB093AEBB);
         else {
             int color=sprite.equals(scrollbarSettings.disabledScrollerSprite())?0xFF43505A:HudStyle.MUTED;
-            g.fillGradient(x+1,y,x+w-1,y+h,color,0xFF40525F);
-            g.fill(x+1,y,x+w-1,y+1,HudStyle.INK);
+            SvgHud.surface(g,x+1,y,Math.max(1,w-2),h,MenuSurface.THUMB,0,color);
         }
     }
 }

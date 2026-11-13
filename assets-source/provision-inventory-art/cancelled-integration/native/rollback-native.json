@@ -1,0 +1,121 @@
+{
+  "stage": "cancelled bitmap inventory",
+  "utc": "2026-11-10T21:31:03.802385+00:00",
+  "generationStopped": true,
+  "productionImageEditing": false,
+  "gradleOrClientLaunch": false,
+  "moved": [
+    {
+      "from": "F:\\DarkWinter\\src\\client\\java\\com\\dark\\winter\\client\\inventory\\ProvisionInventoryArt.java",
+      "to": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\cancelled-integration\\native\\src\\client\\java\\com\\dark\\winter\\client\\inventory\\ProvisionInventoryArt.java",
+      "sha256": "d3120947eaf008bf5be9fdcf9ec171189c7ea385fde636fe99a60f07faee83e1",
+      "bytesPreserved": true
+    },
+    {
+      "from": "F:\\DarkWinter\\tools\\check-provision-inventory-art.py",
+      "to": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\cancelled-integration\\native\\tools\\check-provision-inventory-art.py",
+      "sha256": "275741144009159f1201d00d1afff6a5c962592e383193606b591c82df3696f1",
+      "bytesPreserved": true
+    },
+    {
+      "from": "F:\\DarkWinter\\tests\\provision-inventory-art",
+      "to": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\cancelled-integration\\native\\tests\\provision-inventory-art",
+      "filesSHA256": {
+        "inventory-art.gradle": "2d58882f3778d32c53d026a4a1db84646e3c4931b6e283586474d4f405a5cce6",
+        "README.md": "0491fc18c966f87cab0033ec767f09819a8f96bcc152b973053bfbc15fe691a9",
+        "resources/fabric.mod.json": "20c4c06cd011ba809ce0d55921988a86aa32c2e0a890169766e6b26a017fb121",
+        "java/com/dark/winter/test/inventoryart/ProvisionInventoryArtClientTest.java": "5897c96d975f28db5c1a014c78b7af1c549578118dfed447b6049b437042838c"
+      },
+      "bytesPreserved": true
+    }
+  ],
+  "preview": {
+    "archived": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\cancelled-integration\\native\\src\\client\\java\\com\\dark\\winter\\client\\inventory\\ProvisionGuiPreview.java",
+    "beforeRollbackSHA256": "62f4c062341cad98d12bd20d99ce146e10dba3619220a227522b5b1e6bced747",
+    "restoredSHA256": "ea84e7fd9c0d7192fa0fcfb902edadb5d6eeb5ec12f6b1c83aea2e35eff9943c",
+    "exactBaselineRestored": true
+  },
+  "developmentGradle": {
+    "removedOwnedBlock": "if (gradle.startParameter.taskNames.any { it.tokenize(':').last() in ['compileProvisionInventoryArtClientTest','runProvisionInventoryArtClientTest','runProvisionInventoryArtCheeseClientTest'] }) {\r\n    apply from: 'tests/provision-inventory-art/inventory-art.gradle'\r\n}\r\n",
+    "beforeSHA256": "bfdc6caec9106cf7957ae417e8bd007fd4606eba35e485024d1d7054fd312b0f",
+    "afterSHA256": "948cdad5d73c5c1a6bc8a9fff9e96bbe3f3a9e8737b38bda5e79ce300ac0e21b",
+    "otherBytesPreserved": true
+  },
+  "protectedBaselineFilesUnchanged": 259,
+  "protectedBaselineFilesTotal": 259,
+  "oldPNGsUnchanged": 139,
+  "oldPNGTotal": 139,
+  "differencesNotTouched": [],
+  "meshChangedIDsNotTouched": {},
+  "generated": [
+    {
+      "id": "canned_meat",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c67c-4563-7490-9f9e-7a2e17d22587\\exec-d4c027ac-a53d-4c39-96bf-d5fda946a1cb.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\canned_meat.png",
+      "sha256": "960fd93737b26ad52ce002923281666fc91d624218bfd6b431cc4b5e9ccc7721"
+    },
+    {
+      "id": "canned_fish",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c67c-4563-7490-9f9e-7a2e17d22587\\exec-83d6fd0f-21c1-4b28-a3e7-9554727d2ff3.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\canned_fish.png",
+      "sha256": "eead17e01a3e86a980e9a93abc4175caf6e8d49f4ce4c382e5323ed0b8466327"
+    },
+    {
+      "id": "canned_beans",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c67c-4563-7490-9f9e-7a2e17d22587\\exec-f7c6ad03-ae35-4960-bcb1-7c58e2332482.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\canned_beans.png",
+      "sha256": "9acb05015457c546e3baa6e95faaef5f348f916296f96bedac70f50498fd2047"
+    },
+    {
+      "id": "oat_carton",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c67c-4563-7490-9f9e-7a2e17d22587\\exec-d455a803-af4b-4eea-85f2-4a5e43bfd03b.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\oat_carton.png",
+      "sha256": "48e0eb3ec5663375d24893750ef2938424f96f942071af91988a113e6a0bc4f4"
+    },
+    {
+      "id": "cracker_box",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c67c-4563-7490-9f9e-7a2e17d22587\\exec-87c3d66d-6086-4614-bace-72f4184f2b5d.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\cracker_box.png",
+      "sha256": "d6c3af13a9e8b9775e4e3d0a885217d7061598b126d59c2aa79e01fe7183c576"
+    },
+    {
+      "id": "ration_bundle",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c67c-4563-7490-9f9e-7a2e17d22587\\exec-75e86d82-14bd-47d7-9b1e-2e7345fe98a2.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\ration_bundle.png",
+      "sha256": "08d0236357f2f4221150f95740b2c56937af0c86aee52d4d25ed0f361f065bd9"
+    },
+    {
+      "id": "water_bottle",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c67c-4563-7490-9f9e-7a2e17d22587\\exec-5f1a0b6c-e19f-43c5-ac89-dc6693ac2b2f.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\water_bottle.png",
+      "sha256": "d5cfe9363ce7a96074e2279db0d5064284edd3e3d86d59b4c5413488017556bf"
+    },
+    {
+      "id": "apple_juice",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c67c-4563-7490-9f9e-7a2e17d22587\\exec-42f9ccf1-fd37-40a1-b9ca-1fbe61a9224c.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\apple_juice.png",
+      "sha256": "80207bd9625e3e7f77d9c701a2fa5aa658675bebd18e4d1cc1542a01c3c84a70"
+    },
+    {
+      "id": "orange_juice",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c67c-4563-7490-9f9e-7a2e17d22587\\exec-4e6c4363-fe0e-4fed-80a5-213bfe771f7a.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\orange_juice.png",
+      "sha256": "078c240f79bee178d854bb11f6e0bcae2732e0cb69970e7c75e798db4c40f63e"
+    },
+    {
+      "id": "grape_juice",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c67c-4563-7490-9f9e-7a2e17d22587\\exec-5a7274ad-e218-46a0-b365-82b5d5302d99.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\grape_juice.png",
+      "sha256": "ed834326fa3bf2283ab9339e3841aeb51539b1aadd5b8707e1082302b296eb0a"
+    }
+  ],
+  "generatedCount": 10,
+  "notGenerated": [
+    "iced_tea",
+    "rosehip_infusion",
+    "chaga_infusion",
+    "cranberry_drink",
+    "lingonberry_drink"
+  ],
+  "originalGeneratedDefaultsPreserved": true
+}

@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "darkwinter:gravel_surface"
+    "darkwinter:gravel_surface",
+    "darkwinter:test_snowy_grass_slab",
+    "darkwinter:cabin_worn_path"
   ]
 }

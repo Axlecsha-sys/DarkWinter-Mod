@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "darkwinter-biome-editor-worker",
+  "version": "0.1.0",
+  "name": "DarkWinter exact biome preview worker",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.dark.winter.biomeeditor.BiomeEditorWorker"
+    ]
+  },
+  "mixins": [
+    "biome-editor-worker.mixins.json"
+  ],
+  "depends": {
+    "dark-winter": "*",
+    "fabricloader": ">=0.19.5",
+    "minecraft": "26.3",
+    "java": ">=25"
+  }
+}

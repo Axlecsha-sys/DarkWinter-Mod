@@ -1,0 +1,77 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "metal": "darkwinter:block/decor/rusted_steel",
+    "locker_h_hardware": "darkwinter:block/decor/locker_h_hardware",
+    "home_pine_n": "darkwinter:block/decor/home_pine_n",
+    "cabin_window_metal": "darkwinter:block/construction/cabin_window_metal",
+    "particle": "darkwinter:block/construction/cabin_window_metal"
+  },
+  "elements": [
+    {
+      "from": [
+        4.27,
+        0,
+        5.55
+      ],
+      "to": [
+        11.73,
+        6.55,
+        8.54
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cabin_window_metal"
+        },
+        "up": {
+          "texture": "#cabin_window_metal"
+        },
+        "north": {
+          "texture": "#cabin_window_metal"
+        },
+        "south": {
+          "texture": "#cabin_window_metal"
+        },
+        "west": {
+          "texture": "#cabin_window_metal"
+        },
+        "east": {
+          "texture": "#cabin_window_metal"
+        }
+      }
+    },
+    {
+      "from": [
+        7.2,
+        4.93,
+        7.98
+      ],
+      "to": [
+        8.79,
+        16,
+        12.91
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_pine_n"
+        },
+        "up": {
+          "texture": "#home_pine_n"
+        },
+        "north": {
+          "texture": "#home_pine_n"
+        },
+        "south": {
+          "texture": "#home_pine_n"
+        },
+        "west": {
+          "texture": "#home_pine_n"
+        },
+        "east": {
+          "texture": "#home_pine_n"
+        }
+      }
+    }
+  ]
+}

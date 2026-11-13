@@ -1,0 +1,109 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "home_set_worn_iron": "darkwinter:block/interior/home_set_worn_iron",
+    "home_set_phone_ivory": "darkwinter:block/interior/home_set_phone_ivory",
+    "home_set_phone_cord": "darkwinter:block/interior/home_set_phone_cord",
+    "home_set_phone_keys": "darkwinter:block/interior/home_set_phone_keys",
+    "particle": "darkwinter:block/interior/home_set_phone_ivory"
+  },
+  "elements": [
+    {
+      "from": [
+        4.17,
+        0,
+        3.95
+      ],
+      "to": [
+        12.12,
+        2.9,
+        11.99
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "up": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "north": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "south": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "west": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "east": {
+          "texture": "#home_set_phone_ivory"
+        }
+      }
+    },
+    {
+      "from": [
+        9.56,
+        1.3,
+        4.2
+      ],
+      "to": [
+        11.54,
+        4.16,
+        11.7
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "up": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "north": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "south": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "west": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "east": {
+          "texture": "#home_set_phone_ivory"
+        }
+      }
+    },
+    {
+      "from": [
+        11.25,
+        0,
+        3.3
+      ],
+      "to": [
+        14.1,
+        1.81,
+        8.37
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_phone_cord"
+        },
+        "up": {
+          "texture": "#home_set_phone_cord"
+        },
+        "north": {
+          "texture": "#home_set_phone_cord"
+        },
+        "south": {
+          "texture": "#home_set_phone_cord"
+        },
+        "west": {
+          "texture": "#home_set_phone_cord"
+        },
+        "east": {
+          "texture": "#home_set_phone_cord"
+        }
+      }
+    }
+  ]
+}

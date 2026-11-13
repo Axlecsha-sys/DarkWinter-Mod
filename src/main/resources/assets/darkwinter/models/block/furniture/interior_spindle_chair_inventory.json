@@ -1,0 +1,306 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "interior_kitchen_wood": "darkwinter:block/interior/interior_kitchen_wood",
+    "particle": "darkwinter:block/interior/interior_kitchen_wood"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        3.87867,
+        1.0,
+        3.10089
+      ],
+      "to": [
+        5.42529,
+        6.9719,
+        5.04087
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "up": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "north": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "south": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "west": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "east": {
+          "texture": "#interior_kitchen_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        4.01277,
+        1.0,
+        9.79693
+      ],
+      "to": [
+        5.36271,
+        6.9719,
+        12.21073
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "up": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "north": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "south": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "west": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "east": {
+          "texture": "#interior_kitchen_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        10.57471,
+        1.0,
+        3.10089
+      ],
+      "to": [
+        12.12133,
+        6.9719,
+        5.04087
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "up": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "north": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "south": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "west": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "east": {
+          "texture": "#interior_kitchen_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        10.63729,
+        1.0,
+        9.79693
+      ],
+      "to": [
+        11.98723,
+        6.9719,
+        12.21073
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "up": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "north": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "south": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "west": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "east": {
+          "texture": "#interior_kitchen_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        3.64623,
+        6.82886,
+        3.57471
+      ],
+      "to": [
+        12.35377,
+        7.4636,
+        11.56705
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "up": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "north": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "south": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "west": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "east": {
+          "texture": "#interior_kitchen_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        4.17369,
+        7.40102,
+        10.07407
+      ],
+      "to": [
+        11.82631,
+        12.04981,
+        11.81737
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "up": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "north": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "south": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "west": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "east": {
+          "texture": "#interior_kitchen_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        3.67305,
+        12.04981,
+        11.45977
+      ],
+      "to": [
+        12.32695,
+        15.0,
+        12.89911
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "up": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "north": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "south": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "west": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "east": {
+          "texture": "#interior_kitchen_wood"
+        }
+      }
+    }
+  ]
+}

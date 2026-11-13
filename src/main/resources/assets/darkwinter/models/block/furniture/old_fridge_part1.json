@@ -3,35 +3,145 @@
   "ambientocclusion": true,
   "textures": {
     "metal": "darkwinter:block/decor/rusted_steel",
-    "enamel": "darkwinter:block/decor/chipped_enamel",
-    "fabric": "darkwinter:block/decor/faded_fabric",
-    "concrete": "darkwinter:block/decor/aged_concrete",
-    "ceramic": "darkwinter:block/decor/cracked_ceramic",
-    "wood": "darkwinter:block/weathered_planks_gray",
-    "dark_wood": "darkwinter:block/weathered_planks_dark",
     "black": "minecraft:block/black_concrete",
-    "glass": "darkwinter:block/frozen_glass",
-    "asphalt": "darkwinter:block/outdoor/asphalt",
-    "bark": "darkwinter:block/nature/spruce_bark",
-    "cut_wood": "darkwinter:block/nature/cut_spruce",
-    "rock": "darkwinter:block/nature/granite",
-    "foliage": "darkwinter:block/nature/foliage",
-    "white": "minecraft:block/white_concrete",
-    "red": "minecraft:block/red_concrete",
-    "yellow": "minecraft:block/yellow_concrete",
-    "orange": "minecraft:block/orange_concrete",
-    "soil": "minecraft:block/dirt",
-    "snow": "minecraft:block/snow",
-    "cardboard": "minecraft:block/brown_concrete",
-    "dry_grass": "minecraft:block/hay_block_side",
-    "particle": "darkwinter:block/decor/chipped_enamel"
+    "interior_fridge_milk": "darkwinter:block/interior/interior_fridge_milk",
+    "interior_sink_steel": "darkwinter:block/interior/interior_sink_steel",
+    "particle": "darkwinter:block/interior/interior_fridge_milk"
   },
   "elements": [
     {
       "from": [
+        2.07,
+        0,
+        0.31
+      ],
+      "to": [
+        13.93,
+        6.13,
+        1.66
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_fridge_milk"
+        },
+        "up": {
+          "texture": "#interior_fridge_milk"
+        },
+        "north": {
+          "texture": "#interior_fridge_milk"
+        },
+        "south": {
+          "texture": "#interior_fridge_milk"
+        },
+        "west": {
+          "texture": "#interior_fridge_milk"
+        },
+        "east": {
+          "texture": "#interior_fridge_milk"
+        }
+      }
+    },
+    {
+      "from": [
+        2.96,
+        4.6,
+        0.01
+      ],
+      "to": [
+        7.91,
+        5.18,
+        0.31
+      ],
+      "faces": {
+        "down": {
+          "texture": "#black"
+        },
+        "up": {
+          "texture": "#black"
+        },
+        "north": {
+          "texture": "#black"
+        },
+        "south": {
+          "texture": "#black"
+        },
+        "west": {
+          "texture": "#black"
+        },
+        "east": {
+          "texture": "#black"
+        }
+      }
+    },
+    {
+      "from": [
+        2.07,
+        6.39,
+        0.31
+      ],
+      "to": [
+        13.93,
+        14.64,
+        1.66
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_fridge_milk"
+        },
+        "up": {
+          "texture": "#interior_fridge_milk"
+        },
+        "north": {
+          "texture": "#interior_fridge_milk"
+        },
+        "south": {
+          "texture": "#interior_fridge_milk"
+        },
+        "west": {
+          "texture": "#interior_fridge_milk"
+        },
+        "east": {
+          "texture": "#interior_fridge_milk"
+        }
+      }
+    },
+    {
+      "from": [
+        2.96,
+        7.58,
+        0.01
+      ],
+      "to": [
+        7.91,
+        8.16,
+        0.31
+      ],
+      "faces": {
+        "down": {
+          "texture": "#black"
+        },
+        "up": {
+          "texture": "#black"
+        },
+        "north": {
+          "texture": "#black"
+        },
+        "south": {
+          "texture": "#black"
+        },
+        "west": {
+          "texture": "#black"
+        },
+        "east": {
+          "texture": "#black"
+        }
+      }
+    },
+    {
+      "from": [
         2,
         0,
-        2
+        1.66
       ],
       "to": [
         14,
@@ -40,182 +150,22 @@
       ],
       "faces": {
         "down": {
-          "texture": "#enamel"
+          "texture": "#interior_fridge_milk"
         },
         "up": {
-          "texture": "#enamel"
+          "texture": "#interior_fridge_milk"
         },
         "north": {
-          "texture": "#enamel"
+          "texture": "#interior_fridge_milk"
         },
         "south": {
-          "texture": "#enamel"
+          "texture": "#interior_fridge_milk"
         },
         "west": {
-          "texture": "#enamel"
+          "texture": "#interior_fridge_milk"
         },
         "east": {
-          "texture": "#enamel"
-        }
-      }
-    },
-    {
-      "from": [
-        3,
-        0,
-        1
-      ],
-      "to": [
-        13,
-        14,
-        2
-      ],
-      "faces": {
-        "down": {
-          "texture": "#black"
-        },
-        "up": {
-          "texture": "#black"
-        },
-        "north": {
-          "texture": "#black"
-        },
-        "south": {
-          "texture": "#black"
-        },
-        "west": {
-          "texture": "#black"
-        },
-        "east": {
-          "texture": "#black"
-        }
-      }
-    },
-    {
-      "from": [
-        3,
-        0,
-        0
-      ],
-      "to": [
-        13,
-        6,
-        1
-      ],
-      "faces": {
-        "down": {
-          "texture": "#enamel"
-        },
-        "up": {
-          "texture": "#enamel"
-        },
-        "north": {
-          "texture": "#enamel"
-        },
-        "south": {
-          "texture": "#enamel"
-        },
-        "west": {
-          "texture": "#enamel"
-        },
-        "east": {
-          "texture": "#enamel"
-        }
-      }
-    },
-    {
-      "from": [
-        3,
-        7,
-        0
-      ],
-      "to": [
-        13,
-        14,
-        1
-      ],
-      "faces": {
-        "down": {
-          "texture": "#enamel"
-        },
-        "up": {
-          "texture": "#enamel"
-        },
-        "north": {
-          "texture": "#enamel"
-        },
-        "south": {
-          "texture": "#enamel"
-        },
-        "west": {
-          "texture": "#enamel"
-        },
-        "east": {
-          "texture": "#enamel"
-        }
-      }
-    },
-    {
-      "from": [
-        11,
-        8,
-        0
-      ],
-      "to": [
-        12,
-        12,
-        2
-      ],
-      "faces": {
-        "down": {
-          "texture": "#metal"
-        },
-        "up": {
-          "texture": "#metal"
-        },
-        "north": {
-          "texture": "#metal"
-        },
-        "south": {
-          "texture": "#metal"
-        },
-        "west": {
-          "texture": "#metal"
-        },
-        "east": {
-          "texture": "#metal"
-        }
-      }
-    },
-    {
-      "from": [
-        11,
-        1,
-        0
-      ],
-      "to": [
-        12,
-        5,
-        2
-      ],
-      "faces": {
-        "down": {
-          "texture": "#metal"
-        },
-        "up": {
-          "texture": "#metal"
-        },
-        "north": {
-          "texture": "#metal"
-        },
-        "south": {
-          "texture": "#metal"
-        },
-        "west": {
-          "texture": "#metal"
-        },
-        "east": {
-          "texture": "#metal"
+          "texture": "#interior_fridge_milk"
         }
       }
     }

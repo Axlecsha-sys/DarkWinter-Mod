@@ -1,0 +1,6 @@
+{
+  "feature": "darkwinter:test_forest_decor",
+  "placement": [
+    { "type": "minecraft:biome" }
+  ]
+}

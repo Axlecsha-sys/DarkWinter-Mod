@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "cabin_fascia_wood": "darkwinter:block/construction/cabin_fascia_wood",
+    "particle": "darkwinter:block/construction/cabin_fascia_wood"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        14
+      ],
+      "to": [
+        16,
+        2.3,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "up": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "north": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "south": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "west": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "east": {
+          "texture": "#cabin_fascia_wood"
+        }
+      }
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-# Build the Fabric project with Java 25 and retain distributable artifacts.
+# Build the Windows x64 Fabric/WKE distribution with Java 25 and verify its package.
 
 name: build
 on: [pull_request, push]
@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: windows-2025
     steps:
       - name: checkout repository
         uses: actions/checkout@v6
@@ -19,10 +19,9 @@ jobs:
         with:
           java-version: '25'
           distribution: 'microsoft'
-      - name: make gradle wrapper executable
-        run: chmod +x ./gradlew
-      - name: build
-        run: ./gradlew build
+      - name: build and verify WKE package
+        shell: pwsh
+        run: .\gradlew.bat --no-daemon build wkeVerifyPackage
       - name: capture build artifacts
         uses: actions/upload-artifact@v7
         with:

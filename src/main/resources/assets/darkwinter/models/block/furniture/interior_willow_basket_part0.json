@@ -1,0 +1,235 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "interior_willow": "darkwinter:block/interior/interior_willow",
+    "interior_willow_weave": "darkwinter:block/interior/interior_willow_weave",
+    "particle": "darkwinter:block/interior/interior_willow_weave"
+  },
+  "elements": [
+    {
+      "from": [
+        3.98,
+        0,
+        5.4
+      ],
+      "to": [
+        12.02,
+        0.42,
+        10.6
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_willow_weave"
+        },
+        "up": {
+          "texture": "#interior_willow_weave"
+        },
+        "north": {
+          "texture": "#interior_willow_weave"
+        },
+        "south": {
+          "texture": "#interior_willow_weave"
+        },
+        "west": {
+          "texture": "#interior_willow_weave"
+        },
+        "east": {
+          "texture": "#interior_willow_weave"
+        }
+      }
+    },
+    {
+      "from": [
+        2.37,
+        0.27,
+        4.15
+      ],
+      "to": [
+        4.4,
+        4.45,
+        11.85
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_willow"
+        },
+        "up": {
+          "texture": "#interior_willow"
+        },
+        "north": {
+          "texture": "#interior_willow"
+        },
+        "south": {
+          "texture": "#interior_willow"
+        },
+        "west": {
+          "texture": "#interior_willow"
+        },
+        "east": {
+          "texture": "#interior_willow"
+        }
+      }
+    },
+    {
+      "from": [
+        11.6,
+        0.27,
+        4.15
+      ],
+      "to": [
+        13.63,
+        4.45,
+        11.85
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_willow"
+        },
+        "up": {
+          "texture": "#interior_willow"
+        },
+        "north": {
+          "texture": "#interior_willow"
+        },
+        "south": {
+          "texture": "#interior_willow"
+        },
+        "west": {
+          "texture": "#interior_willow"
+        },
+        "east": {
+          "texture": "#interior_willow"
+        }
+      }
+    },
+    {
+      "from": [
+        3.98,
+        0.27,
+        4.15
+      ],
+      "to": [
+        12.02,
+        4.45,
+        5.62
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_willow"
+        },
+        "up": {
+          "texture": "#interior_willow"
+        },
+        "north": {
+          "texture": "#interior_willow"
+        },
+        "south": {
+          "texture": "#interior_willow"
+        },
+        "west": {
+          "texture": "#interior_willow"
+        },
+        "east": {
+          "texture": "#interior_willow"
+        }
+      }
+    },
+    {
+      "from": [
+        3.98,
+        0.27,
+        10.38
+      ],
+      "to": [
+        12.02,
+        4.45,
+        11.85
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_willow"
+        },
+        "up": {
+          "texture": "#interior_willow"
+        },
+        "north": {
+          "texture": "#interior_willow"
+        },
+        "south": {
+          "texture": "#interior_willow"
+        },
+        "west": {
+          "texture": "#interior_willow"
+        },
+        "east": {
+          "texture": "#interior_willow"
+        }
+      }
+    },
+    {
+      "from": [
+        2.43,
+        3.6,
+        6.52
+      ],
+      "to": [
+        3.2,
+        5.83,
+        9.48
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_willow"
+        },
+        "up": {
+          "texture": "#interior_willow"
+        },
+        "north": {
+          "texture": "#interior_willow"
+        },
+        "south": {
+          "texture": "#interior_willow"
+        },
+        "west": {
+          "texture": "#interior_willow"
+        },
+        "east": {
+          "texture": "#interior_willow"
+        }
+      }
+    },
+    {
+      "from": [
+        12.8,
+        3.6,
+        6.52
+      ],
+      "to": [
+        13.57,
+        5.83,
+        9.48
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_willow"
+        },
+        "up": {
+          "texture": "#interior_willow"
+        },
+        "north": {
+          "texture": "#interior_willow"
+        },
+        "south": {
+          "texture": "#interior_willow"
+        },
+        "west": {
+          "texture": "#interior_willow"
+        },
+        "east": {
+          "texture": "#interior_willow"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "darkwinter:block/terrain/dirt"
+      },
+      {
+        "model": "darkwinter:block/terrain/dirt",
+        "y": 90
+      },
+      {
+        "model": "darkwinter:block/terrain/dirt",
+        "y": 180
+      },
+      {
+        "model": "darkwinter:block/terrain/dirt",
+        "y": 270
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "interior_rug_diamond": "darkwinter:block/interior/interior_rug_diamond",
+    "particle": "darkwinter:block/interior/interior_rug_diamond"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        1.9
+      ],
+      "to": [
+        13.5,
+        0.26,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_diamond"
+        },
+        "up": {
+          "texture": "#interior_rug_diamond"
+        },
+        "north": {
+          "texture": "#interior_rug_diamond"
+        },
+        "south": {
+          "texture": "#interior_rug_diamond"
+        },
+        "west": {
+          "texture": "#interior_rug_diamond"
+        },
+        "east": {
+          "texture": "#interior_rug_diamond"
+        }
+      }
+    }
+  ]
+}

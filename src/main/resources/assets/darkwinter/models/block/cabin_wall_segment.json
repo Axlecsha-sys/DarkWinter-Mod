@@ -1,0 +1,8 @@
+{
+  "parent": "darkwinter:block/wall_segment",
+  "textures": {
+    "all": "darkwinter:block/construction/cabin_siding",
+    "particle": "darkwinter:block/construction/cabin_siding",
+    "b4_end": "darkwinter:block/construction/b4_end"
+  }
+}

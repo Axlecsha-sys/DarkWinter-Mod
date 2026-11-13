@@ -1,0 +1,521 @@
+{
+  "source": "dw_controls live Minecraft, 2026-11-07",
+  "controls": [
+    {
+      "id": "key.advancements",
+      "label": "Достижения",
+      "binding": "key.keyboard.l",
+      "bound": true
+    },
+    {
+      "id": "key.attack",
+      "label": "Атаковать/Разрушить",
+      "binding": "key.mouse.left",
+      "bound": true
+    },
+    {
+      "id": "key.back",
+      "label": "Назад",
+      "binding": "key.keyboard.s",
+      "bound": true
+    },
+    {
+      "id": "key.chat",
+      "label": "Открыть чат",
+      "binding": "key.keyboard.t",
+      "bound": true
+    },
+    {
+      "id": "key.command",
+      "label": "Ввод команды",
+      "binding": "key.keyboard.slash",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.friends",
+      "label": "Открыть соединения DarkWinter",
+      "binding": "key.keyboard.keypad.enter",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.gather_deadwood",
+      "label": "Добыть валежник",
+      "binding": "key.keyboard.e",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.switch_shoulder",
+      "label": "key.darkwinter.switch_shoulder",
+      "binding": "key.keyboard.v",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.testing_atmosphere",
+      "label": "Лаборатория: атмосфера и туман",
+      "binding": "key.keyboard.keypad.6",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.testing_camera",
+      "label": "Лаборатория: камера персонажа",
+      "binding": "key.keyboard.keypad.0",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.testing_character",
+      "label": "Редактор / персонаж",
+      "binding": "key.keyboard.f9",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.testing_diagnostics",
+      "label": "Диагностика лаборатории",
+      "binding": "key.keyboard.f10",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.testing_editor",
+      "label": "Редактор тестирования",
+      "binding": "key.keyboard.f8",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.testing_hud",
+      "label": "Лаборатория: игровой HUD",
+      "binding": "key.keyboard.keypad.1",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.testing_motion",
+      "label": "Лаборатория: движение",
+      "binding": "key.keyboard.keypad.9",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.testing_panel",
+      "label": "Свернуть панель лаборатории",
+      "binding": "key.keyboard.f7",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.testing_precipitation",
+      "label": "Лаборатория: снег и позёмка",
+      "binding": "key.keyboard.keypad.4",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.testing_redo",
+      "label": "Редактор: повторить",
+      "binding": "key.keyboard.unknown",
+      "bound": false
+    },
+    {
+      "id": "key.darkwinter.testing_rotate",
+      "label": "Редактор: повернуть объект",
+      "binding": "key.keyboard.unknown",
+      "bound": false
+    },
+    {
+      "id": "key.darkwinter.testing_select",
+      "label": "Выделить объект / угол A",
+      "binding": "key.keyboard.unknown",
+      "bound": false
+    },
+    {
+      "id": "key.darkwinter.testing_select_second",
+      "label": "Выделить угол B",
+      "binding": "key.keyboard.unknown",
+      "bound": false
+    },
+    {
+      "id": "key.darkwinter.testing_stamina",
+      "label": "Лаборатория: выносливость",
+      "binding": "key.keyboard.keypad.7",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.testing_survival",
+      "label": "Лаборатория: голод и выживание",
+      "binding": "key.keyboard.keypad.8",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.testing_undo",
+      "label": "Редактор: отменить",
+      "binding": "key.keyboard.unknown",
+      "bound": false
+    },
+    {
+      "id": "key.darkwinter.testing_visuals",
+      "label": "Лаборатория: шейдеры и постэффекты",
+      "binding": "key.keyboard.keypad.5",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.testing_weather",
+      "label": "Лаборатория: погода",
+      "binding": "key.keyboard.keypad.2",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.testing_wind",
+      "label": "Лаборатория: ветер",
+      "binding": "key.keyboard.keypad.3",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.voice_ptt",
+      "label": "Голос: удерживать для передачи",
+      "binding": "key.keyboard.n",
+      "bound": true
+    },
+    {
+      "id": "key.darkwinter.wall_menu",
+      "label": "Меню строительства",
+      "binding": "key.keyboard.u",
+      "bound": true
+    },
+    {
+      "id": "key.debug.clearChat",
+      "label": "Очистить чат",
+      "binding": "key.keyboard.d",
+      "bound": true
+    },
+    {
+      "id": "key.debug.copyLocation",
+      "label": "Копировать координаты",
+      "binding": "key.keyboard.c",
+      "bound": true
+    },
+    {
+      "id": "key.debug.copyRecreateCommand",
+      "label": "Копировать данные",
+      "binding": "key.keyboard.i",
+      "bound": true
+    },
+    {
+      "id": "key.debug.crash",
+      "label": "Отладочный сбой",
+      "binding": "key.keyboard.c",
+      "bound": true
+    },
+    {
+      "id": "key.debug.debugOptions",
+      "label": "Параметры отладки",
+      "binding": "key.keyboard.f6",
+      "bound": true
+    },
+    {
+      "id": "key.debug.dumpDynamicTextures",
+      "label": "Сохранить динамические текстуры",
+      "binding": "key.keyboard.s",
+      "bound": true
+    },
+    {
+      "id": "key.debug.dumpVersion",
+      "label": "Вывести информацию о версии",
+      "binding": "key.keyboard.v",
+      "bound": true
+    },
+    {
+      "id": "key.debug.focusPause",
+      "label": "Переключить паузу при сворачивании",
+      "binding": "key.keyboard.p",
+      "bound": true
+    },
+    {
+      "id": "key.debug.fpsCharts",
+      "label": "Графики FPS",
+      "binding": "key.keyboard.2",
+      "bound": true
+    },
+    {
+      "id": "key.debug.improvedTransparency",
+      "label": "Улучшенная прозрачность",
+      "binding": "key.keyboard.x",
+      "bound": true
+    },
+    {
+      "id": "key.debug.lightmapTexture",
+      "label": "Карта освещения",
+      "binding": "key.keyboard.4",
+      "bound": true
+    },
+    {
+      "id": "key.debug.modifier",
+      "label": "Клавиша-модификатор отладки",
+      "binding": "key.keyboard.f3",
+      "bound": true
+    },
+    {
+      "id": "key.debug.networkCharts",
+      "label": "Сетевые графики",
+      "binding": "key.keyboard.3",
+      "bound": true
+    },
+    {
+      "id": "key.debug.overlay",
+      "label": "Переключить экран отладки",
+      "binding": "key.keyboard.f3",
+      "bound": true
+    },
+    {
+      "id": "key.debug.profiling",
+      "label": "Начать/остановить профилирование",
+      "binding": "key.keyboard.l",
+      "bound": true
+    },
+    {
+      "id": "key.debug.profilingChart",
+      "label": "Диаграмма профилирования",
+      "binding": "key.keyboard.1",
+      "bound": true
+    },
+    {
+      "id": "key.debug.reloadChunk",
+      "label": "Перезагрузить чанки",
+      "binding": "key.keyboard.a",
+      "bound": true
+    },
+    {
+      "id": "key.debug.reloadResourcePacks",
+      "label": "Перезагрузить наборы ресурсов",
+      "binding": "key.keyboard.t",
+      "bound": true
+    },
+    {
+      "id": "key.debug.showAdvancedTooltips",
+      "label": "Показывать расширенные подсказки",
+      "binding": "key.keyboard.h",
+      "bound": true
+    },
+    {
+      "id": "key.debug.showChunkBorders",
+      "label": "Отображать границы чанков",
+      "binding": "key.keyboard.g",
+      "bound": true
+    },
+    {
+      "id": "key.debug.showHitboxes",
+      "label": "Отображать хитбоксы",
+      "binding": "key.keyboard.b",
+      "bound": true
+    },
+    {
+      "id": "key.debug.spectate",
+      "label": "Переключить режим наблюдателя",
+      "binding": "key.keyboard.n",
+      "bound": true
+    },
+    {
+      "id": "key.debug.switchGameMode",
+      "label": "Переключатель режима игры",
+      "binding": "key.keyboard.f4",
+      "bound": true
+    },
+    {
+      "id": "key.drop",
+      "label": "Выбросить предмет",
+      "binding": "key.keyboard.q",
+      "bound": true
+    },
+    {
+      "id": "key.forward",
+      "label": "Вперёд",
+      "binding": "key.keyboard.w",
+      "bound": true
+    },
+    {
+      "id": "key.friends",
+      "label": "Друзья",
+      "binding": "key.keyboard.o",
+      "bound": true
+    },
+    {
+      "id": "key.fullscreen",
+      "label": "Полноэкранный режим",
+      "binding": "key.keyboard.f11",
+      "bound": true
+    },
+    {
+      "id": "key.hotbar.1",
+      "label": "Слот 1",
+      "binding": "key.keyboard.1",
+      "bound": true
+    },
+    {
+      "id": "key.hotbar.2",
+      "label": "Слот 2",
+      "binding": "key.keyboard.2",
+      "bound": true
+    },
+    {
+      "id": "key.hotbar.3",
+      "label": "Слот 3",
+      "binding": "key.keyboard.3",
+      "bound": true
+    },
+    {
+      "id": "key.hotbar.4",
+      "label": "Слот 4",
+      "binding": "key.keyboard.4",
+      "bound": true
+    },
+    {
+      "id": "key.hotbar.5",
+      "label": "Слот 5",
+      "binding": "key.keyboard.5",
+      "bound": true
+    },
+    {
+      "id": "key.hotbar.6",
+      "label": "Слот 6",
+      "binding": "key.keyboard.6",
+      "bound": true
+    },
+    {
+      "id": "key.hotbar.7",
+      "label": "Слот 7",
+      "binding": "key.keyboard.7",
+      "bound": true
+    },
+    {
+      "id": "key.hotbar.8",
+      "label": "Слот 8",
+      "binding": "key.keyboard.8",
+      "bound": true
+    },
+    {
+      "id": "key.hotbar.9",
+      "label": "Слот 9",
+      "binding": "key.keyboard.9",
+      "bound": true
+    },
+    {
+      "id": "key.inventory",
+      "label": "Открыть/закрыть инвентарь",
+      "binding": "key.keyboard.tab",
+      "bound": true
+    },
+    {
+      "id": "key.jump",
+      "label": "Прыжок",
+      "binding": "key.keyboard.space",
+      "bound": true
+    },
+    {
+      "id": "key.left",
+      "label": "Влево",
+      "binding": "key.keyboard.a",
+      "bound": true
+    },
+    {
+      "id": "key.loadToolbarActivator",
+      "label": "Загрузить инструменты",
+      "binding": "key.keyboard.x",
+      "bound": true
+    },
+    {
+      "id": "key.pickItem",
+      "label": "Выбор блока",
+      "binding": "key.mouse.middle",
+      "bound": true
+    },
+    {
+      "id": "key.playerlist",
+      "label": "Список игроков",
+      "binding": "key.keyboard.unknown",
+      "bound": false
+    },
+    {
+      "id": "key.quickActions",
+      "label": "Быстрые действия",
+      "binding": "key.keyboard.g",
+      "bound": true
+    },
+    {
+      "id": "key.right",
+      "label": "Вправо",
+      "binding": "key.keyboard.d",
+      "bound": true
+    },
+    {
+      "id": "key.saveToolbarActivator",
+      "label": "Сохранить инструменты",
+      "binding": "key.keyboard.c",
+      "bound": true
+    },
+    {
+      "id": "key.screenshot",
+      "label": "Сделать снимок экрана",
+      "binding": "key.keyboard.f2",
+      "bound": true
+    },
+    {
+      "id": "key.smoothCamera",
+      "label": "Кинематографическая камера",
+      "binding": "key.keyboard.unknown",
+      "bound": false
+    },
+    {
+      "id": "key.sneak",
+      "label": "Красться",
+      "binding": "key.keyboard.left.control",
+      "bound": true
+    },
+    {
+      "id": "key.socialInteractions",
+      "label": "Экран социальных взаимодействий",
+      "binding": "key.keyboard.p",
+      "bound": true
+    },
+    {
+      "id": "key.spectatorHotbar",
+      "label": "Выбрать на панели быстрого доступа",
+      "binding": "key.mouse.middle",
+      "bound": true
+    },
+    {
+      "id": "key.spectatorOutlines",
+      "label": "Подсветка игроков",
+      "binding": "key.keyboard.unknown",
+      "bound": false
+    },
+    {
+      "id": "key.sprint",
+      "label": "Бег",
+      "binding": "key.keyboard.left.shift",
+      "bound": true
+    },
+    {
+      "id": "key.swapOffhand",
+      "label": "Заменить предмет во второй руке",
+      "binding": "key.keyboard.f",
+      "bound": true
+    },
+    {
+      "id": "key.toggleGui",
+      "label": "Переключение интерфейса",
+      "binding": "key.keyboard.f1",
+      "bound": true
+    },
+    {
+      "id": "key.togglePerspective",
+      "label": "Переключить перспективу",
+      "binding": "key.keyboard.f5",
+      "bound": true
+    },
+    {
+      "id": "key.toggleSpectatorShaderEffects",
+      "label": "Переключение шейдеров наблюдения",
+      "binding": "key.keyboard.f4",
+      "bound": true
+    },
+    {
+      "id": "key.use",
+      "label": "Использовать/Установить",
+      "binding": "key.mouse.right",
+      "bound": true
+    }
+  ]
+}

@@ -2,11 +2,13 @@
 
 package com.dark.winter.client;
 
+import com.dark.winter.client.interaction.HousePassageClient;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 
 public final class SprintStamina {
 
@@ -41,6 +43,7 @@ public final class SprintStamina {
     private static final int JUMP_COOLDOWN = 18;
 
     private static int lastJumpTick = -1000;
+    private static LocalPlayer jumpClockPlayer;
 
     private static float stamina = MAX_STAMINA;
     private static boolean exhausted = false;
@@ -54,6 +57,7 @@ public final class SprintStamina {
             throw new IllegalArgumentException("Invalid stamina snapshot");
         stamina=state.stamina();exhausted=state.exhausted();lastJumpTick=state.lastJumpTick();
         sprintBlend=state.sprintBlend();recoveryDelayTicks=state.recoveryDelayTicks();
+        jumpClockPlayer=Minecraft.getInstance().player;
     }
 
     public static float getStamina() {
@@ -64,12 +68,15 @@ public final class SprintStamina {
         stamina = getMaxStamina();
         exhausted = false;
         lastJumpTick = -1000;
+        jumpClockPlayer = null;
         sprintBlend = 0.0F;
         recoveryDelayTicks = 0;
     }
 
 
     public static void tick(Minecraft client) {
+        // Fabric client ticks continue while the singleplayer simulation is paused.
+        if (client.isPaused()) return;
         if (!TestingAccess.enabled("stamina")) {
             reset();
             if (client.player != null) {
@@ -98,7 +105,7 @@ public final class SprintStamina {
         }
 
         // Можно ли включить спринт?
-        boolean canSprint = sprintKeyHeld
+        boolean canSprint = !HousePassageClient.restrictMovement() && sprintKeyHeld
                 && !client.options.keyDown.isDown()
                 && !exhausted
                 && stamina > 0.0F
@@ -114,7 +121,9 @@ public final class SprintStamina {
 
             // Расходуем силы во время бега
             var lab=testingSettings();
-            stamina -= lab==null?SPRINT_COST:lab.staminaSprintDrain/20f;
+            stamina -= (lab==null?SPRINT_COST:lab.staminaSprintDrain/20f)
+                    * com.winterkore.engine.surface.SnowTravelPolicy.exertion(
+                            com.winterkore.engine.surface.host.SnowLocomotion.depthMillimeters(client.player));
 
             // Обновляем задержку восстановления
             recoveryDelayTicks = Math.max(
@@ -128,6 +137,11 @@ public final class SprintStamina {
                 client.player.setSprinting(false);
             }
 
+        } else if (moving && com.winterkore.engine.surface.host.SnowLocomotion.gaitWeight(client.player) > .02f) {
+            // Wading also costs effort at walking speed; merely standing in snow never drains stamina.
+            stamina -= 2.1f/20f * com.winterkore.engine.surface.host.SnowLocomotion.gaitWeight(client.player);
+            recoveryDelayTicks = Math.max(recoveryDelayTicks, SPRINT_RECOVERY_DELAY);
+            if (stamina <= 0) {stamina = 0;exhausted = true;}
         } else {
 
             // Сначала проходит задержка
@@ -155,12 +169,21 @@ public final class SprintStamina {
     public static boolean tryJump(int currentTick, boolean sprinting) {
         if (!TestingAccess.enabled("stamina")) return true;
 
+        // Respawn replaces LocalPlayer and restarts its tick counter without unloading the world.
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (jumpClockPlayer != player) {
+            jumpClockPlayer = player;
+            lastJumpTick = -1000;
+        }
+
         if (exhausted) {
             return false;
         }
 
         // Запрещаем слишком частые прыжки
-        if (currentTick - lastJumpTick < JUMP_COOLDOWN) {
+        // Legacy snapshots may carry a tick from an older player clock; never wait for it to catch up.
+        long elapsed = (long) currentTick - lastJumpTick;
+        if (elapsed >= 0 && elapsed < JUMP_COOLDOWN) {
             return false;
         }
 
@@ -191,6 +214,7 @@ public final class SprintStamina {
     }
 
     public static boolean canAutoRun() {
+        if (HousePassageClient.restrictMovement()) return false;
         if (!TestingAccess.enabled("stamina")) return true;
         return !exhausted && stamina > 0.0F;
     }
@@ -217,7 +241,7 @@ public final class SprintStamina {
         }
 
         // Не вмешиваемся в полёт, верховую езду и плавание.
-        if (client.player.getAbilities().flying
+        if (HousePassageClient.restrictMovement() || client.player.getAbilities().flying
                 || client.player.isPassenger()
                 || client.player.isInWater()) {
             sprintBlend = 0.0F;
@@ -238,7 +262,8 @@ public final class SprintStamina {
         // Желаемая скорость: от x1.00 до x1.30 по мере разгона.
         double vanillaFactor = client.player.isSprinting()
                 ? 1.0D + SPRINT_BONUS : 1.0D;
-        double desiredFactor = 1.0D + SPRINT_BONUS * sprintBlend;
+        double desiredFactor = 1.0D + com.winterkore.engine.surface.SnowTravelPolicy.sprintBonus(
+                com.winterkore.engine.surface.host.SnowLocomotion.depthMillimeters(client.player)) * sprintBlend;
         double correction = desiredFactor / vanillaFactor - 1.0D;
 
         if (Math.abs(correction) < 0.0001D) {

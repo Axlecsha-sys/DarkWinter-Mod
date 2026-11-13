@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "darkwinter:test_snowy_grass_slab",
     "darkwinter:floor_segment",
     "darkwinter:weathered_floor_segment_gray",
     "darkwinter:weathered_floor_segment_dark",

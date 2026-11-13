@@ -2,6 +2,7 @@
 package com.dark.winter.client.mixin.client;
 
 import com.dark.winter.client.equipment.FirstPersonGripRenderer;
+import com.dark.winter.client.equipment.CharacterVisuals;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.FirstPersonHandsAndItemsRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -14,9 +15,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/** Both actual 26.3 ordinary/crossbow item submissions; map hands and empty hands keep their own path. */
+/** Preserve special camera-only items and hand rendering in poses without a world avatar. */
 @Mixin(FirstPersonHandsAndItemsRenderer.class)
 public abstract class FirstPersonItemGripMixin {
+    @Inject(method = "submitHandsWithItems", at = @At("HEAD"), cancellable = true)
+    private void darkwinter$useAvatarHands(float partialTick, PoseStack poses, SubmitNodeCollector collector,
+                                           PlayerRenderState player, FirstPersonHandsAndItemsRenderState hands, CallbackInfo ci) {
+        if (CharacterVisuals.usesModelHands()) ci.cancel();
+    }
+
     @Inject(method = "submitArmWithItem(Lnet/minecraft/client/renderer/state/level/PlayerRenderState;Lnet/minecraft/client/renderer/state/level/FirstPersonHandsAndItemsRenderState;FFLnet/minecraft/world/InteractionHand;FLnet/minecraft/world/item/ItemStack;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/item/ItemStackRenderState;submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;III)V"), require = 2)
     private void darkwinter$gripExistingItemPose(PlayerRenderState player, FirstPersonHandsAndItemsRenderState hands,

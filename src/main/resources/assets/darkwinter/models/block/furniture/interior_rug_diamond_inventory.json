@@ -1,0 +1,274 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "interior_rug_diamond": "darkwinter:block/interior/interior_rug_diamond",
+    "particle": "darkwinter:block/interior/interior_rug_diamond"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        3.72398,
+        7.95882,
+        1.0
+      ],
+      "to": [
+        8.0,
+        8.04118,
+        5.46606
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_diamond"
+        },
+        "up": {
+          "texture": "#interior_rug_diamond"
+        },
+        "north": {
+          "texture": "#interior_rug_diamond"
+        },
+        "south": {
+          "texture": "#interior_rug_diamond"
+        },
+        "west": {
+          "texture": "#interior_rug_diamond"
+        },
+        "east": {
+          "texture": "#interior_rug_diamond"
+        }
+      }
+    },
+    {
+      "from": [
+        8.0,
+        7.95882,
+        1.0
+      ],
+      "to": [
+        12.27602,
+        8.04118,
+        5.46606
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_diamond"
+        },
+        "up": {
+          "texture": "#interior_rug_diamond"
+        },
+        "north": {
+          "texture": "#interior_rug_diamond"
+        },
+        "south": {
+          "texture": "#interior_rug_diamond"
+        },
+        "west": {
+          "texture": "#interior_rug_diamond"
+        },
+        "east": {
+          "texture": "#interior_rug_diamond"
+        }
+      }
+    },
+    {
+      "from": [
+        3.72398,
+        7.95882,
+        5.46606
+      ],
+      "to": [
+        8.0,
+        8.04118,
+        10.53394
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_diamond"
+        },
+        "up": {
+          "texture": "#interior_rug_diamond"
+        },
+        "north": {
+          "texture": "#interior_rug_diamond"
+        },
+        "south": {
+          "texture": "#interior_rug_diamond"
+        },
+        "west": {
+          "texture": "#interior_rug_diamond"
+        },
+        "east": {
+          "texture": "#interior_rug_diamond"
+        }
+      }
+    },
+    {
+      "from": [
+        8.0,
+        7.95882,
+        5.46606
+      ],
+      "to": [
+        12.27602,
+        8.04118,
+        10.53394
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_diamond"
+        },
+        "up": {
+          "texture": "#interior_rug_diamond"
+        },
+        "north": {
+          "texture": "#interior_rug_diamond"
+        },
+        "south": {
+          "texture": "#interior_rug_diamond"
+        },
+        "west": {
+          "texture": "#interior_rug_diamond"
+        },
+        "east": {
+          "texture": "#interior_rug_diamond"
+        }
+      }
+    },
+    {
+      "from": [
+        3.72398,
+        7.95882,
+        10.53394
+      ],
+      "to": [
+        8.0,
+        8.04118,
+        15.0
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_diamond"
+        },
+        "up": {
+          "texture": "#interior_rug_diamond"
+        },
+        "north": {
+          "texture": "#interior_rug_diamond"
+        },
+        "south": {
+          "texture": "#interior_rug_diamond"
+        },
+        "west": {
+          "texture": "#interior_rug_diamond"
+        },
+        "east": {
+          "texture": "#interior_rug_diamond"
+        }
+      }
+    },
+    {
+      "from": [
+        8.0,
+        7.95882,
+        10.53394
+      ],
+      "to": [
+        12.27602,
+        8.04118,
+        15.0
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_diamond"
+        },
+        "up": {
+          "texture": "#interior_rug_diamond"
+        },
+        "north": {
+          "texture": "#interior_rug_diamond"
+        },
+        "south": {
+          "texture": "#interior_rug_diamond"
+        },
+        "west": {
+          "texture": "#interior_rug_diamond"
+        },
+        "east": {
+          "texture": "#interior_rug_diamond"
+        }
+      }
+    }
+  ]
+}

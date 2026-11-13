@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "darkwinter:r3_shake_roof_slope",
+    "darkwinter:r3_shake_roof_eave",
+    "darkwinter:r3_shake_roof_ridge",
+    "darkwinter:r3_shake_roof_gable_left",
+    "darkwinter:r3_shake_roof_gable_right",
+    "darkwinter:r3_shake_roof_gable_peak",
+    "darkwinter:k3_gabled_canopy",
+    "darkwinter:northern_window_narrow",
+    "darkwinter:northern_window_wide",
+    "darkwinter:northern_window_utility",
+    "darkwinter:northern_panel_door",
+    "darkwinter:cabin_roof_chimney_left",
+    "darkwinter:cabin_roof_chimney_right"
+  ]
+}

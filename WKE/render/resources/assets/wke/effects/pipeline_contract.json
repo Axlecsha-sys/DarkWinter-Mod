@@ -1,0 +1,184 @@
+{
+  "block": "DarkWinterScene",
+  "bytes": 416,
+  "vec4_order": [
+    "Inv0",
+    "Inv1",
+    "Inv2",
+    "Inv3",
+    "Light0",
+    "Light1",
+    "Light2",
+    "Light3",
+    "Sun",
+    "Air",
+    "Shadow",
+    "Climate",
+    "WindTime",
+    "Flags",
+    "CameraInfo",
+    "Options",
+    "Look",
+    "Analog",
+    "FogLayer",
+    "FogStyle",
+    "FogRange",
+    "WeatherShape",
+    "WeatherTint",
+    "CloudDrift",
+    "Film",
+    "FilmTiming"
+  ],
+  "namespace": "darkwinter_visuals",
+  "pass_order": [
+    "surface",
+    "volume",
+    "composite",
+    "sky_clouds",
+    "sky_merge",
+    "temporal_resolve",
+    "antialias",
+    "film"
+  ],
+  "fused_pass_order": [
+    "surface",
+    "volume",
+    "sky_merge_fused",
+    "temporal_resolve",
+    "antialias",
+    "film"
+  ],
+  "version": 1,
+  "shader_overrides": {
+    "antialias": "wke:post/antialias",
+    "temporal_resolve": "wke:post/temporal_resolve"
+  },
+  "qualities": {
+    "low": {
+      "shadow_resolution": 768,
+      "shadow_radius": 32,
+      "volume_steps": 8
+    },
+    "balanced": {
+      "shadow_resolution": 1024,
+      "shadow_radius": 40,
+      "volume_steps": 12
+    },
+    "high": {
+      "shadow_resolution": 2048,
+      "shadow_radius": 56,
+      "volume_steps": 16
+    }
+  },
+  "antialias": {
+    "block": "WkeAntialias",
+    "bytes": 16,
+    "vec4_order": [
+      "Controls"
+    ],
+    "default": [
+      1,
+      8,
+      0.1,
+      0
+    ],
+    "output": "darkwinter_visuals:sky_final",
+    "input": "wke:temporal_current"
+  },
+  "features": {
+    "shadows": [
+      "surface"
+    ],
+    "height_haze": [
+      "composite",
+      "sky_merge_fused"
+    ],
+    "volumetric_light": [
+      "volume"
+    ],
+    "clouds": [
+      "sky_clouds",
+      "sky_merge_fused"
+    ],
+    "grade": [
+      "film"
+    ],
+    "analog_film": [
+      "film"
+    ],
+    "spatial_antialias": [
+      "antialias"
+    ],
+    "temporal_antialias": [
+      "temporal_resolve"
+    ],
+    "particle_reactivity": [
+      "temporal_resolve"
+    ]
+  },
+  "required_resources": [
+    "darkwinter_visuals:shaders/core/vanillafog/terrain.fsh",
+    "darkwinter_visuals:shaders/core/vanillafog/terrain.vsh",
+    "darkwinter_visuals:shaders/core/vanillafog/sky_blit.fsh",
+    "darkwinter_visuals:shaders/core/vanillafog/cloud_blit.fsh",
+    "darkwinter_visuals:shaders/core/shadow_solid_depth.fsh",
+    "darkwinter_visuals:shaders/core/weather_sky_clouds.fsh",
+    "darkwinter_visuals:shaders/core/shadow_cutout_depth.fsh",
+    "darkwinter_visuals:shaders/core/weather_sky_background.fsh",
+    "darkwinter_visuals:shaders/core/underwater_sky_occluder.fsh",
+    "darkwinter_visuals:shaders/core/underwater_sky_occluder.vsh",
+    "darkwinter_visuals:shaders/post/film.fsh",
+    "darkwinter_visuals:shaders/post/volume.fsh",
+    "darkwinter_visuals:shaders/post/surface.fsh",
+    "darkwinter_visuals:shaders/post/composite.fsh",
+    "darkwinter_visuals:shaders/post/sky_merge.fsh",
+    "darkwinter_visuals:shaders/post/sky_clouds.fsh",
+    "darkwinter_visuals:shaders/post/sky_merge_fused.fsh",
+    "darkwinter_visuals:shaders/include/scene.glsl",
+    "darkwinter_visuals:shaders/include/vanillafog/oit.glsl",
+    "darkwinter_visuals:shaders/include/vanillafog/oit_sample.glsl",
+    "darkwinter_visuals:shaders/include/vanillafog/oit_add_transmittance.glsl",
+    "darkwinter_visuals:shaders/include/cloud_shell.glsl",
+    "darkwinter_visuals:shaders/include/winter_haze.glsl",
+    "darkwinter_visuals:shaders/include/weather_sky_ray.glsl",
+    "wke:shaders/post/antialias.fsh",
+    "wke:shaders/post/temporal_resolve.fsh",
+    "wke:shaders/core/reactive_mask.vsh",
+    "wke:shaders/core/reactive_mask.fsh"
+  ],
+  "temporal_resolve": {
+    "block": "WkeTemporalResolve",
+    "bytes": 176,
+    "vec4_order": [
+      "CurrentInv0",
+      "CurrentInv1",
+      "CurrentInv2",
+      "CurrentInv3",
+      "Previous0",
+      "Previous1",
+      "Previous2",
+      "Previous3",
+      "CameraDeltaHistory",
+      "ResolveControl",
+      "JitterControl"
+    ],
+    "external_targets": [
+      "wke:temporal_current",
+      "wke:temporal_history"
+    ],
+    "input": "darkwinter_visuals:pre_temporal",
+    "output": "wke:temporal_current"
+  },
+  "reactive_mask": {
+    "external_targets": [
+      "wke:temporal_reactive",
+      "wke:temporal_reactive_history"
+    ],
+    "format": "R8_UNORM",
+    "max_rectangles": 16384,
+    "instance_bytes": 16,
+    "padding_native_pixels": 1,
+    "current_sampler": "Reactive",
+    "history_sampler": "HistoryReactive"
+  }
+}

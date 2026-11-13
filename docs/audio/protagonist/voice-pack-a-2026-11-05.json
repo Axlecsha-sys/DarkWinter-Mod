@@ -1,0 +1,155 @@
+{
+  "project": "DarkWinter",
+  "date": "2026-11-05",
+  "voice_profile": "protagonist_a",
+  "selected_reference": "A",
+  "selection_source": "Author chose A in chat after comparing three auditions.",
+  "character": {
+    "age": "30-35",
+    "language": "English",
+    "direction": "Deep steady heavy bass, mostly clean with a little dry rasp; restrained quiet natural self-talk."
+  },
+  "generator": {
+    "provider": "Qwen3-TTS official online demo",
+    "model": "Qwen3-TTS-12Hz-1.7B-CustomVoice",
+    "speaker": "Ryan",
+    "execution": "remote",
+    "billing": "free_public_demo",
+    "license_card": "https://huggingface.co/Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice"
+  },
+  "invariant_style_prompt": "Male survival game protagonist, 33 years old. Speak in a naturally very deep, heavy, resonant bass register, with clear articulation and only a faint dry rasp. Neutral North American English. Quiet, restrained self-talk, grounded intimate acting, steady chest resonance. Dry close microphone recording.",
+  "subtitle_status": "EN/RU table saved for future sound registration. These IDs are document identifiers, not registered game translation keys.",
+  "game_integration": {
+    "sound_events_registered": false,
+    "automatic_triggers_added": false,
+    "subtitles_connected_to_game": false
+  },
+  "checks": {
+    "file_validation": "PCM16 mono 24000 Hz; all files parsed successfully.",
+    "processing": "Original WAVs preserved; preview gains matched around -23 dBFS active RMS with 5 ms edge fades.",
+    "subjective_listening": "Assistant cannot listen to audio in this environment. Reference A approved by author; five new recordings await author review.",
+    "in_game": "not_run"
+  },
+  "lines": [
+    {
+      "id": "cold",
+      "text": "So fucking cold...",
+      "ru": "Как же, блядь, холодно…",
+      "acting": "Quiet, restrained self-talk after walking through freezing wind. Slowly mutter the line on a tired natural exhale, with subdued frustration and a gently trailing final word.",
+      "event_id": "7c30442fc132401cb02485a8988fd1c3",
+      "url": "https://darkwinter-audio-online.bouncygoose19.chatgpt.site/audio/speech-7c30442fc132401cb02485a8988fd1c3-0.wav",
+      "line_id": "protagonist.cold",
+      "preview_file": "dw_protagonist_cold_en.wav",
+      "source_file": "originals/dw_protagonist_cold_en.wav",
+      "review_status": "reference_approved",
+      "duration_seconds": 2.136875,
+      "preview_peak_dbfs": -4.8665945231724255,
+      "preview_rms_dbfs": -23.20148741482069,
+      "preview_sha256": "60814020a2786de58cab287cf463ef82563125d6809ed4476474f23b8591b56c",
+      "source_sha256": "7950b31bd436da0eb733a0c9a07fdc7139045c22054568ac698c74eb15dff1b5"
+    },
+    {
+      "id": "wind",
+      "text": "Gotta get out of this wind.",
+      "ru": "Надо укрыться от ветра.",
+      "acting": "He is walking through freezing wind, quietly resolving to find shelter. A tired natural exhale and subdued frustration. Slow conversational pace.",
+      "event_id": "bdd2add1e6854ff885a3c5cf1666a536",
+      "url": "https://darkwinter-audio-online.bouncygoose19.chatgpt.site/audio/speech-bdd2add1e6854ff885a3c5cf1666a536-0.wav",
+      "line_id": "protagonist.wind",
+      "preview_file": "dw_protagonist_wind_en.wav",
+      "source_file": "originals/dw_protagonist_wind_en.wav",
+      "review_status": "awaiting_author_review",
+      "duration_seconds": 2.056875,
+      "preview_peak_dbfs": -8.619618069432843,
+      "preview_rms_dbfs": -23.43693853167412,
+      "preview_sha256": "417d6040488b57096a6b9594f39790486981013df38c0bcdd654ad5d80a0a119",
+      "source_sha256": "94b4257d95e7500433cd10270a8e56a1df2a0e0a6ceed3b322f44312190c9e33"
+    },
+    {
+      "id": "hungry",
+      "text": "When did I last eat...?",
+      "ru": "Когда я в последний раз ел?..",
+      "acting": "He is hungry and tired, genuinely trying to remember his last meal. Understated thoughtful question with a small reflective pause near the end. Slow conversational pace.",
+      "event_id": "942d96f5377a41788eedae8b9a8ccfa4",
+      "url": "https://darkwinter-audio-online.bouncygoose19.chatgpt.site/audio/speech-942d96f5377a41788eedae8b9a8ccfa4-0.wav",
+      "line_id": "protagonist.hungry",
+      "preview_file": "dw_protagonist_hungry_en.wav",
+      "source_file": "originals/dw_protagonist_hungry_en.wav",
+      "review_status": "awaiting_author_review",
+      "duration_seconds": 2.136875,
+      "preview_peak_dbfs": -7.701679953890212,
+      "preview_rms_dbfs": -23.15912521362577,
+      "preview_sha256": "c292f5e3691f9f8727b8f3f504d57786bdeb7fbd72acc3c1ae91336e594d0dd8",
+      "source_sha256": "cd9108e2fc0805c5d1b6ba9dd8cdde99763a5faec4c1f800bbfd0d7252848539"
+    },
+    {
+      "id": "thirsty",
+      "text": "Need some water.",
+      "ru": "Нужна вода.",
+      "acting": "He has a dry throat and is tired after walking. Quiet practical observation spoken to himself, lightly breath-worn but clearly articulated. Slow conversational pace.",
+      "event_id": "cdafb237c11940d3bba1f40de871f330",
+      "url": "https://darkwinter-audio-online.bouncygoose19.chatgpt.site/audio/speech-cdafb237c11940d3bba1f40de871f330-0.wav",
+      "line_id": "protagonist.thirsty",
+      "preview_file": "dw_protagonist_thirsty_en.wav",
+      "source_file": "originals/dw_protagonist_thirsty_en.wav",
+      "review_status": "awaiting_author_review",
+      "duration_seconds": 1.096875,
+      "preview_peak_dbfs": -8.056898668502868,
+      "preview_rms_dbfs": -23.315526750658112,
+      "preview_sha256": "caa5373a04ef006318def54d74446eb7ce575e5e8e8d162baa69a91a2e9bd548",
+      "source_sha256": "d5b8eb9b13ca765a7aef34d568d99cfb817c6c0e77bf9fc9a3deee060860493c"
+    },
+    {
+      "id": "exhausted",
+      "text": "Just... give me a second.",
+      "ru": "Дай мне… перевести дух.",
+      "acting": "He has just finished a strenuous climb. A natural weary breath and a brief recovery pause after 'Just'. Restrained, tired and softly spoken. Slow conversational pace.",
+      "event_id": "74afd531a70b4463887f2ed4c3a9857e",
+      "url": "https://darkwinter-audio-online.bouncygoose19.chatgpt.site/audio/speech-74afd531a70b4463887f2ed4c3a9857e-0.wav",
+      "line_id": "protagonist.exhausted",
+      "preview_file": "dw_protagonist_exhausted_en.wav",
+      "source_file": "originals/dw_protagonist_exhausted_en.wav",
+      "review_status": "awaiting_author_review",
+      "duration_seconds": 2.136875,
+      "preview_peak_dbfs": -6.486128900096388,
+      "preview_rms_dbfs": -23.159098862742226,
+      "preview_sha256": "0f0f8a7f3ced077a9c29921ae5097a887a2e0ee96f99c6f088e185208a885e5d",
+      "source_sha256": "15556ec757710e99077a27536638994e74e39b84658d007e9b4f699abb879b3c"
+    },
+    {
+      "id": "warmth",
+      "text": "That's better... Much better.",
+      "ru": "Так лучше… Намного лучше.",
+      "acting": "He is finally warming his hands by a fire. Quiet understated relief, shoulders relaxing, a small natural pause between the two sentences. Low relaxed chest tone. Slow conversational pace.",
+      "event_id": "fe87204498234730984d1fafe149a402",
+      "url": "https://darkwinter-audio-online.bouncygoose19.chatgpt.site/audio/speech-fe87204498234730984d1fafe149a402-0.wav",
+      "line_id": "protagonist.warmth",
+      "preview_file": "dw_protagonist_warmth_en.wav",
+      "source_file": "originals/dw_protagonist_warmth_en.wav",
+      "review_status": "awaiting_author_review",
+      "duration_seconds": 4.216875,
+      "preview_peak_dbfs": -4.979190532971475,
+      "preview_rms_dbfs": -23.27287667752283,
+      "preview_sha256": "b8f4ecb1d06f3d0f2a6b22a444cbe8da77dadff089ae7344d8ad7f274b9dc5ec",
+      "source_sha256": "1454c65318ac5a5c6152e47b41f09fbde5362ba51c9e0e271a624977d676e74d"
+    }
+  ],
+  "subtitles": {
+    "en_us": {
+      "protagonist.cold": "So fucking cold...",
+      "protagonist.wind": "Gotta get out of this wind.",
+      "protagonist.hungry": "When did I last eat...?",
+      "protagonist.thirsty": "Need some water.",
+      "protagonist.exhausted": "Just... give me a second.",
+      "protagonist.warmth": "That's better... Much better."
+    },
+    "ru_ru": {
+      "protagonist.cold": "Как же, блядь, холодно…",
+      "protagonist.wind": "Надо укрыться от ветра.",
+      "protagonist.hungry": "Когда я в последний раз ел?..",
+      "protagonist.thirsty": "Нужна вода.",
+      "protagonist.exhausted": "Дай мне… перевести дух.",
+      "protagonist.warmth": "Так лучше… Намного лучше."
+    }
+  }
+}

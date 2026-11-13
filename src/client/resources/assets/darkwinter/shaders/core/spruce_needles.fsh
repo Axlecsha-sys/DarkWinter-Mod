@@ -3,6 +3,8 @@
 #extension GL_ARB_separate_shader_objects : require
 
 #include <minecraft:fog.glsl>
+#include <minecraft:globals.glsl>
+#include <wke:material_sampling.glsl>
 
 uniform sampler2D Sampler0;
 layout(location = 0) in float sphericalVertexDistance;
@@ -13,7 +15,7 @@ layout(location = 4) in float detailVisibility;
 layout(location = 0) out vec4 fragColor;
 
 void main() {
-    vec4 color = texture(Sampler0, texCoord0) * vertexColor;
+    vec4 color = wkeSampleMaterial(Sampler0, texCoord0, 1.0 / vec2(textureSize(Sampler0, 0)), UseRgss) * vertexColor;
     if (color.a < 0.5 || detailVisibility < 0.01) discard;
     fragColor = apply_fog(color, sphericalVertexDistance, cylindricalVertexDistance,
             FogEnvironmentalStart, FogEnvironmentalEnd, FogRenderDistanceStart, FogRenderDistanceEnd, FogColor);

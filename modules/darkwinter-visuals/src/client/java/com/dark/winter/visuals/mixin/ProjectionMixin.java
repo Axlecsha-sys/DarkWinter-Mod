@@ -1,9 +1,10 @@
-// Captures the exact camera projection without modifying the Minecraft camera.
+// Captures the exact world projection; optional temporal jitter never changes the host camera.
 package com.dark.winter.visuals.mixin;
 
 import com.dark.winter.visuals.SceneFrame;
 import com.dark.winter.visuals.VisualRenderer;
 import com.dark.winter.visuals.ProjectionAccess;
+import com.dark.winter.visuals.TemporalResolveHistory;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.Identifier;
 import java.util.List;
@@ -16,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/** Captures the exact camera projection without modifying the Minecraft camera. */
+/** Captures the exact uploaded world projection; hand/HUD use the host's separate buffer. */
 @Mixin(GameRenderer.class)
 public abstract class ProjectionMixin implements ProjectionAccess {
 
@@ -37,8 +38,9 @@ public abstract class ProjectionMixin implements ProjectionAccess {
         if (this.darkwinter$actualProjection == null) {
             this.darkwinter$actualProjection = new Matrix4f();
         }
-        this.darkwinter$actualProjection.set(original);
-        return original;
+        Matrix4f uploaded=TemporalResolveHistory.jitterProjection(original,(GameRenderer)(Object)this);
+        this.darkwinter$actualProjection.set(uploaded);
+        return uploaded;
     }
 
     @Override

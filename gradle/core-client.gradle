@@ -1,0 +1,170 @@
+// Standalone viewer; normal mod builds never depend on these tasks.
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import java.nio.file.Files
+import java.security.MessageDigest
+def source=file('native/darkwinter-client'), core=file('WKE/core')
+def dist=file('build/core/client'), deps=file('build/core/deps/Vulkan-Headers-1.3.296')
+def compiler=file('build/voxel-faces/toolchains/zig-0.14.1/zig.exe')
+def stamp=new Date().format('yyyyMMdd-HHmmss-SSS'), run=file('build/core/window-runs/'+stamp)
+def shaderClasses=file('build/core/client-tools/classes')
+def clientRenderRoot=file('build/core/world-client')
+def clientRasterShaders=['raster.vert.spv','raster.frag.spv','shadow.vert.spv','shadow.frag.spv','depth_resolve.frag.spv']
+def sha={File f->def d=MessageDigest.getInstance('SHA-256');f.withInputStream{input->byte[] b=new byte[65536];int n;while((n=input.read(b))!=-1)d.update(b,0,n)};d.digest().encodeHex().toString()}
+def execute={List<String> args->
+    def p=new ProcessBuilder(args).directory(projectDir).redirectErrorStream(true).start()
+    String output=p.inputStream.getText('UTF-8');int code=p.waitFor()
+    if(!output.isBlank())logger.lifecycle(output.trim())
+    if(code!=0)throw new GradleException('Standalone client command failed ('+code+'): '+args[0])
+    output.trim()
+}
+def selectWorld={
+    File input
+    if(providers.gradleProperty('coreClientWorld').isPresent())input=file(providers.gradleProperty('coreClientWorld').get())
+    else {
+        def receipt=file('build/core/latest-stage1.json')
+        if(!receipt.isFile())throw new GradleException('Run coreStage1Verify first; an imported snapshot is required.')
+        def data=new JsonSlurper().parse(receipt)
+        if(data.completed!=true)throw new GradleException('Latest stage-one import is incomplete.')
+        input=file(data.world)
+    }
+    if(!input.canonicalFile.toPath().startsWith(file('build/core').canonicalFile.toPath()))throw new GradleException('Client fixture must be under build/core.')
+    input
+}
+tasks.register('coreClientHeaders') {
+    group='build';description='Fetch hash-pinned official Vulkan-Headers into the build cache.'
+    notCompatibleWithConfigurationCache('Explicit verified build dependency preparation.')
+    inputs.file(new File(source,'vulkan-headers.json'));outputs.dir(deps)
+    doLast {
+        def manifest=new JsonSlurper().parse(new File(source,'vulkan-headers.json'))
+        manifest.files.each{String path,def spec->
+            File target=new File(deps,path)
+            if(!target.isFile()||sha(target)!=spec.sha256){
+                def connection=new URI(manifest.base+path).toURL().openConnection()
+                connection.connectTimeout=15000;connection.readTimeout=20000
+                byte[] bytes=connection.inputStream.withCloseable{it.readAllBytes()}
+                if(bytes.length!=spec.bytes||MessageDigest.getInstance('SHA-256').digest(bytes).encodeHex().toString()!=spec.sha256)throw new GradleException('Vulkan header integrity mismatch: '+path)
+                target.parentFile.mkdirs();target.bytes=bytes
+            }
+        }
+    }
+}
+tasks.register('coreCompileClientShaderTool',JavaCompile) {
+    setSource(file('native/darkwinter-client/build-tools/CompileCoreShader.java'))
+    classpath=sourceSets.client.runtimeClasspath;destinationDirectory=shaderClasses
+    javaCompiler=javaToolchains.compilerFor{languageVersion=JavaLanguageVersion.of(25)}
+    options.release=25;options.encoding='UTF-8'
+}
+tasks.register('coreCompileClientShader',JavaExec) {
+    dependsOn 'coreCompileClientShaderTool'
+    inputs.file(file('WKE/runtime/shaders/trace.comp'));outputs.file(new File(dist,'trace.comp.spv'))
+    classpath=sourceSets.client.runtimeClasspath+files(shaderClasses);mainClass='CompileCoreShader'
+    javaLauncher=javaToolchains.launcherFor{languageVersion=JavaLanguageVersion.of(25)}
+    jvmArgs '--enable-native-access=ALL-UNNAMED'
+    args file('WKE/runtime/shaders/trace.comp').absolutePath,new File(dist,'trace.comp.spv').absolutePath
+}
+tasks.register('corePrepareClientScene') {
+    group='build';notCompatibleWithConfigurationCache('Explicit immutable snapshot and owned-resource conversion.')
+    inputs.file(file('native/darkwinter-client/build-tools/export-client-assets.py'));inputs.file(provider{selectWorld()})
+    inputs.files(fileTree('src/main/resources/assets/darkwinter'){include 'furniture/meshes.json','textures/**/*.png'})
+    outputs.files(new File(dist,'world.dwv'),new File(dist,'assets.dwa'),new File(dist,'assets.json'))
+    doLast {
+        File input=selectWorld();if(!input.isFile())throw new GradleException('Imported snapshot unavailable.')
+        dist.mkdirs();File target=new File(dist,'world.dwv')
+        if(input.canonicalFile==target.canonicalFile)throw new GradleException('Source snapshot must differ from generated client world.')
+        String before=sha(input);Files.copy(input.toPath(),target.toPath(),java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+        if(sha(input)!=before||sha(target)!=before)throw new GradleException('Snapshot changed while copying.')
+        execute([providers.gradleProperty('coreClientPython').getOrElse('python'),file('native/darkwinter-client/build-tools/export-client-assets.py').absolutePath,projectDir.absolutePath,target.absolutePath,new File(dist,'assets.dwa').absolutePath])
+        if(sha(input)!=before||sha(target)!=before)throw new GradleException('Snapshot changed during conversion.')
+    }
+}
+tasks.register('coreBuildClient') {
+    group='build';description='Build the standalone C++/Vulkan viewer.'
+    dependsOn 'coreClientHeaders','coreVmaHeaders','coreCompileClientShader','coreCompileWorldShader','corePrepareClientScene'
+    notCompatibleWithConfigurationCache('Explicit native build and artifact receipt.')
+    inputs.files(fileTree(source){exclude '**/__pycache__/**'},fileTree(core){include 'src/*.cpp','src/*.hpp','include/*.h'})
+    inputs.file(file('gradle/core-client.gradle'));inputs.file(file('native/darkwinter-client/build-tools/CompileCoreShader.java'))
+    inputs.files(clientRasterShaders.collect{new File(clientRenderRoot,it)})
+    inputs.files(fileTree(new File(clientRenderRoot,'visuals')))
+    outputs.files(new File(dist,'DarkWinter.exe'),new File(dist,'build-receipt.json'),new File(dist,'README_RU.txt'))
+    outputs.files(clientRasterShaders.collect{new File(dist,it)})
+    outputs.dir(new File(dist,'visuals'))
+    doLast {
+        if(!System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('win'))throw new GradleException('This first window backend is Windows x64 only.')
+        if(!compiler.isFile()||sha(compiler)!='1ddf230367e07738c4a769eae66c1db7469e37bd520e81c86356453d0db2b9fd')throw new GradleException('Existing verified Zig 0.14.1 compiler required.')
+        def prefix=[compiler.absolutePath,'c++','-std=c++20','-O3','-fno-fast-math','-ffp-contract=off','-Wall','-Wextra','-Wpedantic','-Wno-missing-field-initializers','-pthread','-static','-target','x86_64-windows-gnu','-DUNICODE','-D_UNICODE','-DNOMINMAX','-DVMA_VULKAN_VERSION=1001000','-DVMA_STATIC_VULKAN_FUNCTIONS=0','-DVMA_DYNAMIC_VULKAN_FUNCTIONS=1','-isystem',file('build/core/deps/VulkanMemoryAllocator-3.3.0').absolutePath,'-I'+new File(deps,'include').absolutePath]
+        def nativeSources=['src/main.cpp','src/renderer.cpp','src/scene.cpp','src/vma.cpp'].collect{wkeNativeFile(new File(source,it)).absolutePath}
+        nativeSources+=['src/core.cpp','src/format.cpp'].collect{new File(core,it).absolutePath}
+        execute(prefix+nativeSources+['-Wl,--subsystem,windows','-luser32','-lshell32','-lgdi32','-o',new File(dist,'DarkWinter.exe').absolutePath])
+        Files.copy(new File(source,'README_RU.txt').toPath(),new File(dist,'README_RU.txt').toPath(),java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+        clientRasterShaders.each{name->Files.copy(new File(clientRenderRoot,name).toPath(),new File(dist,name).toPath(),java.nio.file.StandardCopyOption.REPLACE_EXISTING)}
+        copy {from new File(clientRenderRoot,'visuals');into new File(dist,'visuals')}
+        copy {from new File(deps,'LICENSE.md');from new File(deps,'LICENSES');into new File(dist,'licenses/Vulkan-Headers')}
+        copy {from 'build/core/deps/VulkanMemoryAllocator-3.3.0/LICENSE.txt';into new File(dist,'licenses');rename {'VulkanMemoryAllocator-MIT.txt'}}
+        def sourcesHash=[:];inputs.files.files.findAll{it.isFile()}.sort{it.absolutePath}.each{sourcesHash[projectDir.toPath().relativize(it.toPath()).toString().replace('\\','/')]=sha(it)}
+        def artifacts=[:];(['DarkWinter.exe','world.dwv','assets.dwa','trace.comp.spv']+clientRasterShaders).each{artifacts[it]=sha(new File(dist,it))}
+        File visualDirectory=new File(dist,'visuals')
+        fileTree(visualDirectory).files.findAll{it.isFile()}.sort{it.absolutePath}.each{f->
+            String relative=visualDirectory.toPath().relativize(f.toPath()).toString().replace('\\','/')
+            artifacts['visuals/'+relative]=sha(f)
+        }
+        artifacts['licenses/VulkanMemoryAllocator-MIT.txt']=sha(new File(dist,'licenses/VulkanMemoryAllocator-MIT.txt'))
+        new File(dist,'build-receipt.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([schema:1,sourceSha256:sourcesHash,artifactSha256:artifacts,renderer:'Vulkan raster + original DarkWinter visual graph',compiler:'verified Zig/Clang 0.14.1',headers:'Khronos Vulkan-Headers 1.3.296; SHA-256 pinned',runtime:'Windows + Vulkan driver; no Java/JVM, Minecraft, Fabric, SDL, GLFW or shader compiler']))+'\n'
+    }
+}
+tasks.register('coreVerifyClientWindow') {
+    group='verification';description='Verify GPU hits and exercise the standalone window.'
+    dependsOn 'coreBuildClient';notCompatibleWithConfigurationCache('Invocation-owned GPU/window evidence.')
+    doLast {
+        run.mkdirs()
+        execute([new File(dist,'DarkWinter.exe').absolutePath,'--hidden','--verify','--exercise-window','--frames','180','--report',run.absolutePath])
+        def result=new JsonSlurper().parse(new File(run,'viewer.json'))
+        if(result.completed!=true)throw new GradleException('Standalone verification failed: '+run)
+        Files.copy(new File(dist,'build-receipt.json').toPath(),new File(run,'build-receipt.json').toPath(),java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+        logger.lifecycle('CORE_WINDOW_PASS '+run.absolutePath)
+        file('build/core/latest-window.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([schema:1,completed:true,run:run.absolutePath,result:result]))+'\n'
+    }
+}
+tasks.register('corePackageClient',Zip) {
+    group='distribution';dependsOn 'coreBuildClient'
+    from(dist){exclude 'reports/**'}
+    archiveFileName='DarkWinter-Core-Windows-x64.zip';destinationDirectory=file('build/core/package')
+}
+
+tasks.register('coreInspectClientPackage') {
+    group='verification';dependsOn 'coreVerifyClientWindow'
+    notCompatibleWithConfigurationCache('Owned native package verification.')
+    doLast {
+        File output=file('build/core/package-checks/'+stamp)
+        execute([providers.gradleProperty('coreClientPython').getOrElse('python'),file('native/darkwinter-client/build-tools/inspect-client.py').absolutePath,projectDir.absolutePath,output.absolutePath])
+        file('build/core/latest-package-check.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,run:output.absolutePath]))+'\n'
+    }
+}
+
+tasks.register('coreReviewClientSources') {
+    group='verification';dependsOn 'corePackageClient'
+    notCompatibleWithConfigurationCache('Read-only Git, whitespace and distribution audit.')
+    doLast {
+        File review=file('build/core/source-reviews/'+stamp)
+        execute([providers.gradleProperty('coreClientPython').getOrElse('python'),file('native/darkwinter-client/build-tools/review-client-source.py').absolutePath,projectDir.absolutePath,review.absolutePath])
+        file('build/core/latest-source-review.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,run:review.absolutePath]))+'\n'
+    }
+}
+tasks.register('coreRunStandalone') {
+    group='application';description='Open the standalone native window without a Java runtime environment.'
+    dependsOn 'coreReviewClientSources'
+    notCompatibleWithConfigurationCache('Interactive native application launch.')
+    doLast {
+        File report=file('build/core/interactive-runs/'+stamp);report.mkdirs()
+        def builder=new ProcessBuilder([new File(dist,'DarkWinter.exe').absolutePath,'--report',report.absolutePath]).directory(dist)
+        def original=new HashMap(builder.environment());builder.environment().clear()
+        ['SystemRoot','WINDIR','TEMP','TMP','USERPROFILE','LOCALAPPDATA','APPDATA'].each{key->if(original[key]!=null)builder.environment()[key]=original[key]}
+        builder.environment()['PATH']=new File(System.getenv('SystemRoot'),'System32').absolutePath
+        def process=builder.start()
+        Thread.sleep(1500)
+        if(new File(report,'error.json').isFile())throw new GradleException(new File(report,'error.json').getText('UTF-8'))
+        def launch=[started:true,pid:process.pid(),running:process.isAlive(),report:report.absolutePath,javaEnvironment:false]
+        file('build/core/latest-interactive.json').text=JsonOutput.prettyPrint(JsonOutput.toJson(launch))+'\n'
+        logger.lifecycle('CORE_STANDALONE_STARTED '+JsonOutput.toJson(launch))
+    }
+}

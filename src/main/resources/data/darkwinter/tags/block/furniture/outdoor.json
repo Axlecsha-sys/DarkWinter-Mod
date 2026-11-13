@@ -16,6 +16,7 @@
     "darkwinter:gravel_surface",
     "darkwinter:timber_boardwalk",
     "darkwinter:timber_boardwalk_raised",
+    "darkwinter:timber_boardwalk_slab",
     "darkwinter:picket_fence_low_1m",
     "darkwinter:picket_fence_low_2m",
     "darkwinter:picket_fence_tall_1m",
@@ -39,6 +40,20 @@
     "darkwinter:wire_mesh_gate_low_clear_1m",
     "darkwinter:wire_mesh_gate_low_clear_2m",
     "darkwinter:wire_mesh_gate_tall_clear_1m",
-    "darkwinter:wire_mesh_gate_tall_clear_2m"
+    "darkwinter:wire_mesh_gate_tall_clear_2m",
+    "darkwinter:wall_lamp",
+    "darkwinter:wall_mailbox",
+    "darkwinter:firewood_crib",
+    "darkwinter:camp_cooking_pot",
+    "darkwinter:camp_wide_pot",
+    "darkwinter:fuel_jerrycan",
+    "darkwinter:metal_bucket",
+    "darkwinter:oval_bucket",
+    "darkwinter:metal_toolbox",
+    "darkwinter:carpenter_tool_tote",
+    "darkwinter:sleeping_bag_roll",
+    "darkwinter:sleeping_bag_sack",
+    "darkwinter:sleeping_bag_folded",
+    "darkwinter:northern_campfire"
   ]
 }

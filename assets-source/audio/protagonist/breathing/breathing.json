@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "project": "DarkWinter",
+  "character": "protagonist",
+  "description_ru": "Подготовленные исходные звуки дыхания главного персонажа.",
+  "game_integration": "connected",
+  "provenance_document": "docs/audio/breathing-set-a-2026-11-06.json",
+  "files": [
+    {
+      "id": "breath.running",
+      "file": "running_breath.wav",
+      "role": "running_breath",
+      "description_ru": "Дыхание при беге, выбранный обработанный вариант A",
+      "format": "WAV PCM",
+      "channels": 1,
+      "sample_rate_hz": 44100,
+      "bits_per_sample": 16,
+      "duration_seconds": 12,
+      "size_bytes": 1058444,
+      "sha256": "6cf60c7ae6f01425e161e21378376cfae9c0c27599a2fe2e3f9bb6ce2e844dbe",
+      "review_status": "approved",
+      "loop_verification": "not_tested"
+    },
+    {
+      "id": "breath.jump.01",
+      "file": "jump_breath_01.wav",
+      "role": "jump_effort",
+      "description_ru": "Короткий выдох от усилия при прыжке",
+      "format": "WAV PCM",
+      "channels": 1,
+      "sample_rate_hz": 44100,
+      "bits_per_sample": 16,
+      "duration_seconds": 2,
+      "size_bytes": 176444,
+      "sha256": "008567c63e656e073d5475bdc0103e1c66e5589485d0ef2cf5a8b3d4eb325671",
+      "review_status": "awaiting_author_listening",
+      "loop_verification": "not_tested"
+    }
+  ],
+  "integration_document": "docs/audio/breathing-integration.md",
+  "game_ready_manifest": "assets-source/audio/protagonist/breathing/game-ready/manifest.json"
+}

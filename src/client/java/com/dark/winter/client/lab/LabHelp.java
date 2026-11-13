@@ -32,6 +32,8 @@ public final class LabHelp {
         Map.entry("selectWorld.enterSeed", "Seed генерации создаваемого мира."),
         Map.entry("menu.darkwinter.continue", "Открывает форму создания мира с выбранным режимом."),
         Map.entry("key.darkwinter.wall_menu", "Открывает выбор формы стены, если в основной руке сегмент стены."),
+        Map.entry("key.darkwinter.rotate_furniture", "При удержании плавно поворачивает мебель в основной руке."),
+        Map.entry("key.darkwinter.snap_furniture", "Включает или выключает привязку мебели при установке."),
         Map.entry("key.darkwinter.switch_shoulder", "Переключает плечо камеры."),
         Map.entry("key.forward", "Движение вперёд с обычными коллизиями и правилами DarkWinter."),
         Map.entry("key.back", "Движение назад; имеет приоритет над автоматическим движением вперёд."),

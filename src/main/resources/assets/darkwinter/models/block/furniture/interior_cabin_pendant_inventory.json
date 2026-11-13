@@ -1,0 +1,341 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "interior_pendant_enamel": "darkwinter:block/interior/interior_pendant_enamel",
+    "interior_pendant_enamel_inner": "darkwinter:block/interior/interior_pendant_enamel_inner",
+    "interior_pendant_dark_metal": "darkwinter:block/interior/interior_pendant_dark_metal",
+    "interior_pendant_bulb": "darkwinter:block/interior/interior_pendant_bulb",
+    "particle": "darkwinter:block/interior/interior_pendant_enamel"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        2.69474,
+        1.81053,
+        2.69474
+      ],
+      "to": [
+        13.30526,
+        2.575,
+        13.30526
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "up": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "north": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "south": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "west": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "east": {
+          "texture": "#interior_pendant_enamel"
+        }
+      }
+    },
+    {
+      "from": [
+        3.43158,
+        2.55658,
+        3.43158
+      ],
+      "to": [
+        12.56842,
+        3.64342,
+        12.56842
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "up": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "north": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "south": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "west": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "east": {
+          "texture": "#interior_pendant_enamel"
+        }
+      }
+    },
+    {
+      "from": [
+        4.64737,
+        3.625,
+        4.64737
+      ],
+      "to": [
+        11.35263,
+        4.44474,
+        11.35263
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "up": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "north": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "south": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "west": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "east": {
+          "texture": "#interior_pendant_enamel"
+        }
+      }
+    },
+    {
+      "from": [
+        6.71053,
+        4.38947,
+        6.71053
+      ],
+      "to": [
+        9.28947,
+        6.50789,
+        9.28947
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "up": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "north": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "south": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "west": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "east": {
+          "texture": "#interior_pendant_enamel"
+        }
+      }
+    },
+    {
+      "from": [
+        7.07895,
+        1.0,
+        7.07895
+      ],
+      "to": [
+        8.92105,
+        2.98947,
+        8.92105
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_pendant_bulb"
+        },
+        "up": {
+          "texture": "#interior_pendant_bulb"
+        },
+        "north": {
+          "texture": "#interior_pendant_bulb"
+        },
+        "south": {
+          "texture": "#interior_pendant_bulb"
+        },
+        "west": {
+          "texture": "#interior_pendant_bulb"
+        },
+        "east": {
+          "texture": "#interior_pendant_bulb"
+        }
+      }
+    },
+    {
+      "from": [
+        7.59474,
+        6.47105,
+        7.59474
+      ],
+      "to": [
+        8.40526,
+        7.10658,
+        8.40526
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "up": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "north": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "south": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "west": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "east": {
+          "texture": "#interior_pendant_dark_metal"
+        }
+      }
+    },
+    {
+      "from": [
+        7.88947,
+        7.06974,
+        7.88947
+      ],
+      "to": [
+        8.11053,
+        14.29079,
+        8.11053
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "up": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "north": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "south": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "west": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "east": {
+          "texture": "#interior_pendant_dark_metal"
+        }
+      }
+    },
+    {
+      "from": [
+        7.09737,
+        14.21711,
+        7.09737
+      ],
+      "to": [
+        8.90263,
+        15.0,
+        8.90263
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "up": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "north": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "south": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "west": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "east": {
+          "texture": "#interior_pendant_dark_metal"
+        }
+      }
+    }
+  ]
+}

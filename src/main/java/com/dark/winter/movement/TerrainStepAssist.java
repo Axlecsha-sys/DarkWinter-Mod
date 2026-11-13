@@ -2,6 +2,9 @@
 package com.dark.winter.movement;
 
 import com.dark.winter.block.WallSegmentBlock;
+import com.winterkore.engine.surface.host.SnowCollisionQuery;
+import com.winterkore.engine.surface.host.SnowGroundMotion;
+import com.winterkore.engine.surface.host.SnowSurfaceRuntime;
 import java.util.ArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -72,11 +75,11 @@ public final class TerrainStepAssist {
         int y0=(int)Math.floor(body.minY-1e-5),y1=(int)Math.floor(body.minY+TerrainStepGeometry.MAX_RISE);
         // A guard against unexpected scaled entities or abnormally large collision regions.
         if ((long)(x1-x0+1)*(z1-z0+1)*(y1-y0+1)>64) return ordinary;
+        try(var query=SnowCollisionQuery.enter(p,sweep)) {
         for (int x=x0;x<=x1;x++) for (int z=z0;z<=z1;z++) for (int y=y0;y<=y1;y++) {
             BlockPos pos=new BlockPos(x,y,z);
             if (!level.hasChunkAt(pos)) return ordinary;
             BlockState state=level.getBlockState(pos);
-            if (state.isAir()) continue;
             var shapes=state.getCollisionShape(level,pos,context);
             if (shapes.isEmpty()) continue;
             boolean terrain=terrain(level,pos,state);
@@ -85,6 +88,7 @@ public final class TerrainStepAssist {
                         a.minX+x,a.minY+y,a.minZ+z,a.maxX+x,a.maxY+y,a.maxZ+z),terrain));
             }
         }
+        }
         var shape=new TerrainStepGeometry.Box(body.minX,body.minY,body.minZ,body.maxX,body.maxY,body.maxZ);
         double rise=TerrainStepGeometry.rise(shape,requested.x,requested.z,ordinary,pieces);
         if (rise<=ordinary) return ordinary;
@@ -92,8 +96,9 @@ public final class TerrainStepAssist {
         // Collision still runs normally afterwards, including entities and world borders.
         float step=(float)(rise+LIP_CLEARANCE);
         double lift=Math.max(0,body.minY+step-clearanceBody.minY);
-        if (!level.noCollision(p,clearanceBody.expandTowards(0,lift,0))
-                || !level.noCollision(p,clearanceBody.move(0,lift,0).expandTowards(requested.x,0,requested.z))) return ordinary;
+        if (!SnowGroundMotion.clear(p,clearanceBody.expandTowards(0,lift,0),clearanceBody)
+                || !SnowGroundMotion.clear(p,clearanceBody.move(0,lift,0).expandTowards(requested.x,0,requested.z),
+                        clearanceBody.move(requested.x,0,requested.z))) return ordinary;
         // MAX_RISE limits terrain geometry, not this tiny collision clearance. Keep
         // the same clearance for a full block and for the maximum snow-covered lip.
         return step;
@@ -101,7 +106,16 @@ public final class TerrainStepAssist {
 
     private static boolean terrain(Level level,BlockPos pos,BlockState state) {
         // Hard deny for our thin wall modules, even if a datapack mistakenly whitelists them.
-        if (state.getBlock() instanceof WallSegmentBlock || state.is(FORBIDDEN) || !state.is(TERRAIN)) return false;
+        if (state.getBlock() instanceof WallSegmentBlock || state.is(FORBIDDEN)) return false;
+        if (state.isAir()) {
+            // Fine accumulated cover has no replacement block. Only an actual known snow owner on approved terrain can be stepped on.
+            var geometry=SnowSurfaceRuntime.geometry(level,pos);
+            if(geometry==null)return false;
+            BlockPos below=pos.below();if(!level.hasChunkAt(below))return false;
+            BlockState support=level.getBlockState(below);
+            return !(support.getBlock() instanceof WallSegmentBlock)&&!support.is(FORBIDDEN)&&support.is(TERRAIN);
+        }
+        if(!state.is(TERRAIN))return false;
         if (state.is(Blocks.SNOW)) {
             BlockPos below=pos.below();
             if (!level.hasChunkAt(below)) return false;

@@ -1,0 +1,185 @@
+// Independent Java policy plus thin common/client Minecraft adapters.
+sourceSets.named('main') {
+    java.srcDir('WKE/surface/java')
+    java.srcDir('modules/wke/surface/main/java')
+    resources.srcDir('modules/wke/surface/main/resources')
+}
+sourceSets.named('client') {
+    java.srcDir('modules/wke/surface/client/java')
+    resources.srcDir('modules/wke/surface/client/resources')
+}
+def surfaceChecks=layout.buildDirectory.dir('WKE/surface-check-classes')
+tasks.register('wkeCompileSurfaceChecks',JavaCompile) {
+    group='wke'
+    source fileTree('WKE/surface/java') { include '**/*.java' }
+    source fileTree('WKE/surface/tests') { include '**/*.java' }
+    classpath=files()
+    destinationDirectory=surfaceChecks
+    options.release=25;options.encoding='UTF-8'
+    javaCompiler=javaToolchains.compilerFor { languageVersion=JavaLanguageVersion.of(25) }
+}
+tasks.register('wkeVerifySurface',JavaExec) {
+    group='verification';dependsOn 'wkeCompileSurfaceChecks'
+    classpath=files(surfaceChecks)
+    mainClass='com.winterkore.engine.surface.SnowSurfaceChecks'
+    javaLauncher=javaToolchains.launcherFor { languageVersion=JavaLanguageVersion.of(25) }
+}
+
+tasks.register('wkeVerifySurfaceGeometry',JavaExec) {
+    group='verification';dependsOn 'wkeCompileSurfaceChecks'
+    classpath=files(surfaceChecks)
+    mainClass='com.winterkore.engine.surface.SnowSurfaceGeometryChecks'
+    javaLauncher=javaToolchains.launcherFor { languageVersion=JavaLanguageVersion.of(25) }
+}
+
+
+// Isolated exact pressure certificates; does not enable the shortcut in production.
+tasks.register('wkeVerifyConstantFieldBins',JavaExec) {
+    group='verification';dependsOn 'wkeCompileSurfaceChecks'
+    classpath=files(surfaceChecks)
+    mainClass='com.winterkore.engine.surface.SnowConstantFieldBinsChecks'
+    javaLauncher=javaToolchains.launcherFor { languageVersion=JavaLanguageVersion.of(25) }
+}
+
+// Explicit host/codec contract checks do not create a world or load a gameplay fixture.
+def hostSurfaceChecks=layout.buildDirectory.dir('WKE/host-surface-check-classes')
+tasks.register('wkeCompileHostSurfaceChecks',JavaCompile) {
+    group='verification';dependsOn 'compileJava'
+    source file('tests/wke-snow-v2/java/com/dark/winter/test/snowv2/SnowV2HostGeometryChecks.java')
+    classpath=sourceSets.main.compileClasspath+sourceSets.main.output
+    destinationDirectory=hostSurfaceChecks
+    options.release=25;options.encoding='UTF-8'
+    javaCompiler=javaToolchains.compilerFor { languageVersion=JavaLanguageVersion.of(25) }
+}
+tasks.register('wkeVerifyHostSurface',JavaExec) {
+    group='verification';dependsOn 'wkeCompileHostSurfaceChecks'
+    classpath=sourceSets.main.runtimeClasspath+files(hostSurfaceChecks)
+    mainClass='com.dark.winter.test.snowv2.SnowV2HostGeometryChecks'
+    javaLauncher=javaToolchains.launcherFor { languageVersion=JavaLanguageVersion.of(25) }
+}
+
+
+// Read-only, streaming JFR diagnostics for owned contact-latency runs; no game is launched.
+def contactProfileRuns=layout.buildDirectory.dir('run').get().asFile
+def contactProfileProjectRoot=rootDir
+tasks.register('wkeSnowV2SummarizeLatestContactProfile') {
+    group='verification'
+    doLast {
+        File runRoot=contactProfileRuns
+        def profiles=(runRoot.listFiles()?:new File[0])
+                .findAll { it.isDirectory()&&it.name.startsWith('placement-surfaces-') }
+                .collect { new File(it,'contact-latency/profile.jfr') }
+                .findAll { it.isFile() }
+        if(profiles.isEmpty())throw new GradleException('No completed owned contact JFR exists')
+        File latest=profiles.max { it.parentFile.parentFile.name }
+        [latest,new File(latest.parentFile.parentFile,'storm-contact-latency/profile.jfr')].findAll { it.isFile() }.each { File profile ->
+        Map renderInclusive=[:],renderLeaf=[:],workerInclusive=[:],workerLeaf=[:]
+        Map allocatedClasses=[:],snowAllocatedClasses=[:],snowAllocationLeaves=[:],snowAllocationSites=[:]
+        List pauses=[]
+        long renderSamples=0,workerSamples=0
+        def increment={ Map counts,String method -> counts[method]=(counts[method]?:0L)+1L }
+        def recording=new jdk.jfr.consumer.RecordingFile(profile.toPath())
+        try {
+            while(recording.hasMoreEvents()) {
+                def event=recording.readEvent()
+                String type=event.eventType.name
+                if(type=='jdk.GCPhasePause'||type=='jdk.GarbageCollection') {
+                    pauses.add([type:type,start:event.startTime.toString(),
+                                milliseconds:event.duration.toNanos()/1000000.0])
+                }
+                if(type=='jdk.ObjectAllocationSample'&&event.hasField('objectClass')&&event.hasField('weight')) {
+                    String allocatedClass=event.getClass('objectClass').name
+                    long weight=event.getLong('weight')
+                    allocatedClasses[allocatedClass]=(allocatedClasses[allocatedClass]?:0L)+weight
+                    if(event.stackTrace!=null) {
+                        def allocationStack=event.stackTrace.frames.collect { it.method.type.name+'.'+it.method.name }
+                        if(allocationStack.any { it.contains('SnowSurfaceClient')||it.contains('SnowSurfaceRuntime') }) {
+                            snowAllocatedClasses[allocatedClass]=(snowAllocatedClasses[allocatedClass]?:0L)+weight
+                            String site=allocatedClass+' :: '+allocationStack.take(14).join(' <- ')
+                            snowAllocationSites[site]=(snowAllocationSites[site]?:0L)+weight
+                            String leaf=allocationStack.isEmpty()?'unknown':allocationStack[0]
+                            snowAllocationLeaves[leaf]=(snowAllocationLeaves[leaf]?:0L)+weight
+                        }
+                    }
+                }
+                if(type!='jdk.ExecutionSample'||event.stackTrace==null)continue
+                def stack=event.stackTrace.frames.collect { it.method.type.name+'.'+it.method.name }
+                if(!stack.any { it.contains('SnowSurfaceClient')||it.contains('SnowSurfaceRuntime') })continue
+                boolean render=event.getThread('sampledThread')?.javaName=='Render thread'
+                Map inclusive=render?renderInclusive:workerInclusive,leaf=render?renderLeaf:workerLeaf
+                if(render)renderSamples++;else workerSamples++
+                stack.toSet().each { increment(inclusive,it) }
+                if(!stack.isEmpty())increment(leaf,stack[0])
+            }
+        } finally { recording.close() }
+        def top={ Map counts -> counts.entrySet().sort { a,b -> b.value<=>a.value }
+                .take(35).collect { [method:it.key,samples:it.value] } }
+        def report=[profile:contactProfileProjectRoot.toPath().relativize(profile.toPath()).toString(),renderSamples:renderSamples,workerSamples:workerSamples,
+                    renderInclusive:top(renderInclusive),renderLeaf:top(renderLeaf),
+                    workerInclusive:top(workerInclusive),workerLeaf:top(workerLeaf),
+                    longestGcEvents:pauses.sort { a,b -> b.milliseconds<=>a.milliseconds }.take(12),
+                    allocationSampleWeightedBytes:top(allocatedClasses),snowAllocationSampleWeightedBytes:top(snowAllocatedClasses),
+                    snowAllocationLeafWeightedBytes:top(snowAllocationLeaves),snowAllocationSiteWeightedBytes:top(snowAllocationSites),
+                    longestStopTheWorldPauses:pauses.findAll { it.type=='jdk.GCPhasePause' }
+                            .sort { a,b -> b.milliseconds<=>a.milliseconds }.take(12)]
+        File destination=new File(profile.parentFile,'profile-summary.json')
+        destination.setText(groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(report)),'UTF-8')
+        println('WKE_CONTACT_JFR_SUMMARY '+contactProfileProjectRoot.toPath().relativize(destination.toPath()).toString())
+        println(groovy.json.JsonOutput.toJson([renderSamples:renderSamples,workerSamples:workerSamples,renderLeaf:top(renderLeaf).take(8)]))
+        }
+    }
+}
+
+// Diagnostic thumbnails of owned SDK evidence; source captures are never overwritten.
+def contactPreviewRoot=rootDir
+tasks.register('wkeSnowV2PreviewLatestContactFrames') {
+    group='verification'
+    doLast {
+        def runs=(new File(contactPreviewRoot,'build/run').listFiles()?:new File[0])
+                .findAll { it.isDirectory()&&it.name.startsWith('placement-surfaces-')
+                    &&new File(it,'screenshots/0002_forest-contact-failure-daylight-diagnostic.png').isFile() }
+        if(runs.isEmpty())throw new GradleException('No owned contact failure screenshots exist')
+        File run=runs.max { it.name }
+        File destination=new File(contactPreviewRoot,'build/WKE/snow-v2/review/'+run.name)
+        destination.mkdirs()
+        def overview=[:]
+        ['contact-latency/all-contact-latency.json','storm-contact-latency/storm-contact-acceptance.json',
+         'contact-latency/durable-pressure-disk-reopen.json','contact-latency/durable-pressure-shown-local-disk-reopen.json'].each { relative ->
+            File report=new File(run,relative)
+            if(report.isFile()){
+                def source=new groovy.json.JsonSlurper().parse(report)
+                def selected=[:]
+                ['completed','passes','failure','nativeDistanceMeters','totalNativeDistanceMeters','elapsedWallSeconds',
+                 'hotGeneratedToAppliedMilliseconds','coldGeneratedToAppliedMilliseconds','allGeneratedToAppliedMilliseconds',
+                 'sdkWholeClientFps','nativeDensityAdmission','failureVisualEvidenceUnavailable','failureDaylightDiagnostic',
+                 'failureDaylightDiagnosticUnavailable','serverLost','displayLost','absent','maximumDeficitMillimeters'].each { key ->
+                    if(source.containsKey(key))selected[key]=source[key]
+                }
+                if(source.productionDiagnostics)selected.productionDiagnostics=source.productionDiagnostics.findAll { key,value -> value instanceof Number||value instanceof Boolean||value instanceof CharSequence }
+                overview[relative]=selected
+            }
+        }
+        new File(destination,'acceptance-summary.json').setText(groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(overview))+'\n','UTF-8')
+        println('WKE_CONTACT_ACCEPTANCE_SUMMARY '+new File(destination,'acceptance-summary.json').absolutePath)
+        ['0000_forest-contact-failure-current-view.png',
+         '0001_forest-contact-failure-feet-lookdown.png',
+         '0002_forest-contact-failure-daylight-diagnostic.png',
+         '0003_forest-contact-failure-daylight-diagnostic-paired.png'].findAll { new File(run,'screenshots/'+it).isFile() }.each { name ->
+            File source=new File(run,'screenshots/'+name)
+            def original=javax.imageio.ImageIO.read(source)
+            if(original==null)throw new GradleException('Unreadable SDK capture '+source)
+            double scale=Math.min(1.0,720.0/original.width)
+            int width=Math.max(1,(int)Math.round(original.width*scale))
+            int height=Math.max(1,(int)Math.round(original.height*scale))
+            def preview=new java.awt.image.BufferedImage(width,height,java.awt.image.BufferedImage.TYPE_INT_RGB)
+            def graphics=preview.createGraphics()
+            try {
+                graphics.setRenderingHint(java.awt.RenderingHints.KEY_INTERPOLATION,java.awt.RenderingHints.VALUE_INTERPOLATION_BICUBIC)
+                graphics.drawImage(original,0,0,width,height,null)
+            } finally { graphics.dispose() }
+            File out=new File(destination,name)
+            javax.imageio.ImageIO.write(preview,'png',out)
+            println('WKE_CONTACT_PREVIEW '+out.absolutePath+' '+width+'x'+height)
+        }
+    }
+}

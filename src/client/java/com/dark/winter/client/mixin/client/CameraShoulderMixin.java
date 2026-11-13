@@ -5,6 +5,8 @@ package com.dark.winter.client.mixin.client;
 import com.dark.winter.client.ShoulderCameraState;
 import com.dark.winter.client.ShoulderCameraMotion;
 import com.dark.winter.client.motion.GaitRuntime;
+import com.dark.winter.client.interaction.HousePassageClient;
+import com.dark.winter.client.equipment.CharacterVisuals;
 
 import net.minecraft.client.Camera;
 import net.minecraft.client.CameraType;
@@ -37,6 +39,7 @@ public abstract class CameraShoulderMixin implements com.dark.winter.client.Came
     private static final long EXIT_DELAY_NS = 250_000_000L;
 
     private static final double FIRST_PERSON_APPROACH_SPEED = 1.8D;
+    private static final double DOOR_APPROACH_SPEED = 5.8D;
     private static final double FIRST_PERSON_SWITCH_DISTANCE = 0.85D;
 
     // Плавное возвращение
@@ -71,6 +74,9 @@ public abstract class CameraShoulderMixin implements com.dark.winter.client.Came
             CallbackInfo ci
     ) {
         Minecraft client = Minecraft.getInstance();
+        Camera camera = (Camera) (Object) this;
+        Vec3 eyePosition = CharacterVisuals.eyePosition(client, camera, partialTicks);
+        if (eyePosition != camera.position()) setPosition(eyePosition);
 
         if (!com.dark.winter.client.TestingAccess.enabled("camera") || client.level == null || client.player == null
                 || client.getCameraEntity() != client.player) {
@@ -79,6 +85,10 @@ public abstract class CameraShoulderMixin implements com.dark.winter.client.Came
         }
 
         CameraType type = client.options.getCameraType();
+        if (type.isFirstPerson() && HousePassageClient.lockPerspective()) {
+            darkwinter$resetShoulderCamera();
+            return;
+        }
 
         if (type == CameraType.THIRD_PERSON_FRONT) {
             darkwinter$resetShoulderCamera();
@@ -93,8 +103,6 @@ public abstract class CameraShoulderMixin implements com.dark.winter.client.Came
             if (darkwinter$motion != null) darkwinter$motion.reset();
             return;
         }
-
-        Camera camera = (Camera) (Object) this;
 
         Vector3fc forward = camera.forwardVector();
         Vector3fc up = camera.upVector();
@@ -152,10 +160,8 @@ public abstract class CameraShoulderMixin implements com.dark.winter.client.Came
             lastFrameNanos = now;
 
             // Постепенно сокращаем расстояние
-            currentFraction = Math.max(
-                    0.0D,
-                    currentFraction - FIRST_PERSON_APPROACH_SPEED * dt
-            );
+            double speed = HousePassageClient.active() ? DOOR_APPROACH_SPEED : FIRST_PERSON_APPROACH_SPEED;
+            currentFraction = Math.max(0.0D, currentFraction - speed * dt);
 
             // Не позволяем анимации проходить через препятствия
             currentFraction = Math.min(

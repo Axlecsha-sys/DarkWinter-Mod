@@ -1,0 +1,46 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "locker_h_hardware": "darkwinter:block/decor/locker_h_hardware",
+    "b4_wall": "darkwinter:block/construction/b4_wall",
+    "b4_end": "darkwinter:block/construction/b4_end",
+    "b4_frame": "darkwinter:block/construction/b4_frame",
+    "b4_glass": "darkwinter:block/construction/b4_glass",
+    "particle": "darkwinter:block/construction/b4_frame"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        4
+      ],
+      "faces": {
+        "down": {
+          "texture": "#b4_frame"
+        },
+        "up": {
+          "texture": "#b4_frame"
+        },
+        "north": {
+          "texture": "#b4_frame"
+        },
+        "south": {
+          "texture": "#b4_frame"
+        },
+        "west": {
+          "texture": "#b4_frame"
+        },
+        "east": {
+          "texture": "#b4_frame"
+        }
+      }
+    }
+  ]
+}

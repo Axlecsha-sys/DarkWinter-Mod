@@ -21,19 +21,23 @@ import net.minecraft.client.gui.screens.options.SoundOptionsScreen;
 import net.minecraft.client.gui.screens.options.VideoSettingsScreen;
 import net.minecraft.client.gui.screens.options.controls.ControlsScreen;
 import net.minecraft.network.chat.Component;
+import com.dark.winter.client.vector.MenuGlyph;
+import com.dark.winter.client.vector.SvgHud;
 
 /** Shared navigation around native settings pages; their widgets and persistence stay native. */
 public final class SettingsNavigation {
     public enum Section {
-        VIDEO("options.video", "VideoSettingsScreen"),
-        SOUND("options.sounds", "SoundOptionsScreen"),
-        CONTROLS("options.controls", "ControlsScreen"),
-        INTERFACE("menu.darkwinter.interface", "UiPreferencesScreen"),
-        ACCESSIBILITY("options.accessibility", "AccessibilityOptionsScreen"),
-        LANGUAGE("options.language", "LanguageSelectScreen");
+        VIDEO("options.video", "VideoSettingsScreen",MenuGlyph.VIDEO),
+        SOUND("options.sounds", "SoundOptionsScreen",MenuGlyph.AUDIO),
+        CONTROLS("options.controls", "ControlsScreen",MenuGlyph.CONTROLS),
+        INTERFACE("menu.darkwinter.interface", "UiPreferencesScreen",MenuGlyph.INTERFACE),
+        ACCESSIBILITY("options.accessibility", "AccessibilityOptionsScreen",MenuGlyph.ACCESSIBILITY),
+        LANGUAGE("options.language", "LanguageSelectScreen",MenuGlyph.LANGUAGE);
         public final String key;
         private final String primaryClass;
-        Section(String key, String primaryClass) { this.key=key; this.primaryClass=primaryClass; }
+        public final MenuGlyph glyph;
+        Section(String key, String primaryClass,MenuGlyph glyph) { this.key=key; this.primaryClass=primaryClass;this.glyph=glyph; }
+        Component caption(){return Component.translatableWithFallback("menu.darkwinter.nav."+name().toLowerCase(java.util.Locale.ROOT),Component.translatable(key).getString());}
     }
 
     private SettingsNavigation() {}
@@ -83,6 +87,9 @@ public final class SettingsNavigation {
         for(Section section:Section.values()) if(MenuStyle.key(widget,section.key)) return true;
         return false;
     }
+    private static Section widgetSection(AbstractWidget widget){for(Section section:Section.values())if(MenuStyle.key(widget,section.key))return section;return null;}
+    public static MenuGlyph glyph(AbstractWidget widget){Section section=widgetSection(widget);return section==null?null:section.glyph;}
+    public static Component caption(AbstractWidget widget){Section section=widgetSection(widget);return section==null?widget.getMessage():section.caption();}
 
     public static boolean sidebarHit(Screen screen,double x,double y) {
         return screen.children().stream().anyMatch(child -> child instanceof NavButton button
@@ -110,6 +117,7 @@ public final class SettingsNavigation {
                     row.setHeight(compact(screen) && group.children().size()==2?44:25);
                 } else if(raw.getClass().getSimpleName().equals("HeaderEntry")) {
                     for(var child:group.children()) if(child instanceof FocusableTextWidget text) {
+                        text.setMessage(HudStyle.strong(text.getMessage()).copy().withStyle(style->style.withUnderlined(false)));
                         text.setMaxWidth(optionWidth(screen));text.setWidth(optionWidth(screen));text.updateHeight();
                         row.setHeight((index==0?0:18)+Math.max(18,text.getHeight()+2));
                     }
@@ -120,12 +128,17 @@ public final class SettingsNavigation {
     }
 
     public static void frame(GuiGraphicsExtractor g,Screen screen) {
+        frame(g,screen,screen.getTitle(),12);
+    }
+    public static void frame(GuiGraphicsExtractor g,Screen screen,Component title,int rightReserve) {
         var layout=UiLayout.hub(screen.width,screen.height);
         HudStyle.text(g,Component.translatable("options.title"),layout.left(),18,1.42f,HudStyle.INK);
         g.fill(layout.left(),39,screen.width-layout.left(),40,0x90537384);
         HudStyle.text(g,Component.translatable("menu.darkwinter.categories"),layout.left(),46,.73f,HudStyle.MUTED);
         HudStyle.panel(g,layout.right()-4,48,layout.contentWidth()+8,Math.max(60,screen.height-90));
-        HudStyle.fit(g,screen.getTitle(),contentLeft(screen),54,contentWidth(screen),.75f,HudStyle.MUTED);
+        Section selected=section(screen);
+        SvgHud.menuIcon(g,selected==null?MenuGlyph.SETTINGS:selected.glyph,contentLeft(screen),52,12,HudStyle.MUTED);
+        HudStyle.fit(g,title,contentLeft(screen)+18,54,Math.max(1,contentWidth(screen)-18-rightReserve+12),.75f,HudStyle.MUTED);
     }
 
     private static OptionsScreen hub(Screen source) {
@@ -191,7 +204,7 @@ public final class SettingsNavigation {
         }
         @Override protected void extractContents(GuiGraphicsExtractor g,int mx,int my,float dt) {
             MenuStyle.button(g,this,alpha,isHoveredOrFocused()?1:0);
-            HudStyle.fit(g,getMessage(),getX()+8,getY()+(getHeight()-9)/2f,getWidth()-16,1f,HudStyle.INK);
+            HudStyle.fit(g,section.caption(),getX()+27,getY()+(getHeight()-9)/2f,getWidth()-35,1f,isHoveredOrFocused()||selected(Minecraft.getInstance().gui.screen(),section.key)?HudStyle.INK:HudStyle.MUTED);
         }
     }
 }

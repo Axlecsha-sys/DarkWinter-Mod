@@ -12,6 +12,9 @@ public final class TestBiomeCompatibility {
     public static final ResourceKey<Biome> BIOME = ResourceKey.create(Registries.BIOME,
             Identifier.fromNamespaceAndPath("darkwinter", "darkwinter_test"));
 
+    public static final net.minecraft.tags.TagKey<Biome> SNOW_TERRAIN=net.minecraft.tags.TagKey.create(Registries.BIOME,
+            Identifier.fromNamespaceAndPath("darkwinter","snow_terrain"));
+    public static boolean snowTerrain(net.minecraft.core.Holder<Biome> biome){return biome.is(BIOME)||biome.is(SNOW_TERRAIN);}
     private TestBiomeCompatibility() {}
 
     public static void init() {

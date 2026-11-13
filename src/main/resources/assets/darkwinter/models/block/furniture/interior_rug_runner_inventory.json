@@ -1,0 +1,179 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "interior_rug_runner": "darkwinter:block/interior/interior_rug_runner",
+    "interior_rug_runner_fringe": "darkwinter:block/interior/interior_rug_runner_fringe",
+    "particle": "darkwinter:block/interior/interior_rug_runner"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        6.48408,
+        7.96582,
+        1.0
+      ],
+      "to": [
+        9.51592,
+        8.03418,
+        5.62208
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_runner"
+        },
+        "up": {
+          "texture": "#interior_rug_runner"
+        },
+        "north": {
+          "texture": "#interior_rug_runner"
+        },
+        "south": {
+          "texture": "#interior_rug_runner"
+        },
+        "west": {
+          "texture": "#interior_rug_runner"
+        },
+        "east": {
+          "texture": "#interior_rug_runner"
+        }
+      }
+    },
+    {
+      "from": [
+        6.48408,
+        7.96582,
+        5.62208
+      ],
+      "to": [
+        9.51592,
+        8.03418,
+        10.37792
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_runner"
+        },
+        "up": {
+          "texture": "#interior_rug_runner"
+        },
+        "north": {
+          "texture": "#interior_rug_runner"
+        },
+        "south": {
+          "texture": "#interior_rug_runner"
+        },
+        "west": {
+          "texture": "#interior_rug_runner"
+        },
+        "east": {
+          "texture": "#interior_rug_runner"
+        }
+      }
+    },
+    {
+      "from": [
+        6.48408,
+        7.96582,
+        10.37792
+      ],
+      "to": [
+        9.51592,
+        8.03418,
+        15.0
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_runner"
+        },
+        "up": {
+          "texture": "#interior_rug_runner"
+        },
+        "north": {
+          "texture": "#interior_rug_runner"
+        },
+        "south": {
+          "texture": "#interior_rug_runner"
+        },
+        "west": {
+          "texture": "#interior_rug_runner"
+        },
+        "east": {
+          "texture": "#interior_rug_runner"
+        }
+      }
+    }
+  ]
+}

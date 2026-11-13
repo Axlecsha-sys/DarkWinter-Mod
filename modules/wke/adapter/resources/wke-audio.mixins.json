@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.winterkore.engine.audio.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "WkeAudioChannelMixin",
+    "WkeSoundEngineMixin",
+    "WkeAudioLibraryMixin",
+    "WkeSoundManagerAccess"
+  ]
+}

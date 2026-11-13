@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "locker_h_hardware": "darkwinter:block/decor/locker_h_hardware",
+    "particle": "darkwinter:block/decor/locker_h_hardware"
+  },
+  "elements": [
+    {
+      "from": [
+        7.0600000000000005,
+        0,
+        7.0600000000000005
+      ],
+      "to": [
+        8.94,
+        16,
+        8.94
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    }
+  ]
+}

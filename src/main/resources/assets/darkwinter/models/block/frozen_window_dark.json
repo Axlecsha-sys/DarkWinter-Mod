@@ -1,6 +1,7 @@
 {
   "parent": "darkwinter:block/frozen_window",
   "textures": {
-    "frame": "darkwinter:block/weathered_planks_dark"
+    "frame": "darkwinter:block/construction/b4_frame",
+    "glass": "darkwinter:block/construction/b4_glass"
   }
 }

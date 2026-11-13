@@ -33,12 +33,22 @@
                 },
     "mixins":  [
                    "dark-winter.mixins.json",
+                   "darkwinter-anchors.mixins.json",
+                   "darkwinter-placed-items.mixins.json",
+                   { "config": "darkwinter-anchors.client.mixins.json", "environment": "client" },
+                   "wke-surface.mixins.json",
+                   { "config": "wke-audio.mixins.json", "environment": "client" },
+                   { "config": "wke-materials.mixins.json", "environment": "client" },
                    {
                        "config":  "dark-winter.client.mixins.json",
                        "environment":  "client"
                    },
                    {
                        "config":  "darkwinter-visuals.mixins.json",
+                       "environment":  "client"
+                   },
+                   {
+                       "config":  "wke-renderer.mixins.json",
                        "environment":  "client"
                    }
                ]

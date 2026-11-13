@@ -1,0 +1,74 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "ceramic": "darkwinter:block/decor/cracked_ceramic",
+    "particle": "darkwinter:block/decor/cracked_ceramic"
+  },
+  "elements": [
+    {
+      "from": [
+        6.9,
+        0,
+        6.92
+      ],
+      "to": [
+        9.1,
+        2.25,
+        9.08
+      ],
+      "faces": {
+        "down": {
+          "texture": "#ceramic"
+        },
+        "up": {
+          "texture": "#ceramic"
+        },
+        "north": {
+          "texture": "#ceramic"
+        },
+        "south": {
+          "texture": "#ceramic"
+        },
+        "west": {
+          "texture": "#ceramic"
+        },
+        "east": {
+          "texture": "#ceramic"
+        }
+      }
+    },
+    {
+      "from": [
+        9,
+        0.44,
+        7.77
+      ],
+      "to": [
+        10.05,
+        1.96,
+        8.23
+      ],
+      "faces": {
+        "down": {
+          "texture": "#ceramic"
+        },
+        "up": {
+          "texture": "#ceramic"
+        },
+        "north": {
+          "texture": "#ceramic"
+        },
+        "south": {
+          "texture": "#ceramic"
+        },
+        "west": {
+          "texture": "#ceramic"
+        },
+        "east": {
+          "texture": "#ceramic"
+        }
+      }
+    }
+  ]
+}

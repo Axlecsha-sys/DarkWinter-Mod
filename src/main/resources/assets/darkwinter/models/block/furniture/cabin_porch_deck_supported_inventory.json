@@ -1,0 +1,245 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "b4_end": "darkwinter:block/construction/b4_end",
+    "cabin_fascia_wood": "darkwinter:block/construction/cabin_fascia_wood",
+    "cabin_porch_wood": "darkwinter:block/construction/cabin_porch_wood",
+    "cabin_roof_flashing": "darkwinter:block/construction/cabin_roof_flashing",
+    "particle": "darkwinter:block/construction/cabin_porch_wood"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        1.0,
+        10.31875,
+        1.0
+      ],
+      "to": [
+        15.0,
+        11.5,
+        15.0
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cabin_porch_wood"
+        },
+        "up": {
+          "texture": "#cabin_porch_wood"
+        },
+        "north": {
+          "texture": "#cabin_porch_wood"
+        },
+        "south": {
+          "texture": "#cabin_porch_wood"
+        },
+        "west": {
+          "texture": "#cabin_porch_wood"
+        },
+        "east": {
+          "texture": "#cabin_porch_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        1.0,
+        8.83125,
+        1.25375
+      ],
+      "to": [
+        15.0,
+        10.31875,
+        2.54875
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "up": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "north": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "south": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "west": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "east": {
+          "texture": "#cabin_fascia_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        1.0,
+        9.1025,
+        13.67875
+      ],
+      "to": [
+        15.0,
+        10.31875,
+        14.8075
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "up": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "north": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "south": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "west": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "east": {
+          "texture": "#cabin_fascia_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        6.99375,
+        4.5,
+        1.945
+      ],
+      "to": [
+        9.00625,
+        9.505,
+        3.6775
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "up": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "north": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "south": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "west": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "east": {
+          "texture": "#cabin_fascia_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        6.99375,
+        4.5,
+        12.3925
+      ],
+      "to": [
+        9.00625,
+        9.505,
+        14.125
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "up": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "north": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "south": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "west": {
+          "texture": "#cabin_fascia_wood"
+        },
+        "east": {
+          "texture": "#cabin_fascia_wood"
+        }
+      }
+    }
+  ]
+}

@@ -1,23 +1,42 @@
 name: DarkWinter Telegram notifications
 
 on:
+  # Scans from main cover all branches, including branches without this workflow.
   push:
-    branches:
-      - '**'
+    branches: [main]
+  schedule:
+    - cron: '3-58/5 * * * *'
+  pull_request_target:
+    types: [closed]
+  issues:
+    types: [opened, edited, closed, reopened]
+  issue_comment:
+    types: [created, edited]
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      mode:
+        description: 'test = test Telegram; scan = check all branches'
+        required: true
+        default: test
+        type: choice
+        options: [test, scan]
 
 permissions:
   contents: read
 
 jobs:
-  notify:
+  scan:
+    if: github.event_name == 'schedule' || github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'scan')
     runs-on: ubuntu-24.04
-    timeout-minutes: 120
+    timeout-minutes: 30
+    # Only the scanner is serialized, because its state is shared between runs.
+    concurrency:
+      group: darkwinter-telegram-branch-scan
+      cancel-in-progress: false
     steps:
-      # Checkout notifier from default branch, not an old release tag.
-      - name: Checkout notifier
+      - name: Checkout trusted notifier
         uses: actions/checkout@v6
         with:
           ref: ${{ github.event.repository.default_branch }}
@@ -25,14 +44,57 @@ jobs:
           fetch-depth: 1
           sparse-checkout: |
             .github/telegram_notify.py
+            .github/test_telegram_notify.py
           sparse-checkout-cone-mode: false
-
-      - name: Validate notifier syntax
-        run: python3 -m py_compile .github/telegram_notify.py
-
-      - name: Publish commits or release
+      - name: Validate script and run offline tests
+        run: |
+          python3 -m py_compile .github/telegram_notify.py .github/test_telegram_notify.py
+          python3 -m unittest discover -s .github -p test_telegram_notify.py
+      - name: Restore branch state
+        uses: actions/cache/restore@v4
+        with:
+          path: .telegram-notifier-state.json
+          key: darkwinter-telegram-state-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            darkwinter-telegram-state-
+      - name: Scan every branch and publish new commits
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: '@winterkore'
+        run: python3 .github/telegram_notify.py
+      - name: Persist branch state
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .telegram-notifier-state.json
+          key: darkwinter-telegram-state-${{ github.run_id }}-${{ github.run_attempt }}
+
+  notify:
+    if: github.event_name == 'pull_request_target' || github.event_name == 'issues' || github.event_name == 'issue_comment' || github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && inputs.mode != 'scan')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      # Never check out code supplied by a pull request or an issue reporter.
+      - name: Checkout trusted notifier
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout: |
+            .github/telegram_notify.py
+            .github/test_telegram_notify.py
+          sparse-checkout-cone-mode: false
+      - name: Validate script and run offline tests
+        run: |
+          python3 -m py_compile .github/telegram_notify.py .github/test_telegram_notify.py
+          python3 -m unittest discover -s .github -p test_telegram_notify.py
+      - name: Publish issue, answer, merge or release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: '@winterkore'
         run: python3 .github/telegram_notify.py

@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "darkwinter:block/terrain/stone"
+      },
+      {
+        "model": "darkwinter:block/terrain/stone_mirrored"
+      },
+      {
+        "model": "darkwinter:block/terrain/stone",
+        "y": 180
+      },
+      {
+        "model": "darkwinter:block/terrain/stone_mirrored",
+        "y": 180
+      }
+    ]
+  }
+}

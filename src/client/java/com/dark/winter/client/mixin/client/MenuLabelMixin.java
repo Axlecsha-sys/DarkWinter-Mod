@@ -29,13 +29,15 @@ public abstract class MenuLabelMixin {
         var widget=(AbstractWidget)(Object)this;
         if(message.getContents() instanceof net.minecraft.network.chat.contents.TranslatableContents t
                 && t.getKey().equals("selectWorld.create")) message=Component.literal("+ ").append(message);
-        Component full=HudStyle.font(message);
-        int padding=Math.max(margin,6), available=Math.max(0,widget.getWidth()-padding*2);
-        Component fitted=MenuText.fit(full,available);
+        Component full=HudStyle.font(message).copy().withStyle(style->style.getColor()==null?style.withColor(widget.active?HudStyle.INK:HudStyle.MUTED):style);
+        boolean sidebar=com.dark.winter.client.SettingsNavigation.sidebar(widget);
+        Component display=sidebar?HudStyle.font(com.dark.winter.client.SettingsNavigation.caption(widget)):full;
+        int padding=sidebar?27:Math.max(margin,6),right=sidebar?8:padding,available=Math.max(0,widget.getWidth()-padding-right);
+        Component fitted=MenuText.fit(display,available);
         Tooltip current=tooltip.get();
         boolean baseChanged=darkwinter$expanded==null || current!=darkwinter$expanded;
         if(baseChanged) darkwinter$base=current;
-        if(fitted!=full) {
+        if(fitted!=display||!full.getString().equals(display.getString())) {
             if(baseChanged || darkwinter$expanded==null || !full.equals(darkwinter$full)) {
                 var detail=full.copy();
                 if(darkwinter$base!=null) detail.append("\n").append(((MenuTooltipAccessor)(Object)darkwinter$base).darkwinter$message());
@@ -49,8 +51,9 @@ public abstract class MenuLabelMixin {
             tooltip.set(darkwinter$base);
             darkwinter$expanded=null;
         }
-        output.acceptScrollingWithDefaultCenter(fitted,widget.getX()+padding,
-                widget.getX()+widget.getWidth()-padding,widget.getY(),widget.getY()+widget.getHeight());
+        if(sidebar)output.accept(widget.getX()+padding,widget.getY()+(widget.getHeight()-9)/2+1,fitted);
+        else output.acceptScrollingWithDefaultCenter(fitted,widget.getX()+padding,
+                widget.getX()+widget.getWidth()-right,widget.getY(),widget.getY()+widget.getHeight());
         ci.cancel();
     }
 }

@@ -1,0 +1,177 @@
+// Production WKE core and opt-in standalone import/verification tasks.
+import groovy.json.JsonOutput
+import java.nio.file.Files
+import java.security.MessageDigest
+
+sourceSets.named('client') { java.srcDir('modules/darkwinter-core/adapter/java') }
+def sourceRoot=file('WKE/core')
+def windows=System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('win')
+def mac=System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('mac')
+def suffix=windows?'.exe':''
+def libraryName=windows?'dw_core.dll':mac?'libdw_core.dylib':'libdw_core.so'
+def bin=layout.buildDirectory.dir('core/bin')
+def library=bin.map { it.file(libraryName) }
+def compiler=file('build/voxel-faces/toolchains/zig-0.14.1/zig.exe')
+def marker=file('build/voxel-faces/toolchains/zig-0.14.1/.install-complete')
+def stamp=new Date().format('yyyyMMdd-HHmmss-SSS')
+def runRoot=file('build/core/runs/'+stamp)
+def copyRoot=new File(runRoot,'import-copy')
+def worldFile=new File(runRoot,'road-location.dwv')
+def exportRoot=file('build/core/exports')
+def sourceOverride=providers.gradleProperty('coreSourceWorld')
+def selectSourceWorld={
+    if(sourceOverride.isPresent())return file(sourceOverride.get())
+    def candidates=file('build/run').listFiles()?.findAll{it.isDirectory()&&it.name.startsWith('roadReference-')}?.sort{a,b->b.name<=>a.name}
+    def candidate=candidates?.find{new File(it,'saves/New World/level.dat').isFile()}
+    if(candidate==null)throw new GradleException('Provide a closed copy under build/run with -PcoreSourceWorld=<copy>, or generate a road-reference SDK fixture.')
+    new File(candidate,'saves/New World')
+}
+def classes=layout.buildDirectory.dir('core/adapter-classes')
+def sha={File f->def d=MessageDigest.getInstance('SHA-256');f.withInputStream { input->byte[] b=new byte[65536];int n;while((n=input.read(b))!=-1)d.update(b,0,n)};d.digest().encodeHex().toString()}
+def execute={List<String> command->
+    def p=new ProcessBuilder(command).directory(projectDir).redirectErrorStream(true).start()
+    String output=p.inputStream.getText('UTF-8');int status=p.waitFor()
+    if(!output.isBlank())logger.lifecycle(output.trim())
+    if(status!=0)throw new GradleException('Core command failed with exit '+status+': '+command[0])
+    output.trim()
+}
+tasks.register('coreBuildNative') {
+    group='verification'
+    description='Build autonomous C++20 core, CLI and deterministic checks using the verified compiler.'
+    notCompatibleWithConfigurationCache('Explicit native compiler and artifact receipt.')
+    inputs.files(fileTree(sourceRoot).matching { include '**/*.cpp','**/*.hpp','**/*.h','CMakeLists.txt' })
+    inputs.file(file('gradle/core.gradle'));inputs.property('os',System.getProperty('os.name'))
+    outputs.files(library,bin.map{it.file('dw_core_tool'+suffix)},bin.map{it.file('dw_core_checks'+suffix)},bin.map{it.file('build-receipt.json')})
+    doLast {
+        bin.get().asFile.mkdirs()
+        def common=[new File(sourceRoot,'src/core.cpp').absolutePath,new File(sourceRoot,'src/format.cpp').absolutePath]
+        if(windows) {
+            if(!compiler.isFile()||!marker.isFile()||sha(compiler)!='1ddf230367e07738c4a769eae66c1db7469e37bd520e81c86356453d0db2b9fd')
+                throw new GradleException('The pinned Zig 0.14.1 compiler was not prepared by wkeBootstrapCpp.')
+            if(execute([compiler.absolutePath,'version'])!='0.14.1')throw new GradleException('Unexpected compiler version.')
+            def prefix=[compiler.absolutePath,'c++','-std=c++20','-O3','-fno-fast-math','-ffp-contract=off','-Wall','-Wextra','-Wpedantic','-pthread','-target','x86_64-windows-gnu']
+            execute(prefix+common+['-shared','-o',library.get().asFile.absolutePath])
+            execute(prefix+common+[new File(sourceRoot,'src/cli.cpp').absolutePath,'-o',bin.get().file('dw_core_tool.exe').asFile.absolutePath])
+            execute(prefix+common+[new File(sourceRoot,'checks/cpp/checks.cpp').absolutePath,'-o',bin.get().file('dw_core_checks.exe').asFile.absolutePath])
+        } else {
+            def build=file('build/core/cmake')
+            execute(['cmake','-S',sourceRoot.absolutePath,'-B',build.absolutePath,'-DCMAKE_BUILD_TYPE=Release'])
+            execute(['cmake','--build',build.absolutePath,'--config','Release','--parallel','2'])
+            [libraryName,'dw_core_tool','dw_core_checks'].each { name->
+                def artifact=fileTree(build).files.find{it.name==name}
+                if(artifact==null)throw new GradleException('Missing core artifact '+name)
+                Files.copy(artifact.toPath(),new File(bin.get().asFile,name).toPath(),java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+            }
+        }
+        def sources=[:]
+        inputs.files.files.findAll{it.isFile()}.sort{it.absolutePath}.each{sources[projectDir.toPath().relativize(it.toPath()).toString().replace('\\','/')]=sha(it)}
+        def artifacts=[:]
+        [libraryName,'dw_core_tool'+suffix,'dw_core_checks'+suffix].each { name->artifacts[name]=sha(new File(bin.get().asFile,name)) }
+        new File(bin.get().asFile,'build-receipt.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([schema:1,abi:1,sourceSha256:sources,artifactSha256:artifacts,
+                compiler:windows?'verified Zig/Clang 0.14.1':'CMake; platform validation pending',jvmRequiredByNativeBinaries:false]))+'\n'
+    }
+}
+tasks.register('coreVerifyNative') {
+    group='verification';dependsOn 'coreBuildNative'
+    notCompatibleWithConfigurationCache('Owned native test output.')
+    doLast {
+        runRoot.mkdirs()
+        def output=execute([new File(bin.get().asFile,'dw_core_checks'+suffix).absolutePath,new File(runRoot,'native-checks').absolutePath])
+        new File(runRoot,'native-checks.json').text=output+'\n'
+        Files.copy(new File(bin.get().asFile,'build-receipt.json').toPath(),new File(runRoot,'build-receipt.json').toPath(),java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+    }
+}
+tasks.register('coreCompileAdapter',JavaCompile) {
+    group='verification'
+    source fileTree('modules/darkwinter-core/adapter/java'){include '**/*.java'}
+    source fileTree('WKE/core/checks/java'){include '**/*.java'}
+    source fileTree('modules/wke/adapter/java'){include '**/*.java'}
+    classpath=files();destinationDirectory=classes
+    javaCompiler=javaToolchains.compilerFor{languageVersion=JavaLanguageVersion.of(25)}
+    options.release=25;options.encoding='UTF-8'
+}
+tasks.register('corePrepareImportCopy') {
+    group='verification'
+    notCompatibleWithConfigurationCache('Invocation-owned copy of a closed SDK fixture.')
+    doLast {
+        File sourceWorld=selectSourceWorld()
+        if(!new File(sourceWorld,'level.dat').isFile())throw new GradleException('Existing closed road-reference SDK fixture is required.')
+        if(!sourceWorld.canonicalFile.toPath().startsWith(file('build/run').canonicalFile.toPath()))throw new GradleException('Fixture source must be under build/run.')
+        copyRoot.mkdirs();new File(copyRoot,'region').mkdirs()
+        def hashes=[:]
+        def sourceFiles=[new File(sourceWorld,'level.dat')]
+        def region=new File(sourceWorld,'dimensions/minecraft/overworld/region')
+        if(!region.isDirectory())region=new File(sourceWorld,'region')
+        sourceFiles.addAll(region.listFiles().findAll{it.name in ['r.-1.0.mca','r.0.0.mca']||it.name.endsWith('.mcc')})
+        if(sourceFiles.size()<2)throw new GradleException('Source fixture has no required region files.')
+        sourceFiles.each { f->
+            String relative=sourceWorld.toPath().relativize(f.toPath()).toString()
+            String before=sha(f);File target=new File(copyRoot,relative);target.parentFile.mkdirs()
+            Files.copy(f.toPath(),target.toPath())
+            if(sha(f)!=before||sha(target)!=before)throw new GradleException('Source changed while copying '+relative)
+            hashes[relative.replace('\\','/')]=before
+        }
+        new File(copyRoot,'core-import-copy.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([schema:1,source:sourceWorld.absolutePath,sourceSha256:hashes,readOnlyGeometrySnapshot:true]))+'\n'
+    }
+}
+tasks.register('coreImportFixture',JavaExec) {
+    group='verification';dependsOn 'coreBuildNative','coreCompileAdapter','corePrepareImportCopy'
+    classpath=files(classes);mainClass='com.dark.winter.core.CoreImport'
+    javaLauncher=javaToolchains.launcherFor{languageVersion=JavaLanguageVersion.of(25)}
+    jvmArgs '--enable-native-access=ALL-UNNAMED'
+    systemProperty 'darkwinter.core.library',library.get().asFile.absolutePath
+    args copyRoot.absolutePath,worldFile.absolutePath,'-1','2','0','4','4','6'
+    doLast {
+        exportRoot.mkdirs()
+        Files.copy(worldFile.toPath(),new File(exportRoot,'road-'+stamp+'.dwv').toPath())
+    }
+}
+tasks.register('coreVerifyBridge',JavaExec) {
+    group='verification';dependsOn 'coreImportFixture'
+    classpath=files(classes);mainClass='com.dark.winter.core.CoreBridgeChecks'
+    javaLauncher=javaToolchains.launcherFor{languageVersion=JavaLanguageVersion.of(25)}
+    jvmArgs '--enable-native-access=ALL-UNNAMED'
+    systemProperty 'darkwinter.core.library',library.get().asFile.absolutePath
+    args worldFile.absolutePath
+}
+tasks.register('coreBenchmark') {
+    group='verification';dependsOn 'coreImportFixture'
+    notCompatibleWithConfigurationCache('Owned native benchmark receipt.')
+    doLast {
+        def executable=new File(bin.get().asFile,'dw_core_tool'+suffix)
+        def inspect=execute([executable.absolutePath,'inspect',worldFile.absolutePath])
+        new File(runRoot,'standalone-inspect.json').text=inspect+'\n'
+        def output=execute([executable.absolutePath,'benchmark',worldFile.absolutePath])
+        new File(runRoot,'native-benchmark.json').text=output+'\n'
+        Files.copy(new File(bin.get().asFile,'build-receipt.json').toPath(),new File(runRoot,'build-receipt.json').toPath(),java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+    }
+}
+tasks.register('coreStage1Verify') {
+    group='verification';dependsOn 'coreVerifyNative','coreVerifyBridge','coreBenchmark'
+    description='Verify standalone core, real copied Minecraft import, FFM parity and worker-count measurements.'
+    notCompatibleWithConfigurationCache('Invocation receipt.')
+    doLast {
+        file('build/core/latest-stage1.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([schema:1,completed:true,run:runRoot.absolutePath,world:worldFile.absolutePath,
+                worldSha256:sha(worldFile),rendererReplaced:false,integratedServerRemoved:false,nativeCoreUsesJavaGC:false]))+'\n'
+        logger.lifecycle('CORE_STAGE1_COMPLETE '+runRoot.absolutePath)
+    }
+}
+tasks.named('runClient') {
+    systemProperty 'darkwinter.core.library',library.get().asFile.absolutePath
+    systemProperty 'darkwinter.core.worldRoot',exportRoot.absolutePath
+}
+
+if (gradle.startParameter.taskNames.any { it.tokenize(':').last() == 'coreVerifyClient' }) {
+    project.ext.coreClientWorldInput = worldFile
+    apply from: 'tests/core-client/core-client.gradle'
+}
+
+apply from: 'gradle/core-client.gradle'
+
+apply from: 'gradle/core-world.gradle'
+
+apply from: 'gradle/core-render.gradle'
+
+apply from: 'gradle/core-player.gradle'
+
+apply from: 'gradle/core-game.gradle'

@@ -1,0 +1,20 @@
+[
+  {
+    "resource": "src/main/resources/assets/darkwinter/textures/block/nature/forest_food_dry_materials.png",
+    "prepared": "F:\\DarkWinter\\build\\forest-food-implementation-v1\\forest_food_dry_materials.png",
+    "original": "F:\\DarkWinter\\assets-source\\forest-food\\forest_food_dry_materials-original.png",
+    "original_sha256": "a7b53d45ce6d37c91a04348f15af4cb83a408d03a8cb79681579c4788cd46ca7",
+    "sha256": "6bf440760d9e5736e3bf563607309ee1bcbbde9da456dc391a269799b53adcc6",
+    "size": 552344,
+    "conversion": "uniform 0.5 resize; no painted pixel edits"
+  },
+  {
+    "resource": "src/main/resources/assets/darkwinter/textures/block/nature/forest_food_shrub_materials.png",
+    "prepared": "F:\\DarkWinter\\build\\forest-food-implementation-v1\\forest_food_shrub_materials.png",
+    "original": "F:\\DarkWinter\\assets-source\\forest-food\\forest_food_shrub_materials-original.png",
+    "original_sha256": "2556e4add96b0800082b0b53d92b1dcba334924cd3e25c92800763e6db1b5830",
+    "sha256": "1577e4dd730c7175f6460e1d3cd2c6fa43e07f2d4d2ab09f0812313aed971254",
+    "size": 620107,
+    "conversion": "uniform 0.5 resize; no painted pixel edits"
+  }
+]

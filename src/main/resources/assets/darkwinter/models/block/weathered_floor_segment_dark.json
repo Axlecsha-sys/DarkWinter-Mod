@@ -1,8 +1,10 @@
 {
   "parent": "minecraft:block/slab",
   "textures": {
-    "top": "darkwinter:block/weathered_planks_dark",
-    "bottom": "darkwinter:block/weathered_planks_dark",
-    "side": "darkwinter:block/weathered_planks_dark"
+    "top": "darkwinter:block/construction/b4_floor",
+    "bottom": "darkwinter:block/construction/b4_floor",
+    "side": "darkwinter:block/construction/b4_floor",
+    "b4_floor_end": "darkwinter:block/construction/b4_floor_end",
+    "b4_wall": "darkwinter:block/construction/b4_wall"
   }
 }

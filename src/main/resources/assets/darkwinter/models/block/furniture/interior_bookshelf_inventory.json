@@ -1,0 +1,249 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "interior_oiled_pine": "darkwinter:block/interior/interior_oiled_pine",
+    "interior_black_iron": "darkwinter:block/interior/interior_black_iron",
+    "interior_dulled_brass": "darkwinter:block/interior/interior_dulled_brass",
+    "interior_book_pages": "darkwinter:block/interior/interior_book_pages",
+    "interior_book_navy": "darkwinter:block/interior/interior_book_navy",
+    "interior_book_olive": "darkwinter:block/interior/interior_book_olive",
+    "interior_book_red": "darkwinter:block/interior/interior_book_red",
+    "interior_book_brown": "darkwinter:block/interior/interior_book_brown",
+    "particle": "darkwinter:block/interior/interior_oiled_pine"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        1.0,
+        6.02132,
+        5.36176
+      ],
+      "to": [
+        15.0,
+        6.83975,
+        10.63824
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_oiled_pine"
+        },
+        "up": {
+          "texture": "#interior_oiled_pine"
+        },
+        "north": {
+          "texture": "#interior_oiled_pine"
+        },
+        "south": {
+          "texture": "#interior_oiled_pine"
+        },
+        "west": {
+          "texture": "#interior_oiled_pine"
+        },
+        "east": {
+          "texture": "#interior_oiled_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        2.72352,
+        2.77648,
+        6.36314
+      ],
+      "to": [
+        3.64787,
+        6.11761,
+        10.63824
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_oiled_pine"
+        },
+        "up": {
+          "texture": "#interior_oiled_pine"
+        },
+        "north": {
+          "texture": "#interior_oiled_pine"
+        },
+        "south": {
+          "texture": "#interior_oiled_pine"
+        },
+        "west": {
+          "texture": "#interior_oiled_pine"
+        },
+        "east": {
+          "texture": "#interior_oiled_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        12.28473,
+        2.77648,
+        6.36314
+      ],
+      "to": [
+        13.20908,
+        6.11761,
+        10.63824
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_oiled_pine"
+        },
+        "up": {
+          "texture": "#interior_oiled_pine"
+        },
+        "north": {
+          "texture": "#interior_oiled_pine"
+        },
+        "south": {
+          "texture": "#interior_oiled_pine"
+        },
+        "west": {
+          "texture": "#interior_oiled_pine"
+        },
+        "east": {
+          "texture": "#interior_oiled_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        1.83769,
+        6.83975,
+        6.17056
+      ],
+      "to": [
+        8.48143,
+        13.22352,
+        10.47455
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_book_navy"
+        },
+        "up": {
+          "texture": "#interior_book_navy"
+        },
+        "north": {
+          "texture": "#interior_book_navy"
+        },
+        "south": {
+          "texture": "#interior_book_navy"
+        },
+        "west": {
+          "texture": "#interior_book_navy"
+        },
+        "east": {
+          "texture": "#interior_book_navy"
+        }
+      }
+    },
+    {
+      "from": [
+        8.57772,
+        6.83012,
+        5.98762
+      ],
+      "to": [
+        14.29711,
+        8.78473,
+        10.58047
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_book_olive"
+        },
+        "up": {
+          "texture": "#interior_book_olive"
+        },
+        "north": {
+          "texture": "#interior_book_olive"
+        },
+        "south": {
+          "texture": "#interior_book_olive"
+        },
+        "west": {
+          "texture": "#interior_book_olive"
+        },
+        "east": {
+          "texture": "#interior_book_olive"
+        }
+      }
+    }
+  ]
+}

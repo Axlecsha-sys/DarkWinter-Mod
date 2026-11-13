@@ -1,0 +1,396 @@
+{
+  "schema_version": 2,
+  "processing": "Gentle shared character master; different dialogue/breathing levels; no gate, pitch shift, reverb or time stretching",
+  "lines": [
+    {
+      "id": "protagonist.cold",
+      "source": "assets-source/audio/protagonist/01_cold_en_post.wav",
+      "source_sha256": "e97db122f9f42e80ac76812b3c54b3406e8e459d11aea8a90fb59c7401d1ee04",
+      "filters": "highpass=f=58:p=2,lowpass=f=10500:p=2,equalizer=f=125:t=o:w=1.2:g=0.6,equalizer=f=330:t=o:w=1.3:g=-1.7,equalizer=f=2400:t=o:w=1.1:g=0.5,equalizer=f=6200:t=o:w=1.3:g=-1.2,deesser=i=0.12:m=0.30:f=0.55,acompressor=threshold=0.12:ratio=1.8:attack=14:release=130:knee=2.8:makeup=1",
+      "edit": null,
+      "gain_db": 1.3400000000000003,
+      "target_lufs": -21,
+      "master_path": "assets-source/audio/protagonist/processed/cold.wav",
+      "game_path": "src/client/resources/assets/darkwinter/sounds/protagonist/cold.ogg",
+      "previous_game_sha256": "8b6514c4d701b256f37ed1d53dc8e340f3aa4991e7919d1b9b26933ba9e30fe2",
+      "master_sha256": "57f0099b14f0b3210fe8678e508a4a1348fdd60585b8593418f792d3e2872448",
+      "game_sha256": "cd7f76a87909667149b7e8f103ee9a437ac3e050ebc068fa3aed6e6204d30987",
+      "before": {
+        "samples": 51285,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 2.136875,
+        "peak_dbfs": -3.309799885718552,
+        "rms_dbfs": -21.558671655738998,
+        "overloaded_samples": 0,
+        "dc": 1.9885340609106883e-06
+      },
+      "after": {
+        "samples": 51285,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 2.136875,
+        "peak_dbfs": -3.5596543583258766,
+        "rms_dbfs": -21.254438270379392,
+        "overloaded_samples": 0,
+        "dc": -0.00010446433416309988
+      },
+      "decoded_loudness": {
+        "input_i": -21.37,
+        "input_tp": -3.52,
+        "input_lra": 0.0
+      }
+    },
+    {
+      "id": "protagonist.wind",
+      "source": "assets-source/audio/protagonist/02_wind_en_post.wav",
+      "source_sha256": "60e95c344647d6265da74d2790ed92ada668998802f2e68aba9a0fc118851550",
+      "filters": "highpass=f=58:p=2,lowpass=f=10500:p=2,equalizer=f=125:t=o:w=1.2:g=0.6,equalizer=f=330:t=o:w=1.3:g=-1.7,equalizer=f=2400:t=o:w=1.1:g=0.5,equalizer=f=6200:t=o:w=1.3:g=-1.2,deesser=i=0.12:m=0.30:f=0.55,acompressor=threshold=0.12:ratio=1.8:attack=14:release=130:knee=2.8:makeup=1",
+      "edit": null,
+      "gain_db": 1.9200000000000017,
+      "target_lufs": -21,
+      "master_path": "assets-source/audio/protagonist/processed/wind.wav",
+      "game_path": "src/client/resources/assets/darkwinter/sounds/protagonist/wind.ogg",
+      "previous_game_sha256": "1330e002906cd4c2c93718db849329b691bf67b99bea7f6afbf85e2d28efd7cd",
+      "master_sha256": "b65fdb00ea362d0e1c4f3017259b32bfa35ef23f138f0952f19aeccb5b032065",
+      "game_sha256": "3cece12f93b1f0e6f16fa79d8e8f74862c8511dec0135a3d3a9e9b77f01842e0",
+      "before": {
+        "samples": 49365,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 2.056875,
+        "peak_dbfs": -7.637773350712526,
+        "rms_dbfs": -21.233360488713373,
+        "overloaded_samples": 0,
+        "dc": -1.2413538200198139e-05
+      },
+      "after": {
+        "samples": 49365,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 2.056875,
+        "peak_dbfs": -8.16025715457838,
+        "rms_dbfs": -20.915725001853033,
+        "overloaded_samples": 0,
+        "dc": -0.00013480234494019457
+      },
+      "decoded_loudness": {
+        "input_i": -20.94,
+        "input_tp": -7.91,
+        "input_lra": 0.0
+      }
+    },
+    {
+      "id": "protagonist.hungry",
+      "source": "assets-source/audio/protagonist/03_hungry_en_post.wav",
+      "source_sha256": "1a3b7bf4f2857a9c51ee6f407c97ec44e19419307d9370b1a141adb218892325",
+      "filters": "highpass=f=58:p=2,lowpass=f=10500:p=2,equalizer=f=125:t=o:w=1.2:g=0.6,equalizer=f=330:t=o:w=1.3:g=-1.7,equalizer=f=2400:t=o:w=1.1:g=0.5,equalizer=f=6200:t=o:w=1.3:g=-1.2,deesser=i=0.12:m=0.30:f=0.55,acompressor=threshold=0.12:ratio=1.8:attack=14:release=130:knee=2.8:makeup=1",
+      "edit": null,
+      "gain_db": 1.9400000000000013,
+      "target_lufs": -21,
+      "master_path": "assets-source/audio/protagonist/processed/hungry.wav",
+      "game_path": "src/client/resources/assets/darkwinter/sounds/protagonist/hungry.ogg",
+      "previous_game_sha256": "2731b08cdb7df55bdded3ff2290f96779739ffa2506548c04cd71569a4cd2bcc",
+      "master_sha256": "18581e8c0861907769daa835e14d88d667d2f80f4e7b8fb9b79e9c9d9e3b0819",
+      "game_sha256": "5689be0a3313059fbe6c4eb1767eec6b57f3b82db96ec014b86b09181011dfa8",
+      "before": {
+        "samples": 51285,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 2.136875,
+        "peak_dbfs": -7.771302622275763,
+        "rms_dbfs": -20.930907021011187,
+        "overloaded_samples": 0,
+        "dc": -3.162750035029173e-05
+      },
+      "after": {
+        "samples": 51285,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 2.136875,
+        "peak_dbfs": -8.316993484976566,
+        "rms_dbfs": -20.877222000251262,
+        "overloaded_samples": 0,
+        "dc": 4.4281202237537655e-06
+      },
+      "decoded_loudness": {
+        "input_i": -20.98,
+        "input_tp": -8.21,
+        "input_lra": 0.0
+      }
+    },
+    {
+      "id": "protagonist.thirsty",
+      "source": "assets-source/audio/protagonist/04_thirsty_en_post.wav",
+      "source_sha256": "1e3337dae5b521fc77b2825cdc2d664ca2419e4f8b99d6c6a316e54d6e39ee15",
+      "filters": "highpass=f=58:p=2,lowpass=f=10500:p=2,equalizer=f=125:t=o:w=1.2:g=0.6,equalizer=f=330:t=o:w=1.3:g=-1.7,equalizer=f=2400:t=o:w=1.1:g=0.5,equalizer=f=6200:t=o:w=1.3:g=-1.2,deesser=i=0.12:m=0.30:f=0.55,acompressor=threshold=0.12:ratio=1.8:attack=14:release=130:knee=2.8:makeup=1",
+      "edit": null,
+      "gain_db": 1.5399999999999991,
+      "target_lufs": -21,
+      "master_path": "assets-source/audio/protagonist/processed/thirsty.wav",
+      "game_path": "src/client/resources/assets/darkwinter/sounds/protagonist/thirsty.ogg",
+      "previous_game_sha256": "07ee97a5a9a0dde933f7b024c9524047bfccb17c3dfe51f7617611d746a6228e",
+      "master_sha256": "3e9533a75d9de101effe5964ecd3c6e12eeca490644df9ca3731d260c8b43609",
+      "game_sha256": "2fe7e0b8a8d092337e0237f02ac59bb0e63a5e950a91e52d19e511e1447c3b7c",
+      "before": {
+        "samples": 26325,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 1.096875,
+        "peak_dbfs": -8.026989197961482,
+        "rms_dbfs": -21.502885029283092,
+        "overloaded_samples": 0,
+        "dc": -0.00011027351302469492
+      },
+      "after": {
+        "samples": 26325,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 1.096875,
+        "peak_dbfs": -8.962021518689697,
+        "rms_dbfs": -21.351308246106356,
+        "overloaded_samples": 0,
+        "dc": -0.00036951134181665115
+      },
+      "decoded_loudness": {
+        "input_i": -20.96,
+        "input_tp": -8.93,
+        "input_lra": 0.0
+      }
+    },
+    {
+      "id": "protagonist.exhausted",
+      "source": "assets-source/audio/protagonist/05_exhausted_en_post.wav",
+      "source_sha256": "bc57d1ae009ecd9789f2c9b96243f2df01d00c0e4a595865bfee8db9a191718a",
+      "filters": "highpass=f=58:p=2,lowpass=f=10500:p=2,equalizer=f=125:t=o:w=1.2:g=0.6,equalizer=f=330:t=o:w=1.3:g=-1.7,equalizer=f=2400:t=o:w=1.1:g=0.5,equalizer=f=6200:t=o:w=1.3:g=-1.2,deesser=i=0.12:m=0.30:f=0.55,acompressor=threshold=0.12:ratio=1.8:attack=14:release=130:knee=2.8:makeup=1",
+      "edit": null,
+      "gain_db": 2.530000000000001,
+      "target_lufs": -21,
+      "master_path": "assets-source/audio/protagonist/processed/exhausted.wav",
+      "game_path": "src/client/resources/assets/darkwinter/sounds/protagonist/exhausted.ogg",
+      "previous_game_sha256": "40761fbb35a2cd7349433683cdd2430f708ca97c46f9110301522b71d95ec803",
+      "master_sha256": "03001f4b0e3a2f3567fb97a568a997fc3d5cddad9ad51eb8e707b9fc312fed45",
+      "game_sha256": "771c98b6f69ee6be239c62fe36ad47e97b780542d7be936962a370a9f54d3e85",
+      "before": {
+        "samples": 51285,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 2.136875,
+        "peak_dbfs": -6.516736355732686,
+        "rms_dbfs": -21.757837640735946,
+        "overloaded_samples": 0,
+        "dc": -6.899179312675721e-05
+      },
+      "after": {
+        "samples": 51285,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 2.136875,
+        "peak_dbfs": -6.316114548103734,
+        "rms_dbfs": -21.447961727005346,
+        "overloaded_samples": 0,
+        "dc": -9.944784308514803e-05
+      },
+      "decoded_loudness": {
+        "input_i": -20.91,
+        "input_tp": -6.29,
+        "input_lra": 0.0
+      }
+    },
+    {
+      "id": "protagonist.warmth",
+      "source": "assets-source/audio/protagonist/06_warmth_en_post.wav",
+      "source_sha256": "cabbddda1000b7be84a5ea057092e75dda4f59e0de9d7a49a149964ff84fda3b",
+      "filters": "highpass=f=58:p=2,lowpass=f=10500:p=2,equalizer=f=125:t=o:w=1.2:g=0.6,equalizer=f=330:t=o:w=1.3:g=-1.7,equalizer=f=2400:t=o:w=1.1:g=0.5,equalizer=f=6200:t=o:w=1.3:g=-1.2,deesser=i=0.12:m=0.30:f=0.55,acompressor=threshold=0.12:ratio=1.8:attack=14:release=130:knee=2.8:makeup=1",
+      "edit": null,
+      "gain_db": 2.469999999999999,
+      "target_lufs": -21,
+      "master_path": "assets-source/audio/protagonist/processed/warmth.wav",
+      "game_path": "src/client/resources/assets/darkwinter/sounds/protagonist/warmth.ogg",
+      "previous_game_sha256": "d7b0bd7425fa70597273d2a92e72a26f5856c3c25f0ce41afa63fc6d11b1aa00",
+      "master_sha256": "23eb313f8d4dbde348dd46e9453be990ba80e6b5dd0d7700309b8fc0680a983b",
+      "game_sha256": "b00f470b12c0747bb8a7d5661a547fb027272704dfc4af3aa1259f22cfaa0426",
+      "before": {
+        "samples": 101205,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 4.216875,
+        "peak_dbfs": -5.536523860448862,
+        "rms_dbfs": -21.11165428606862,
+        "overloaded_samples": 0,
+        "dc": 1.797000936614538e-05
+      },
+      "after": {
+        "samples": 101205,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 4.216875,
+        "peak_dbfs": -5.741174007094413,
+        "rms_dbfs": -21.092801220850234,
+        "overloaded_samples": 0,
+        "dc": -0.00010021080675301149
+      },
+      "decoded_loudness": {
+        "input_i": -20.97,
+        "input_tp": -5.74,
+        "input_lra": 1.5
+      }
+    },
+    {
+      "id": "protagonist.traffic",
+      "source": "assets-source/audio/protagonist/07_traffic_en_post.wav",
+      "source_sha256": "2fa068bca2ba10dab8874cad494be29880cbad5b1c23a3feb6d35457d36f6ea4",
+      "filters": "highpass=f=58:p=2,lowpass=f=10500:p=2,equalizer=f=125:t=o:w=1.2:g=0.6,equalizer=f=330:t=o:w=1.3:g=-1.7,equalizer=f=2400:t=o:w=1.1:g=0.5,equalizer=f=6200:t=o:w=1.3:g=-1.2,deesser=i=0.12:m=0.30:f=0.55,acompressor=threshold=0.12:ratio=1.8:attack=14:release=130:knee=2.8:makeup=1",
+      "edit": null,
+      "gain_db": 1.2600000000000016,
+      "target_lufs": -21,
+      "master_path": "assets-source/audio/protagonist/processed/traffic.wav",
+      "game_path": "src/client/resources/assets/darkwinter/sounds/protagonist/traffic.ogg",
+      "previous_game_sha256": "03da779da4688ecf788c4b8152898a66755ba8c97e1c3576a527379d05eb2d03",
+      "master_sha256": "e60dc36ad75654a0a59da216a0b7b49144d79fff3bc3863c8e9d6f9a6b1aa40b",
+      "game_sha256": "a5418f4e7ccb2c3dd9bc972b8877af5c7043b3c8576cfd343e316aed4b00f51a",
+      "before": {
+        "samples": 64725,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 2.696875,
+        "peak_dbfs": -7.741294810953482,
+        "rms_dbfs": -21.10390472885177,
+        "overloaded_samples": 0,
+        "dc": 1.2315509577165315e-05
+      },
+      "after": {
+        "samples": 64725,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 2.696875,
+        "peak_dbfs": -7.163163034419497,
+        "rms_dbfs": -20.99375066384138,
+        "overloaded_samples": 0,
+        "dc": -0.00027071120022680777
+      },
+      "decoded_loudness": {
+        "input_i": -20.92,
+        "input_tp": -6.79,
+        "input_lra": 0.0
+      }
+    },
+    {
+      "id": "protagonist.coming_back",
+      "source": "assets-source/audio/protagonist/08_coming_back_en_post.wav",
+      "source_sha256": "18c3cc664e6691f3267556ab98a5fe3d69e08ccd373cfd46bde0a50d585cdab4",
+      "filters": "highpass=f=58:p=2,lowpass=f=10500:p=2,equalizer=f=125:t=o:w=1.2:g=0.6,equalizer=f=330:t=o:w=1.3:g=-1.7,equalizer=f=2400:t=o:w=1.1:g=0.5,equalizer=f=6200:t=o:w=1.3:g=-1.2,deesser=i=0.12:m=0.30:f=0.55,acompressor=threshold=0.12:ratio=1.8:attack=14:release=130:knee=2.8:makeup=1",
+      "edit": null,
+      "gain_db": 2.210000000000001,
+      "target_lufs": -21,
+      "master_path": "assets-source/audio/protagonist/processed/coming_back.wav",
+      "game_path": "src/client/resources/assets/darkwinter/sounds/protagonist/coming_back.ogg",
+      "previous_game_sha256": "47c0632f3e157b8d3673895e69723959a45815b65109a8dcc5a5bbe49e4ae93d",
+      "master_sha256": "8b3d42e45572a0d6a9e7f8e087db1e2a62f4ed3d5b9fa9c8a5a52dd412a385cc",
+      "game_sha256": "c128c762176f78c163b2f9641395f13c88e6931d48ad6d71ee533ff5128aca2b",
+      "before": {
+        "samples": 45525,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 1.896875,
+        "peak_dbfs": -5.890610006816664,
+        "rms_dbfs": -20.869892621851672,
+        "overloaded_samples": 0,
+        "dc": -0.0001769641229169111
+      },
+      "after": {
+        "samples": 45525,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 1.896875,
+        "peak_dbfs": -6.2997838913726625,
+        "rms_dbfs": -20.830965465630054,
+        "overloaded_samples": 0,
+        "dc": -0.00013914889420212195
+      },
+      "decoded_loudness": {
+        "input_i": -20.97,
+        "input_tp": -6.22,
+        "input_lra": 0.0
+      }
+    },
+    {
+      "id": "protagonist.little_things",
+      "source": "assets-source/audio/protagonist/09_little_things_en_post.wav",
+      "source_sha256": "ceb9df8c9a75b84567637b5e2681f276385d9d2ef46011b1ac7decaeeafefca4",
+      "filters": "highpass=f=58:p=2,lowpass=f=10500:p=2,equalizer=f=125:t=o:w=1.2:g=0.6,equalizer=f=330:t=o:w=1.3:g=-1.7,equalizer=f=2400:t=o:w=1.1:g=0.5,equalizer=f=6200:t=o:w=1.3:g=-1.2,deesser=i=0.12:m=0.30:f=0.55,acompressor=threshold=0.12:ratio=1.8:attack=14:release=130:knee=2.8:makeup=1",
+      "edit": null,
+      "gain_db": 1.7199999999999989,
+      "target_lufs": -21,
+      "master_path": "assets-source/audio/protagonist/processed/little_things.wav",
+      "game_path": "src/client/resources/assets/darkwinter/sounds/protagonist/little_things.ogg",
+      "previous_game_sha256": "d434e9e1f701c82150647b95e0c45b1526e70bd9598228fc279a1b8e2852c2ac",
+      "master_sha256": "9615c9d436aec712da39e351de194f9498eed08d4c8755c029968d347d41cd76",
+      "game_sha256": "e363f1a372793cb7e4fed8195e311e891ff31a2ad59a8045fd057a3240762cb2",
+      "before": {
+        "samples": 58965,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 2.456875,
+        "peak_dbfs": -8.670613175299337,
+        "rms_dbfs": -20.55624232666693,
+        "overloaded_samples": 0,
+        "dc": -0.00010160794034134038
+      },
+      "after": {
+        "samples": 58965,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 2.456875,
+        "peak_dbfs": -9.477939272945097,
+        "rms_dbfs": -20.43290932049233,
+        "overloaded_samples": 0,
+        "dc": -0.0002745549635942497
+      },
+      "decoded_loudness": {
+        "input_i": -20.93,
+        "input_tp": -9.48,
+        "input_lra": 0.0
+      }
+    },
+    {
+      "id": "protagonist.view",
+      "source": "assets-source/audio/protagonist/10_view_en_post.wav",
+      "source_sha256": "79f48ace0b57cb9b98422b948088df50986f5a3b61394962751b02a90b754893",
+      "filters": "highpass=f=58:p=2,lowpass=f=10500:p=2,equalizer=f=125:t=o:w=1.2:g=0.6,equalizer=f=330:t=o:w=1.3:g=-1.7,equalizer=f=2400:t=o:w=1.1:g=0.5,equalizer=f=6200:t=o:w=1.3:g=-1.2,deesser=i=0.12:m=0.30:f=0.55,acompressor=threshold=0.12:ratio=1.8:attack=14:release=130:knee=2.8:makeup=1",
+      "edit": null,
+      "gain_db": 2.2300000000000004,
+      "target_lufs": -21,
+      "master_path": "assets-source/audio/protagonist/processed/view.wav",
+      "game_path": "src/client/resources/assets/darkwinter/sounds/protagonist/view.ogg",
+      "previous_game_sha256": "becfed15eacb16677b51e5994eba394dd8da605303d809bcb5c9c78ab9be6e12",
+      "master_sha256": "46a0da75f1778473502d5853c17304bd0e79131a370bb01c89b69bfaa270770b",
+      "game_sha256": "85cea9086a463b300a91a80b2ba1eb1ed3df9321692dc37c772e7556e429f0e0",
+      "before": {
+        "samples": 49365,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 2.056875,
+        "peak_dbfs": -6.2086150253841605,
+        "rms_dbfs": -20.857437450098367,
+        "overloaded_samples": 0,
+        "dc": -5.5999618437823125e-05
+      },
+      "after": {
+        "samples": 49365,
+        "sample_rate": 24000,
+        "channels": 1,
+        "seconds": 2.056875,
+        "peak_dbfs": -5.95881500337714,
+        "rms_dbfs": -20.857992990536488,
+        "overloaded_samples": 0,
+        "dc": -7.992228960828936e-05
+      },
+      "decoded_loudness": {
+        "input_i": -20.98,
+        "input_tp": -5.96,
+        "input_lra": 0.0
+      }
+    }
+  ]
+}

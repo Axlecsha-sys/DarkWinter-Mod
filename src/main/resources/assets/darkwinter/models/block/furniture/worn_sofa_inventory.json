@@ -2,29 +2,10 @@
   "parent": "minecraft:block/block",
   "ambientocclusion": true,
   "textures": {
-    "metal": "darkwinter:block/decor/rusted_steel",
-    "enamel": "darkwinter:block/decor/chipped_enamel",
-    "fabric": "darkwinter:block/decor/faded_fabric",
-    "concrete": "darkwinter:block/decor/aged_concrete",
-    "ceramic": "darkwinter:block/decor/cracked_ceramic",
-    "wood": "darkwinter:block/weathered_planks_gray",
-    "dark_wood": "darkwinter:block/weathered_planks_dark",
-    "black": "minecraft:block/black_concrete",
-    "glass": "darkwinter:block/frozen_glass",
-    "asphalt": "darkwinter:block/outdoor/asphalt",
-    "bark": "darkwinter:block/nature/spruce_bark",
-    "cut_wood": "darkwinter:block/nature/cut_spruce",
-    "rock": "darkwinter:block/nature/granite",
-    "foliage": "darkwinter:block/nature/foliage",
-    "white": "minecraft:block/white_concrete",
-    "red": "minecraft:block/red_concrete",
-    "yellow": "minecraft:block/yellow_concrete",
-    "orange": "minecraft:block/orange_concrete",
-    "soil": "minecraft:block/dirt",
-    "snow": "minecraft:block/snow",
-    "cardboard": "minecraft:block/brown_concrete",
-    "dry_grass": "minecraft:block/hay_block_side",
-    "particle": "darkwinter:block/weathered_planks_dark"
+    "interior_blue_weave": "darkwinter:block/interior/interior_blue_weave",
+    "interior_blue_worn_seam": "darkwinter:block/interior/interior_blue_worn_seam",
+    "interior_dark_timber": "darkwinter:block/interior/interior_dark_timber",
+    "particle": "darkwinter:block/interior/interior_dark_timber"
   },
   "display": {
     "gui": {
@@ -101,169 +82,169 @@
   "elements": [
     {
       "from": [
-        1.46667,
+        1.48533,
         4.26667,
-        5.43333
+        5.44267
       ],
       "to": [
-        2.4,
-        5.66667,
-        6.36667
+        2.38133,
+        5.32133,
+        6.38533
       ],
       "faces": {
         "down": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "up": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "north": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "south": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "west": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "east": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         }
       }
     },
     {
       "from": [
-        1.46667,
+        1.48533,
         4.26667,
-        9.63333
+        9.66133
       ],
       "to": [
-        2.4,
-        5.66667,
-        10.56667
+        2.38133,
+        5.32133,
+        10.604
       ],
       "faces": {
         "down": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "up": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "north": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "south": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "west": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "east": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         }
       }
     },
     {
       "from": [
         1.0,
-        5.66667,
+        5.15333,
         4.96667
       ],
       "to": [
         8.0,
-        7.53333,
+        7.44,
         11.03333
       ],
       "faces": {
         "down": {
-          "texture": "#dark_wood"
+          "texture": "#interior_blue_weave"
         },
         "up": {
-          "texture": "#dark_wood"
+          "texture": "#interior_blue_weave"
         },
         "north": {
-          "texture": "#dark_wood"
+          "texture": "#interior_blue_weave"
         },
         "south": {
-          "texture": "#dark_wood"
+          "texture": "#interior_blue_weave"
         },
         "west": {
-          "texture": "#dark_wood"
+          "texture": "#interior_blue_weave"
         },
         "east": {
-          "texture": "#dark_wood"
+          "texture": "#interior_blue_weave"
         }
       }
     },
     {
       "from": [
-        1.93333,
-        7.53333,
-        5.43333
+        2.58667,
+        7.44,
+        5.13
       ],
       "to": [
         8.0,
-        8.93333,
-        9.63333
+        8.72333,
+        9.80133
       ],
       "faces": {
         "down": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "up": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "north": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "south": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "west": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "east": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         }
       }
     },
     {
       "from": [
         1.0,
-        7.06667,
+        7.34667,
         4.96667
       ],
       "to": [
-        2.4,
-        10.33333,
-        11.03333
+        3.00667,
+        9.54467,
+        10.94
       ],
       "faces": {
         "down": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "up": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "north": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "south": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "west": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "east": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         }
       }
     },
     {
       "from": [
-        2.4,
-        8.0,
-        9.63333
+        1.98933,
+        8.07933,
+        8.756
       ],
       "to": [
         8.0,
@@ -272,214 +253,214 @@
       ],
       "faces": {
         "down": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "up": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "north": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "south": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "west": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "east": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         }
       }
     },
     {
       "from": [
-        13.6,
+        13.61867,
         4.26667,
-        5.43333
+        5.44267
       ],
       "to": [
-        14.53333,
-        5.66667,
-        6.36667
+        14.51467,
+        5.32133,
+        6.38533
       ],
       "faces": {
         "down": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "up": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "north": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "south": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "west": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "east": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         }
       }
     },
     {
       "from": [
-        13.6,
+        13.61867,
         4.26667,
-        9.63333
+        9.66133
       ],
       "to": [
-        14.53333,
-        5.66667,
-        10.56667
+        14.51467,
+        5.32133,
+        10.604
       ],
       "faces": {
         "down": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "up": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "north": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "south": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "west": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         },
         "east": {
-          "texture": "#dark_wood"
+          "texture": "#interior_dark_timber"
         }
       }
     },
     {
       "from": [
         8.0,
-        5.66667,
+        5.15333,
         4.96667
       ],
       "to": [
         15.0,
-        7.53333,
+        7.44,
         11.03333
       ],
       "faces": {
         "down": {
-          "texture": "#dark_wood"
+          "texture": "#interior_blue_weave"
         },
         "up": {
-          "texture": "#dark_wood"
+          "texture": "#interior_blue_weave"
         },
         "north": {
-          "texture": "#dark_wood"
+          "texture": "#interior_blue_weave"
         },
         "south": {
-          "texture": "#dark_wood"
+          "texture": "#interior_blue_weave"
         },
         "west": {
-          "texture": "#dark_wood"
+          "texture": "#interior_blue_weave"
         },
         "east": {
-          "texture": "#dark_wood"
+          "texture": "#interior_blue_weave"
         }
       }
     },
     {
       "from": [
         8.0,
-        7.53333,
-        5.43333
+        7.44,
+        5.13
       ],
       "to": [
-        14.06667,
-        8.93333,
-        9.63333
+        13.41333,
+        8.72333,
+        9.80133
       ],
       "faces": {
         "down": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "up": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "north": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "south": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "west": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "east": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         }
       }
     },
     {
       "from": [
-        13.6,
-        7.06667,
+        12.99333,
+        7.34667,
         4.96667
       ],
       "to": [
         15.0,
-        10.33333,
-        11.03333
+        9.54467,
+        10.94
       ],
       "faces": {
         "down": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "up": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "north": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "south": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "west": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "east": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         }
       }
     },
     {
       "from": [
         8.0,
-        8.0,
-        9.63333
+        8.07933,
+        8.756
       ],
       "to": [
-        13.6,
+        14.01067,
         11.73333,
         11.03333
       ],
       "faces": {
         "down": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "up": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "north": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "south": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "west": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         },
         "east": {
-          "texture": "#fabric"
+          "texture": "#interior_blue_weave"
         }
       }
     }

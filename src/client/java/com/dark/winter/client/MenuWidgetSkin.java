@@ -3,6 +3,9 @@ package com.dark.winter.client;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
+import com.dark.winter.client.vector.MenuGlyph;
+import com.dark.winter.client.vector.MenuSurface;
+import com.dark.winter.client.vector.SvgHud;
 
 /** Native-widget materials only. State, input, narration and geometry remain native. */
 public final class MenuWidgetSkin {
@@ -60,18 +63,16 @@ public final class MenuWidgetSkin {
             x+=9;y+=9;w-=18;h-=18;
             if(p.endsWith("background")) {
                 g.fillGradient(x-2,y-2,x+w+2,y+h+2,fade(0x40000000,alpha),fade(0x80000000,alpha));
-                g.fillGradient(x,y,x+w,y+h,fade(0xF2152735,alpha),fade(0xF9081521,alpha));
-            } else frame(g,x,y,w,h,fade(0xB08EA9B9,alpha));
+                SvgHud.surface(g,x,y,w,h,MenuSurface.TOOLTIP,0,fade(HudStyle.MUTED,alpha));
+            }
             return true;
         }
         if(p.equals("popup/background")) {surface(g,x,y,w,h,alpha,false,false);return true;}
         if(p.startsWith("widget/checkbox")) {
             surface(g,x,y,w,h,visibility,lit,false);
             if(p.contains("selected")) {
-                int a=Math.max(1,w/12),cx=x+w/4,cy=y+h/2;
-                for(int i=0;i<w/5;i++) g.fill(cx+i,cy+i,cx+i+a,cy+i+a,ink);
-                int turn=w/5;
-                for(int i=0;i<w/2;i++) g.fill(cx+turn+i,cy+turn-i,cx+turn+i+a,cy+turn-i+a,ink);
+                int size=Math.min(w,h);
+                SvgHud.menuIcon(g,MenuGlyph.CHECK,x+(w-size)/2,y+(h-size)/2,size,ink);
             }
             return true;
         }
@@ -87,9 +88,7 @@ public final class MenuWidgetSkin {
             return true;
         }
         if(p.startsWith("widget/text_field")||p.equals("widget/preedit")) {
-            g.fillGradient(x,y,x+w,y+h,fade(0xE008121D,alpha),fade(0xE5132431,alpha));
-            frame(g,x,y,w,h,fade(lit?HudStyle.STABLE:0xA35B7484,alpha));
-            if(lit) g.fill(x+1,y+h-2,x+w-1,y+h-1,fade(0x7098C6D6,alpha));
+            SvgHud.surface(g,x,y,w,h,MenuSurface.FIELD,lit?1:0,fade(lit?HudStyle.STABLE:HudStyle.MUTED,alpha));
             return true;
         }
         if(p.startsWith("widget/scroller")) {
@@ -105,7 +104,7 @@ public final class MenuWidgetSkin {
             g.fill(x+3,y+3,x+w-3,y+h-3,ink);return true;
         }
         if(p.startsWith("widget/button")||p.startsWith("widget/slider")||p.startsWith("widget/tab")) {
-            surface(g,x,y,w,h,visibility,lit,p.contains("selected"));return true;
+            surface(g,x,y,w,h,visibility,lit,p.contains("selected")&&!p.contains("unselected"));return true;
         }
         return false;
     }
@@ -113,6 +112,15 @@ public final class MenuWidgetSkin {
     /** Explicit native icon meanings; unknown resource names retain their own rendering. */
     private static boolean icon(GuiGraphicsExtractor g,String path,int x,int y,int w,int h,int ink,float alpha) {
         String p=path.endsWith("_highlighted")?path.substring(0,path.length()-12):path;
+        MenuGlyph glyph=switch(p){
+            case "icon/search"->MenuGlyph.SEARCH;
+            case "icon/info"->MenuGlyph.INFO;
+            case "icon/checkmark","pending_invite/accept"->MenuGlyph.CHECK;
+            case "pending_invite/reject"->MenuGlyph.CLOSE;
+            case "pause_menu/social_interactions"->MenuGlyph.CONNECTIONS;
+            default->null;
+        };
+        if(glyph!=null){int size=Math.min(w,h);SvgHud.menuIcon(g,glyph,x+(w-size)/2,y+(h-size)/2,size,ink);return true;}
         if(p.startsWith("icon/ping_")) {
             String suffix=p.substring("icon/ping_".length());
             int count=suffix.equals("unknown")?0:suffix.length()==1&&suffix.charAt(0)>='1'&&suffix.charAt(0)<='5'?suffix.charAt(0)-'0':-1;
@@ -243,8 +251,6 @@ public final class MenuWidgetSkin {
         g.fill(x,y,x+1,y+h,color);g.fill(x+w-1,y,x+w,y+h,color);
     }
     private static void surface(GuiGraphicsExtractor g,int x,int y,int w,int h,float alpha,boolean lit,boolean selected) {
-        g.fillGradient(x,y,x+w,y+h,fade(lit?0xF12E4758:0xDD192C3B,alpha),fade(0xE0081420,alpha));
-        frame(g,x,y,w,h,fade(lit||selected?HudStyle.STABLE:0x99557081,alpha));
-        if(lit||selected)g.fill(x+3,y+h-3,x+w-3,y+h-2,fade(selected?HudStyle.STABLE:0x70A9DAE7,alpha));
+        SvgHud.surface(g,x,y,w,h,selected?MenuSurface.SELECTED:MenuSurface.BUTTON,lit?1:0,fade(HudStyle.STABLE,alpha));
     }
 }

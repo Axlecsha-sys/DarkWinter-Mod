@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "package": "com.dark.winter.biomeeditor.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "EditorCreateAccess",
+    "EditorHiddenWindowMixin",
+    "EditorCameraMixin",
+    "EditorRenderMixin",
+    "EditorPreviewBoundsMixin",
+    "EditorOcclusionAccess",
+    "EditorFrustumMixin",
+    "EditorProjectionAccess",
+    "EditorServerWorkloadMixin",
+    "EditorCelestialMixin",
+    "EditorSpriteContentsAccess",
+    "EditorAtlasMixin",
+    "EditorSoundEngineMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

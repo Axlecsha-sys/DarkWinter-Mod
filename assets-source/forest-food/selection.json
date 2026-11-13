@@ -1,0 +1,25 @@
+{
+  "status": "approved for game models and textures",
+  "selected": {
+    "cattail": "R2",
+    "cattail_rhizome": "K2",
+    "juniper": "M1",
+    "cranberry": "C2",
+    "lingonberry": {
+      "shape": "B2",
+      "color": "B3"
+    },
+    "rosehip": "S2"
+  },
+  "scope": "Original plant geometry and textures; no gathering, nutrition, recipes or biome spawning mechanics",
+  "additional_approved_request": {
+    "request": "Точно такие же, но без ягод",
+    "plants": [
+      "juniper_bush",
+      "cranberry_patch",
+      "lingonberry_patch",
+      "rosehip_bush"
+    ],
+    "implementation": "Same foliage, branches, UVs and original textures; only fruit geometry removed. Separate catalog entries."
+  }
+}

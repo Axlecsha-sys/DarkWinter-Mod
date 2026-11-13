@@ -48,6 +48,7 @@ public final class TestingNativeEdits {
     private static final class Gesture {
         final TestingServer.Context context;final ServerPlayer player;final String label;
         final LinkedHashMap<BlockPos,TestingEdits.Cell> before=new LinkedHashMap<>();
+        final Map<BlockPos,String> originOverrides=new HashMap<>();
         int depth;boolean finishing,rejected,canSave;String error="";
         com.dark.winter.online.world.IslandAccess.Permission permission;
         Gesture(TestingServer.Context context,ServerPlayer player,String label){this.context=context;this.player=player;this.label=label;permission=label.contains("разрушение")?com.dark.winter.online.world.IslandAccess.Permission.BREAK:label.contains("установка блоков")?com.dark.winter.online.world.IslandAccess.Permission.BUILD:com.dark.winter.online.world.IslandAccess.Permission.INTERACT;}
@@ -58,6 +59,7 @@ public final class TestingNativeEdits {
         private Scope(Gesture gesture){this.gesture=gesture;}
         public void abort(){if(gesture!=null){gesture.rejected=true;gesture.error="Нативное действие завершилось ошибкой";}}
         public boolean accepted(){return gesture==null||!gesture.rejected;}
+        public boolean recording(){return gesture!=null&&!closed&&!gesture.rejected;}
         public void seed(BlockPos pos){if(gesture!=null)seedStructure(gesture,pos);}
         @Override public void close(){
             if(gesture==null||closed)return;closed=true;
@@ -138,15 +140,27 @@ public final class TestingNativeEdits {
         if(gesture!=null&&level==gesture.context.server.overworld()&&entity instanceof ItemEntity){suppressed++;return true;}
         return false;
     }
+    /** Successful automatic floor writes remain natural; their soil keeps its exact prior provenance. */
+    public static void naturalFloorRestored(ServerLevel level,BlockPos floor){
+        Gesture gesture=ACTIVE.get();
+        if(gesture==null||gesture.finishing||gesture.rejected||level!=gesture.context.server.overworld())return;
+        if(gesture.before.containsKey(floor))gesture.originOverrides.put(floor.immutable(),null);
+        BlockPos support=floor.below();TestingEdits.Cell before=gesture.before.get(support);
+        if(before!=null)gesture.originOverrides.put(support,before.origin());
+    }
     public static long recordedOperations(){return recorded;}
     public static long suppressedDrops(){return suppressed;}
     private static boolean physicalSame(TestingEdits.Cell a,TestingEdits.Cell b){return a.state().equals(b.state())&&Objects.equals(a.entity(),b.entity());}
     private static void origin(TestingServer.Context context,BlockPos pos,String value){
-        if(value==null)context.edits.origins.remove(pos.asLong());else context.edits.origins.put(pos.asLong(),value);
+        context.edits.setOrigin(pos.asLong(),value);
     }
     private static void finish(Gesture gesture){
-        gesture.finishing=true;List<TestingEdits.Change> changes=new ArrayList<>();
+        List<TestingEdits.Change> changes=new ArrayList<>();
         try{
+            if(!gesture.rejected)com.dark.winter.block.SnowyPlantFloorRestore.finishNativeGesture(
+                    gesture.context.server.overworld(),List.copyOf(gesture.before.keySet()));
+            // Native removal is complete. Include its snow/soil repair in this same exact Undo delta.
+            gesture.finishing=true;
             if(gesture.rejected){restore(gesture);return;}
             for(var entry:gesture.before.entrySet()){
                 BlockPos pos=entry.getKey();TestingEdits.Cell before=entry.getValue(),actual=gesture.context.edits.read(pos);
@@ -154,6 +168,7 @@ public final class TestingNativeEdits {
                 String afterOrigin=actual.state().isAir()?null:
                         actual.state().getBlock() instanceof com.dark.winter.block.FurnitureBlock?"object":
                         ("building".equals(actual.origin())||"object".equals(actual.origin()))?actual.origin():"building";
+                if(gesture.originOverrides.containsKey(pos))afterOrigin=gesture.originOverrides.get(pos);
                 TestingEdits.Cell after=new TestingEdits.Cell(actual.state(),actual.entity(),afterOrigin);
                 origin(gesture.context,pos,afterOrigin);changes.add(new TestingEdits.Change(pos,before,after));
             }
@@ -161,10 +176,12 @@ public final class TestingNativeEdits {
             try(var actor=TestingActors.enter(gesture.context.server,gesture.player,Set.of(gesture.permission))){gesture.context.edits.recordApplied(gesture.label,List.copyOf(changes));}
             gesture.context.message="Нативное редактирование записано: "+changes.size()+" блоков";recorded++;
         }catch(Exception failure){
+            gesture.finishing=true;
             gesture.rejected=true;gesture.error="Нативное изменение отменено: "+failure.getMessage();
             if(gesture.context.edits.nativeRestoreAllowed())try{restore(gesture);}catch(Exception rollback){failure.addSuppressed(rollback);}
             LoggerFactory.getLogger("DarkWinter/Testing").error("Native edit could not enter durable Undo history",failure);
         }finally{
+            gesture.finishing=true;
             if(gesture.rejected){
                 gesture.context.message=gesture.error.isBlank()?"Нативное изменение отменено":gesture.error;
                 gesture.player.sendOverlayMessage(Component.literal(gesture.context.message));

@@ -35,4 +35,9 @@ public final class TestSpruceLogBlock extends RotatedPillarBlock {
     @Override protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPES[state.getValue(AXIS).ordinal()][state.getValue(RADIUS)-1];
     }
+    @Override public BlockState playerWillDestroy(net.minecraft.world.level.Level level,BlockPos pos,BlockState state,net.minecraft.world.entity.player.Player player){
+        BlockState result=super.playerWillDestroy(level,pos,state,player);
+        com.dark.winter.block.SnowyPlantFloorRestore.treeRemoved(level,pos,state);
+        return result;
+    }
 }

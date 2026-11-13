@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "cabin_path_soil": "darkwinter:block/construction/cabin_path_soil",
+    "particle": "darkwinter:block/construction/cabin_path_soil"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        0.07,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cabin_path_soil"
+        },
+        "up": {
+          "texture": "#cabin_path_soil"
+        },
+        "north": {
+          "texture": "#cabin_path_soil"
+        },
+        "south": {
+          "texture": "#cabin_path_soil"
+        },
+        "west": {
+          "texture": "#cabin_path_soil"
+        },
+        "east": {
+          "texture": "#cabin_path_soil"
+        }
+      }
+    }
+  ]
+}

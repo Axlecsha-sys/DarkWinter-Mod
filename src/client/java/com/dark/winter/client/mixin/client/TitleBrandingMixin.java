@@ -10,6 +10,8 @@ import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.FriendsButton;
+import net.minecraft.client.gui.components.PlainTextButton;
+import com.dark.winter.client.HudStyle;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -42,12 +44,17 @@ public abstract class TitleBrandingMixin extends Screen {
             if(row>=0) {
                 widget.setWidth(w);widget.setHeight(24);widget.setPosition(left,top+row*step);
                 if(row==0) widget.setMessage(Component.translatable("menu.darkwinter.play"));
+            } else if(widget instanceof PlainTextButton) {
+                int footerWidth=Math.min(width-left-18,Math.round(HudStyle.width(widget.getMessage())*.66f)+2);
+                widget.setPosition(width-left-footerWidth,height-13);widget.setWidth(footerWidth);widget.setHeight(9);
             } else if(widget.getWidth()==20) widget.setPosition(left+24*small++,top+5*step+6);
         }
     }
 
-    @ModifyArg(method="extractRenderState",at=@At(value="INVOKE",target="Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Ljava/lang/String;III)V"),index=1)
-    private String darkwinter$versionLabel(String original) { return "DARKWINTER"; }
+    @Redirect(method="extractRenderState",at=@At(value="INVOKE",target="Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Ljava/lang/String;III)V"))
+    private void darkwinter$versionLabel(GuiGraphicsExtractor g,Font font,String original,int x,int y,int color) {
+        HudStyle.text(g,"DARKWINTER",MenuStyle.left(width),height-12,.62f,HudStyle.alpha(HudStyle.MUTED,(color>>>24)/255f));
+    }
     @Redirect(method="extractRenderState",at=@At(value="INVOKE",target="Lnet/minecraft/client/gui/components/LogoRenderer;extractRenderState(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IF)V"))
     private void darkwinter$logo(LogoRenderer logo,GuiGraphicsExtractor g,int width,float opacity) {
         MenuStyle.title(g,width,((TitleScreen)(Object)this).height,opacity);

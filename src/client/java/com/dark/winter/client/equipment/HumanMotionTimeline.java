@@ -23,13 +23,14 @@ public final class HumanMotionTimeline {
                 if(grounded&&!input.grounded&&input.vertical>.07f)takeoff=1;
                 if(!grounded&&input.grounded)landing=Math.clamp(-previousVertical*2.2f,.45f,1);
             }
-            movement=approach(movement,input.enabled?Math.clamp(input.speed/.1f,0,1):0,.3,dt);
-            running=approach(running,input.enabled&&input.sprinting?1:0,.24,dt);
+            movement=approach(movement,input.enabled?input.grounded?Math.clamp(input.speed/.1f,0,1):movement:0,.3,dt);
+            running=approach(running,input.enabled?input.grounded?(input.sprinting?1:0):running:0,.24,dt);
             crouching=approach(crouching,input.enabled&&input.crouching?1:0,.34,dt);
             airborne=approach(airborne,input.enabled&&!input.grounded?1:0,.65,dt);
             falling=approach(falling,Math.clamp((.08f-input.vertical)/.4f,0,1),.3,dt);
             takeoff=approach(takeoff,0,.32,dt);landing=approach(landing,0,.2,dt);
-            phase+=(.28+.14*running)*movement*(input.grounded?1:.18)*dt*(1-crouching*.48);
+            // The first-person body uses the same physical cycle distance as the outside rig.
+            if(input.enabled&&input.grounded)phase+=Math.max(0,input.speed)*dt*Math.PI*2/(2.0+.5*running-.55*crouching);
             grounded=input.grounded;enabled=input.enabled;
         }
         previousVertical=input.vertical;

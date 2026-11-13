@@ -1,0 +1,197 @@
+// Preserve authored masters while packaging GPU mip-compatible block textures.
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import javax.imageio.ImageIO
+import java.awt.AlphaComposite
+import java.awt.RenderingHints
+import java.awt.image.BufferedImage
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import java.security.MessageDigest
+import org.gradle.api.tasks.*
+
+@CacheableTask
+abstract class PrepareMipSafeBlockTextures extends DefaultTask {
+    @InputFiles @PathSensitive(PathSensitivity.RELATIVE)
+    abstract ConfigurableFileCollection getMasterFiles()
+    @Internal abstract DirectoryProperty getMasterRoot()
+    @Input abstract ListProperty<String> getResourcePaths()
+    @Input abstract Property<Integer> getRequiredMipLevels()
+    @Input abstract Property<Integer> getKnownMasterSize()
+    @Input abstract Property<Integer> getRuntimeSize()
+    @Input abstract Property<String> getImageRuntimeVersion()
+    @OutputDirectory abstract DirectoryProperty getOutputDirectory()
+
+    static String digest(File file) {
+        def sha = MessageDigest.getInstance('SHA-256')
+        file.withInputStream { input ->
+            byte[] bytes = new byte[65536]
+            int count
+            while ((count = input.read(bytes)) != -1) sha.update(bytes, 0, count)
+        }
+        return sha.digest().encodeHex().toString()
+    }
+
+    @TaskAction
+    void prepare() {
+        int alignment = 1 << requiredMipLevels.get()
+        int expectedSize = knownMasterSize.get()
+        int outputSize = runtimeSize.get()
+        if (outputSize <= 0 || outputSize % alignment != 0)
+            throw new GradleException('Runtime texture size must support the requested mip levels.')
+        def rows = []
+        resourcePaths.get().each { relative ->
+            File source = new File(masterRoot.get().asFile, relative)
+            File target = new File(outputDirectory.get().asFile, relative)
+            String sourceHash = PrepareMipSafeBlockTextures.digest(source)
+            BufferedImage original = ImageIO.read(source)
+            if (original == null) throw new GradleException('Cannot decode block texture master: ' + relative)
+            int width = original.width, height = original.height
+            boolean compatible = width % alignment == 0 && height % alignment == 0
+            target.parentFile.mkdirs()
+            BufferedImage resized = null
+            try {
+                if (compatible) {
+                    // A future already-compatible authored replacement is kept byte-for-byte.
+                    Files.copy(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                } else {
+                    if (width != expectedSize || height != expectedSize)
+                        throw new GradleException('Review the normalization rule for changed authored master: '
+                                + relative + ' (' + width + 'x' + height + ')')
+                    resized = new BufferedImage(outputSize, outputSize, BufferedImage.TYPE_INT_ARGB)
+                    def graphics = resized.createGraphics()
+                    try {
+                        graphics.setComposite(AlphaComposite.Src)
+                        graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC)
+                        graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
+                        graphics.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY)
+                        graphics.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY)
+                        graphics.drawImage(original, 0, 0, outputSize, outputSize, null)
+                    } finally {
+                        graphics.dispose()
+                    }
+                    if (!ImageIO.write(resized, 'png', target))
+                        throw new GradleException('No PNG writer for runtime block texture: ' + relative)
+                }
+                if (PrepareMipSafeBlockTextures.digest(source) != sourceHash)
+                    throw new GradleException('Authored master changed during normalization: ' + relative)
+                rows.add([
+                    resource: relative, sourceWidth: width, sourceHeight: height,
+                    runtimeWidth: compatible ? width : outputSize, runtimeHeight: compatible ? height : outputSize,
+                    sourceSha256: sourceHash, runtimeSha256: PrepareMipSafeBlockTextures.digest(target),
+                    operation: compatible ? 'byte-identical-copy' : 'bicubic-resample',
+                    authoredMasterPreserved: true
+                ])
+            } finally {
+                original.flush()
+                if (resized != null) resized.flush()
+            }
+        }
+        File receipt = new File(outputDirectory.get().asFile, 'assets/darkwinter/texture-mip-normalization.json')
+        receipt.parentFile.mkdirs()
+        receipt.setText(JsonOutput.prettyPrint(JsonOutput.toJson([
+            schema: 1, requiredMipLevels: requiredMipLevels.get(),
+            javaImageRuntime: imageRuntimeVersion.get(), textures: rows
+        ])) + System.lineSeparator(), 'UTF-8')
+        logger.lifecycle('MIP_TEXTURES_PREPARED ' + rows.collect { it.resource + '=' + it.runtimeWidth + 'x' + it.runtimeHeight }.join(', '))
+    }
+}
+
+def normalizedBlockPaths = [
+    'assets/darkwinter/textures/block/native_spruce_bark.png',
+    'assets/darkwinter/textures/block/native_spruce_endgrain.png'
+]
+def normalizeBlockTextures = tasks.register('prepareMipSafeBlockTextures', PrepareMipSafeBlockTextures) {
+    group = 'build setup'
+    description = 'Build mip-safe runtime copies while preserving the authored spruce texture masters.'
+    masterRoot = layout.projectDirectory.dir('src/main/resources')
+    masterFiles.from(normalizedBlockPaths.collect { file('src/main/resources/' + it) })
+    resourcePaths = normalizedBlockPaths
+    requiredMipLevels = 4
+    knownMasterSize = 1254
+    runtimeSize = 1280
+    imageRuntimeVersion = System.getProperty('java.runtime.version')
+    outputDirectory = layout.buildDirectory.dir('generated/mip-safe-block-textures')
+}
+
+tasks.named('processResources') {
+    dependsOn normalizeBlockTextures
+    File generated = normalizeBlockTextures.get().outputDirectory.get().asFile
+    File processedResources = destinationDir
+    inputs.dir(generated)
+    doLast {
+        // Replace only processed copies, after the regular source resource copy has completed.
+        (normalizedBlockPaths + ['assets/darkwinter/texture-mip-normalization.json']).each { relative ->
+            File target = new File(processedResources, relative)
+            target.parentFile.mkdirs()
+            Files.copy(new File(generated, relative).toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING)
+        }
+    }
+}
+
+// Include the transformation rules in the production source/build identity.
+tasks.named('generatePerformanceIdentity') {
+    productionInputs.from(files('gradle/texture-mips.gradle'))
+}
+
+def mipResourceRoots = [tasks.named('processResources').get().destinationDir,
+        tasks.named('processClientResources').get().destinationDir]
+def verifyBlockMips = tasks.register('verifyBlockTextureMips') {
+    group = 'verification'
+    description = 'Reject packaged block sprites whose dimensions would reduce the atlas below mip level four.'
+    dependsOn 'processResources', 'processClientResources'
+    inputs.files(tasks.named('processResources').map { it.outputs.files },
+            tasks.named('processClientResources').map { it.outputs.files })
+    def receipt = layout.buildDirectory.file('reports/texture-mips.json')
+    outputs.file(receipt)
+    doLast {
+        int alignment = 16
+        def rows = []
+        mipResourceRoots.each { File resources ->
+            List<File> textures = []
+            File assets = new File(resources, 'assets')
+            if (assets.isDirectory()) assets.eachDir { namespace ->
+                File blocks = new File(namespace, 'textures/block')
+                if (blocks.isDirectory()) blocks.eachFileRecurse(groovy.io.FileType.FILES) { texture ->
+                    if (texture.name.endsWith('.png')) textures.add(texture)
+                }
+            }
+            textures.sort { it.path }.each { texture ->
+                BufferedImage image = ImageIO.read(texture)
+                if (image == null) throw new GradleException('Invalid packaged block PNG: ' + texture)
+                int width = image.width, height = image.height
+                image.flush()
+                int frameWidth = width, frameHeight = height
+                File metadata = new File(texture.path + '.mcmeta')
+                if (metadata.isFile()) {
+                    def animation = new JsonSlurper().parse(metadata).animation
+                    if (animation instanceof Map) {
+                        if (animation.width != null) {
+                            frameWidth = ((Number) animation.width).intValue()
+                            frameHeight = animation.height != null ? ((Number) animation.height).intValue() : height
+                        } else if (animation.height != null) {
+                            frameHeight = ((Number) animation.height).intValue()
+                        } else {
+                            frameWidth = frameHeight = Math.min(width, height)
+                        }
+                    }
+                }
+                if (frameWidth <= 0 || frameHeight <= 0 || width % frameWidth != 0 || height % frameHeight != 0
+                        || frameWidth % alignment != 0 || frameHeight % alignment != 0)
+                    throw new GradleException('Packaged block sprite cannot support mip level 4: '
+                            + texture + ' (frame ' + frameWidth + 'x' + frameHeight + ')')
+                rows.add([resource: resources.toPath().relativize(texture.toPath()).toString().replace(File.separatorChar, '/' as char),
+                        width: width, height: height, frameWidth: frameWidth, frameHeight: frameHeight])
+            }
+        }
+        if (rows.isEmpty()) throw new GradleException('No packaged block textures were checked.')
+        File report = receipt.get().asFile
+        report.parentFile.mkdirs()
+        report.setText(JsonOutput.prettyPrint(JsonOutput.toJson([
+            schema: 1, requiredMipLevels: 4, checkedTextures: rows.size(), textures: rows
+        ])) + System.lineSeparator(), 'UTF-8')
+        logger.lifecycle('BLOCK_TEXTURE_MIPS_PASS ' + rows.size() + ' packaged block textures support mip level 4.')
+    }
+}
+tasks.named('jar') { dependsOn verifyBlockMips }
+tasks.named('check') { dependsOn verifyBlockMips }

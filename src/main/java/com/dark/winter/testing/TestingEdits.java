@@ -39,7 +39,8 @@ final class TestingEdits {
         Operation(String name,List<Change> changes,String before,String after) {this(name,changes,before,after,null);}
         Operation(String name,List<Change> changes) {this(name,changes,null,null);}
     }
-    final Map<Long,String> origins = new java.util.concurrent.ConcurrentHashMap<>();
+    private final TestingOrigins originState = new TestingOrigins();
+    final Map<Long,String> origins = originState.view();
     private final Deque<Operation> undo = new ArrayDeque<>(), redo = new ArrayDeque<>();
     private final ServerLevel world;
     private final Path directory;
@@ -66,7 +67,7 @@ final class TestingEdits {
     private TestingActors.Captured nativeDeferredActor;
     private record CachedHistory(JsonObject json,String text) {}
     private final Map<String,CachedHistory> nativeHistoryCache=new HashMap<>();
-    record NativeMetadata(long sequence,List<String> undo,List<String> redo,Map<Long,String> origins) {
+    record NativeMetadata(long sequence,long originsGeneration,List<String> undo,List<String> redo,Map<Long,String> origins) {
         NativeMetadata {undo=List.copyOf(undo);redo=List.copyOf(redo);origins=Map.copyOf(origins);}
     }
 
@@ -77,7 +78,8 @@ final class TestingEdits {
         if(Files.exists(file)) {
             JsonObject root=JsonParser.parseString(Files.readString(file)).getAsJsonObject();
             if(root.get("schema").getAsInt()!=2) throw new IOException("Unknown provenance schema");
-            root.getAsJsonObject("origins").entrySet().forEach(e->origins.put(Long.parseLong(e.getKey()),e.getValue().getAsString()));
+            root.getAsJsonObject("origins").entrySet().forEach(e->setOrigin(Long.parseLong(e.getKey()),e.getValue().getAsString()));
+            originState.loaded();
         }
         Path history=directory.resolve("undo.json");
         if(Files.exists(history)) {
@@ -121,6 +123,15 @@ final class TestingEdits {
     boolean writing(){boolean failed=recoveryFailed;return nativeDeferred!=null||queued!=null||active!=null||resizeReplaying||pendingRecovery!=null&&!failed;}
     boolean documentsBusy() {return queued!=null&&queued.operation().documentsAfter()!=null||active!=null&&active.documentsAfter()!=null||pendingRecovery!=null&&pendingRecovery.documentsAfter()!=null;}
     String status() { return status+" • Undo "+undo.size()+" / Redo "+redo.size(); }
+    /** Immutable newest-first applied history; no disk access or world reads. */
+    List<Operation> snowFloorAppliedHistory(){
+        if(!world.getServer().isSameThread())throw new IllegalStateException("Snow recovery history requires the level owner");
+        return List.copyOf(undo);
+    }
+    boolean snowFloorRecoveryRecorded(){
+        return undo.stream().anyMatch(op->TestingSnowFloorRecovery.LABEL.equals(op.name()))
+                ||redo.stream().anyMatch(op->TestingSnowFloorRecovery.LABEL.equals(op.name()));
+    }
     private boolean same(Cell a,Cell b) {return a.state().equals(b.state())&&Objects.equals(a.entity(),b.entity())&&Objects.equals(a.origin(),b.origin());}
     /**
      * Adopt a completed native EDIT interaction before returning to vanilla.
@@ -156,7 +167,7 @@ final class TestingEdits {
             while(undo.size()>64||(undo.size()>1&&undo.stream().mapToLong(operation->operation.changes().size()).sum()>131072))undo.removeLast();
             nativeJournal.commit(candidate);committed=true;TestingNativeEdits.allowSave(world.getServer());
             for(Change change:changes){
-                if(change.after().origin()==null)origins.remove(change.pos().asLong());else origins.put(change.pos().asLong(),change.after().origin());
+                setOrigin(change.pos().asLong(),change.after().origin());
                 if("terrain".equals(change.before().origin())||"surface".equals(change.before().origin()))
                     TestingServer.terrainTouched(world.getServer(),change.pos());
             }
@@ -611,14 +622,20 @@ final class TestingEdits {
             world.setBlockEntity(be);be.setChanged();
         }
         String previousOrigin=origins.get(pos.asLong());
-        if(cell.origin()==null) origins.remove(pos.asLong()); else origins.put(pos.asLong(),cell.origin());
+        setOrigin(pos.asLong(),cell.origin());
         if("terrain".equals(previousOrigin)||"surface".equals(previousOrigin)||"terrain".equals(cell.origin())||"surface".equals(cell.origin()))TestingServer.terrainTouched(world.getServer(),pos);
     }
+    void setOrigin(long position,String origin) { originState.set(position,origin); }
     void saveProvenance() throws IOException {
         if(recoveryFailed)return;
+        // An older worker must finish and acknowledge its own generation before this file can be replaced.
+        if(nativeJournal!=null && !nativeJournal.provenanceReady())return;
+        if(!originState.dirty())return;
+        long generation=originState.generation();
         JsonObject root=new JsonObject();root.addProperty("schema",2);JsonObject entries=new JsonObject();
         origins.forEach((k,v)->entries.addProperty(k.toString(),v));root.add("origins",entries);
         atomic(directory.resolve("provenance.json"),root);
+        originState.persisted(generation);
     }
     void save() throws IOException {
         if(nativeJournal!=null)nativeJournal.awaitCheckpoint();
@@ -656,12 +673,14 @@ final class TestingEdits {
         undo.clear();undo.addAll(savedUndo);redo.clear();redo.addAll(savedRedo);
     }
     NativeMetadata nativeMetadata(long sequence){
-        NativeMetadata snapshot=new NativeMetadata(sequence,undo.stream().map(op->cachedHistory(op).text()).toList(),
-                redo.stream().map(op->cachedHistory(op).text()).toList(),new HashMap<>(origins));
+        var provenance=originState.snapshot();
+        NativeMetadata snapshot=new NativeMetadata(sequence,provenance.generation(),undo.stream().map(op->cachedHistory(op).text()).toList(),
+                redo.stream().map(op->cachedHistory(op).text()).toList(),provenance.values());
         Set<String> retained=new HashSet<>(nativeUndoIds());retained.addAll(nativeRedoIds());
         if(active!=null)retained.add(active.id());if(pendingRecovery!=null)retained.add(pendingRecovery.id());
         nativeHistoryCache.keySet().retainAll(retained);return snapshot;
     }
+    void nativeMetadataPersisted(long generation){originState.persisted(generation);}
     long nativeBaseSequence(){return nativeBaseSequence;}
     void nativeBaseSaved(long sequence){nativeBaseSequence=Math.max(nativeBaseSequence,sequence);}
     void nativeCheckpointMetadata()throws IOException {TestingServer.flushMetadata(world.getServer());}

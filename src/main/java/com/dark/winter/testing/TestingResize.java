@@ -502,7 +502,7 @@ public final class TestingResize {
     private static void write(Job job,BlockPos pos,TestingEdits.Cell cell) throws IOException {
         if(cell.entity()!=null||job.c.server.overworld().getBlockEntity(pos)!=null)throw new IOException("Контейнер не допускается в природном изменении "+pos);
         job.c.server.overworld().setBlock(pos,cell.state(),2|16);
-        if(cell.origin()==null)job.c.edits.origins.remove(pos.asLong());else job.c.edits.origins.put(pos.asLong(),cell.origin());
+        job.c.edits.setOrigin(pos.asLong(),cell.origin());
     }
     private static void finish(Job job) throws IOException {
         var target=job.forward?job.group.after():job.group.before();

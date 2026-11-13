@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "package": "com.winterkore.engine.render.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "WkeVulkanPipelineMixin",
+    "WkeVulkanDepthVariantsMixin",
+    "WkeVulkanPassMixin",
+    "WkeVulkanDeviceMixin",
+    "WkeTerrainScopeMixin",
+    "WkeTerrainPipelineMixin",
+    "WkeWorldScopeMixin",
+    "WkeWorldPipelineMixin",
+    "WkeParticleReactiveFrameMixin",
+    "WkeParticleReactiveQuadMixin"
+  ]
+}

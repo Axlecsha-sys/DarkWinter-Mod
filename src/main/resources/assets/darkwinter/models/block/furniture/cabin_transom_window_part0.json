@@ -1,0 +1,78 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "cabin_window_frame": "darkwinter:block/construction/cabin_window_frame",
+    "cabin_window_sill": "darkwinter:block/construction/cabin_window_sill",
+    "cabin_window_metal": "darkwinter:block/construction/cabin_window_metal",
+    "cabin_clear_glass": "darkwinter:block/construction/cabin_clear_glass",
+    "cabin_linen": "darkwinter:block/construction/cabin_linen",
+    "particle": "darkwinter:block/construction/cabin_window_frame"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0.37
+      ],
+      "to": [
+        16,
+        16,
+        4
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cabin_window_frame"
+        },
+        "up": {
+          "texture": "#cabin_window_frame"
+        },
+        "north": {
+          "texture": "#cabin_window_frame"
+        },
+        "south": {
+          "texture": "#cabin_window_frame"
+        },
+        "west": {
+          "texture": "#cabin_window_frame"
+        },
+        "east": {
+          "texture": "#cabin_window_frame"
+        }
+      }
+    },
+    {
+      "from": [
+        0.01,
+        0.04,
+        0.01
+      ],
+      "to": [
+        15.99,
+        1.18,
+        4.48
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cabin_window_sill"
+        },
+        "up": {
+          "texture": "#cabin_window_sill"
+        },
+        "north": {
+          "texture": "#cabin_window_sill"
+        },
+        "south": {
+          "texture": "#cabin_window_sill"
+        },
+        "west": {
+          "texture": "#cabin_window_sill"
+        },
+        "east": {
+          "texture": "#cabin_window_sill"
+        }
+      }
+    }
+  ]
+}

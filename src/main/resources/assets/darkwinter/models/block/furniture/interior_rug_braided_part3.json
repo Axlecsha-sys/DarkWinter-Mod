@@ -1,0 +1,202 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "interior_rug_braided": "darkwinter:block/interior/interior_rug_braided",
+    "particle": "darkwinter:block/interior/interior_rug_braided"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        13.076697,
+        0.38,
+        1.628571
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_braided"
+        },
+        "up": {
+          "texture": "#interior_rug_braided"
+        },
+        "north": {
+          "texture": "#interior_rug_braided"
+        },
+        "south": {
+          "texture": "#interior_rug_braided"
+        },
+        "west": {
+          "texture": "#interior_rug_braided"
+        },
+        "east": {
+          "texture": "#interior_rug_braided"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        0,
+        1.628571
+      ],
+      "to": [
+        13.674794,
+        0.38,
+        4.814286
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_braided"
+        },
+        "up": {
+          "texture": "#interior_rug_braided"
+        },
+        "north": {
+          "texture": "#interior_rug_braided"
+        },
+        "south": {
+          "texture": "#interior_rug_braided"
+        },
+        "west": {
+          "texture": "#interior_rug_braided"
+        },
+        "east": {
+          "texture": "#interior_rug_braided"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        0,
+        4.814286
+      ],
+      "to": [
+        13.96424,
+        0.38,
+        8.0
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_braided"
+        },
+        "up": {
+          "texture": "#interior_rug_braided"
+        },
+        "north": {
+          "texture": "#interior_rug_braided"
+        },
+        "south": {
+          "texture": "#interior_rug_braided"
+        },
+        "west": {
+          "texture": "#interior_rug_braided"
+        },
+        "east": {
+          "texture": "#interior_rug_braided"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        0,
+        8.0
+      ],
+      "to": [
+        13.96424,
+        0.38,
+        11.185714
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_braided"
+        },
+        "up": {
+          "texture": "#interior_rug_braided"
+        },
+        "north": {
+          "texture": "#interior_rug_braided"
+        },
+        "south": {
+          "texture": "#interior_rug_braided"
+        },
+        "west": {
+          "texture": "#interior_rug_braided"
+        },
+        "east": {
+          "texture": "#interior_rug_braided"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        0,
+        11.185714
+      ],
+      "to": [
+        13.674794,
+        0.38,
+        14.371429
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_braided"
+        },
+        "up": {
+          "texture": "#interior_rug_braided"
+        },
+        "north": {
+          "texture": "#interior_rug_braided"
+        },
+        "south": {
+          "texture": "#interior_rug_braided"
+        },
+        "west": {
+          "texture": "#interior_rug_braided"
+        },
+        "east": {
+          "texture": "#interior_rug_braided"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        0,
+        14.371429
+      ],
+      "to": [
+        13.076697,
+        0.38,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_braided"
+        },
+        "up": {
+          "texture": "#interior_rug_braided"
+        },
+        "north": {
+          "texture": "#interior_rug_braided"
+        },
+        "south": {
+          "texture": "#interior_rug_braided"
+        },
+        "west": {
+          "texture": "#interior_rug_braided"
+        },
+        "east": {
+          "texture": "#interior_rug_braided"
+        }
+      }
+    }
+  ]
+}

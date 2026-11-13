@@ -3,6 +3,7 @@ package com.dark.winter.mixin;
 
 import com.dark.winter.movement.TerrainStepAccess;
 import com.dark.winter.movement.TerrainStepMotion;
+import com.winterkore.engine.surface.host.SnowGroundMotion;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -30,13 +31,19 @@ public abstract class EntityTerrainStepMixin implements TerrainStepAccess {
         boolean previous=darkwinter$selfMove;
         darkwinter$selfMove=type==MoverType.SELF;
         if (!darkwinter$selfMove && darkwinter$step!=null) darkwinter$step.cancel();
-        try { original.call(type,movement); }
-        finally { darkwinter$selfMove=previous; }
+        SnowGroundMotion.Move snowMove=SnowGroundMotion.begin((Entity)(Object)this,type);
+        boolean completed=false;
+        try { original.call(type,movement);completed=true; }
+        finally {
+            try { SnowGroundMotion.finish(snowMove,completed); }
+            finally { darkwinter$selfMove=previous; }
+        }
     }
 
     @WrapMethod(method="collide(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;")
     private Vec3 darkwinter$climbCollision(Vec3 requested,Operation<Vec3> original) {
-        if (!darkwinter$selfMove || !((Object)this instanceof Player p)) return original.call(requested);
+        if (!((Object)this instanceof Player p)) return original.call(requested);
+        if (!darkwinter$selfMove) return SnowGroundMotion.collide(p,requested,true,value->original.call(value));
         TerrainStepMotion step=darkwinter$stepMotion();
         boolean wasClimbing=step.active();
         return step.collide(p,requested,planned -> {
@@ -44,7 +51,7 @@ public abstract class EntityTerrainStepMixin implements TerrainStepAccess {
             // Cancelling halfway up must not let vanilla instantly finish the
             // remaining ordinary-height step in this same collision call.
             darkwinter$clipOnly=wasClimbing || step.active();
-            try { return original.call(planned); }
+            try { return SnowGroundMotion.collide(p,planned,!wasClimbing&&!step.active(),value->original.call(value)); }
             finally { darkwinter$clipOnly=previous; }
         });
     }

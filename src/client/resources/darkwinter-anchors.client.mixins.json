@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "com.dark.winter.client.mixin.client.placement",
+  "compatibilityLevel": "JAVA_25",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "AnchorSectionRegionMixin",
+    "AnchorVanillaModelOffsetMixin",
+    "AnchorIndigoModelOffsetMixin",
+    "AnchorBlockEntityStateMixin",
+    "AnchorBlockEntitySubmitMixin"
+  ]
+}

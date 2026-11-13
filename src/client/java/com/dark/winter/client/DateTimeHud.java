@@ -31,8 +31,15 @@ public final class DateTimeHud {
     public static int panelBottom(int width) {
         return SurvivalNeedsHud.MARGIN+(WeatherClient.active()?66+weatherNameLines(width)*10:26);
     }
+    /** Shared by the HUD and Tab: fantasy-calendar month names follow the selected game language. */
+    public static Component calendarText(VisualTime.Snapshot date) {
+        String language=Minecraft.getInstance().options.languageCode;
+        return date.historical()||language.startsWith("ru")?Component.literal(date.dateTextRu()):Component.translatable("hud.darkwinter.calendar.date",
+                date.dayOfMonth(),java.time.Month.of(date.monthIndex()+1).getDisplayName(java.time.format.TextStyle.FULL,
+                        Locale.forLanguageTag(language.replace('_','-'))),date.yearIndex());
+    }
     public static void render(GuiGraphicsExtractor g) {
-        if (!TestingAccess.enabled("hud")) return;
+        if (!TestingAccess.enabled("hud")||DebugOverlayVisibility.expandedDebugOwnsHud()) return;
         var c=Minecraft.getInstance();
         if(c.player==null||c.level==null||c.gui.hud.isHidden()||(c.gui.screen()!=null&&!(c.gui.screen() instanceof ChatScreen))) return;
         var date=VisualTime.snapshot(c.level,0);
@@ -54,9 +61,7 @@ public final class DateTimeHud {
 
         // Shared optical header band: time and date sit on the same row, with the date eased slightly lower.
         HudStyle.text(g,date.timeText(),x+7,y+5,1.17f,HudStyle.INK);
-        Component calendar=date.historical()||c.options.languageCode.startsWith("ru")?Component.literal(date.dateTextRu()):Component.translatable("hud.darkwinter.calendar.date",
-                date.dayOfMonth(),java.time.Month.of(date.monthIndex()+1).getDisplayName(java.time.format.TextStyle.FULL,
-                        Locale.forLanguageTag(c.options.languageCode.replace('_','-'))),date.yearIndex());
+        Component calendar=calendarText(date);
         HudStyle.fit(g,calendar,x+62,y+8,w-71,.72f,HudStyle.MUTED);
         if(!weather) return;
 

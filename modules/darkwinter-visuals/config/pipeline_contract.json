@@ -37,5 +37,11 @@
     "sky_clouds",
     "sky_merge",
     "film"
+  ],
+  "fused_pass_order": [
+    "surface",
+    "volume",
+    "sky_merge_fused",
+    "film"
   ]
 }

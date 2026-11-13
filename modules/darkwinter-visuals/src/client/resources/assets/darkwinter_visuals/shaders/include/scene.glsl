@@ -10,10 +10,10 @@ layout(std140) uniform DarkWinterScene {
     vec4 Shadow;      // resolution; world texel; min depth bias; shadow strength
     vec4 Climate;    // cloud cover; snowfall; wind speed; fog multiplier
     vec4 WindTime;   // wind X,Z; seconds; sample count
-    vec4 Flags;      // shadow valid; mask: 1 volume,2 weather sky,4 captured background; debug; in fluid
+    vec4 Flags;      // shadow valid; mask: 1 volume,2 weather sky,4 captured background,8 analog film; debug; in fluid
     vec4 CameraInfo; // camera X,Y,Z (XZ modulo4096); terrain render distance
     vec4 Options;    // depth flip Y; shadow flip Y; clip span; normal offset/block
-    vec4 Look;       // film strength; saturation; coldness; exposure
+    vec4 Look;       // artistic grade/profile blend; saturation; coldness; exposure
     vec4 Analog;     // grain; chroma bleed; vignette; scan structure
     vec4 FogLayer;   // base density; WORLD reference height; height falloff; clear near distance
     vec4 FogStyle;   // density variation; continuous world wind offset X,Z; broad air density
@@ -21,7 +21,7 @@ layout(std140) uniform DarkWinterScene {
     vec4 WeatherShape; // roundness; cloud scale; stretch along wind; sky blueness
     vec4 WeatherTint;  // fog blueness; world direction TO geographic Moon (zero = vanilla fallback)
     vec4 CloudDrift;   // integrated cloud offset X,Z; sun/moon quad angular bounds (radians)
-    vec4 Film;         // chromatic offset (1080p px); interlace; shutter; step printing
+    vec4 Film;         // chromatic offset (1080p px); effective interlace; shutter; effective held exposure
     vec4 FilmTiming;   // history valid; previous frame age; held exposure age; 50 Hz field parity
 };
 bool nlModuleFlag(int value) { return (int(Flags.y)&value)!=0; }
@@ -95,10 +95,25 @@ float nlCompare(sampler2D map,ivec2 p,float referenceDepth) {
 vec3 nlWeights(float f) {
     return vec3(.5*(.5-f)*(.5-f),.75-f*f,.5*(.5+f)*(.5+f));
 }
-// Subtexel-continuous 3x3 quadratic filter, with receiver depth computed at EACH texel centre.
+// Subtexel-continuous quality-scaled filter, with receiver depth at each texel centre.
 float nlSurfaceShadow(sampler2D map,vec3 q,vec2 plane,float bias) {
     vec2 size=vec2(textureSize(map,0));
     vec2 p=q.xy*size-.5;
+    // Built-in LOW/BALANCED maps are 768/1024. A continuous bilinear footprint keeps
+    // the receiver-plane correction at each actual texel centre; HIGH retains 3x3.
+    if(max(size.x,size.y)<=1024.0) {
+        ivec2 base=ivec2(floor(p));
+        vec2 f=fract(p);
+        float result=0.0;
+        for(int y=0;y<2;y++) for(int x=0;x<2;x++) {
+            ivec2 t=base+ivec2(x,y);
+            vec2 sampleUV=(vec2(t)+.5)/size;
+            float receiver=q.z+dot(plane,sampleUV-q.xy)+bias;
+            vec2 weight=mix(vec2(1)-f,f,vec2(x,y));
+            result+=nlCompare(map,t,receiver)*weight.x*weight.y;
+        }
+        return clamp(result,0.0,1.0);
+    }
     ivec2 centre=ivec2(floor(p+.5));
     vec2 f=p-vec2(centre);
     vec3 wx=nlWeights(f.x),wy=nlWeights(f.y);

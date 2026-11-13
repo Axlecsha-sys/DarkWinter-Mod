@@ -1,0 +1,54 @@
+// Builds the isolated exact-preview worker and exports a structured C++ launch manifest.
+import groovy.json.JsonOutput
+def editorNames=gradle.startParameter.taskNames.collect{it.tokenize(':').last()}
+if(editorNames.any{it in ['compileBiomeEditorWorker','prepareBiomeEditorWorker','runBiomeEditorWorker']}){
+    sourceSets.create('biomeEditorWorker'){
+        java.srcDir 'darkwinter-biome-editor/worker/src/main/java'
+        resources.srcDir 'darkwinter-biome-editor/worker/src/main/resources'
+        compileClasspath+=sourceSets.main.output+sourceSets.client.output+sourceSets.client.compileClasspath
+        runtimeClasspath+=sourceSets.main.output+sourceSets.client.output+sourceSets.client.runtimeClasspath
+    }
+    configurations.biomeEditorWorkerImplementation.extendsFrom(configurations.implementation,configurations.clientImplementation)
+    configurations.biomeEditorWorkerRuntimeOnly.extendsFrom(configurations.runtimeOnly,configurations.clientRuntimeOnly)
+    loom.mods.register('darkwinter-biome-editor-worker'){sourceSet sourceSets.biomeEditorWorker}
+    def editorRun=file('build/biome-editor/runtime')
+    loom.runs.create('biomeEditorWorker'){
+        client();configName='DarkWinter exact biome worker';source sourceSets.biomeEditorWorker
+        runDir='build/biome-editor/runtime'
+        vmArg '-XX:+UseZGC';vmArg '-Xmx8G';vmArg '-XX:SoftMaxHeapSize=4G';vmArg '-XX:ZUncommitDelay=30'
+        programArg '--graphicsBackend';programArg 'VULKAN'
+        programArg '--width';programArg '1280';programArg '--height';programArg '720'
+    }
+    tasks.register('compileBiomeEditorWorker'){group='build';dependsOn tasks.named('biomeEditorWorkerClasses')}
+    tasks.register('prepareBiomeEditorWorker'){
+        group='build'
+        dependsOn tasks.named('biomeEditorWorkerClasses'),tasks.named('configureClientLaunch'),tasks.named('downloadAssets')
+        notCompatibleWithConfigurationCache('Writes a resolved launch manifest for the installed native editor')
+        doLast{
+            def runner=tasks.named('runBiomeEditorWorker').get()
+            editorRun.mkdirs()
+            def options=new File(editorRun,'options.txt')
+            if(!options.exists())options.setText('fullscreen:false\noverrideWidth:1280\noverrideHeight:720\nenableVsync:false\npauseOnLostFocus:false\nonboardAccessibility:false\nrenderDistance:8\nmaxFps:40\n', 'UTF-8')
+            def destination=file('build/biome-editor/worker-launch.json')
+            def javaExecutable=javaToolchains.launcherFor{languageVersion=JavaLanguageVersion.of(25)}.get().executablePath.asFile.absolutePath
+            def resolved=loom.runs.getByName('biomeEditorWorker')
+            def pinnedLaunch=file('build/biome-editor/launch.cfg');pinnedLaunch.parentFile.mkdirs()
+            pinnedLaunch.bytes=file('.gradle/loom-cache/launch.cfg').bytes
+            def vm=new ArrayList(resolved.jvmArguments.get().findAll{!it.startsWith('-Ddarkwinter.biomeEditor.ipc=')&&!it.startsWith('-Dfabric.dli.config=')})
+            if(!vm.any{it.startsWith('-Dfabric.dli.env=')})vm.add('-Dfabric.dli.env=client')
+            vm.removeAll{it.startsWith('-Dfabric.dli.main=')}
+            vm.add('-Dfabric.dli.main=net.fabricmc.loader.impl.launch.knot.KnotClient')
+            for(def required:['-XX:StackShadowPages=32','--sun-misc-unsafe-memory-access=allow','--enable-native-access=ALL-UNNAMED'])if(!vm.contains(required))vm.add(required)
+            vm.add('-Dfabric.dli.config='+pinnedLaunch.absolutePath)
+            def sockets=new File(editorRun,'sockets');sockets.mkdirs()
+            vm.removeAll{it.startsWith('-Djdk.net.unixdomain.tmpdir=')}
+            vm.add('-Djdk.net.unixdomain.tmpdir='+sockets.absolutePath)
+            def launchArgs=runner.argumentProviders.collectMany{it.asArguments().toList()}
+            if(!launchArgs.contains('--accessToken'))launchArgs.addAll(['--accessToken','FabricMC'])
+            if(!launchArgs.contains('--version'))launchArgs.addAll(['--version','DarkWinterBiomeEditor'])
+            destination.parentFile.mkdirs()
+            destination.setText(JsonOutput.prettyPrint(JsonOutput.toJson([schema:1,java:javaExecutable,vmArgs:vm,classpath:runner.classpath.files.collect{it.absolutePath},mainClass:runner.mainClass.get(),args:launchArgs,workDirectory:editorRun.absolutePath,ipcDirectory:file('build/biome-editor/ipc').absolutePath])), 'UTF-8')
+            logger.lifecycle('Exact biome worker launch manifest: '+destination)
+        }
+    }
+}

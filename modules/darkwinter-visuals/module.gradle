@@ -1,79 +1,122 @@
-// Attach visual renderer sources and validate the shared Java/GLSL pipeline contract.
+// The game supplies weather/world inputs; authoritative effects, shaders and graph ABI live in WKE.
 import groovy.json.JsonSlurper
 import groovy.io.FileType
 
-def visualsRoot = rootProject.file('modules/darkwinter-visuals')
-if (sourceSets.findByName('client') == null) {
-    throw new GradleException('DarkWinter Visuals requires the existing split client source set.')
-}
+def visualsRoot=rootProject.file('modules/darkwinter-visuals')
+if(sourceSets.findByName('client')==null) throw new GradleException('DarkWinter Visuals requires the split client source set.')
 sourceSets.named('client') {
-    java.srcDir(new File(visualsRoot, 'src/client/java'))
-    resources.srcDir(new File(visualsRoot, 'src/client/resources'))
+    java.srcDir(new File(visualsRoot,'src/client/java'))
+    resources.srcDir(new File(visualsRoot,'src/client/resources'))
 }
 
 tasks.register('visualsDoctor') {
-    group = 'verification'
-    description = 'Check the active Visuals pipeline resources and old-renderer migration.'
-    def resources = new File(visualsRoot, 'src/client/resources')
-    def contractFile = new File(visualsRoot, 'config/pipeline_contract.json')
-    def sceneJava = new File(visualsRoot, 'src/client/java/com/dark/winter/visuals/SceneFrame.java')
-    def retired = rootProject.file('src/client/java/com/dark/winter/northernlight')
+    group='verification'
+    description='Validate the active shared WKE graph, shader resources and independent scene/AA contracts.'
+    def resources=rootProject.file('WKE/render/resources')
+    def contractFile=new File(resources,'assets/wke/effects/pipeline_contract.json')
+    def sceneJava=new File(visualsRoot,'src/client/java/com/dark/winter/visuals/SceneFrame.java')
+    def commonScene=rootProject.file('WKE/render/java/com/winterkore/engine/graphics/effects/WkeSceneUniforms.java')
+    def retired=rootProject.file('src/client/java/com/dark/winter/northernlight')
     inputs.dir(resources)
     inputs.file(contractFile)
     inputs.file(sceneJava)
+    inputs.file(commonScene)
     inputs.files(rootProject.fileTree(retired).matching { include '**/*.java' })
     doLast {
-        def json = new JsonSlurper()
-        def contract = json.parse(contractFile)
-        def namespace = contract.namespace.toString()
-        def expected = contract.pass_order.collect { "${namespace}:post/${it}".toString() }
-        def expectedNames = contract.pass_order.collect { it.toString() }
-        def expectedVec4 = contract.vec4_order.collect { it.toString() }
-        def expectedBytes = ((Number)contract.bytes).intValue()
-        ['low','balanced','high'].each { quality ->
-            def file = new File(resources, "assets/${namespace}/post_effect/${quality}.json")
-            def chain = json.parse(file)
-            def actual = chain.passes.collect { it.fragment_shader.toString() }
-            if (actual != expected) {
-                throw new GradleException("Unexpected pass order in ${file}\n"
-                        + "Expected: ${expectedNames.join(' -> ')}\n"
-                        + "Actual:   ${chain.passes.collect { it.fragment_shader.toString().split(':',2)[1].replace('post/','') }.join(' -> ')}")
-            }
-            chain.passes.each { pass ->
-                def name = pass.fragment_shader.toString().split(':', 2)[1]
-                def shader = new File(resources, "assets/${namespace}/shaders/${name}.fsh")
-                if (!shader.isFile()) throw new GradleException("Missing active shader: ${shader}")
-                def block = pass.uniforms.DarkWinterScene
-                if (block.size() != expectedVec4.size()) {
-                    throw new GradleException("DarkWinterScene must have ${expectedVec4.size()} vec4 values in ${file}")
+        def json=new JsonSlurper()
+        def contract=json.parse(contractFile)
+        if(contract.version!=1) throw new GradleException('Unsupported WKE effects contract version')
+        String namespace=contract.namespace
+        def vectors=contract.vec4_order.collect { it.toString() }
+        int sceneBytes=((Number)contract.bytes).intValue()
+        def shaderId={ String name -> contract.shader_overrides[name]?.toString() ?: "${namespace}:post/${name}".toString() }
+        def shaderFile={ String id ->
+            def parts=id.split(':',2)
+            new File(resources,"assets/${parts[0]}/shaders/${parts[1]}.fsh")
+        }
+        def external=['minecraft:main',"${namespace}:shadow","${namespace}:sky_final",
+                "${namespace}:previous_frame","${namespace}:held_frame",
+                "${namespace}:sky_background","${namespace}:cloud_background"].collect { it.toString() }
+        external.addAll(contract.temporal_resolve.external_targets.collect { it.toString() })
+        external.addAll(contract.reactive_mask.external_targets.collect { it.toString() })
+        if(contract.reactive_mask.format!='R8_UNORM' || contract.reactive_mask.max_rectangles!=16384
+                || contract.reactive_mask.instance_bytes!=16 || contract.reactive_mask.padding_native_pixels!=1)
+            throw new GradleException('WKE reactive producer coverage contract mismatch')
+        ['low','balanced','high','low_fused','balanced_fused','high_fused'].each { quality ->
+            boolean fused=quality.endsWith('_fused')
+            def names=(fused?contract.fused_pass_order:contract.pass_order).collect { it.toString() }
+            def file=new File(resources,"assets/${namespace}/post_effect/${quality}.json")
+            def graph=json.parse(file)
+            def actual=graph.passes.collect { it.fragment_shader.toString() }
+            if(actual!=names.collect(shaderId)) throw new GradleException("Unexpected WKE pass order in ${file}: ${actual}")
+            def known=(graph.targets.keySet().collect { it.toString() }+external) as Set
+            def produced=external as Set
+            graph.passes.each { pass ->
+                String shader=pass.fragment_shader
+                if(!known.contains(pass.output.toString())) throw new GradleException("Unknown WKE graph output ${pass.output}")
+                pass.inputs.each { input ->
+                    if(input.target!=null && (!known.contains(input.target.toString())||!produced.contains(input.target.toString())))
+                        throw new GradleException("WKE graph reads unavailable target ${input.target} in ${file}")
                 }
-                def declared = block.collect { it.name.toString() }
-                if (declared != expectedVec4) {
-                    throw new GradleException("DarkWinterScene vec4 order mismatch in ${file}\n"
-                            + "Expected: ${expectedVec4.join(', ')}\n"
-                            + "Actual:   ${declared.join(', ')}")
-                }
+                produced.add(pass.output.toString())
+                if(!shaderFile(shader).isFile()) throw new GradleException("Missing shared WKE shader ${shaderFile(shader)}")
+                String block
+                def expected
+                if(shader==shaderId('antialias')) { block=contract.antialias.block; expected=contract.antialias.vec4_order }
+                else if(shader==shaderId('temporal_resolve')) { block=contract.temporal_resolve.block; expected=contract.temporal_resolve.vec4_order }
+                else { block=contract.block; expected=vectors }
+                def fields=pass.uniforms[block]
+                if(fields==null || fields.collect { it.name.toString() }!=expected.collect { it.toString() }
+                        || fields.any { it.type.toString()!='vec4' })
+                    throw new GradleException("WKE UBO layout mismatch for ${block} in ${file}")
+            }
+            def temporal=graph.passes.find { it.fragment_shader.toString()==shaderId('temporal_resolve') }
+            def aa=graph.passes.find { it.fragment_shader.toString()==shaderId('antialias') }
+            def film=graph.passes.last()
+            if(temporal.inputs.collect { it.sampler_name.toString() }!=['Main','Depth','History','HistoryDepth','Reactive','HistoryReactive']
+                    || temporal.output.toString()!=contract.temporal_resolve.output.toString()
+                    || temporal.inputs[0].target.toString()!=contract.temporal_resolve.input.toString()
+                    || temporal.inputs[4].target.toString()!=contract.reactive_mask.external_targets[0].toString()
+                    || temporal.inputs[5].target.toString()!=contract.reactive_mask.external_targets[1].toString()
+                    || temporal.inputs[4].bilinear || temporal.inputs[5].bilinear
+                    || temporal.inputs[4].use_depth_buffer || temporal.inputs[5].use_depth_buffer)
+                throw new GradleException("WKE temporal input/history contract mismatch in ${file}")
+            if(aa.inputs.collect { it.sampler_name.toString() }!=['Main','Depth']
+                    || aa.inputs[0].target.toString()!=contract.antialias.input.toString()
+                    || aa.output.toString()!=contract.antialias.output.toString()
+                    || film.inputs.find { it.sampler_name=='Main' }?.target.toString()!=contract.antialias.output.toString())
+                throw new GradleException("Film history must receive resolved AA output before grade/lens effects: ${file}")
+            if(fused) {
+                if(graph.passes.any { it.fragment_shader.toString()==shaderId('sky_clouds') })
+                    throw new GradleException("Fused WKE graph retains an unused procedural sky pass: ${file}")
+                def merged=graph.passes.find { it.fragment_shader.toString()==shaderId('sky_merge_fused') }
+                if(merged.inputs.collect { it.sampler_name.toString() }!=['Main','Depth','Atmosphere','NativeSky','NativeCloud'])
+                    throw new GradleException("Fused WKE sampler contract mismatch in ${file}")
             }
         }
-        def sceneFrame = sceneJava.text
-        def bytesMatch = (sceneFrame =~ /public static final int BYTES = (\d+);/)
-        if (!bytesMatch.find() || Integer.parseInt(bytesMatch.group(1)) != expectedBytes) {
-            throw new GradleException("SceneFrame BYTES must equal ${expectedBytes}")
+        def bytes=(commonScene.text =~ /public static final int BYTES = (\d+);/)
+        if(!bytes.find() || Integer.parseInt(bytes.group(1))!=sceneBytes
+                || !sceneJava.text.contains('WkeSceneUniforms.writable') || !sceneJava.text.contains('WkeSceneUniforms.vec4'))
+            throw new GradleException('Production SceneFrame must serialize the shared WKE scene ABI')
+        def checkGlslBlock={ File file,String block,List expected,int size ->
+            def code=file.text.replaceAll('(?s)/\\*.*?\\*/','').replaceAll('(?m)//.*$','')
+            def match=(code =~ /(?s)uniform\s+${block}\s*\{(.*?)\};/)
+            if(!match.find()) throw new GradleException("Missing WKE GLSL block ${block} in ${file}")
+            def fields=(match.group(1) =~ /vec4\s+(\w+)\s*;/).collect { it[1].toString() }
+            if(fields!=expected || fields.size()*16!=size) throw new GradleException("WKE GLSL ABI mismatch: ${block}")
         }
-        def sceneGlsl = new File(resources, "assets/${namespace}/shaders/include/scene.glsl").text
-        def blockMatch = (sceneGlsl =~ /(?s)uniform DarkWinterScene\s*\{(.*?)\};/)
-        if (!blockMatch.find()) throw new GradleException('Missing GLSL DarkWinterScene block')
-        def glslNames = (blockMatch.group(1) =~ /vec4\s+(\w+)\s*;/).collect { it[1].toString() }
-        if (glslNames != expectedVec4 || expectedBytes != expectedVec4.size()*16) {
-            throw new GradleException('GLSL scene block order/size does not match the Java/JSON contract')
+        checkGlslBlock(new File(resources,"assets/${namespace}/shaders/include/scene.glsl"),contract.block.toString(),vectors,sceneBytes)
+        checkGlslBlock(shaderFile(shaderId('antialias')),contract.antialias.block.toString(),contract.antialias.vec4_order.collect {it.toString()},16)
+        checkGlslBlock(shaderFile(shaderId('temporal_resolve')),contract.temporal_resolve.block.toString(),contract.temporal_resolve.vec4_order.collect {it.toString()},176)
+        contract.required_resources.each { id ->
+            def relative=id.toString().replace(':','/')
+            if(!new File(resources,"assets/${relative}").isFile()) throw new GradleException("Missing implemented WKE effect resource ${id}")
         }
-        def oldJava = []
-        if (retired.isDirectory()) retired.eachFileRecurse(FileType.FILES) { f -> if (f.name.endsWith('.java')) oldJava.add(f) }
-        if (!oldJava.isEmpty()) {
-            throw new GradleException('Old RC1 Java is still in src/client/java. Use the migration installer, do not run both renderers.')
-        }
-        logger.lifecycle("DarkWinter Visuals: ${expectedNames.join(' -> ')}; ${expectedBytes}-byte scene block; resources OK.")
-        logger.lifecycle('This is a resource check, NOT an in-game renderer test.')
+        def oldJava=[]
+        if(retired.isDirectory()) retired.eachFileRecurse(FileType.FILES) { f -> if(f.name.endsWith('.java')) oldJava.add(f) }
+        if(!oldJava.isEmpty()) throw new GradleException('Retired RC1 renderer is still active in src/client/java')
+        logger.lifecycle("WKE effects: ${contract.pass_order.join(' -> ')}; scene416B, temporal176B, spatial16B; shared resources valid.")
+        logger.lifecycle('This checks real resource contracts, not completed GPU execution or frame rate.')
     }
 }
 tasks.named('compileClientJava') { dependsOn(tasks.named('visualsDoctor')) }

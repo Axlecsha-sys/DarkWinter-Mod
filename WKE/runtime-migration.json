@@ -1,0 +1,89 @@
+{
+    "schema": 1,
+    "moves": [
+        {
+            "source": "native/darkwinter-client/src/renderer.cpp",
+            "target": "WKE/runtime/src/renderer.cpp",
+            "sha256": {
+                "": "d2f79466389e83cdc3ff58701bfedc0246ea907b225262d714677c1026009ba1"
+            }
+        },
+        {
+            "source": "native/darkwinter-client/src/renderer.hpp",
+            "target": "WKE/runtime/src/renderer.hpp",
+            "sha256": {
+                "": "502508624a0c3c0e0f8f782e8699563a0656872b590858f35d319a0df7bc9c04"
+            }
+        },
+        {
+            "source": "native/darkwinter-client/src/scene.cpp",
+            "target": "WKE/runtime/src/scene.cpp",
+            "sha256": {
+                "": "c98a595cbbfa63d02b5bace4c338c7278d30268eaae20e2a5a048c5ae7e9e418"
+            }
+        },
+        {
+            "source": "native/darkwinter-client/src/scene.hpp",
+            "target": "WKE/runtime/src/scene.hpp",
+            "sha256": {
+                "": "c3c70f9a7e858408e78f6ee5caa3e3e76f8b509e65ebdd62dd4d2b035452dc48"
+            }
+        },
+        {
+            "source": "native/darkwinter-client/src/raster_scene.hpp",
+            "target": "WKE/runtime/src/raster_scene.hpp",
+            "sha256": {
+                "": "0215a5ce2d625a2c1767dc242b36ad5e06fc2996acc6d848f7317dba899cca8e"
+            }
+        },
+        {
+            "source": "native/darkwinter-client/src/vulkan_api.hpp",
+            "target": "WKE/runtime/src/vulkan_api.hpp",
+            "sha256": {
+                "": "def94f1a1a5336b0f6a1ce67c16acf486b1c26e6f7e03fd47d386a2f754be904"
+            }
+        },
+        {
+            "source": "native/darkwinter-client/src/pipeline_cache.hpp",
+            "target": "WKE/runtime/src/pipeline_cache.hpp",
+            "sha256": {
+                "": "7ebec620b58ad9ac1b6fec18e3d16138568e9f5170b4c3f91d00ada1b9723fd8"
+            }
+        },
+        {
+            "source": "native/darkwinter-client/src/world_mips.hpp",
+            "target": "WKE/runtime/src/world_mips.hpp",
+            "sha256": {
+                "": "68eabeda0e1439dd24894f164f1944d08b76dfad08ca4bf6ba7699e724f8b52b"
+            }
+        },
+        {
+            "source": "native/darkwinter-client/src/vma.cpp",
+            "target": "WKE/runtime/src/vma.cpp",
+            "sha256": {
+                "": "d848f386a00e14ecc6326d4555bc4ba5933f4ac6c96ec39f4b9f6bc7fabe33f7"
+            }
+        },
+        {
+            "source": "native/darkwinter-client/shaders",
+            "target": "WKE/runtime/shaders",
+            "sha256": {
+                "depth_resolve.frag": "7c420093ce9d8bfebdd28fa28c85af5fb46a250985c0f373859cd567cce1905a",
+                "raster.frag": "6d6bcee7e0981619968a5921a1ee5a60191c1b8b724ea94082e023e83d6fbaee",
+                "raster.vert": "0a0098d9350228784c25d073efb38d544925e20d6436659c748dfaf0958d865d",
+                "shadow.frag": "179243695e4fe6e0339b0d763fd6da7ff96dc06f6984e2f3b22ea2418d796c45",
+                "shadow.vert": "b50627c6184c4dbc51ccccf3a580975055bc513fc0d5eb70c26a14114a41f33f",
+                "trace.comp": "b0472d3cc0f5e09f38ee56c1222ca235a0bfdc5c4386e7405f4efa01b843a9ac",
+                "visuals/ambient.frag": "7dbf2e008a30bc1a34d497612729600e58e2eb5aaf59848d96948b4ec987c757",
+                "visuals/celestial.frag": "18bcdac0f455b07715241859120073923ee11935e7eb50dfe3e203452483701e",
+                "visuals/celestial.vert": "d532825a3850b3a09ac7900c221f2bfb0e3342d83bd1804f249fad33e0d80a1f",
+                "visuals/cloud_resolve.frag": "4400771292ee9c63c39d7d36ecda90e97b4599a02dfd9e86a8a0e88c86b4cc72",
+                "visuals/fullscreen.vert": "390a569b6f2dbd253b950b70745a7c1dfe2bb604cf5bb1709b3db7a8384b8b33",
+                "visuals/star.frag": "6b9a1968e25361220e9ddb02c6810e6bec6ec1d37df349d356c2310ea033b926",
+                "visuals/star.vert": "e98623a5ae9936993adc07dbd744ee88d8a0d92f108fdc013804ed5e2fbec59b",
+                "visuals/ui_composite.frag": "e22366a6e996139ece8462028b89cf2d75c0e412f214b359ed53d39e799b5123"
+            }
+        }
+    ],
+    "completed": true
+}

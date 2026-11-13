@@ -1,0 +1,46 @@
+// Explicit one-time relocation of the existing Windows rendering runtime.
+import groovy.json.JsonOutput
+import java.nio.file.Files
+import java.security.MessageDigest
+tasks.register('wkeMigrateRuntime') {
+ group='wke'
+ notCompatibleWithConfigurationCache('Explicit one-time source relocation.')
+ doLast {
+  def root=projectDir.canonicalFile.toPath()
+  def names=['renderer.cpp','renderer.hpp','scene.cpp','scene.hpp','raster_scene.hpp','vulkan_api.hpp','pipeline_cache.hpp','world_mips.hpp','vma.cpp']
+  def pairs=names.collect{['native/darkwinter-client/src/'+it,'WKE/runtime/src/'+it]}
+  pairs.add(['native/darkwinter-client/shaders','WKE/runtime/shaders'])
+  def digest={File f->MessageDigest.getInstance('SHA-256').digest(Files.readAllBytes(f.toPath())).encodeHex().toString()}
+  def items=pairs.collect{pair->
+   def source=file(pair[0]).canonicalFile;def target=file(pair[1]).canonicalFile
+   if(!source.toPath().startsWith(root)||!target.toPath().startsWith(root)||source.toPath()==root||target.toPath()==root)
+    throw new GradleException('Runtime relocation escaped the project.')
+   if(!source.exists()||target.exists())throw new GradleException('Expected existing source and absent target: '+pair)
+   def hashes=[:]
+   if(source.isFile())hashes['']=digest(source)
+   else Files.walk(source.toPath()).withCloseable{paths->paths.forEach{path->
+    if(Files.isSymbolicLink(path))throw new GradleException('Symbolic link in runtime source: '+path)
+    if(Files.isRegularFile(path))hashes[source.toPath().relativize(path).toString().replace(File.separatorChar,'/' as char)]=digest(path.toFile())
+   }}
+   [source:source,target:target,sourceRelative:pair[0],targetRelative:pair[1],sha256:hashes]
+  }
+  def plan=[schema:1,moves:items.collect{[source:it.sourceRelative,target:it.targetRelative,sha256:it.sha256]}]
+  def planFile=file('WKE/runtime-migration-plan.json')
+  if(planFile.exists())throw new GradleException('Inspect existing runtime migration before retrying.')
+  planFile.text=JsonOutput.prettyPrint(JsonOutput.toJson(plan))+'\n'
+  items.each{item->
+   Files.createDirectories(item.target.parentFile.toPath())
+   Files.move(item.source.toPath(),item.target.toPath())
+   item.sha256.each{relative,hash->
+    def moved=relative.isEmpty()?item.target:new File(item.target,relative)
+    if(digest(moved)!=hash)throw new GradleException('Runtime relocation hash mismatch: '+moved)
+   }
+   logger.lifecycle('WKE_RUNTIME_MOVED '+item.sourceRelative+' -> '+item.targetRelative)
+  }
+  names.findAll{it.endsWith('.hpp')}.each{name->
+   def old=file('native/darkwinter-client/src/'+name)
+   Files.writeString(old.toPath(),'// Compatibility include for existing DarkWinter host tools; implementation belongs to WKE.\n#pragma once\n#include "../../../WKE/runtime/src/'+name+'"\n',java.nio.file.StandardOpenOption.CREATE_NEW)
+  }
+  file('WKE/runtime-migration.json').text=JsonOutput.prettyPrint(JsonOutput.toJson(plan+[completed:true]))+'\n'
+ }
+}

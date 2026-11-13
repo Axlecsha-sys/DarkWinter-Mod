@@ -1,1 +1,1 @@
-{"providers":[{"type":"ttf","file":"darkwinter:ui_regular.ttf","size":11,"oversample":3,"shift":[0,0]},{"type":"reference","id":"minecraft:include/unifont"}]}
+{"providers":[{"type":"ttf","file":"darkwinter:ui_regular.ttf","size":11,"oversample":8,"shift":[0,0]},{"type":"ttf","file":"darkwinter:ui_symbols.ttf","size":11,"oversample":8,"shift":[0,0]},{"type":"reference","id":"minecraft:include/unifont"}]}

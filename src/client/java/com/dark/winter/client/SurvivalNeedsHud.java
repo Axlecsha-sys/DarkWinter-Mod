@@ -31,7 +31,7 @@ public final class SurvivalNeedsHud {
     }
     public static int chatBottom(int width,int height){return panelY(width,height,Minecraft.getInstance().gui.screen() instanceof ChatScreen)-8;}
     public static void render(GuiGraphicsExtractor g) {
-        if (!TestingAccess.enabled("hud")) return;
+        if (!TestingAccess.enabled("hud")||DebugOverlayVisibility.expandedDebugOwnsHud()) return;
         var c=Minecraft.getInstance();
         if(c.player==null||c.gui.hud.isHidden()||(c.gui.screen()!=null&&!(c.gui.screen() instanceof ChatScreen))) return;
         long now=System.nanoTime();
@@ -105,14 +105,13 @@ public final class SurvivalNeedsHud {
         UiArt.icon(g,i,cx-iconSize/2,cy-iconSize/2,iconSize,HudStyle.alpha(HudStyle.mix(color,HudStyle.INK,.08f),.84f));
         if(critical(i)) {
             int ex=cx+size/2-1,ey=cy-size/2;
-            g.fill(ex,ey,ex+1,ey+3,HudStyle.alpha(HudStyle.AMBER,pulse(now)));g.fill(ex,ey+4,ex+1,ey+5,HudStyle.AMBER);
+            UiArt.warning(g,ex-3,ey-1,6,HudStyle.alpha(HudStyle.AMBER,pulse(now)));
         }
         if(trendUntil[i]>now) {
             boolean worsening=i==5?direction[i]>0:direction[i]<0;
             int arrow=HudStyle.alpha(worsening?HudStyle.AMBER:HudStyle.INK,Math.min(1,(trendUntil[i]-now)/250_000_000f));
-            int ay=cy+size/2+1,tip=direction[i]>0?ay:ay+5;
-            g.fill(cx,ay,cx+1,ay+6,arrow);
-            for(int step=0;step<3;step++){int yy=tip+(direction[i]>0?step:-step);g.fill(cx-step,yy,cx-step+1,yy+1,arrow);g.fill(cx+step,yy,cx+step+1,yy+1,arrow);}
+            int ay=cy+size/2+1;
+            UiArt.trend(g,cx-4,ay-1,8,direction[i]>0,arrow);
         }
     }
 }

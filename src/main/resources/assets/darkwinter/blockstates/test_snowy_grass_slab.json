@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "snowy=true,type=bottom": {
+      "model": "darkwinter:block/test_snowy_grass_slab_bottom"
+    },
+    "snowy=true,type=top": {
+      "model": "darkwinter:block/test_snowy_grass_slab_top"
+    },
+    "snowy=true,type=double": {
+      "model": "darkwinter:block/test_snowy_grass_slab_double"
+    },
+    "snowy=false,type=bottom": {
+      "model": "darkwinter:block/test_snowy_grass_slab_bottom_bare"
+    },
+    "snowy=false,type=top": {
+      "model": "darkwinter:block/test_snowy_grass_slab_top_bare"
+    },
+    "snowy=false,type=double": {
+      "model": "darkwinter:block/test_snowy_grass_slab_double_bare"
+    }
+  }
+}

@@ -1,0 +1,208 @@
+#version 450
+layout(local_size_x=8,local_size_y=8) in;
+layout(set=0,binding=0,std430) readonly buffer World {uint w[];};
+layout(set=0,binding=1,std430) readonly buffer Assets {uint a[];};
+layout(set=0,binding=2,rgba8) uniform writeonly image2D outputImage;
+layout(set=0,binding=3,std430) writeonly buffer Probe {uvec2 hits[];};
+layout(set=0,binding=4,std430) readonly buffer Overlay {uint ui[];};
+layout(set=0,binding=5,std430) readonly buffer Avatar {uint v[];};
+layout(push_constant) uniform View {vec4 origin;vec4 forward;vec4 right;vec4 up;uvec4 settings;vec4 actor;vec4 pose;vec4 avatar;} view;
+vec3 av(uint p){return vec3(uintBitsToFloat(a[p]),uintBitsToFloat(a[p+1]),uintBitsToFloat(a[p+2]));}
+vec2 au(uint p){return vec2(uintBitsToFloat(a[p]),uintBitsToFloat(a[p+1]));}
+bool bounds(vec3 o,vec3 inverseRay,vec3 lo,vec3 hi,float nearLimit,float farLimit){
+    vec3 aa=(lo-o)*inverseRay,bb=(hi-o)*inverseRay;
+    vec3 mn=min(aa,bb),mx=max(aa,bb);
+    return min(farLimit,min(mx.x,min(mx.y,mx.z)))>=max(nearLimit,max(mn.x,max(mn.y,mn.z)));
+}
+struct Contact {float t;uint triangle;uint shape;ivec3 cell;vec2 bary;};
+uint byteOffsets[5]=uint[5](0,512,576,584,585);
+bool occupied(uint slot,ivec3 local,int level){
+    int n=16>>level;ivec3 p=local>>level;
+    uint index=uint(p.x+n*p.z+n*n*p.y),byte=byteOffsets[level]+(index>>3);
+    uint value=w[w[9]+slot*147+(byte>>2)];
+    return (value&(1u<<((byte&3)*8+(index&7))))!=0;
+}
+int hash2(int x,int z){uint h=uint(x)*0x1f123bb5u^uint(z)*0x5f356495u;h^=h>>16;h*=0x45d9f3bu;return int(h^(h>>16));}
+vec4 texel(uint tri,vec2 uv,ivec3 cell,vec3 p,uint shape,vec3 normal){
+    uint tid=a[tri+3],flags=a[tri+7],d=a[1]+shape*8;
+    if((flags&3)==1){
+        uint tile=uint(hash2(int(floor(float(cell.x)/4)),int(floor(float(cell.z)/4))))&7u;
+        vec2 field=abs(normal.y)>.9?p.xz:uv;
+        uv=(vec2((cell.x%4+4)%4,(cell.z%4+4)%4)+field)/4;
+        if((tile&4u)!=0)uv.x=1-uv.x;
+        for(uint i=0;i<(tile&3u);++i)uv=vec2(1-uv.y,uv.x);
+    }else if((flags&3)==2){
+        uint tile=uint(hash2(cell.x-int(a[d+4]),cell.z-int(a[d+5])))&15u;
+        vec2 quadrant=step(vec2(.5),uv);
+        if(quadrant!=vec2(1))uv=quadrant*.5+(vec2(tile&3u,tile>>2)+(uv-quadrant*.5)*2)/8;
+    }
+    uint td=a[4]+tid*4,width=a[td+1],height=a[td+2];
+    uvec2 xy=uvec2(clamp(uv,vec2(0),vec2(.999999))*vec2(width,height));
+    uint rgba=a[a[5]+a[td]+xy.x+width*xy.y],tint=a[tri+11];
+    vec4 c=vec4(rgba&255u,(rgba>>8)&255u,(rgba>>16)&255u,rgba>>24)/255;
+    return c*vec4(tint&255u,(tint>>8)&255u,(tint>>16)&255u,tint>>24)/255;
+}
+bool shapeHit(vec3 o,vec3 ray,vec3 inverseRay,ivec3 cell,uint shape,float nearT,float farT,bool anyHit,inout Contact hit){
+    uint d=a[1]+shape*8,node=a[d],end=a[d+1];
+    if(node==0xffffffffu)return false;
+    bool found=false;vec3 local=o-vec3(cell);
+    while(node<end){
+        uint n=a[2]+node*12;
+        if(!bounds(local,inverseRay,av(n),av(n+4),nearT,min(farT,hit.t+.00005))){node=a[n+8];continue;}
+        uint first=a[n+3],count=a[n+7];
+        for(uint j=0;j<count;++j){
+            uint triangle=a[14]==0u?first+j:a[a[14]+first+j];uint t=a[3]+triangle*24;vec3 p=av(t),e1=av(t+4),e2=av(t+8);
+            vec3 q=cross(ray,e2);float det=dot(e1,q);if(abs(det)<1e-9)continue;
+            float inv=1/det;vec3 s=local-p;float u=dot(s,q)*inv;if(u<0||u>1)continue;
+            vec3 r=cross(s,e1);float v=dot(ray,r)*inv;if(v<0||u+v>1)continue;
+            float distance=dot(e2,r)*inv;
+            if(distance<max(nearT-0.0002,0.0001)||distance>farT+0.0002||distance>hit.t+.00005)continue;
+            if(hit.shape!=0xffffffffu&&abs(distance-hit.t)<=.00005){
+                uint material=a[a[1]+shape*8+3],prior=a[a[1]+hit.shape*8+3];
+                if(material>prior||(material==prior&&(shape!=hit.shape||any(notEqual(cell,hit.cell))||t>=hit.triangle)))continue;
+            }
+            vec2 uv=au(t+12)+au(t+14)*u+au(t+16)*v;
+            if((a[t+7]&8u)!=0&&texel(t,uv,cell,local+ray*distance,shape,av(t+20)).a<.5)continue;
+            hit=Contact(distance,t,shape,cell,vec2(u,v));found=true;if(anyHit)return true;
+        }
+        ++node;
+    }
+    return found;
+}
+uint shapeAt(ivec3 cell){
+    ivec3 base=ivec3(w[0],w[1],w[2]),dims=ivec3(w[4],w[5],w[6]),sec=ivec3(floor(vec3(cell)/16)),g=sec-base;
+    if(any(lessThan(g,ivec3(0)))||any(greaterThanEqual(g,dims)))return 0xffffffffu;
+    uint slot=w[w[8]+uint(g.x+dims.x*(g.z+dims.z*g.y))];if(slot==0xffffffffu)return slot;
+    ivec3 local=cell-sec*16;return w[w[7]+slot*4096+uint(local.x+16*local.z+256*local.y)];
+}
+bool trace(vec3 origin,vec3 ray,float maximum,bool occlusion,out Contact hit){
+    hit=Contact(maximum,0u,0xffffffffu,ivec3(0),vec2(0));
+    vec3 safeRay=vec3(ray.x==0?1e-25:ray.x,ray.y==0?1e-25:ray.y,ray.z==0?1e-25:ray.z),inverseRay=1/safeRay;
+    ivec3 base=ivec3(w[0],w[1],w[2]),dims=ivec3(w[4],w[5],w[6]);
+    vec3 lo=vec3(base*16),hi=vec3((base+dims)*16);
+    vec3 aa=(lo-origin)*inverseRay,bb=(hi-origin)*inverseRay,mn=min(aa,bb),mx=max(aa,bb);
+    float t=max(0,max(mn.x,max(mn.y,mn.z))),end=min(maximum,min(mx.x,min(mx.y,mx.z)));
+    if(end<t)return false;
+    for(uint iteration=0;iteration<view.settings.w&&t<=end;++iteration){
+        vec3 p=origin+ray*(t+.00005);ivec3 cell=ivec3(floor(p)),section=ivec3(floor(vec3(cell)/16)),grid=section-base;
+        if(any(lessThan(grid,ivec3(0)))||any(greaterThanEqual(grid,dims)))break;
+        uint slot=w[w[8]+uint(grid.x+dims.x*(grid.z+dims.z*grid.y))];
+        int size=16;
+        if(slot!=0xffffffffu){
+            ivec3 local=cell-section*16;size=1;
+            for(int level=4;level>=0;--level)if(!occupied(slot,local,level)){size=1<<level;break;}
+            if(size==1&&occupied(slot,local,0)){
+                uint index=uint(local.x+16*local.z+256*local.y);
+                uint wordCount=w[12];int radius=int(w[11]),side=2*radius+1;
+                vec3 next=(vec3(cell)+step(vec3(0),ray)-origin)*inverseRay;
+                float boundary=min(next.x,min(next.y,next.z));bool found=false;
+                for(uint m=0u;m<wordCount;++m){uint mask=w[w[10]+(slot*4096+index)*wordCount+m];while(mask!=0u){
+                    int b=findLSB(mask)+int(m)*32;mask&=mask-1u;
+                    ivec3 owner=cell+ivec3(b%side-radius,b/(side*side)-radius,(b/side)%side-radius);
+                    uint shape=shapeAt(owner);
+                    if(shape!=0xffffffffu)found=shapeHit(origin,ray,inverseRay,owner,shape,t,min(boundary,end),occlusion,hit)||found;
+                    if(occlusion&&found)return true;
+                }
+                }
+                if(found)return true;
+            }
+        }
+        vec3 low=floor(vec3(cell)/size)*size;
+        vec3 boundary=low+step(vec3(0),ray)*size;
+        vec3 next=(boundary-origin)*inverseRay;
+        float advance=min(next.x,min(next.y,next.z));
+        t=max(advance,t+.0001);
+    }
+    return false;
+}
+vec3 vv(uint p){return vec3(uintBitsToFloat(v[p]),uintBitsToFloat(v[p+1]),uintBitsToFloat(v[p+2]));}
+vec2 vu(uint p){return vec2(uintBitsToFloat(v[p]),uintBitsToFloat(v[p+1]));}
+vec3 ry(vec3 p,float a){float c=cos(a),s=sin(a);return vec3(c*p.x+s*p.z,p.y,-s*p.x+c*p.z);}
+vec3 rx(vec3 p,float a){float c=cos(a),s=sin(a);return vec3(p.x,c*p.y-s*p.z,s*p.y+c*p.z);}
+bool actorTrace(vec3 origin,vec3 ray,float maximum,bool anyHit,out vec3 albedo,out vec3 normal,out float distance){
+    distance=maximum;albedo=vec3(0);normal=vec3(0);
+    bool firstPerson=view.avatar.x>1.5;if(view.avatar.x<.5||(v[0]!=6u&&v[0]!=7u)||(firstPerson&&(v[0]!=7u||anyHit)))return false;
+    vec3 inverseRay=1/vec3(ray.x==0?1e-25:ray.x,ray.y==0?1e-25:ray.y,ray.z==0?1e-25:ray.z);
+    if(!firstPerson&&!bounds(origin,inverseRay,view.actor.xyz+vec3(-2.5,-1,-2.5),view.actor.xyz+vec3(2.5,3.5,2.5),0,maximum))return false;
+    float body=view.actor.w+3.14159265359;vec3 bodyO=ry(origin-view.actor.xyz,-body),bodyR=ry(ray,-body);if(firstPerson){vec3 o=origin-view.origin.xyz;bodyO=vec3(dot(o,view.right.xyz),dot(o,view.up.xyz),-dot(o,view.forward.xyz));bodyR=vec3(dot(ray,view.right.xyz),dot(ray,view.up.xyz),-dot(ray,view.forward.xyz));bodyO.y-=sin(view.pose.x*2)*.010*view.pose.y;}bool found=false;
+    for(uint bone=firstPerson?6u:0u;bone<(firstPerson?7u:6u);bone++){
+        uint d=v[1]+bone*12u;float angle=0,headYaw=0;
+        if(bone==1u){angle=clamp(view.pose.w,-1.2,1.2);headYaw=clamp(view.pose.z,-.8,.8);}
+        else if(bone>=2u&&bone<6u){float sign=(bone==2u||bone==5u)?1:-1;angle=sin(view.pose.x)*view.pose.y*.58*sign;}
+        vec3 pivot=vv(d);if(bone>=4u&&bone<6u){uint root=v[2]+v[d+4]*12u;vec3 lo=vv(root),hi=vv(root+4);float s=sin(angle),c=cos(angle),minY=lo.y*c-(s>0?hi.z:lo.z)*s;float legSign=bone==5u?1:-1;float lift=pow(max(sin(view.pose.x)*legSign,0),2)*.10*view.pose.y;pivot.y+=lift-(pivot.y+minY);}
+        vec3 local=rx(ry(bodyO-pivot,-headYaw),-angle),r=rx(ry(bodyR,-headYaw),-angle);
+        vec3 inv=1/vec3(r.x==0?1e-25:r.x,r.y==0?1e-25:r.y,r.z==0?1e-25:r.z);
+        uint node=v[d+4],end=v[d+5];
+        while(node<end){
+            uint n=v[2]+node*12u;
+            if(!bounds(local,inv,vv(n),vv(n+4),.0001,distance)){node=v[n+8];continue;}
+            for(uint j=0u;j<v[n+7];j++){
+                uint t=v[3]+(v[n+3]+j)*24u;vec3 e1=vv(t+4),e2=vv(t+8),q=cross(r,e2);float det=dot(e1,q);
+                if(abs(det)<1e-9)continue;vec3 s=local-vv(t);float u=dot(s,q)/det;if(u<0||u>1)continue;
+                vec3 c=cross(s,e1);float b=dot(r,c)/det;if(b<0||u+b>1)continue;
+                float at=dot(e2,c)/det;if(at<.0001||at>distance)continue;
+                vec2 uv=vu(t+12)+vu(t+14)*u+vu(t+16)*b;uvec2 xy=uvec2(clamp(uv,vec2(0),vec2(.999999))*vec2(v[5],v[6]));
+                uint tex=v[v[4]+xy.x+v[5]*xy.y];if((tex>>24)<128u)continue;
+                found=true;distance=at;if(anyHit)return true;
+                uint tint=v[t+11];albedo=pow(vec3(tex&255u,(tex>>8)&255u,(tex>>16)&255u)/255*vec3(tint&255u,(tint>>8)&255u,(tint>>16)&255u)/255,vec3(2.2));
+                normal=firstPerson?view.right.xyz*vv(t+20).x+view.up.xyz*vv(t+20).y-view.forward.xyz*vv(t+20).z:ry(ry(rx(vv(t+20),angle),headYaw),body);if(dot(normal,ray)>0)normal=-normal;
+            }++node;
+        }
+    }return found;
+}
+float ambientOcclusion(vec3 point,vec3 normal){
+    uint base=4u+ui[0]*ui[1];if(ui[0]!=0u&&uintBitsToFloat(ui[base+6u])<.5)return 1.;
+    bool contact=length(point-view.actor.xyz)<1.4;float fade=1.-smoothstep(12.,20.,length(point-view.origin.xyz));if(!contact&&fade<=0.)return 1.;int samples=contact?3:1;
+    vec3 tangent=normalize(cross(abs(normal.y)>.9?vec3(1,0,0):vec3(0,1,0),normal)),bitangent=cross(normal,tangent);float amount=1.;
+    for(int i=0;i<3;i++){if(i>=samples)break;float angle=float(i)*2.0943951;vec3 ray=normalize(normal*.75+(tangent*cos(angle)+bitangent*sin(angle))*.66);Contact hit;bool blocked=trace(point+normal*.018,ray,.75,true,hit);vec3 c,n;float t;if(!blocked&&contact)blocked=actorTrace(point+normal*.018,ray,.75,true,c,n,t);if(blocked)amount-=contact?.12:.16*fade;}
+    return amount;
+}
+float cloudNoise(vec2 p){vec2 g=floor(p),f=fract(p);f=f*f*(3-2*f);float a=fract(sin(dot(g,vec2(127.1,311.7)))*43758.5453),b=fract(sin(dot(g+vec2(1,0),vec2(127.1,311.7)))*43758.5453),c=fract(sin(dot(g+vec2(0,1),vec2(127.1,311.7)))*43758.5453),d=fract(sin(dot(g+vec2(1),vec2(127.1,311.7)))*43758.5453);return mix(mix(a,b,f.x),mix(c,d,f.x),f.y);}
+float option(int i){return ui[0]==0u?(i==1?70.:i==2?80.:1.):uintBitsToFloat(ui[4u+ui[0]*ui[1]+uint(i)]);}
+vec3 skyLight(vec3 ray,vec3 sun){
+ float day=smoothstep(-.14,.04,sun.y),up=smoothstep(0.,.85,max(ray.y,0));
+ // Authored sRGB sky palette from winter_haze.glsl::dwDistantBackground.
+ vec3 horizon=mix(vec3(.062,.083,.115),vec3(.32,.38,.45),day),zenith=mix(vec3(.017,.027,.048),vec3(.25,.335,.445),day);
+ horizon=mix(horizon,mix(vec3(.047,.073,.125),vec3(.29,.405,.56),day),option(10));zenith=mix(zenith,mix(vec3(.012,.025,.060),vec3(.12,.265,.475),day),option(10));vec3 color=mix(horizon,zenith,up);
+ float sunward=pow(max(dot(ray,sun),0),12),twilight=1-smoothstep(.02,.22,abs(sun.y));color+=vec3(.15,.065,.025)*sunward*twilight*exp(-abs(ray.y)*7);
+ if(ray.y>0&&option(5)>.5&&option(7)>.001){vec2 p=ray.xz/max(ray.y+.18,.15)*1.7+vec2(option(11),option(12))*option(13)*.00075;float n=cloudNoise(p)*.58+cloudNoise(p*2.13+17)*.29+cloudNoise(p*4.47+31)*.13;float cloud=smoothstep(1.-option(7)*.75,1.-option(7)*.30,n)*smoothstep(0,.16,ray.y);vec3 cloudColor=mix(vec3(.026,.039,.061),vec3(.35,.41,.47),day);color=mix(color,cloudColor,cloud*.76);}
+ float disc=smoothstep(.99994,.999976,dot(ray,sun))*smoothstep(-.025,.005,sun.y);return color+vec3(2.,1.55,1.05)*disc;
+}
+vec3 fogColour(vec3 ray,vec3 sun){float day=smoothstep(-.14,.04,sun.y);vec3 air=mix(vec3(.078,.099,.131),vec3(.37,.415,.46),day),blue=mix(vec3(.065,.092,.143),vec3(.34,.425,.525),day);return mix(air,blue,option(14))*(1+.08*pow(max(dot(ray,sun),0),4)*day);}
+vec3 displayColour(vec3 linear){return pow(clamp(linear*option(0)/(linear*.2+.8),0,1),vec3(1/2.2));}
+void main(){
+    uvec2 xy=gl_GlobalInvocationID.xy;
+    if(xy.x>=view.settings.y||xy.y>=view.settings.z)return;
+    vec4 overlay=vec4(0);
+    if(ui[0]!=0u){uvec2 p=xy*uvec2(ui[0],ui[1])/view.settings.yz;uint v=ui[4+p.x+ui[0]*p.y];overlay=vec4(v&255u,(v>>8)&255u,(v>>16)&255u,v>>24)/255;}
+    if(ui[2]!=0u&&overlay.a>.5){float time=uintBitsToFloat(ui[3]);vec2 p=vec2(xy)/vec2(view.settings.yz);float mist=exp(-pow((p.y-.72-.04*sin(time*.03+p.x*4))*7,2))*(.5+.5*sin(p.x*5+time*.04));overlay.rgb=mix(overlay.rgb,vec3(.62,.72,.76),mist*.045);overlay.rgb*=.996+.004*sin(float(xy.y)*3.14159+time*.2);}
+    if(overlay.a>.999&&view.settings.x==0u){imageStore(outputImage,ivec2(xy),overlay);return;}
+    vec2 screen=(vec2(xy)+.5)/vec2(view.settings.yz)*2-1;screen.y=-screen.y;
+    vec3 ray=normalize(view.forward.xyz+view.right.xyz*screen.x*view.forward.w*view.origin.w+view.up.xyz*screen.y*view.origin.w);
+    bool northern=length(view.avatar.yzw)>.5;vec3 sun=northern?normalize(view.avatar.yzw):normalize(vec3(-.35,.8,-.25));float daylight=northern?smoothstep(-.14,.04,sun.y):1.,sunlight=northern?smoothstep(-.015,.035,sun.y)*option(8)*(1-option(7)*.85):1.;vec3 sky=northern?skyLight(ray,sun):mix(vec3(.55,.65,.73),vec3(.17,.29,.42),pow(max(ray.y,0),.5));vec3 mist=northern?fogColour(ray,sun):sky;vec3 color=sky;
+    Contact hit;bool found=trace(view.origin.xyz,ray,512,false,hit);
+    if(found){
+        uint t=hit.triangle;vec3 normal=av(t+20);if(dot(normal,ray)>0)normal=-normal;
+        vec2 uv=au(t+12)+au(t+14)*hit.bary.x+au(t+16)*hit.bary.y;
+        vec3 point=view.origin.xyz+ray*hit.t;
+        vec3 albedo=pow(texel(t,uv,hit.cell,point-vec3(hit.cell),hit.shape,normal).rgb,vec3(2.2));
+        Contact shadow;
+        float visibility=sunlight<=0||dot(normal,sun)<=0?0:option(4)<.5?1:trace(point+normal*.003,sun,160,true,shadow)?.12:1;
+        vec3 unusedColor,unusedNormal;float actorDepth;
+        if(option(4)>.5&&visibility>0&&actorTrace(point+normal*.003,sun,160,true,unusedColor,unusedNormal,actorDepth))visibility=.12;
+        float lighting=(mix(.055,.28,daylight)+mix(.025,.17,daylight)*max(normal.y,0))*ambientOcclusion(point,normal)+.85*sunlight*max(dot(normal,sun),0)*visibility;
+        color=displayColour(albedo*lighting*vec3(.92,.97,1.03));
+        float haze=w[13]!=0u?smoothstep(option(2)*.42,option(2),length((point-view.origin.xyz).xz)*option(3)):1-exp(-hit.t*.0035);color=mix(color,mist,haze);
+    }
+    if(view.settings.x!=0)hits[xy.x+view.settings.y*xy.y]=uvec2(found?a[a[1]+hit.shape*8+3]:0xffffffffu,floatBitsToUint(found?hit.t:uintBitsToFloat(0x7f800000u)));
+    vec3 actorColor,actorNormal;float actorT;
+    if(actorTrace(view.origin.xyz,ray,view.avatar.x>1.5?512:found?hit.t:512,false,actorColor,actorNormal,actorT)){
+        vec3 point=view.origin.xyz+ray*actorT;Contact shadow;
+        float visibility=sunlight<=0||dot(actorNormal,sun)<=0?0:option(4)<.5?1:trace(point+actorNormal*.004,sun,160,true,shadow)?.12:1;
+        vec3 c,n;float at;if(option(4)>.5&&visibility>0&&actorTrace(point+actorNormal*.004,sun,160,true,c,n,at))visibility=.12;
+        color=displayColour(actorColor*(mix(.055,.28,daylight)+mix(.025,.17,daylight)*max(actorNormal.y,0)+.85*sunlight*max(dot(actorNormal,sun),0)*visibility)*vec3(.92,.97,1.03));
+        color=mix(color,mist,1-exp(-actorT*.0035));
+    }
+
+    imageStore(outputImage,ivec2(xy),vec4(mix(color,overlay.rgb,overlay.a),1));
+}

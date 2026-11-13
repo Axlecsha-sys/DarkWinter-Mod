@@ -1,0 +1,262 @@
+// Native game: menus, window modes and bounded procedural world streaming.
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+def gameSource=file('native/darkwinter-client')
+def gameDist=file('build/core/game-client-v14')
+def gameVma=file('build/core/deps/VulkanMemoryAllocator-3.3.0')
+def gameStamp=new Date().format('yyyyMMdd-HHmmss-SSS')
+def gameRun=file('build/core/game-runs/'+gameStamp)
+def gameExecute={List<String> command->
+ def process=new ProcessBuilder(command).directory(projectDir).redirectErrorStream(true).start()
+ String output=process.inputStream.getText('UTF-8');int code=process.waitFor()
+ if(!output.isBlank())logger.lifecycle(output.trim())
+ if(code!=0)throw new GradleException('Native game command failed ('+code+'): '+command[0])
+ output.trim()
+}
+// Keep native build diagnostics inside the project for reproducible UI review.
+if (gradle.startParameter.taskNames.any { it.toLowerCase().contains('core') }) {
+ def nativeLog=file('build/core/native-build.log');nativeLog.parentFile.mkdirs();nativeLog.text=''
+ def writeNativeLog={CharSequence message->synchronized(nativeLog){nativeLog.append(message.toString(),'UTF-8')}}
+ logging.addStandardOutputListener(writeNativeLog as org.gradle.api.logging.StandardOutputListener)
+ logging.addStandardErrorListener(writeNativeLog as org.gradle.api.logging.StandardOutputListener)
+}
+def gameSha={File f->java.security.MessageDigest.getInstance('SHA-256').digest(f.bytes).encodeHex().toString()}
+def gameCompile={List<String> source,File binary,boolean windowed->
+ def compiler=file('build/voxel-faces/toolchains/zig-0.14.1/zig.exe')
+ if(gameSha(compiler)!='1ddf230367e07738c4a769eae66c1db7469e37bd520e81c86356453d0db2b9fd')throw new GradleException('Compiler integrity')
+ binary.parentFile.mkdirs()
+ def args=[compiler.absolutePath,'c++','-std=c++20','-O3','-fno-fast-math','-ffp-contract=off','-Wall','-Wextra','-Wpedantic','-Wno-missing-field-initializers','-pthread','-static','-target','x86_64-windows-gnu','-DUNICODE','-D_UNICODE','-DNOMINMAX','-DVMA_VULKAN_VERSION=1001000','-DVMA_STATIC_VULKAN_FUNCTIONS=0','-DVMA_DYNAMIC_VULKAN_FUNCTIONS=1','-isystem',gameVma.absolutePath,'-I'+file('build/core/deps/Vulkan-Headers-1.3.296/include').absolutePath]
+ args+=source.collect{wkeNativeFile(it).absolutePath}
+ args+=['WKE/core/src/core.cpp','WKE/core/src/format.cpp'].collect{file(it).absolutePath}
+ if(windowed)args+='-Wl,--subsystem,windows'
+ gameExecute(args+['-luser32','-lshell32','-lgdi32','-lwinmm','-o',binary.absolutePath])
+}
+tasks.register('coreVmaHeaders') {
+ group='build';description='Fetch hash-pinned official Vulkan Memory Allocator headers and MIT notice.'
+ notCompatibleWithConfigurationCache('Explicit verified native dependency preparation.')
+ def manifest=file('native/darkwinter-client/vma.json')
+ inputs.file(manifest);outputs.dir(gameVma)
+ doLast {
+  def data=new JsonSlurper().parse(manifest)
+  data.files.each {String path,def spec->
+   File target=new File(gameVma,path)
+   if(!target.isFile()||gameSha(target)!=spec.sha256) {
+    def connection=new URI(data.base+spec.path).toURL().openConnection()
+    connection.connectTimeout=15000;connection.readTimeout=20000
+    byte[] bytes=connection.inputStream.withCloseable{it.readAllBytes()}
+    if(bytes.length!=spec.bytes||java.security.MessageDigest.getInstance('SHA-256').digest(bytes).encodeHex().toString()!=spec.sha256)throw new GradleException('VMA dependency integrity mismatch: '+path)
+    target.parentFile.mkdirs()
+    File staged=new File(target.parentFile,target.name+'.download')
+    staged.bytes=bytes
+    java.nio.file.Files.move(staged.toPath(),target.toPath(),java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+   }
+  }
+ }
+}
+tasks.register('coreCompileDressedAvatar',JavaCompile){
+ dependsOn 'clientClasses';source=file('native/darkwinter-client/build-tools/ExportDressedAvatar.java')
+ classpath=sourceSets.client.runtimeClasspath;destinationDirectory=file('build/core/avatar-tools/classes')
+ javaCompiler=javaToolchains.compilerFor{languageVersion=JavaLanguageVersion.of(25)};options.release=25;options.encoding='UTF-8'
+}
+tasks.register('coreExportDressedAvatar',JavaExec){
+ dependsOn 'coreCompileDressedAvatar';classpath=sourceSets.client.runtimeClasspath+files('build/core/avatar-tools/classes');mainClass='com.dark.winter.client.equipment.ExportDressedAvatar'
+ javaLauncher=javaToolchains.launcherFor{languageVersion=JavaLanguageVersion.of(25)};jvmArgs '--enable-native-access=ALL-UNNAMED';args file('build/core/player-source').absolutePath
+}
+tasks.register('coreCompileNativeUi',JavaCompile){
+ dependsOn 'clientClasses';source=file('native/darkwinter-client/build-tools/ExportNativeUi.java')
+ classpath=sourceSets.client.runtimeClasspath;destinationDirectory=file('build/core/ui-tools/classes')
+ javaCompiler=javaToolchains.compilerFor{languageVersion=JavaLanguageVersion.of(25)};options.release=25;options.encoding='UTF-8'
+}
+tasks.register('coreExportNativeUi',JavaExec){
+ dependsOn 'coreCompileNativeUi';classpath=sourceSets.client.runtimeClasspath+files('build/core/ui-tools/classes');mainClass='com.dark.winter.client.vector.ExportNativeUi'
+ javaLauncher=javaToolchains.launcherFor{languageVersion=JavaLanguageVersion.of(25)}
+ inputs.files(fileTree('src/client/resources/assets/darkwinter/svg'));outputs.dir('build/core/ui-vectors')
+ args file('src/client/resources/assets/darkwinter').absolutePath,file('build/core/ui-vectors').absolutePath
+}
+tasks.named('corePackBiome'){inputs.file('native/darkwinter-client/export/material-overrides.json');inputs.file('src/main/resources/assets/darkwinter/textures/block/native_spruce_bark.png');inputs.file('src/main/resources/assets/darkwinter/textures/block/native_spruce_endgrain.png');inputs.file('native/darkwinter-client/build-tools/export-ui-languages.py');inputs.file('native/darkwinter-client/build-tools/export-native-notices.py');inputs.files('src/main/resources/fabric.mod.json','gradle.properties','LICENSE','tools/ui/build_ui_symbols.py');inputs.files(fileTree('src/main/resources/assets/darkwinter/lang'));inputs.files(fileTree('src/client/resources/assets/darkwinter/lang'));inputs.files(fileTree('build/core/ui-vectors'));dependsOn 'coreExportNativeUi';inputs.files(fileTree('src/client/resources/assets/darkwinter/svg'));
+dependsOn 'coreExportDressedAvatar';inputs.file('build/core/player-source/avatar-dressed.json');inputs.files(fileTree('src/client/resources/assets/darkwinter/svg/menu'))}
+tasks.register('coreCompileGame'){
+ group='build';dependsOn 'coreClientHeaders','coreVmaHeaders'
+ description='Compile the native C++ client independently of build-time resource export.'
+ inputs.files(fileTree('native/darkwinter-client/src'),fileTree('WKE/core/src'),fileTree('WKE/core/include'))
+ inputs.file('gradle/core-game.gradle');inputs.file('native/darkwinter-client/vma.json');inputs.file(new File(gameVma,'vk_mem_alloc.h'));inputs.file('build/voxel-faces/toolchains/zig-0.14.1/zig.exe')
+ outputs.file(new File(gameDist,'DarkWinter.exe'))
+ notCompatibleWithConfigurationCache('Verified native compiler toolchain.')
+ doLast{
+  gameCompile(['world_main','player','audio','ui','renderer','scene','generation','streaming','vma'].collect{'native/darkwinter-client/src/'+it+'.cpp'},new File(gameDist,'DarkWinter.exe'),true)
+ }
+}
+tasks.register('coreBuildGame'){
+ group='build';dependsOn 'coreCompileGame','coreClientHeaders','corePackBiome','coreCompileWorldShader','corePackSounds'
+ description='Build native DarkWinter menus, player and procedural streaming world.'
+ notCompatibleWithConfigurationCache('Native package from owned exported assets.')
+ doLast{
+  gameDist.mkdirs();def base=file('build/core/world-client')
+  // Preserve the player's existing preferences when opening this separate build.
+  File settings=new File(gameDist,'settings.cfg')
+  if(!settings.isFile()) {
+   File previous=['v12','v11','v10','v9','v8'].collect{file('build/core/game-client-'+it+'/settings.cfg')}.find{it.isFile()}
+   if(previous!=null)java.nio.file.Files.copy(previous.toPath(),settings.toPath())
+  }
+  ['world.dwv','assets.dwa','biome.json','bvh.json','camera.txt','ui.dwu','ui_regular.ttf','ui_symbols.ttf','license.txt','ui-sources.json','ui-languages.tsv','ui-text.tsv','ui-game-rules.tsv','ui-language-sources.json','attribution.html','licenses.html','accessibility.html','notices-sources.json','footsteps.dws','trace.comp.spv','collision.dwc','avatar.dwp','player-assets.json'].each{n->java.nio.file.Files.copy(new File(base,n).toPath(),new File(gameDist,n).toPath(),java.nio.file.StandardCopyOption.REPLACE_EXISTING)}
+  ['raster.vert.spv','raster.frag.spv','shadow.vert.spv','shadow.frag.spv','depth_resolve.frag.spv'].each{n->java.nio.file.Files.copy(new File(base,n).toPath(),new File(gameDist,n).toPath(),java.nio.file.StandardCopyOption.REPLACE_EXISTING)}
+  copy{from new File(base,'visuals');into new File(gameDist,'visuals')}
+  copy{from new File(base,'licenses');into new File(gameDist,'licenses')}
+  copy{from new File(base,'notices');into new File(gameDist,'notices')}
+  File vmaNotice=new File(gameDist,'licenses/VulkanMemoryAllocator-MIT.txt')
+  vmaNotice.parentFile.mkdirs()
+  java.nio.file.Files.copy(new File(gameVma,'LICENSE.txt').toPath(),vmaNotice.toPath(),java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+  java.nio.file.Files.copy(new File(gameSource,'README_WORLD_RU.txt').toPath(),new File(gameDist,'README_RU.txt').toPath(),java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+
+  def hashes=[:];['DarkWinter.exe','world.dwv','assets.dwa','ui.dwu','trace.comp.spv','ui_regular.ttf','ui_symbols.ttf','ui-languages.tsv','ui-text.tsv','ui-game-rules.tsv','ui-language-sources.json','attribution.html','licenses.html','accessibility.html','notices-sources.json','collision.dwc','avatar.dwp','footsteps.dws'].each{hashes[it]=gameSha(new File(gameDist,it))}
+  ['raster.vert.spv','raster.frag.spv','shadow.vert.spv','shadow.frag.spv','depth_resolve.frag.spv'].each{hashes[it]=gameSha(new File(gameDist,it))}
+  fileTree(new File(gameDist,'visuals')).files.findAll{it.isFile()}.sort{it.name}.each{hashes['visuals/'+it.name]=gameSha(it)}
+  hashes['licenses/VulkanMemoryAllocator-MIT.txt']=gameSha(vmaNotice)
+  new File(gameDist,'build-receipt.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([schema:13,completed:true,artifactSha256:hashes,dependencies:[vma:[version:'3.3.0',license:'MIT',headerSha256:gameSha(new File(gameVma,'vk_mem_alloc.h'))]],appearance:[profile:'clean forest with exact snow joins',materialOverrides:new JsonSlurper().parse(file('native/darkwinter-client/export/material-overrides.json'))],renderer:'Vulkan raster + original DarkWinter visual graph',runtime:'Native C++/Win32/Vulkan; no JVM',generator:4,residentSections:1183,coordinateExtentBlocks:65536]))+'\n'
+ }
+}
+tasks.register('coreInspectFlatIcons'){
+ group='verification';dependsOn 'coreExportNativeUi'
+ description='Inspect the resolved source models for native flat-world GUI icons.'
+ notCompatibleWithConfigurationCache('Resolved local game resources.')
+ doLast{
+  gameExecute(['python',new File(gameSource,'build-tools/export-flat-icons.py').absolutePath,projectDir.absolutePath,file('build/core/ui-flat-icons').absolutePath,'--inspect-only'])
+ }
+}
+tasks.register('coreReviewGameUi'){
+ group='verification';dependsOn 'coreBuildGame'
+ description='Capture every reachable native menu in an isolated 2560x1440 UI session.'
+ notCompatibleWithConfigurationCache('Owned native UI process and immutable screenshots.')
+ doLast{
+  File report=new File(gameRun,'menu-review')
+  gameExecute(['python',new File(gameSource,'build-tools/audit-native-ui.py').absolutePath,'--exe',new File(gameDist,'DarkWinter.exe').absolutePath,'--report',report.absolutePath,'--phase','menus','--max-seconds','600'])
+  def result=new JsonSlurper().parse(new File(report,'audit.json'))
+  if(!result.completed)throw new GradleException('Native menu capture incomplete')
+  file('build/core/latest-ui-review.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,dist:gameDist.absolutePath,report:report.absolutePath,audit:new File(report,'audit.json').absolutePath,visualParity:'not_assessed']))+'\n'
+  logger.lifecycle('CORE_UI_CAPTURE_PASS '+report.absolutePath)
+ }
+}
+tasks.register('coreReviewGameLoading'){
+ group='verification';dependsOn 'coreBuildGame'
+ description='Capture native loading, cancellation, pause and reopen through the real UI in isolated saves.'
+ notCompatibleWithConfigurationCache('Owned native UI process and immutable screenshots.')
+ doLast{
+  File report=new File(gameRun,'loading-review')
+  gameExecute(['python',new File(gameSource,'build-tools/audit-native-loading.py').absolutePath,'--exe',new File(gameDist,'DarkWinter.exe').absolutePath,'--report',report.absolutePath,'--max-seconds','300'])
+  def result=new JsonSlurper().parse(new File(report,'audit.json'))
+  if(!result.completed)throw new GradleException('Native loading lifecycle review incomplete')
+  file('build/core/latest-loading-review.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,dist:gameDist.absolutePath,report:report.absolutePath,audit:new File(report,'audit.json').absolutePath,visualParity:'not_assessed']))+'\n'
+  logger.lifecycle('CORE_LOADING_UI_PASS '+report.absolutePath)
+ }
+}
+
+
+tasks.register('coreReviewGameWorldOptions'){
+ group='verification';dependsOn 'coreBuildGame'
+ description='Exercise world settings, rule commits, mode abilities and persistence through the real native UI.'
+ notCompatibleWithConfigurationCache('Owned native UI processes and isolated save snapshots.')
+ doLast{
+  File report=new File(gameRun,'world-options-review')
+  gameExecute(['python',new File(gameSource,'build-tools/audit-native-world-options.py').absolutePath,'--exe',new File(gameDist,'DarkWinter.exe').absolutePath,'--report',report.absolutePath,'--max-seconds','600'])
+  def result=new JsonSlurper().parse(new File(report,'audit.json'))
+  if(!result.completed)throw new GradleException('Native world-options-review incomplete')
+  file('build/core/latest-world-options-review.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,dist:gameDist.absolutePath,report:report.absolutePath,audit:new File(report,'audit.json').absolutePath,visualParity:'not_assessed']))+'\n'
+  logger.lifecycle('CORE_WORLD_OPTIONS_PASS '+report.absolutePath)
+ }
+}
+tasks.register('coreReviewGameLoadFailure'){
+ group='verification';dependsOn 'coreBuildGame'
+ description='Check fatal loading failure and exact-byte recovery using only isolated audit snapshots.'
+ notCompatibleWithConfigurationCache('Owned native UI processes and isolated save snapshots.')
+ doLast{
+  File report=new File(gameRun,'load-failure-review')
+  gameExecute(['python',new File(gameSource,'build-tools/audit-native-load-failure.py').absolutePath,'--exe',new File(gameDist,'DarkWinter.exe').absolutePath,'--report',report.absolutePath,'--max-seconds','600'])
+  def result=new JsonSlurper().parse(new File(report,'audit.json'))
+  if(!result.completed)throw new GradleException('Native load-failure-review incomplete')
+  file('build/core/latest-load-failure-review.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,dist:gameDist.absolutePath,report:report.absolutePath,audit:new File(report,'audit.json').absolutePath,visualParity:'not_assessed']))+'\n'
+  logger.lifecycle('CORE_LOAD_FAILURE_PASS '+report.absolutePath)
+ }
+}
+
+tasks.register('coreVerifyGame'){
+ group='verification';dependsOn 'coreBuildGame'
+ notCompatibleWithConfigurationCache('Owned native integration and persistence checks.')
+ doLast{
+  gameRun.mkdirs()
+  ['player-checks','player-transition-checks','generation-checks','ui-checks','world-ui-checks'].each{name->
+   def sources=['native/darkwinter-client/checks/'+name+'.cpp','native/darkwinter-client/src/player.cpp','WKE/runtime/src/scene.cpp']
+   if(name=='ui-checks')sources+=['native/darkwinter-client/src/ui.cpp']
+   if(name=='generation-checks')sources+=['native/darkwinter-client/src/generation.cpp','native/darkwinter-client/src/streaming.cpp']
+   File binary=new File(gameRun,name+'.exe');gameCompile(sources,binary,false)
+   gameExecute([binary.absolutePath,gameDist.absolutePath,new File(gameRun,name).absolutePath])
+  }
+  File report=new File(gameRun,'ui');report.mkdirs()
+  gameExecute([new File(gameDist,'DarkWinter.exe').absolutePath,'--hidden','--verify','--exercise-ui','--frames','720','--report',report.absolutePath])
+  def result=new JsonSlurper().parse(new File(report,'stage6.json'))
+  if(!result.completed||!result.fullscreen||!result.windowRestored||!result.pause||!result.firstPerson||result.cancelledLoads<1||!result.reload||result.generatedColumns<=81||result.residentSections!=1183||result.oracleRays<=300)throw new GradleException('Native game exercise incomplete')
+  file('build/core/latest-game.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,dist:gameDist.absolutePath,run:gameRun.absolutePath,result:result]))+'\n'
+  logger.lifecycle('CORE_GAME_PASS '+gameRun.absolutePath)
+ }
+}
+tasks.register('coreCheckRasterScene') {
+ group='verification';dependsOn 'coreBuildGame'
+ description='Verify raster-only streaming, bounded picking, edit publication and persistence.'
+ notCompatibleWithConfigurationCache('Isolated native scene and journal fixtures.')
+ doLast {
+  File report=new File(gameRun,'raster-scene');report.mkdirs()
+  File binary=new File(gameRun,'raster-scene-checks.exe')
+  gameCompile(['native/darkwinter-client/checks/generation-checks.cpp','native/darkwinter-client/src/player.cpp','WKE/runtime/src/scene.cpp','native/darkwinter-client/src/generation.cpp','native/darkwinter-client/src/streaming.cpp'],binary,false)
+  gameExecute([binary.absolutePath,gameDist.absolutePath,report.absolutePath,'--raster-only'])
+ }
+}
+tasks.register('coreCheckAntialiasing') {
+ group='verification';dependsOn 'coreBuildGame'
+ description='Render a bounded isolated native world through the normal MSAA path.'
+ notCompatibleWithConfigurationCache('Real Vulkan validation and native render capture.')
+ doLast {
+  File report=new File(gameRun,'antialiasing');report.mkdirs()
+  gameExecute([new File(gameDist,'DarkWinter.exe').absolutePath,'--hidden','--windowed','--play','--frames','180','--report',report.absolutePath])
+  def result=new JsonSlurper().parse(new File(report,'stage6.json'))
+  if(!result.completed||result.validationErrors!=0||result.filteredTextureFrames<100)throw new GradleException('Native antialiasing validation failed: '+result)
+  logger.lifecycle('CORE_AA_PASS samples='+result.antialiasingSamples+' report='+report.absolutePath)
+  file('build/core/latest-antialiasing.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,dist:gameDist.absolutePath,report:report.absolutePath,result:result]))+'\n'
+ }
+}
+
+tasks.register('coreCheckAntialiasingMotion') {
+ group='verification';dependsOn 'coreBuildGame'
+ description='Exercise native movement, camera transitions and save/reload through the normal MSAA renderer.'
+ notCompatibleWithConfigurationCache('Bounded native gameplay on isolated test saves.')
+ doLast {
+  File report=new File(gameRun,'antialiasing-motion');report.mkdirs()
+  gameExecute([new File(gameDist,'DarkWinter.exe').absolutePath,'--hidden','--play','--render-motion','--frames','360','--report',report.absolutePath])
+  def result=new JsonSlurper().parse(new File(report,'stage6.json'))
+  if(!result.completed||result.validationErrors!=0||result.filteredTextureFrames!=360)throw new GradleException('Native AA motion exercise incomplete: '+result)
+  logger.lifecycle('CORE_AA_MOTION_PASS samples='+result.antialiasingSamples+' report='+report.absolutePath)
+ }
+}
+tasks.register('coreAuditGame'){
+ group='verification';dependsOn 'coreVerifyGame'
+ notCompatibleWithConfigurationCache('Standalone package audit.')
+ doLast{
+  File audit=new File(gameRun,'audit')
+  gameExecute(['python',new File(gameSource,'build-tools/audit-world.py').absolutePath,projectDir.absolutePath,audit.absolutePath,gameDist.absolutePath,file('build/core/latest-game.json').absolutePath,'DarkWinter-Native-Windows-x64.zip'])
+  file('build/core/latest-game-audit.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,dist:gameDist.absolutePath,run:gameRun.absolutePath,audit:new File(audit,'audit.json').absolutePath]))+'\n'
+ }
+}
+tasks.register('coreRunGame'){
+ group='application';dependsOn 'coreAuditGame'
+ notCompatibleWithConfigurationCache('Interactive native game.')
+ doLast{
+  File report=file('build/core/game-interactive/'+gameStamp);report.mkdirs()
+  def builder=new ProcessBuilder([new File(gameDist,'DarkWinter.exe').absolutePath,'--report',report.absolutePath,'--saves',file('build/core/world-client/saves').absolutePath]).directory(gameDist)
+  def inherited=new HashMap(builder.environment());builder.environment().clear()
+  ['SystemRoot','WINDIR','TEMP','TMP','USERPROFILE','LOCALAPPDATA','APPDATA'].each{key->if(inherited[key]!=null)builder.environment()[key]=inherited[key]}
+  builder.environment()['PATH']=new File(System.getenv('SystemRoot'),'System32').absolutePath
+  def process=builder.start();Thread.sleep(2000)
+  if(new File(report,'error.json').isFile())throw new GradleException(new File(report,'error.json').getText('UTF-8'))
+  if(!process.isAlive())throw new GradleException('Native game exited during startup')
+  file('build/core/latest-game-interactive.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([started:true,pid:process.pid(),report:report.absolutePath]))+'\n'
+  logger.lifecycle('CORE_GAME_STARTED '+process.pid())
+ }
+}

@@ -28,7 +28,10 @@ public abstract class MenuListSkinMixin {
         if(MenuStyle.themed(Minecraft.getInstance().gui.screen())) {
             var bounds=(LayoutElement)entry;
             boolean world=entry instanceof net.minecraft.client.gui.screens.worldselection.WorldSelectionList.WorldListEntry;
-            MenuStyle.listSelection(g,bounds.getX(),bounds.getY()+(world?2:0),bounds.getWidth(),Math.max(1,bounds.getHeight()-(world?4:0)),((AbstractWidget)(Object)this).isFocused());
+            if(Minecraft.getInstance().gui.screen() instanceof net.minecraft.client.gui.screens.options.LanguageSelectScreen)
+                com.dark.winter.client.vector.SvgHud.surface(g,bounds.getX(),bounds.getY(),bounds.getWidth(),bounds.getHeight(),
+                        com.dark.winter.client.vector.MenuSurface.SELECTED,((AbstractWidget)(Object)this).isFocused()?1:.25f,com.dark.winter.client.HudStyle.STABLE);
+            else MenuStyle.listSelection(g,bounds.getX(),bounds.getY()+(world?2:0),bounds.getWidth(),Math.max(1,bounds.getHeight()-(world?4:0)),((AbstractWidget)(Object)this).isFocused());
             ci.cancel();
         }
     }

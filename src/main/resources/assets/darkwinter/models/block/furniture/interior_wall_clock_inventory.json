@@ -1,0 +1,117 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "interior_oiled_pine": "darkwinter:block/interior/interior_oiled_pine",
+    "interior_black_iron": "darkwinter:block/interior/interior_black_iron",
+    "interior_dulled_brass": "darkwinter:block/interior/interior_dulled_brass",
+    "interior_clock_paper": "darkwinter:block/interior/interior_clock_paper",
+    "particle": "darkwinter:block/interior/interior_oiled_pine"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        1.0,
+        1.0,
+        6.77179
+      ],
+      "to": [
+        15.0,
+        15.0,
+        9.22821
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_oiled_pine"
+        },
+        "up": {
+          "texture": "#interior_oiled_pine"
+        },
+        "north": {
+          "texture": "#interior_oiled_pine"
+        },
+        "south": {
+          "texture": "#interior_oiled_pine"
+        },
+        "west": {
+          "texture": "#interior_oiled_pine"
+        },
+        "east": {
+          "texture": "#interior_oiled_pine"
+        }
+      }
+    }
+  ]
+}

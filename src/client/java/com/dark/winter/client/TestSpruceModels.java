@@ -2,6 +2,11 @@
 package com.dark.winter.client;
 
 import com.dark.winter.worldgen.TestSpruceBlocks;
+import com.dark.winter.worldgen.TestBiomeCompatibility;
+import com.dark.winter.worldgen.TestTerrainBlocks;
+import com.dark.winter.block.TestSnowyGrassSlabBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.properties.SlabType;
 import com.dark.winter.worldgen.TestSpruceBoughBlock;
 import com.dark.winter.worldgen.TestSpruceLogBlock;
 import com.mojang.math.Transformation;
@@ -10,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLevelEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.model.loading.v1.wrapper.WrapperBlockStateModel;
 import net.fabricmc.fabric.api.client.renderer.v1.Renderer;
@@ -34,11 +41,14 @@ import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ColorResolver;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
@@ -48,9 +58,11 @@ import org.jspecify.annotations.Nullable;
 
 /** Finite, reload-scoped meshes for the two test-tree IDs. No vanilla model or render pass is changed. */
 public final class TestSpruceModels {
-    public static final int WOOD_TAG=0x445754, NEEDLE_TAG=0x445755, SNOW_TAG=0x445756, ROOT_SNOW_TAG=0x445757;
+    public static final int WOOD_TAG=0x445754, NEEDLE_TAG=0x445755, SNOW_TAG=0x445756, ROOT_SNOW_TAG=0x445757, ROOT_SNOW_WALL_TAG=0x44575F;
     private static final int[] DX={0,1,1,1,0,-1,-1,-1}, DZ={-1,-1,0,1,1,1,0,-1};
     private static boolean registered;
+    private static volatile Biome testBiome;
+    private static final ColorResolver TEST_BIOME=SnowBiomePresentation.TERRAIN_MEMBERSHIP;
     private TestSpruceModels() {}
 
     /** Exposes the actual baked chunk mesh to the client verification fixtures. */
@@ -59,6 +71,10 @@ public final class TestSpruceModels {
     public static synchronized void init() {
         if(registered)return;
         registered=true;
+        SnowBiomePresentation.registerTerrainResolver();
+        ClientLevelEvents.AFTER_CLIENT_LEVEL_CHANGE.register((client,level)->testBiome=level.registryAccess()
+                .lookupOrThrow(Registries.BIOME).get(TestBiomeCompatibility.BIOME).map(h->h.value()).orElse(null));
+        ClientPlayConnectionEvents.DISCONNECT.register((listener,client)->testBiome=null);
         ModelLoadingPlugin.register(plugin -> {
             // A new cache belongs to each resource reload, so baked atlas materials never outlive it.
             Map<ModelBaker,Models> caches=new ConcurrentHashMap<>();
@@ -90,32 +106,38 @@ public final class TestSpruceModels {
     }
 
     private static final class Models {
-        final Material.Baked bark,needles,snow,groundSnow;
+        final Material.Baked bark,needles,snow,groundSnow,testGroundSnow;
         final Map<Integer,Part> parts=new ConcurrentHashMap<>();
         Models(ModelBaker baker) {
             bark=material(baker,"test_spruce_bark");
             needles=material(baker,"test_spruce_needles");
             snow=material(baker,"test_spruce_snow");
-            // This small join belongs visually to the existing surface snow. The
-            // branch-snow artwork would leave a differently coloured square here.
+            // Root collars use the surrounding biome's ground material; branch snow stays authored separately.
             groundSnow=baker.materials().get(new Material(Identifier.fromNamespaceAndPath("minecraft","block/snow")),
-                    () -> "DarkWinter test spruce ground-snow join");
+                    () -> "DarkWinter spruce ground-snow join");
+            testGroundSnow=material(baker,"test_ground_snow");
         }
         Part part(BlockState state,int aboveRadius) {
             return part(state,aboveRadius,false,0,0);
         }
         Part part(BlockState state,int aboveRadius,boolean connectedBelow,int snowHeight,int snowSides) {
+            return part(state,aboveRadius,connectedBelow,snowHeight,snowSides,false);
+        }
+        Part part(BlockState state,int aboveRadius,boolean connectedBelow,int snowHeight,int snowSides,boolean privateGroundSnow) {
+            return part(state,aboveRadius,connectedBelow,snowHeight,snowSides,privateGroundSnow,0);
+        }
+        Part part(BlockState state,int aboveRadius,boolean connectedBelow,int snowHeight,int snowSides,boolean privateGroundSnow,int snowWalls) {
             boolean log=state.is(TestSpruceBlocks.LOG);
             // Only finite neighbour classes enter the reload-scoped cache, never world
             // coordinates: radius, connection, and eight possible ground-snow heights.
             int key=log?(state.getValue(RotatedPillarBlock.AXIS).ordinal()*32+state.getValue(TestSpruceLogBlock.RADIUS)*6+aboveRadius)
-                        |(connectedBelow?1<<8:0)|(snowHeight<<9)|(snowSides<<13)
+                        |(connectedBelow?1<<8:0)|(snowHeight<<9)|(snowSides<<13)|(privateGroundSnow?1<<17:0)|(snowWalls<<18)
                     :128+state.getValue(TestSpruceBoughBlock.DIRECTION)*16+state.getValue(TestSpruceBoughBlock.DROP)*8
                         +state.getValue(TestSpruceBoughBlock.VARIANT)*2+(state.getValue(TestSpruceBoughBlock.TIP)?1:0);
             return parts.computeIfAbsent(key,ignored -> {
-                Builder b=new Builder(this);
+                Builder b=new Builder(this,privateGroundSnow);
                 if(log)trunk(b,state.getValue(RotatedPillarBlock.AXIS),state.getValue(TestSpruceLogBlock.RADIUS),
-                        aboveRadius,connectedBelow,snowHeight,snowSides);
+                        aboveRadius,connectedBelow,snowHeight,snowSides,snowWalls);
                 else bough(b,state.getValue(TestSpruceBoughBlock.DIRECTION),state.getValue(TestSpruceBoughBlock.DROP),
                         state.getValue(TestSpruceBoughBlock.VARIANT),state.getValue(TestSpruceBoughBlock.TIP));
                 return b.finish(log?bark:needles);
@@ -129,7 +151,7 @@ public final class TestSpruceModels {
     }
 
     private static void trunk(Builder b,Direction.Axis axis,int radius,int aboveRadius,
-                              boolean connectedBelow,int snowHeight,int snowSides) {
+                              boolean connectedBelow,int snowHeight,int snowSides,int snowWalls) {
         float r=trunkRadius(radius);
         float upper=aboveRadius>0?trunkRadius(aboveRadius):radius==1?.025f:r*.84f;
         // Eight unequal broad facets read as bark and bevels, not a perfectly circular pipe.
@@ -155,7 +177,7 @@ public final class TestSpruceModels {
             if(!connectedBelow)b.face(WOOD_TAG,bottom,rings[0][i],rings[0][j],rings[0][j]);
             if(aboveRadius==0)b.face(WOOD_TAG,top,rings[1][j],rings[1][i],rings[1][i]);
         }
-        if(axis==Direction.Axis.Y&&snowHeight>0)groundSnow(b,r,upper,snowHeight,snowSides);
+        if(axis==Direction.Axis.Y&&snowHeight>0)groundSnow(b,r,upper,snowHeight,snowSides,snowWalls);
         if(axis==Direction.Axis.Y&&radius==1&&aboveRadius==0) {
             // The living leader ends in a narrow needle crown, not an exposed sharpened pole.
             for(int direction=0;direction<8;direction+=2) {
@@ -173,16 +195,17 @@ public final class TestSpruceModels {
         return switch(axis){case X->new V(n.y,-n.x,n.z);case Z->new V(n.x,-n.z,n.y);default->n;};
     }
 
-    private static void groundSnow(Builder b,float radius,float upper,int layers,int sides) {
+    private static void groundSnow(Builder b,float radius,float upper,int layers,int sides,int walls) {
         // Rendering only: the narrow log occupies one cell in which the ordinary
         // snow block cannot coexist. Join that empty visual rim to adjacent snow
         // instead of exposing a square of soil around an otherwise narrow trunk.
+        // Match the neighboring snow plane; a raised inner ring makes a visible faceted fan.
         float y=layers/8f,inner=(radius+(upper-radius)*y)*.985f;
         float[] cx={-1,-.52f,.52f,1,1,.52f,-.52f,-1};
         float[] cz={-.52f,-1,-1,-.52f,.52f,1,1,.52f};
         V[] inside=new V[8],outside=new V[8];
         for(int i=0;i<8;i++) {
-            inside[i]=new V(.5f+cx[i]*inner,y+.018f,.5f+cz[i]*inner);
+            inside[i]=new V(.5f+cx[i]*inner,y,.5f+cz[i]*inner);
             outside[i]=new V(.5f+cx[i]*.5f,y,.5f+cz[i]*.5f);
         }
         V up=new V(0,1,0);V[] normals={up,up,up,up};
@@ -199,6 +222,18 @@ public final class TestSpruceModels {
                 b.face(ROOT_SNOW_TAG,new V(cornerX,y,cornerZ),outside[i],outside[j],outside[j],
                         false,.01f,.99f,normals,true);
             }
+        }
+        // Close only exposed outer edges of the private ground collar. Shared snow
+        // and solid contacts already close the volume and must not contain extra faces.
+        for(int side=0;side<4;side++)if((walls&(1<<side))!=0) {
+            V a,c;
+            switch(side) {
+                case 0->{a=new V(0,0,0);c=new V(1,y,0);}
+                case 1->{a=new V(1,0,0);c=new V(1,y,1);}
+                case 2->{a=new V(1,0,1);c=new V(0,y,1);}
+                default->{a=new V(0,0,1);c=new V(0,y,0);}
+            }
+            b.face(ROOT_SNOW_WALL_TAG,a,new V(a.x,y,a.z),c,new V(c.x,0,c.z),false,.01f,.99f,null,true);
         }
     }
 
@@ -268,10 +303,11 @@ public final class TestSpruceModels {
 
     private static final class Builder {
         final Models materials;
+        final boolean privateGroundSnow;
         final net.fabricmc.fabric.api.client.renderer.v1.mesh.MutableMesh mutable=Renderer.get().mutableMesh();
         final QuadEmitter emitter=mutable.emitter();
         final List<BakedQuad> quads=new ArrayList<>();
-        Builder(Models materials){this.materials=materials;}
+        Builder(Models materials,boolean privateGroundSnow){this.materials=materials;this.privateGroundSnow=privateGroundSnow;}
         void face(int tag,V a,V b,V c,V d){face(tag,a,b,c,d,false);}
         void face(int tag,V a,V b,V c,V d,boolean reverse) {
             face(tag,a,b,c,d,reverse,.01f,.99f);
@@ -285,7 +321,7 @@ public final class TestSpruceModels {
         void face(int tag,V a,V b,V c,V d,boolean reverse,float u0,float u1,V[] normals,boolean groundSnow) {
             V[] p=reverse?new V[]{d,c,b,a}:new V[]{a,b,c,d};
             V n=p[1].sub(p[0]).cross(p[2].sub(p[0])).unit();
-            Material.Baked material=groundSnow?materials.groundSnow
+            Material.Baked material=groundSnow?(privateGroundSnow?materials.testGroundSnow:materials.groundSnow)
                     :tag==WOOD_TAG?materials.bark:tag==SNOW_TAG?materials.snow:materials.needles;
             for(int i=0;i<4;i++) {
                 V v=p[i];
@@ -294,7 +330,10 @@ public final class TestSpruceModels {
                 emitter.pos(i,v.x,v.y,v.z).normal(i,lighting.x,lighting.y,lighting.z);
                 // For the needle card, the first two vertices are its root edge (left of texture).
                 int source=reverse?3-i:i;
-                if(groundSnow) {
+                if(tag==ROOT_SNOW_WALL_TAG) {
+                    float u=Math.abs(n.x)>.5f?v.z:v.x;
+                    emitter.uv(i,.001f+u*.998f,.001f+(1-v.y)*.998f);
+                } else if(groundSnow) {
                     emitter.uv(i,.001f+v.x*.998f,.001f+v.z*.998f);
                 } else if(tag==SNOW_TAG) {
                     // One continuous projection across the whole low snow patch. Switching
@@ -450,19 +489,59 @@ public final class TestSpruceModels {
             BlockState previous=level.getBlockState(pos.relative(axis.getOpposite()));
             boolean connectedBelow=previous.is(TestSpruceBlocks.LOG)
                     &&previous.getValue(RotatedPillarBlock.AXIS)==state.getValue(RotatedPillarBlock.AXIS);
-            int snowHeight=0,snowSides=0;
+            boolean privateBiome=testBiome!=null&&SnowBiomePresentation.matchesTerrainTint(level.getBlockTint(pos,TEST_BIOME));
+            int snowHeight=0,snowSides=0,snowWalls=0;
             if(axis==Direction.UP&&!connectedBelow&&previous.isFaceSturdy(level,pos.below(),Direction.UP)) {
-                int lowest=8;
+                int lowest=8,terrainSides=0;
                 for(int side=0;side<4;side++) {
                     int direction=side*2;
-                    BlockState neighbour=level.getBlockState(pos.offset(DX[direction],0,DZ[direction]));
-                    int layers=neighbour.is(Blocks.SNOW)?neighbour.getValue(SnowLayerBlock.LAYERS)
-                            :neighbour.is(Blocks.SNOW_BLOCK)?8:0;
+                    BlockPos neighbourPos=pos.offset(DX[direction],0,DZ[direction]);
+                    BlockState neighbour=level.getBlockState(neighbourPos);
+                    int layers=groundCover(level,neighbourPos,neighbour,privateBiome);
                     if(layers>0){snowSides|=1<<side;lowest=Math.min(lowest,layers);}
+                    else {
+                        Direction face=switch(side){case 0->Direction.NORTH;case 1->Direction.EAST;
+                            case 2->Direction.SOUTH;default->Direction.WEST;};
+                        if(neighbour.isFaceSturdy(level,neighbourPos,face.getOpposite()))terrainSides|=1<<side;
+                    }
                 }
-                if(snowSides!=0)snowHeight=lowest;
+                // A terrace closes the floor rim but never supplies snow height on its own.
+                if(privateBiome&&TestSnowTerrainModels.soil(previous)){
+                    for(int direction=1;direction<8;direction+=2){
+                        BlockPos diagonal=pos.offset(DX[direction],0,DZ[direction]);
+                        int layers=groundCover(level,diagonal,level.getBlockState(diagonal),true);
+                        if(layers>0){lowest=Math.min(lowest,layers);snowSides|=15;}
+                    }
+                    // Raised natural root pedestals may have snow only below this cell.
+                    // Keep existing contact heights (including slab caps); only an isolated
+                    // private-biome root receives the ordinary one-layer visual floor.
+                    if(snowSides==0)lowest=1;
+                    snowSides=15;
+                }
+                if(snowSides!=0){snowHeight=lowest;snowSides|=terrainSides;}
+                if(privateBiome&&TestSnowTerrainModels.soil(previous)&&snowHeight>0) {
+                    for(int side=0;side<4;side++) {
+                        int direction=side*2;
+                        BlockPos neighbourPos=pos.offset(DX[direction],0,DZ[direction]);
+                        BlockState neighbour=level.getBlockState(neighbourPos);
+                        Direction face=switch(side){case 0->Direction.NORTH;case 1->Direction.EAST;
+                            case 2->Direction.SOUTH;default->Direction.WEST;};
+                        if(groundCover(level,neighbourPos,neighbour,true)<snowHeight
+                                &&!neighbour.isFaceSturdy(level,neighbourPos,face.getOpposite()))snowWalls|=1<<side;
+                    }
+                }
             }
-            return models.part(state,radius,connectedBelow,snowHeight,snowSides);
+            boolean privateGroundSnow=snowHeight>0&&privateBiome;
+            return models.part(state,radius,connectedBelow,snowHeight,snowSides,privateGroundSnow,snowWalls);
+        }
+        private static int groundCover(BlockAndTintGetter level,BlockPos pos,BlockState state,boolean privateBiome) {
+            if(state.is(Blocks.SNOW))return state.getValue(SnowLayerBlock.LAYERS);
+            if(state.is(Blocks.SNOW_BLOCK))return 8;
+            if(!privateBiome||!state.getFluidState().isEmpty())return 0;
+            if(TestGroundSnowModels.groundPlant(state))return TestGroundSnowModels.overlayLayers(level,pos);
+            if(state.is(TestTerrainBlocks.SNOWY_GRASS_SLAB)&&state.getValue(SlabBlock.TYPE)==SlabType.BOTTOM
+                    &&state.getValue(TestSnowyGrassSlabBlock.SNOWY)&&!state.getValue(SlabBlock.WATERLOGGED))return 5;
+            return 0;
         }
         @Override public Mesh mesh(){return base.mesh();}
         @Override public int quadCount(){return base.quads().size();}
@@ -473,8 +552,20 @@ public final class TestSpruceModels {
         @Override public Material.Baked particleMaterial(BlockAndTintGetter level,BlockPos pos,BlockState state){return particleMaterial();}
         @Override public int materialFlags(BlockAndTintGetter level,BlockPos pos,BlockState state,RandomSource random){return materialFlags();}
         @Override public boolean hasMaterialFlag(BlockAndTintGetter level,BlockPos pos,BlockState state,RandomSource random,int flag){return hasMaterialFlag(flag);}
-        @Override public void emitQuads(QuadEmitter emitter,BlockAndTintGetter level,BlockPos pos,BlockState state,RandomSource random,Predicate<@Nullable Direction> cullTest){at(level,pos).emitQuads(emitter,cullTest);}
-        @Override public Object createGeometryKey(BlockAndTintGetter level,BlockPos pos,BlockState state,RandomSource random){return at(level,pos).mesh();}
+        private void tracePart(int type,BlockAndTintGetter level,BlockPos pos,BlockState state,Part part) {
+            if(com.dark.winter.client.diagnostics.vegetation.VegetationTrace.enabled())
+                com.dark.winter.client.diagnostics.vegetation.VegetationTrace.model(type,
+                        state.is(TestSpruceBlocks.BOUGH)?"test_spruce_bough":"test_spruce_log",level,pos,
+                        net.minecraft.world.level.block.Block.getId(state),part.mesh(),part.quads().size());
+        }
+        @Override public void emitQuads(QuadEmitter emitter,BlockAndTintGetter level,BlockPos pos,BlockState state,RandomSource random,Predicate<@Nullable Direction> cullTest){
+            Part part=at(level,pos);tracePart(com.dark.winter.client.diagnostics.vegetation.VegetationTrace.MODEL_EMIT,level,pos,state,part);
+            part.emitQuads(emitter,cullTest);
+        }
+        @Override public Object createGeometryKey(BlockAndTintGetter level,BlockPos pos,BlockState state,RandomSource random){
+            Part part=at(level,pos);tracePart(com.dark.winter.client.diagnostics.vegetation.VegetationTrace.MODEL_KEY,level,pos,state,part);
+            return part.mesh();
+        }
     }
 
     private static final class TreeItemModel implements ItemModel,MeshBackedModel {

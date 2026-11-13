@@ -12,6 +12,11 @@ import com.mojang.renderpearl.api.pipeline.PrimitiveTopology;
 import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import com.mojang.renderpearl.api.pipeline.UniformType;
 import com.mojang.renderpearl.api.textures.FilterMode;
+import com.mojang.renderpearl.api.textures.AddressMode;
+import com.mojang.renderpearl.api.textures.GpuSampler;
+import net.minecraft.client.TextureFilteringMethod;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import com.mojang.renderpearl.api.vertex.VertexFormat;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -60,8 +65,8 @@ public final class SpruceNeedleRenderer {
     private static final int NEEDLE_VERTICES = 2 * (SEGMENTS - 1) * 6;
     private static final int WOOD_VERTICES = 4 * SEGMENTS * 6;
     private static final Direction[] FACES = Direction.values();
-    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath("darkwinter", "textures/block/spruce_branch.png");
-    private static final Identifier BARK_TEXTURE = Identifier.withDefaultNamespace("textures/block/spruce_log.png");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath("darkwinter", "block/spruce_branch");
+    private static final Identifier BARK_TEXTURE = Identifier.withDefaultNamespace("block/spruce_log");
     private static final RenderStateDataKey<Frame> FRAME = RenderStateDataKey.create(() -> "DarkWinter spruce wind");
     private static final VertexFormat INSTANCES = VertexFormat.builder(1)
             .addAttribute("AnchorPhase", GpuFormat.RGBA32_FLOAT)
@@ -91,6 +96,8 @@ public final class SpruceNeedleRenderer {
     private float lastAmplitude, lastWindX, lastWindZ;
     private GpuBuffer vertices;
     private MappableRingBuffer instances, wind;
+    private GpuSampler materialSampler;
+    private int materialMipLevels, materialAnisotropy;
     private final Map<GpuBuffer, Long> uploadedRevisions = new HashMap<>();
 
     private SpruceNeedleRenderer() {}
@@ -109,11 +116,13 @@ public final class SpruceNeedleRenderer {
     }
 
     public record Metrics(int sprigs, int blockChecks, int drawnSprigs, long uploads, long renderedFrames,
-                          float windAmplitude, boolean gpuAllocated, long rootInvalidations) {}
+                          float windAmplitude, boolean gpuAllocated, long rootInvalidations,
+                          int materialMipLevels, int materialAnisotropy, boolean atlasMaterial) {}
 
     public static Metrics metrics() {
         return new Metrics(INSTANCE.batch.sprigs.size(), INSTANCE.checked, INSTANCE.drawn, INSTANCE.uploads,
-                INSTANCE.frames, INSTANCE.lastAmplitude, INSTANCE.vertices != null, INSTANCE.rootInvalidations);
+                INSTANCE.frames, INSTANCE.lastAmplitude, INSTANCE.vertices != null, INSTANCE.rootInvalidations,
+                INSTANCE.materialMipLevels, INSTANCE.materialAnisotropy, INSTANCE.materialSampler != null);
     }
 
     public static int instanceCount() { return INSTANCE.batch.sprigs.size(); }
@@ -290,19 +299,36 @@ public final class SpruceNeedleRenderer {
             uploadedRevisions.put(instanceBuffer, frame.batch.revision);
             uploads++;
         }
+        // Reuse the mipmapped world atlas instead of separate mip0-only SimpleTextures.
+        Minecraft client = Minecraft.getInstance();
+        TextureAtlas atlas = (TextureAtlas) client.getTextureManager().getTexture(TextureAtlas.LOCATION_BLOCKS);
+        TextureAtlasSprite needles = atlas.getSprite(TEXTURE), bark = atlas.getSprite(BARK_TEXTURE);
+        int anisotropy = client.options.textureFiltering().get() == TextureFilteringMethod.ANISOTROPIC
+                ? client.options.maxAnisotropyValue() : 1;
+        if (materialSampler == null || materialSampler.getMaxAnisotropy() != anisotropy) {
+            if (materialSampler != null) materialSampler.close();
+            materialSampler = RenderSystem.getDevice().createSampler(AddressMode.CLAMP_TO_EDGE, AddressMode.CLAMP_TO_EDGE,
+                    FilterMode.LINEAR, FilterMode.LINEAR, anisotropy, OptionalDouble.empty());
+        }
+        materialMipLevels = atlas.getTexture().getMipLevels();
+        materialAnisotropy = materialSampler.getMaxAnisotropy();
         GpuBuffer uniformBuffer = wind.currentBuffer();
+        long traceUniformHash = 0;
         try (var mapped = uniformBuffer.map(false, true)) {
             ByteBuffer data = mapped.data().order(ByteOrder.nativeOrder());
             data.putFloat(frame.windX).putFloat(frame.windZ).putFloat(frame.amplitude).putFloat(frame.seconds);
             data.putFloat((float) (frame.batch.origin.getX() - camera.pos.x))
                     .putFloat((float) (frame.batch.origin.getY() - camera.pos.y))
                     .putFloat((float) (frame.batch.origin.getZ() - camera.pos.z)).putFloat(RADIUS);
+            writeAtlasBounds(data, needles);
+            writeAtlasBounds(data, bark);
+            if (com.dark.winter.client.diagnostics.vegetation.VegetationTrace.enabled())
+                for (int offset = 0; offset < 64; offset += 8)
+                    traceUniformHash ^= com.dark.winter.client.diagnostics.vegetation.VegetationTrace.mix(data.getLong(offset) + offset);
         }
         var game = context.gameRenderer();
         var target = game.mainRenderTarget();
         // Texture loading, mapped-buffer writes and dynamic-UBO allocation must precede the pass.
-        var texture = Minecraft.getInstance().getTextureManager().getTexture(TEXTURE);
-        var bark = Minecraft.getInstance().getTextureManager().getTexture(BARK_TEXTURE);
         var transform = RenderSystem.getDynamicUniforms().writeTransform(new Matrix4f(camera.viewRotationMatrix));
         var lightmap = game.lightmap();
         var lightmapSampler = RenderSystem.getSamplerCache().getClampToEdge(FilterMode.LINEAR);
@@ -314,12 +340,11 @@ public final class SpruceNeedleRenderer {
             RenderSystem.bindDefaultUniforms(pass);
             pass.setUniform("DynamicTransforms", transform);
             pass.setUniform("SpruceWind", uniformBuffer);
-            pass.setUniform("Sampler0", texture.getTextureView(), texture.getSampler());
+            pass.setUniform("Sampler0", atlas.getTextureView(), materialSampler);
             pass.setUniform("Sampler2", lightmap, lightmapSampler);
             pass.setVertexBuffer(0, vertices.slice());
             pass.setVertexBuffer(1, instanceBuffer.slice());
             pass.draw(NEEDLE_VERTICES, frame.batch.sprigs.size(), 0, 0);
-            pass.setUniform("Sampler0", bark.getTextureView(), bark.getSampler());
             pass.draw(WOOD_VERTICES, frame.batch.sprigs.size(), NEEDLE_VERTICES, 0);
         }
         instances.rotate();
@@ -329,6 +354,24 @@ public final class SpruceNeedleRenderer {
         lastWindX = frame.windX;
         lastWindZ = frame.windZ;
         frames++;
+        if (com.dark.winter.client.diagnostics.vegetation.VegetationTrace.enabled()) {
+            var trace = frame.batch;
+            if (com.dark.winter.client.diagnostics.vegetation.VegetationTrace.needsPopulation(trace.epoch, trace.revision)) {
+                com.dark.winter.client.diagnostics.vegetation.VegetationTrace.populationBegin(trace.epoch, trace.revision,
+                        trace.origin, trace.sprigs.size());
+                for (int index = 0; index < trace.sprigs.size(); index++) {
+                    Sprig sprig = trace.sprigs.get(index);
+                    com.dark.winter.client.diagnostics.vegetation.VegetationTrace.populationSprig(index, sprig.pos.asLong(),
+                            sprig.face.ordinal(), sprig.shapeKey, sprig.branch.hashCode(), sprig.color, sprig.blockLight, sprig.skyLight);
+                }
+            }
+            com.dark.winter.client.diagnostics.vegetation.VegetationTrace.wind(frame.seconds, frame.amplitude,
+                    frame.windX, frame.windZ, drawn, checked, rootInvalidations, traceUniformHash);
+        }
+    }
+
+    private static void writeAtlasBounds(ByteBuffer data, TextureAtlasSprite sprite) {
+        data.putFloat(sprite.getU0()).putFloat(sprite.getV0()).putFloat(sprite.getU1()).putFloat(sprite.getV1());
     }
 
     private void ensureBuffers() {
@@ -366,7 +409,7 @@ public final class SpruceNeedleRenderer {
         vertices = RenderSystem.getDevice().createBuffer(() -> "DarkWinter spruce card", GpuBuffer.USAGE_VERTEX, data);
         instances = new MappableRingBuffer(() -> "DarkWinter spruce instances", GpuBuffer.USAGE_VERTEX | GpuBuffer.USAGE_MAP_WRITE,
                 MAX_SPRIGS * INSTANCE_BYTES);
-        wind = new MappableRingBuffer(() -> "DarkWinter spruce wind", GpuBuffer.USAGE_UNIFORM | GpuBuffer.USAGE_MAP_WRITE, 32);
+        wind = new MappableRingBuffer(() -> "DarkWinter spruce wind", GpuBuffer.USAGE_UNIFORM | GpuBuffer.USAGE_MAP_WRITE, 64);
     }
 
     private static void writeInstance(ByteBuffer data, Sprig sprig, BlockPos origin) {
@@ -388,6 +431,9 @@ public final class SpruceNeedleRenderer {
         if (vertices != null) vertices.close();
         if (instances != null) instances.close();
         if (wind != null) wind.close();
+        if (materialSampler != null) materialSampler.close();
+        materialSampler = null;
+        materialMipLevels = materialAnisotropy = 0;
         vertices = null;
         instances = wind = null;
         uploadedRevisions.clear();

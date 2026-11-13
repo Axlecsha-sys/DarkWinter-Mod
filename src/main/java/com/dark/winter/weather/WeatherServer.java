@@ -137,6 +137,13 @@ public final class WeatherServer {
         ClimateTimeline state = CLIMATES.get(server);
         return state == null ? null : state.sample(tick(server));
     }
+    /** Surface simulation consumes the same precipitation timeline as the visual host. Server-thread only. */
+    public static WeatherValues surfaceWeather(MinecraftServer server) {
+        if (com.dark.winter.testing.TestingServer.isTesting(server))
+            return com.dark.winter.testing.TestingWeather.weather(server);
+        WeatherTimeline state = STATES.get(server);
+        return state == null ? null : state.sample(tick(server));
+    }
     public static ClimateGeography geography(MinecraftServer server) { return GEOGRAPHIES.get(server); }
 
     private static void neutralizeVanillaWeather(MinecraftServer server) {

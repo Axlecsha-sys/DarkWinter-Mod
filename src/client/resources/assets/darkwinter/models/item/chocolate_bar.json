@@ -1,0 +1,151 @@
+{
+  "parent": "minecraft:block/block",
+  "gui_light": "side",
+  "ambientocclusion": true,
+  "textures": {
+    "label_5": "darkwinter:item/provisions_v2/horizontal_wrappers",
+    "navy": "darkwinter:item/provisions_v2/materials",
+    "paper": "darkwinter:item/provisions_v2/materials",
+    "particle": "darkwinter:item/provisions_v2/horizontal_wrappers"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        12,
+        18,
+        6
+      ],
+      "scale": [
+        1.08,
+        1.08,
+        1.08
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.65,
+        0.65,
+        0.65
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        2,
+        1
+      ],
+      "scale": [
+        0.55,
+        0.55,
+        0.55
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        -25,
+        0
+      ],
+      "translation": [
+        1,
+        1,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        2,
+        1
+      ],
+      "scale": [
+        0.55,
+        0.55,
+        0.55
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        0,
+        25,
+        0
+      ],
+      "translation": [
+        -1,
+        1,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        2.09046,
+        4.445781,
+        7.36483
+      ],
+      "to": [
+        13.91721,
+        11.587294,
+        8.644906
+      ],
+      "faces": {
+        "up": {
+          "texture": "#label_5"
+        },
+        "down": {
+          "texture": "#label_5"
+        },
+        "north": {
+          "texture": "#label_5"
+        },
+        "south": {
+          "texture": "#label_5"
+        },
+        "east": {
+          "texture": "#label_5"
+        },
+        "west": {
+          "texture": "#label_5"
+        }
+      }
+    }
+  ]
+}

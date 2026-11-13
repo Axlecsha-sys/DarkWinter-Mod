@@ -1,0 +1,8 @@
+{
+  "feature": "darkwinter:test_snow_terraces",
+  "placement": [
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

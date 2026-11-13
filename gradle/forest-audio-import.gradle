@@ -1,0 +1,31 @@
+// Explicit, hash-checked import of prepared audio; never runs during ordinary builds.
+import groovy.json.JsonSlurper
+import java.security.MessageDigest
+tasks.register('forestAudioImport') {
+    group='assets'
+    notCompatibleWithConfigurationCache('Explicit local prepared-asset import.')
+    doLast {
+        def request=new JsonSlurper().parse(file('build/forest-audio-import-request.json'))
+        def source=new File(request.source.toString()).canonicalFile
+        def expected=['bird-source.wav','creak-source.wav','manifest.json',
+            'forest_bird_01.ogg','forest_bird_02.ogg','forest_bird_03.ogg',
+            'forest_creak_01.ogg','forest_creak_02.ogg','forest_creak_03.ogg','forest_creak_04.ogg'] as Set
+        if(request.files.size()!=expected.size() || request.files.collect{it.name}.toSet()!=expected)
+            throw new GradleException('Prepared forest audio set is incomplete.')
+        def soundDir=file('src/client/resources/assets/darkwinter/sounds/ambient')
+        def masterDir=file('docs/audio/forest-clear-20261108/source')
+        soundDir.mkdirs();masterDir.mkdirs()
+        request.files.each { item ->
+            def input=new File(source,item.name.toString()).canonicalFile
+            if(input.parentFile!=source||!input.isFile()||input.length()!=item.bytes||input.length()>8388608)
+                throw new GradleException('Invalid prepared audio input: '+item.name)
+            def hash=MessageDigest.getInstance('SHA-256').digest(input.bytes).encodeHex().toString()
+            if(hash!=item.sha256)throw new GradleException('Prepared audio hash mismatch: '+item.name)
+            def output=new File(item.name.endsWith('.ogg')?soundDir:masterDir,item.name.toString())
+            if(output.exists()&&MessageDigest.getInstance('SHA-256').digest(output.bytes).encodeHex().toString()!=hash)
+                throw new GradleException('Refusing to overwrite a different audio asset: '+output.name)
+            if(!output.exists())output.bytes=input.bytes
+        }
+        logger.lifecycle('FOREST_AUDIO_IMPORTED 7 mono Vorbis variants; original WAV and processing manifest retained.')
+    }
+}

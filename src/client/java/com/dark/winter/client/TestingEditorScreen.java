@@ -251,6 +251,10 @@ public final class TestingEditorScreen extends Screen implements LabUiProvider {
         gatedPair("Снежная тайга","biome",()->action("biome","snowy_taiga"),"Зелёная тайга","biome",()->action("biome","taiga"));
         gatedPair("Луг / трава","biome",()->action("biome","plains"),"Пустыня","biome",()->action("biome","desert"));
         caption("Строения и авторские участки защищены.");
+        if(!OnlineTestingView.active()){
+            row("Восстановить пропуски снега рядом",()->action("repair_snow",""));
+            captionWrapped("Только природные пропуски в darkwinter_test в радиусе 32 блоков. История правок и защищённые участки сохраняются; действие отменяется через Undo.");
+        }
         caption("Растительность • независимые категории",HudStyle.INK);
         for(String type:List.of("grass","bushes","trees")){
             String label=switch(type){case "grass"->"Трава";case "bushes"->"Кусты";default->"Деревья";};

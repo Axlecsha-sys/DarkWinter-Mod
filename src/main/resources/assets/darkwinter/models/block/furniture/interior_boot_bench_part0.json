@@ -1,0 +1,236 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "home_set_warm_pine": "darkwinter:block/interior/home_set_warm_pine",
+    "home_set_worn_iron": "darkwinter:block/interior/home_set_worn_iron",
+    "home_set_galvanized_zinc": "darkwinter:block/interior/home_set_galvanized_zinc",
+    "particle": "darkwinter:block/interior/home_set_warm_pine"
+  },
+  "elements": [
+    {
+      "from": [
+        1.42,
+        0,
+        4.66
+      ],
+      "to": [
+        2.65,
+        7.24,
+        5.74
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        1.42,
+        0,
+        10.65
+      ],
+      "to": [
+        2.65,
+        7.24,
+        11.73
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        13.35,
+        0,
+        4.66
+      ],
+      "to": [
+        14.58,
+        7.24,
+        5.74
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        13.35,
+        0,
+        10.65
+      ],
+      "to": [
+        14.58,
+        7.24,
+        11.73
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        0.72,
+        7.24,
+        3.82
+      ],
+      "to": [
+        15.28,
+        8.24,
+        12.42
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        2.43,
+        1.45,
+        4.52
+      ],
+      "to": [
+        13.57,
+        2.02,
+        11.62
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        2.78,
+        2.02,
+        4.88
+      ],
+      "to": [
+        13.22,
+        3.66,
+        11.42
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_galvanized_zinc"
+        },
+        "up": {
+          "texture": "#home_set_galvanized_zinc"
+        },
+        "north": {
+          "texture": "#home_set_galvanized_zinc"
+        },
+        "south": {
+          "texture": "#home_set_galvanized_zinc"
+        },
+        "west": {
+          "texture": "#home_set_galvanized_zinc"
+        },
+        "east": {
+          "texture": "#home_set_galvanized_zinc"
+        }
+      }
+    }
+  ]
+}

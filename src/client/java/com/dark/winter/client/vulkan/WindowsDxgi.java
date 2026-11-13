@@ -126,14 +126,27 @@ final class WindowsDxgi implements AutoCloseable {
     void copy(Com list, Com allocator, Com destination, Com source) {
         hresult(allocator.integer(8));
         hresult(list.integer(10, allocator.address(), MemorySegment.NULL));
-        list.nothing(17, destination.address(), source.address());
-        hresult(list.integer(9));
         try (Arena arena = Arena.ofConfined()) {
+            transition(list, arena, destination, 0, 0x400);
+            list.nothing(17, destination.address(), source.address());
+            // DIRECT-queue writes do not decay to COMMON for ordinary swapchain textures.
+            transition(list, arena, destination, 0x400, 0);
+            hresult(list.integer(9));
             MemorySegment pointers = arena.allocate(ValueLayout.ADDRESS);
             pointers.set(ValueLayout.ADDRESS, 0, list.address());
             // ExecuteCommandLists returns void, as specified by the native D3D12 interface.
             queue.nothing(10, 1, pointers);
         }
+    }
+
+    private static void transition(Com list, Arena arena, Com resource, int before, int after) {
+        // Windows x64 D3D12_RESOURCE_BARRIER: header8, transition union24, alignment8.
+        MemorySegment barrier = zero(arena, 32, 8);
+        barrier.set(ValueLayout.ADDRESS, 8, resource.address());
+        barrier.set(ValueLayout.JAVA_INT, 16, -1); // All subresources.
+        barrier.set(ValueLayout.JAVA_INT, 20, before);
+        barrier.set(ValueLayout.JAVA_INT, 24, after);
+        list.nothing(26, 1, barrier);
     }
 
     void waitForVulkan(long value) { hresult(queue.integer(15, fence.address(), value)); }

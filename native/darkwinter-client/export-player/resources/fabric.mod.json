@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "darkwinter-player-export",
+  "version": "1.0.0",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.dark.winter.export.PlayerExport"
+    ],
+    "fabric-client-gametest": [
+      "com.dark.winter.export.PlayerExport"
+    ]
+  },
+  "depends": {
+    "dark-winter": "*",
+    "fabric-client-gametest-api-v1": "*"
+  }
+}

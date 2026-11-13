@@ -44,6 +44,7 @@ public final class WeatherEffects {
     private WeatherEffects() { }
 
     public static void init() {
+        ForestAmbience.init();
         ParticleProviderRegistry.getInstance().register(WeatherParticles.SNOW_FLAKE, SnowWeatherParticle.Provider::new);
         ParticleProviderRegistry.getInstance().register(WeatherParticles.GROUND_SNOW, GroundSnowParticle.Provider::new);
         ParticleProviderRegistry.getInstance().register(WeatherParticles.BREATH, BreathParticle.Provider::new);

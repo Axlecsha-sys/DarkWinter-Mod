@@ -1,0 +1,661 @@
+{
+  "items": 40,
+  "faces": 8820,
+  "counts": {
+    "canned_corn": 352,
+    "canned_peas": 352,
+    "canned_tomatoes": 352,
+    "canned_peaches": 352,
+    "canned_mushroom_soup": 352,
+    "canned_chicken_noodle_soup": 352,
+    "peanut_butter": 272,
+    "berry_jam": 272,
+    "condensed_milk": 352,
+    "processed_cheese": 120,
+    "salted_peanuts": 180,
+    "beef_jerky": 180,
+    "granola_bar": 120,
+    "potato_chips": 180,
+    "smoked_sausage": 304,
+    "chocolate_bar": 120,
+    "wafers": 120,
+    "oatmeal_cookies": 180,
+    "energy_bar": 120,
+    "instant_noodles": 180,
+    "potato_flakes": 48,
+    "corn_flakes": 48,
+    "cola": 352,
+    "energy_cola": 352,
+    "lemon_lime_soda": 352,
+    "ginger_ale": 352,
+    "orange_soda": 352,
+    "root_beer": 352,
+    "apple_juice": 25,
+    "orange_juice": 25,
+    "grape_juice": 25,
+    "iced_tea": 25,
+    "fruit_drink": 180,
+    "black_tea": 48,
+    "coffee": 272,
+    "cocoa": 48,
+    "rosehip_infusion": 288,
+    "chaga_infusion": 288,
+    "cranberry_drink": 288,
+    "lingonberry_drink": 288
+  },
+  "kinds": {
+    "canned_corn": "tin",
+    "canned_peas": "tin",
+    "canned_tomatoes": "tin",
+    "canned_peaches": "tin",
+    "canned_mushroom_soup": "tin",
+    "canned_chicken_noodle_soup": "tin",
+    "peanut_butter": "jar",
+    "berry_jam": "jar",
+    "condensed_milk": "tin",
+    "processed_cheese": "folded_cheese_wrapper",
+    "salted_peanuts": "creased_pouch",
+    "beef_jerky": "creased_pouch",
+    "granola_bar": "crimped_wrapper",
+    "potato_chips": "creased_pouch",
+    "smoked_sausage": "tied_sausage",
+    "chocolate_bar": "crimped_wrapper",
+    "wafers": "crimped_wrapper",
+    "oatmeal_cookies": "creased_pouch",
+    "energy_bar": "crimped_wrapper",
+    "instant_noodles": "creased_pouch",
+    "potato_flakes": "folded_carton",
+    "corn_flakes": "folded_carton",
+    "cola": "drink_can",
+    "energy_cola": "drink_can",
+    "lemon_lime_soda": "drink_can",
+    "ginger_ale": "drink_can",
+    "orange_soda": "drink_can",
+    "root_beer": "drink_can",
+    "apple_juice": "gable_carton",
+    "orange_juice": "gable_carton",
+    "grape_juice": "gable_carton",
+    "iced_tea": "gable_carton",
+    "fruit_drink": "creased_pouch",
+    "black_tea": "folded_carton",
+    "coffee": "jar",
+    "cocoa": "folded_carton",
+    "rosehip_infusion": "bottle",
+    "chaga_infusion": "bottle",
+    "cranberry_drink": "bottle",
+    "lingonberry_drink": "bottle"
+  },
+  "materialGutter": 0.035,
+  "materialTiles": {
+    "canned_corn": {
+      "metal": 6
+    },
+    "canned_peas": {
+      "metal": 6
+    },
+    "canned_tomatoes": {
+      "metal": 6
+    },
+    "canned_peaches": {
+      "metal": 6
+    },
+    "canned_mushroom_soup": {
+      "metal": 6
+    },
+    "canned_chicken_noodle_soup": {
+      "metal": 6
+    },
+    "peanut_butter": {
+      "glass": 9,
+      "navy": 3
+    },
+    "berry_jam": {
+      "glass": 9,
+      "navy": 2
+    },
+    "condensed_milk": {
+      "metal": 6
+    },
+    "processed_cheese": {
+      "navy": 1,
+      "paper": 0
+    },
+    "salted_peanuts": {
+      "navy": 3,
+      "kraft": 3
+    },
+    "beef_jerky": {
+      "navy": 2,
+      "kraft": 2
+    },
+    "granola_bar": {
+      "navy": 1,
+      "paper": 1
+    },
+    "potato_chips": {
+      "navy": 3,
+      "kraft": 3
+    },
+    "smoked_sausage": {
+      "kraft": 7,
+      "navy": 14
+    },
+    "chocolate_bar": {
+      "navy": 2,
+      "paper": 2
+    },
+    "wafers": {
+      "navy": 2,
+      "paper": 2
+    },
+    "oatmeal_cookies": {
+      "navy": 4,
+      "kraft": 4
+    },
+    "energy_bar": {
+      "navy": 2,
+      "paper": 2
+    },
+    "instant_noodles": {
+      "navy": 5,
+      "kraft": 5
+    },
+    "potato_flakes": {
+      "paper": 4,
+      "kraft": 4
+    },
+    "corn_flakes": {
+      "paper": 3,
+      "kraft": 3
+    },
+    "cola": {
+      "metal": 6
+    },
+    "energy_cola": {
+      "metal": 6
+    },
+    "lemon_lime_soda": {
+      "metal": 6
+    },
+    "ginger_ale": {
+      "metal": 6
+    },
+    "orange_soda": {
+      "metal": 6
+    },
+    "root_beer": {
+      "metal": 6
+    },
+    "apple_juice": {
+      "paper": 1,
+      "navy": 14,
+      "kraft": 1
+    },
+    "orange_juice": {
+      "paper": 3,
+      "navy": 14,
+      "kraft": 3
+    },
+    "grape_juice": {
+      "paper": 2,
+      "navy": 14,
+      "kraft": 2
+    },
+    "iced_tea": {
+      "paper": 5,
+      "navy": 14,
+      "kraft": 5
+    },
+    "fruit_drink": {
+      "navy": 2,
+      "kraft": 2
+    },
+    "black_tea": {
+      "paper": 1,
+      "kraft": 1
+    },
+    "coffee": {
+      "glass": 9,
+      "navy": 5
+    },
+    "cocoa": {
+      "paper": 2,
+      "kraft": 2
+    },
+    "rosehip_infusion": {
+      "glass": 9,
+      "navy": 14
+    },
+    "chaga_infusion": {
+      "glass": 9,
+      "navy": 14
+    },
+    "cranberry_drink": {
+      "glass": 9,
+      "navy": 14
+    },
+    "lingonberry_drink": {
+      "glass": 9,
+      "navy": 14
+    }
+  },
+  "labelTiles": {
+    "canned_corn": {
+      "alias": "label_0",
+      "columns": 4,
+      "rows": 2,
+      "front": 0,
+      "allowed": [
+        0
+      ]
+    },
+    "canned_peas": {
+      "alias": "label_0",
+      "columns": 4,
+      "rows": 2,
+      "front": 1,
+      "allowed": [
+        1
+      ]
+    },
+    "canned_tomatoes": {
+      "alias": "label_0",
+      "columns": 4,
+      "rows": 2,
+      "front": 2,
+      "allowed": [
+        2
+      ]
+    },
+    "canned_peaches": {
+      "alias": "label_0",
+      "columns": 4,
+      "rows": 2,
+      "front": 3,
+      "allowed": [
+        3
+      ]
+    },
+    "canned_mushroom_soup": {
+      "alias": "label_0",
+      "columns": 4,
+      "rows": 2,
+      "front": 4,
+      "allowed": [
+        4
+      ]
+    },
+    "canned_chicken_noodle_soup": {
+      "alias": "label_0",
+      "columns": 4,
+      "rows": 2,
+      "front": 5,
+      "allowed": [
+        5
+      ]
+    },
+    "peanut_butter": {
+      "alias": "label_0",
+      "columns": 4,
+      "rows": 2,
+      "front": 6,
+      "allowed": [
+        6
+      ]
+    },
+    "berry_jam": {
+      "alias": "label_0",
+      "columns": 4,
+      "rows": 2,
+      "front": 7,
+      "allowed": [
+        7
+      ]
+    },
+    "condensed_milk": {
+      "alias": "label_1",
+      "columns": 4,
+      "rows": 2,
+      "front": 0,
+      "allowed": [
+        0
+      ]
+    },
+    "processed_cheese": {
+      "alias": "label_5",
+      "columns": 2,
+      "rows": 4,
+      "front": 0,
+      "allowed": [
+        0,
+        5
+      ]
+    },
+    "salted_peanuts": {
+      "alias": "label_1",
+      "columns": 4,
+      "rows": 2,
+      "front": 2,
+      "allowed": [
+        2
+      ]
+    },
+    "beef_jerky": {
+      "alias": "label_1",
+      "columns": 4,
+      "rows": 2,
+      "front": 3,
+      "allowed": [
+        3
+      ]
+    },
+    "granola_bar": {
+      "alias": "label_5",
+      "columns": 2,
+      "rows": 4,
+      "front": 1,
+      "allowed": [
+        1,
+        6
+      ]
+    },
+    "potato_chips": {
+      "alias": "label_1",
+      "columns": 4,
+      "rows": 2,
+      "front": 5,
+      "allowed": [
+        5
+      ]
+    },
+    "smoked_sausage": {
+      "alias": "label_1",
+      "columns": 4,
+      "rows": 2,
+      "front": 6,
+      "allowed": [
+        6
+      ]
+    },
+    "chocolate_bar": {
+      "alias": "label_5",
+      "columns": 2,
+      "rows": 4,
+      "front": 2,
+      "allowed": [
+        2,
+        7
+      ]
+    },
+    "wafers": {
+      "alias": "label_5",
+      "columns": 2,
+      "rows": 4,
+      "front": 3,
+      "allowed": [
+        3,
+        7
+      ]
+    },
+    "oatmeal_cookies": {
+      "alias": "label_2",
+      "columns": 4,
+      "rows": 2,
+      "front": 1,
+      "allowed": [
+        1
+      ]
+    },
+    "energy_bar": {
+      "alias": "label_5",
+      "columns": 2,
+      "rows": 4,
+      "front": 4,
+      "allowed": [
+        4,
+        6
+      ]
+    },
+    "instant_noodles": {
+      "alias": "label_2",
+      "columns": 4,
+      "rows": 2,
+      "front": 3,
+      "allowed": [
+        3
+      ]
+    },
+    "potato_flakes": {
+      "alias": "label_2",
+      "columns": 4,
+      "rows": 2,
+      "front": 4,
+      "allowed": [
+        4
+      ]
+    },
+    "corn_flakes": {
+      "alias": "label_2",
+      "columns": 4,
+      "rows": 2,
+      "front": 5,
+      "allowed": [
+        5
+      ]
+    },
+    "cola": {
+      "alias": "label_2",
+      "columns": 4,
+      "rows": 2,
+      "front": 6,
+      "allowed": [
+        6
+      ]
+    },
+    "energy_cola": {
+      "alias": "label_2",
+      "columns": 4,
+      "rows": 2,
+      "front": 7,
+      "allowed": [
+        7
+      ]
+    },
+    "lemon_lime_soda": {
+      "alias": "label_3",
+      "columns": 4,
+      "rows": 2,
+      "front": 0,
+      "allowed": [
+        0
+      ]
+    },
+    "ginger_ale": {
+      "alias": "label_3",
+      "columns": 4,
+      "rows": 2,
+      "front": 1,
+      "allowed": [
+        1
+      ]
+    },
+    "orange_soda": {
+      "alias": "label_3",
+      "columns": 4,
+      "rows": 2,
+      "front": 2,
+      "allowed": [
+        2
+      ]
+    },
+    "root_beer": {
+      "alias": "label_3",
+      "columns": 4,
+      "rows": 2,
+      "front": 3,
+      "allowed": [
+        3
+      ]
+    },
+    "apple_juice": {
+      "alias": "label_3",
+      "columns": 4,
+      "rows": 2,
+      "front": 4,
+      "allowed": [
+        4
+      ]
+    },
+    "orange_juice": {
+      "alias": "label_3",
+      "columns": 4,
+      "rows": 2,
+      "front": 5,
+      "allowed": [
+        5
+      ]
+    },
+    "grape_juice": {
+      "alias": "label_3",
+      "columns": 4,
+      "rows": 2,
+      "front": 6,
+      "allowed": [
+        6
+      ]
+    },
+    "iced_tea": {
+      "alias": "label_3",
+      "columns": 4,
+      "rows": 2,
+      "front": 7,
+      "allowed": [
+        7
+      ]
+    },
+    "fruit_drink": {
+      "alias": "label_4",
+      "columns": 4,
+      "rows": 2,
+      "front": 0,
+      "allowed": [
+        0
+      ]
+    },
+    "black_tea": {
+      "alias": "label_4",
+      "columns": 4,
+      "rows": 2,
+      "front": 1,
+      "allowed": [
+        1
+      ]
+    },
+    "coffee": {
+      "alias": "label_4",
+      "columns": 4,
+      "rows": 2,
+      "front": 2,
+      "allowed": [
+        2
+      ]
+    },
+    "cocoa": {
+      "alias": "label_4",
+      "columns": 4,
+      "rows": 2,
+      "front": 3,
+      "allowed": [
+        3
+      ]
+    },
+    "rosehip_infusion": {
+      "alias": "label_4",
+      "columns": 4,
+      "rows": 2,
+      "front": 4,
+      "allowed": [
+        4
+      ]
+    },
+    "chaga_infusion": {
+      "alias": "label_4",
+      "columns": 4,
+      "rows": 2,
+      "front": 5,
+      "allowed": [
+        5
+      ]
+    },
+    "cranberry_drink": {
+      "alias": "label_4",
+      "columns": 4,
+      "rows": 2,
+      "front": 6,
+      "allowed": [
+        6
+      ]
+    },
+    "lingonberry_drink": {
+      "alias": "label_4",
+      "columns": 4,
+      "rows": 2,
+      "front": 7,
+      "allowed": [
+        7
+      ]
+    }
+  },
+  "labelRegions": {
+    "label_5": [
+      [
+        0,
+        0,
+        8,
+        4.375
+      ],
+      [
+        8,
+        0,
+        16,
+        4.375
+      ],
+      [
+        0,
+        4.375,
+        8,
+        8.5
+      ],
+      [
+        8,
+        4.375,
+        16,
+        8.5
+      ],
+      [
+        0,
+        8.5,
+        8,
+        12.25
+      ],
+      [
+        8,
+        8.5,
+        16,
+        12.25
+      ],
+      [
+        0,
+        12.25,
+        8,
+        16
+      ],
+      [
+        8,
+        12.25,
+        16,
+        16
+      ]
+    ]
+  }
+}

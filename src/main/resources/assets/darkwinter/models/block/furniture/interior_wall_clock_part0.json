@@ -1,0 +1,45 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "interior_oiled_pine": "darkwinter:block/interior/interior_oiled_pine",
+    "interior_black_iron": "darkwinter:block/interior/interior_black_iron",
+    "interior_dulled_brass": "darkwinter:block/interior/interior_dulled_brass",
+    "interior_clock_paper": "darkwinter:block/interior/interior_clock_paper",
+    "particle": "darkwinter:block/interior/interior_oiled_pine"
+  },
+  "elements": [
+    {
+      "from": [
+        3.64,
+        3.64,
+        14.47
+      ],
+      "to": [
+        12.36,
+        12.36,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_oiled_pine"
+        },
+        "up": {
+          "texture": "#interior_oiled_pine"
+        },
+        "north": {
+          "texture": "#interior_oiled_pine"
+        },
+        "south": {
+          "texture": "#interior_oiled_pine"
+        },
+        "west": {
+          "texture": "#interior_oiled_pine"
+        },
+        "east": {
+          "texture": "#interior_oiled_pine"
+        }
+      }
+    }
+  ]
+}

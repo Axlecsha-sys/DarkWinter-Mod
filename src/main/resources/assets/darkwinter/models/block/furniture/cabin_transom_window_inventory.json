@@ -1,0 +1,182 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "cabin_window_frame": "darkwinter:block/construction/cabin_window_frame",
+    "cabin_window_sill": "darkwinter:block/construction/cabin_window_sill",
+    "cabin_window_metal": "darkwinter:block/construction/cabin_window_metal",
+    "cabin_clear_glass": "darkwinter:block/construction/cabin_clear_glass",
+    "cabin_linen": "darkwinter:block/construction/cabin_linen",
+    "particle": "darkwinter:block/construction/cabin_window_frame"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        4.5,
+        1.0,
+        7.17969
+      ],
+      "to": [
+        11.5,
+        8.0,
+        8.76781
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cabin_window_frame"
+        },
+        "up": {
+          "texture": "#cabin_window_frame"
+        },
+        "north": {
+          "texture": "#cabin_window_frame"
+        },
+        "south": {
+          "texture": "#cabin_window_frame"
+        },
+        "west": {
+          "texture": "#cabin_window_frame"
+        },
+        "east": {
+          "texture": "#cabin_window_frame"
+        }
+      }
+    },
+    {
+      "from": [
+        4.50437,
+        1.0175,
+        7.02219
+      ],
+      "to": [
+        11.49563,
+        1.51625,
+        8.97781
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cabin_window_sill"
+        },
+        "up": {
+          "texture": "#cabin_window_sill"
+        },
+        "north": {
+          "texture": "#cabin_window_sill"
+        },
+        "south": {
+          "texture": "#cabin_window_sill"
+        },
+        "west": {
+          "texture": "#cabin_window_sill"
+        },
+        "east": {
+          "texture": "#cabin_window_sill"
+        }
+      }
+    },
+    {
+      "from": [
+        4.5,
+        8.0,
+        7.17969
+      ],
+      "to": [
+        11.5,
+        15.0,
+        8.76781
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cabin_window_frame"
+        },
+        "up": {
+          "texture": "#cabin_window_frame"
+        },
+        "north": {
+          "texture": "#cabin_window_frame"
+        },
+        "south": {
+          "texture": "#cabin_window_frame"
+        },
+        "west": {
+          "texture": "#cabin_window_frame"
+        },
+        "east": {
+          "texture": "#cabin_window_frame"
+        }
+      }
+    }
+  ]
+}

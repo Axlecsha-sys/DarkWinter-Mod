@@ -1,6 +1,7 @@
 // Decorative, non-ticking multi-block furniture; no containers or other interactions.
 package com.dark.winter.block;
 
+import com.dark.winter.placement.SurfacePlacement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,12 +51,16 @@ public class FurnitureBlock extends HorizontalDirectionalBlock {
         super(properties);
         this.definition = definition;
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(PART, 0));
+        createShapes(outlines, collisions, 1);
+    }
+
+    final void createShapes(VoxelShape[][] outlines, VoxelShape[][] collisions, double width) {
         for (int part = 0; part < MAX_PARTS; part++) {
             for (Direction facing : Direction.Plane.HORIZONTAL) {
                 VoxelShape outline = Shapes.empty(), collision = Shapes.empty();
                 if (part < definition.parts().size()) {
                     for (FurnitureCatalog.Box box : definition.parts().get(part).boxes()) {
-                        VoxelShape shape = rotatedBox(box, facing);
+                        VoxelShape shape = rotatedBox(box, facing, width);
                         outline = Shapes.or(outline, shape);
                         if (box.collision()) collision = Shapes.or(collision, shape);
                     }
@@ -74,7 +79,7 @@ public class FurnitureBlock extends HorizontalDirectionalBlock {
         if (!definition.group().equals("road")) return false;
         // Cones and delineators also use the road material but retain their actual geometry.
         return switch (definition.id()) {
-            case "asphalt_block", "asphalt_white_line", "asphalt_dashed_line", "asphalt_crosswalk" -> true;
+            case "asphalt_block", "asphalt_white_line", "asphalt_dashed_line", "asphalt_crosswalk", "asphalt_edge_line" -> true;
             default -> false;
         };
     }
@@ -100,19 +105,23 @@ public class FurnitureBlock extends HorizontalDirectionalBlock {
 
     @Override
     public @Nullable BlockState getStateForPlacement(BlockPlaceContext context) {
-        Direction facing = context.getHorizontalDirection().getOpposite();
+        return getStateForPlacement(context, state(0, context.getHorizontalDirection().getOpposite()));
+    }
+
+    final @Nullable BlockState getStateForPlacement(BlockPlaceContext context, BlockState rootState) {
+        Direction facing = rootState.getValue(FACING);
         Level level = context.getLevel();
         BlockPos origin = context.getClickedPos();
         for (int part = 0; part < definition.parts().size(); part++) {
             BlockPos target = origin.offset(partOffset(part, facing));
-            BlockState state = state(part, facing);
+            BlockState state = rootState.setValue(PART, part);
             if (!level.isInWorldBounds(target) || !level.getWorldBorder().isWithinBounds(target)
                     || !level.getBlockState(target).canBeReplaced(context)
                     || context.getPlayer() != null && (!context.getPlayer().mayUseItemAt(target, context.getClickedFace(), context.getItemInHand())
                         || !level.mayInteract(context.getPlayer(), target))
-                    || !level.isUnobstructed(state, target, CollisionContext.placementContext(context.getPlayer()))) return null;
+                    || !SurfacePlacement.isUnobstructed(level, state, target, CollisionContext.placementContext(context.getPlayer()))) return null;
         }
-        return state(0, facing);
+        return rootState;
     }
 
     @Override
@@ -127,7 +136,8 @@ public class FurnitureBlock extends HorizontalDirectionalBlock {
             valid = level.isInWorldBounds(target) && level.getWorldBorder().isWithinBounds(target)
                     && (player == null || level.mayInteract(player, target) && player.mayUseItemAt(target, Direction.UP, stack))
                     && (part == 0 || level.getBlockState(target).canBeReplaced())
-                    && level.isUnobstructed(copyVisualState(state, state(part, facing)), target, CollisionContext.placementContext(player));
+                    && SurfacePlacement.isUnobstructed(level, copyVisualState(state, state(part, facing)), target,
+                        CollisionContext.placementContext(player));
         }
         if (!valid) {
             removeAssembly(level, pos, state);
@@ -230,6 +240,8 @@ public class FurnitureBlock extends HorizontalDirectionalBlock {
         BlockPos origin = origin(brokenPos, state);
         Direction facing = state.getValue(FACING);
         boolean complete = state.getValue(PART) < definition.parts().size() && fullyPresent(level, origin, facing);
+        BlockState formerRoot = state.getValue(PART) == 0 ? state : level.getBlockState(origin);
+        boolean knownRoot = matches(formerRoot, 0, facing);
         return mutate(level, origin, () -> {
             boolean removed = false;
             for (int part = 0; part < definition.parts().size(); part++) {
@@ -241,11 +253,26 @@ public class FurnitureBlock extends HorizontalDirectionalBlock {
             if (state.getValue(PART) >= definition.parts().size() && level.getBlockState(brokenPos) == state) {
                 level.setBlock(brokenPos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL | Block.UPDATE_SUPPRESS_DROPS);
             }
+            if (knownRoot && !matches(level.getBlockState(origin), 0, facing)) {
+                afterAssemblyRemoval(level, origin, formerRoot);
+            }
             return complete && removed;
         });
     }
 
-    <T> T mutate(Level level, BlockPos origin, Supplier<T> action) {
+    /** Opt-in post-removal effects may queue work; ordinary furniture has no repair behaviour. */
+    protected void afterAssemblyRemoval(Level level, BlockPos origin, BlockState formerRoot) {}
+
+    /** Validated timed interactions remove a whole assembly without emitting its decorative item. */
+    public final boolean collectAssembly(ServerLevel level,BlockPos origin,BlockState expectedRoot) {
+        if(!level.getServer().isSameThread()||!level.hasChunkAt(origin)||!expectedRoot.is(this)
+                ||expectedRoot.getValue(PART)!=0||level.getBlockState(origin)!=expectedRoot
+                ||!fullyPresent(level,origin,expectedRoot.getValue(FACING)))return false;
+        return removeAssembly(level,origin,expectedRoot);
+    }
+
+    /** Keeps the assembly intact while the placement transaction writes its parts. */
+    public <T> T mutate(Level level, BlockPos origin, Supplier<T> action) {
         Map<Mutation, Integer> mutations = MUTATIONS.get();
         Mutation key = new Mutation(this, level, origin.immutable());
         mutations.merge(key, 1, Integer::sum);
@@ -335,12 +362,12 @@ public class FurnitureBlock extends HorizontalDirectionalBlock {
         };
     }
 
-    private static int facingIndex(Direction facing) {
+    static int facingIndex(Direction facing) {
         return switch (facing) { case EAST -> 1; case SOUTH -> 2; case WEST -> 3; default -> 0; };
     }
 
-    private static VoxelShape rotatedBox(FurnitureCatalog.Box box, Direction facing) {
-        double minX = box.minX(), minZ = box.minZ(), maxX = box.maxX(), maxZ = box.maxZ();
+    static VoxelShape rotatedBox(FurnitureCatalog.Box box, Direction facing, double width) {
+        double minX = box.minX() * width, minZ = box.minZ(), maxX = box.maxX() * width, maxZ = box.maxZ();
         for (int step = 0; step < facingIndex(facing); step++) {
             double nextMinX = 16 - maxZ, nextMaxX = 16 - minZ;
             minZ = minX; maxZ = maxX; minX = nextMinX; maxX = nextMaxX;

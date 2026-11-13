@@ -1,0 +1,711 @@
+{
+  "schema": 1,
+  "scope": [
+    "canned_meat",
+    "canned_fish",
+    "canned_beans",
+    "oat_carton",
+    "cracker_box",
+    "ration_bundle",
+    "water_bottle"
+  ],
+  "itemCount": 7,
+  "description": "Existing decorative pantry props; no registration, consumption, placement, collision, vertices, winding, quad counts or display transforms changed.",
+  "labels": {
+    "canned_meat": {
+      "cell": 0,
+      "brand": "Ridgeline"
+    },
+    "canned_fish": {
+      "cell": 1,
+      "brand": "Northline"
+    },
+    "canned_beans": {
+      "cell": 2,
+      "brand": "Alder Creek Pantry"
+    },
+    "oat_carton": {
+      "cell": 3,
+      "brand": "Timber Trail"
+    },
+    "cracker_box": {
+      "cell": 4,
+      "brand": "Copper Kettle"
+    },
+    "ration_bundle": {
+      "cell": 5,
+      "brand": "Timber Trail"
+    },
+    "water_bottle": {
+      "cell": 6,
+      "brand": "Boreal"
+    }
+  },
+  "paletteBindings": {
+    "legacy_provision_labels": "darkwinter:block/decor/provision_v2_legacy_labels",
+    "legacy_provision_materials": "darkwinter:block/decor/provision_v2_materials"
+  },
+  "labelGrid": [
+    4,
+    2
+  ],
+  "labelGutter": 0.06,
+  "materialGrid": [
+    4,
+    4
+  ],
+  "materialGutter": 0.035,
+  "materialCells": {
+    "paper": 0,
+    "metal": 6,
+    "glass": 9,
+    "navy": 14,
+    "kraft": 15
+  },
+  "mappings": {
+    "canned_meat": [
+      {
+        "sourceAlias": "northern_refined_materials",
+        "sourceCell": 1,
+        "destinationAlias": "legacy_provision_materials",
+        "destinationCell": 6,
+        "destinationGrid": [
+          4,
+          4
+        ],
+        "gutter": 0.035,
+        "semantic": "metal",
+        "quads": 360
+      },
+      {
+        "sourceAlias": "northern_refined_labels",
+        "sourceCell": 7,
+        "destinationAlias": "legacy_provision_materials",
+        "destinationCell": 0,
+        "destinationGrid": [
+          4,
+          4
+        ],
+        "gutter": 0.035,
+        "semantic": "paper",
+        "quads": 24
+      },
+      {
+        "sourceAlias": "northern_refined_labels",
+        "sourceCell": 0,
+        "destinationAlias": "legacy_provision_labels",
+        "destinationCell": 0,
+        "destinationGrid": [
+          4,
+          2
+        ],
+        "gutter": 0.06,
+        "semantic": "product print",
+        "quads": 8
+      }
+    ],
+    "canned_fish": [
+      {
+        "sourceAlias": "northern_refined_materials",
+        "sourceCell": 1,
+        "destinationAlias": "legacy_provision_materials",
+        "destinationCell": 6,
+        "destinationGrid": [
+          4,
+          4
+        ],
+        "gutter": 0.035,
+        "semantic": "metal",
+        "quads": 400
+      },
+      {
+        "sourceAlias": "northern_refined_labels",
+        "sourceCell": 7,
+        "destinationAlias": "legacy_provision_materials",
+        "destinationCell": 0,
+        "destinationGrid": [
+          4,
+          4
+        ],
+        "gutter": 0.035,
+        "semantic": "paper",
+        "quads": 20
+      },
+      {
+        "sourceAlias": "northern_refined_labels",
+        "sourceCell": 1,
+        "destinationAlias": "legacy_provision_labels",
+        "destinationCell": 1,
+        "destinationGrid": [
+          4,
+          2
+        ],
+        "gutter": 0.06,
+        "semantic": "product print",
+        "quads": 1
+      }
+    ],
+    "canned_beans": [
+      {
+        "sourceAlias": "locker_h_hardware",
+        "sourceCell": 0,
+        "destinationAlias": "legacy_provision_materials",
+        "destinationCell": 6,
+        "destinationGrid": [
+          4,
+          4
+        ],
+        "gutter": 0.035,
+        "semantic": "metal",
+        "quads": 180
+      },
+      {
+        "sourceAlias": "provision_labels",
+        "sourceCell": 12,
+        "destinationAlias": "legacy_provision_materials",
+        "destinationCell": 0,
+        "destinationGrid": [
+          4,
+          4
+        ],
+        "gutter": 0.035,
+        "semantic": "paper",
+        "quads": 6
+      },
+      {
+        "sourceAlias": "provision_labels",
+        "sourceCell": 2,
+        "destinationAlias": "legacy_provision_labels",
+        "destinationCell": 2,
+        "destinationGrid": [
+          4,
+          2
+        ],
+        "gutter": 0.06,
+        "semantic": "product print",
+        "quads": 6
+      }
+    ],
+    "oat_carton": [
+      {
+        "sourceAlias": "provision_labels",
+        "sourceCell": 10,
+        "destinationAlias": "legacy_provision_materials",
+        "destinationCell": 15,
+        "destinationGrid": [
+          4,
+          4
+        ],
+        "gutter": 0.035,
+        "semantic": "kraft",
+        "quads": 54
+      },
+      {
+        "sourceAlias": "provision_labels",
+        "sourceCell": 3,
+        "destinationAlias": "legacy_provision_labels",
+        "destinationCell": 3,
+        "destinationGrid": [
+          4,
+          2
+        ],
+        "gutter": 0.06,
+        "semantic": "product print",
+        "quads": 1
+      },
+      {
+        "sourceAlias": "provision_labels",
+        "sourceCell": 12,
+        "destinationAlias": "legacy_provision_materials",
+        "destinationCell": 0,
+        "destinationGrid": [
+          4,
+          4
+        ],
+        "gutter": 0.035,
+        "semantic": "paper",
+        "quads": 28
+      }
+    ],
+    "cracker_box": [
+      {
+        "sourceAlias": "northern_refined_materials",
+        "sourceCell": 13,
+        "destinationAlias": "legacy_provision_materials",
+        "destinationCell": 15,
+        "destinationGrid": [
+          4,
+          4
+        ],
+        "gutter": 0.035,
+        "semantic": "kraft",
+        "quads": 26
+      },
+      {
+        "sourceAlias": "northern_refined_materials",
+        "sourceCell": 12,
+        "destinationAlias": "legacy_provision_materials",
+        "destinationCell": 0,
+        "destinationGrid": [
+          4,
+          4
+        ],
+        "gutter": 0.035,
+        "semantic": "paper",
+        "quads": 234
+      },
+      {
+        "sourceAlias": "northern_refined_labels",
+        "sourceCell": 2,
+        "destinationAlias": "legacy_provision_labels",
+        "destinationCell": 4,
+        "destinationGrid": [
+          4,
+          2
+        ],
+        "gutter": 0.06,
+        "semantic": "product print",
+        "quads": 1
+      }
+    ],
+    "ration_bundle": [
+      {
+        "sourceAlias": "northern_refined_materials",
+        "sourceCell": 13,
+        "destinationAlias": "legacy_provision_materials",
+        "destinationCell": 15,
+        "destinationGrid": [
+          4,
+          4
+        ],
+        "gutter": 0.035,
+        "semantic": "kraft",
+        "quads": 78
+      },
+      {
+        "sourceAlias": "northern_refined_materials",
+        "sourceCell": 12,
+        "destinationAlias": "legacy_provision_materials",
+        "destinationCell": 0,
+        "destinationGrid": [
+          4,
+          4
+        ],
+        "gutter": 0.035,
+        "semantic": "paper",
+        "quads": 266
+      },
+      {
+        "sourceAlias": "northern_refined_labels",
+        "sourceCell": 3,
+        "destinationAlias": "legacy_provision_labels",
+        "destinationCell": 5,
+        "destinationGrid": [
+          4,
+          2
+        ],
+        "gutter": 0.06,
+        "semantic": "product print",
+        "quads": 1
+      }
+    ],
+    "water_bottle": [
+      {
+        "sourceAlias": "northern_refined_materials",
+        "sourceCell": 9,
+        "destinationAlias": "legacy_provision_materials",
+        "destinationCell": 9,
+        "destinationGrid": [
+          4,
+          4
+        ],
+        "gutter": 0.035,
+        "semantic": "glass",
+        "quads": 144
+      },
+      {
+        "sourceAlias": "northern_refined_materials",
+        "sourceCell": 1,
+        "destinationAlias": "legacy_provision_materials",
+        "destinationCell": 6,
+        "destinationGrid": [
+          4,
+          4
+        ],
+        "gutter": 0.035,
+        "semantic": "metal",
+        "quads": 312
+      },
+      {
+        "sourceAlias": "northern_refined_labels",
+        "sourceCell": 4,
+        "destinationAlias": "legacy_provision_labels",
+        "destinationCell": 6,
+        "destinationGrid": [
+          4,
+          2
+        ],
+        "gutter": 0.06,
+        "semantic": "product print",
+        "quads": 1
+      }
+    ]
+  },
+  "preservation": {
+    "src/main/resources/assets/darkwinter/furniture/catalog.json": {
+      "unchangedEntryCount": 137,
+      "unchangedEntryCanonicalSHA256": {
+        "hospital_bed": "5f61de6612895883cb13cc8b1138a44c3fd3b7c304c3d8fd05e41274bf322aa0",
+        "hospital_gurney": "7ade3f6d2b00996c8ee1ea554e4f0005de215dc3ddf83a4b6427822237122dbf",
+        "bedside_cabinet": "dfb437f008223461d653852924ce1e2206154e01623c630d89489e3ee36d6b9f",
+        "medical_cabinet": "8b5e2eb4893a94c1ec92847165692da63db73c400f597184cda308677517e383",
+        "examination_table": "ba2966f3a48c99d3234d2b18359a22c64dd3fc101c606159aec0332d7c943309",
+        "privacy_screen": "1bc5edc7e054bb8f693364c9420e8df321abc57ec4adf4fbdd501f2e431f276b",
+        "waiting_chair": "c2cc0a45a5272abea4684ff8b2db02d5c96363c838d9ce7455c0526bdac2605e",
+        "medical_cart": "acaaf739c3ab5b66a4ca5cbfe03244f38aae26f5055844eef32db90807166e0d",
+        "oxygen_cylinder": "788b7b5e236171042dd1874cffa9348d342f4dac1c2ceeadb9347c817763047c",
+        "wheelchair": "cbc26a22398350699f78f46223febf81a67a0b4f7094bff185bc4e8770b23831",
+        "steel_locker": "3a20764485d0216091365daafb9ad4e86cd501d968fdf35fc199255188db9f32",
+        "rusty_workbench": "00d3917cd3fa3cb415cc9aee393809e3f828a008310de18b159febbbe151ead7",
+        "storage_shelf": "87b10690c94f04934c4142ea9b8ff9198d815036490ab16139dc699357eb348f",
+        "electrical_cabinet": "2696ca257bed13b26c7b7b3df9be1bf10996ebbb5981b39f44367ba473d004d2",
+        "control_console": "3b765d95d2e59eed7a26fecc6fcde989ff68a09872be4501bf361d9a4eef559e",
+        "pipe_rack": "71f85773a072536b8524058a2f06293e9fd4ea81421b552b570a60ee4f1bd072",
+        "metal_crate": "be26c5f9b35d9ecd65197481edecced5c7973ab7f24c25e166d32ee52d0d59f0",
+        "cable_spool": "ddd382aa80d9f2f7a19c38b64d078a46767f2e4ecbc568526eb88af884cdd5dd",
+        "rusty_barrel": "bd36cd2f3db729a1006dc36eb2b0d1f898c72c1b9aedc8a0fb88cfb813711a86",
+        "ventilation_unit": "405e231d65e5613cf6ff73582da7c19d296c763d3cc9632725100b070dc3ac44",
+        "worn_sofa": "a56a5cc129d4054edc5d24fffb3090014a023e4d37f3000f28b93cd995b62127",
+        "wooden_chair": "7f69c61886520e893ffa0d05f72c38ee5901be07419633a667957eb48168a3f4",
+        "dining_table": "cdddbbb892f8935a8724596538b0ae46c0ff0aa069f178fb340604a07b451ca3",
+        "writing_desk": "4eec8149751146350133cdff2376350d6a505bd573f6c54cb74fc5bb2c623b57",
+        "low_cabinet": "8bc3d720d37a6b9cc028f1a0111ea13324cb4364beeb12a7f506d24f25b763bd",
+        "wooden_wardrobe": "89e36ed04f9b55ac6c185aeeced2bc68775bfc183dbad68839602475bbf825b5",
+        "kitchen_sink": "b12d1500131a3d8d33694da0e046e4d69ff63e1cf59d5d3e99c0cc849bd2cd78",
+        "old_fridge": "21c66a6eb9bb69128308aab1f7d0c517faf20f288880da801e965793b69edd7e",
+        "old_tv": "b7cda5f65079672a273ff6114ee2f309024f8af8da94004d22a131ec269b6029",
+        "radiator": "2e7d93df86013ce61d302ee1f854b7eeab7c9554c5a9909856c4373acfeed102",
+        "park_bench": "d3a66e125d3fc7857582e0e4de1278f6d390dc6e3baf1b1056e91253c959e3f8",
+        "trash_bin": "fb505ba9a7c98416c1b2b6b373efec3518c0a4840f2697f6d55589bb16cc0297",
+        "street_lamp": "b2f920e78fe42acbcaf3b5073dd3b2478563367c6f02f065a47343aa22998070",
+        "road_barrier": "edec4c1181f4a8ab1e104609f5f1759127a9ff62328aa22c1a2ee325a7dbe674",
+        "concrete_bollard": "8808ef5c7f945c78a042f01715fcc0225a9b68b5ff45b22f52a86ab1e62ac6d3",
+        "bus_stop_sign": "578e5d13bfd6b4ee00e30c28759c4fb520b96432bef3b4cdfdea272ec20723ff",
+        "mailbox": "17768f9fccfe33c5cbcd89c326bace3e2fb69c5ba7b57d05af31d989840e2af9",
+        "fire_hydrant": "94be6c04782acf2188b6252d45b969843ecfa3fc13928a0368118465a9224bcd",
+        "pallet_stack": "90d6d8f9745cdcd683c3ab0b1c5bf38aca283dbc58f081054d5d47b8b8c02e3f",
+        "concrete_planter": "a29372c1a5c3b4dda4ae4917d219fc3ed649a4513a56349302770767275e1c2a",
+        "asphalt_block": "c473f2705d76fc6e1b5102bad37ed0c724db505a620c3ffb5fa95d042103f143",
+        "asphalt_white_line": "882d96e177d261f6c26cf44010c3a877a3b513b730b332e364d5702d15f4d0d4",
+        "asphalt_dashed_line": "12a641e1489e67aa6f525f261dac5fdaad2634e62bdbe65b89a20ced2849733e",
+        "asphalt_crosswalk": "f952d1a546f7c251cb9ca5cc6cdd0317f8c574a416ffba04e6b4da3ecd39e3a5",
+        "concrete_curb": "85fda56aed02f1e1cc02b40c225fd9bf051c8f5b837594b53813fa68ee853ce3",
+        "drain_grate": "f0cd2966847910b6963c47a71f60fee2af4a16f9ee099aa4d950f6f8158ab84d",
+        "manhole_cover": "6126c42bc3e6a7458d2cf67721dd74fc18481a033a69ab8d31caf29da6a3ace7",
+        "traffic_cone": "202d2ddcea8dcb42fdb7f326c2f6c871c92f5a3ac4eeda517a0e8042058590d0",
+        "road_delineator": "e994700fc461be41345b521d7320de4bad86811816df33f23f058f0c5fdf87fc",
+        "road_sign_warning": "f8a3a99de12d9395dcc9dde1819977af20961c8705767ab62e52e1b113e86e65",
+        "road_sign_stop": "28e1afb58757193aaaf683d78711a8b7e6a099eff3adc77cc2829e9cc6cd1ac2",
+        "guardrail_section": "6b09fd13114fbd2e7315fb16299da14bf67f476929656f35de9525fdf89c5d73",
+        "bus_shelter": "a4bdd9a4231246cea19a5adeb11fe2832a14ad3cb7f5fc529d6cc21f8283ca91",
+        "phone_booth": "a7fed87a8bd01678e6a93da71f6c412b3101c2222fb7a92ab2517a36c1a60f84",
+        "newspaper_kiosk": "9d0b7de0521cb3f5a479a86471aab3506d78971bffc79572902c68c4f7e0c9cb",
+        "utility_pole": "fe57bc9e768408d90a17f742361d53f3c3165df25ed1d233fa3d03eaeed4f351",
+        "junction_box": "0bc4356a489ba76132fd07d45eb870846ac5a198d7024a032b49b612c91385f4",
+        "street_bicycle_rack": "401a1bfef6f4e3b970efa1334f8bf0533c147a1fbcd348fa0c8b08f9272da44d",
+        "park_notice_board": "59b7e43627e79410e498dbdbccf6d70e8399f66faa7841e733df9d988aeec6d9",
+        "concrete_steps": "4a0cab447f6aa702fa3b3595e9f447a10fcc71dbb04341b1af8121230ac96738",
+        "paving_slab_block": "fbf3316f969de00c625f3d337b2ed9d1106267e837931967c3ce38cb7f250a0d",
+        "litter_bag": "44ba17e34678c1cdfb5d1725e6e7cbd758cddbaba18a709d5a436fa61abd2013",
+        "cardboard_boxes": "cb7c5f1debd53df0ec5ed91ffc69866b535e1e9c0afc04d6ab38b3766ab9de3b",
+        "fallen_road_barrier": "bf9734a63acd5525bd625719c2e387203073a21997deb43b44aadc0ec0703ba1",
+        "spruce_stump": "54813cd94223c26f2ee30d23328fd0e07430942021293f9cd22bcc543330725b",
+        "fallen_spruce_log": "d0f78e3fdde6d1b57e54fa3623cd162018b4018285d54fb65972277b430c9790",
+        "log_pile": "00cf16dd3ffb0bb0d1c26616c490383b4c4354e617002291a3148900f63b1c18",
+        "boulder_large": "f5ba114100c13f86618981d02bb16986caa7229b3e4e339d0f20378b5c589a1f",
+        "boulder_small": "f060b833a625661511c18cf0218129260284c007624a302698c48e79967b748d",
+        "forest_root_cluster": "a5fcbb9156a7b4ec2f8e4734caf87a47d5d8c251fbb3e6db45af0ac2a92b73d0",
+        "forest_branch_pile": "75824e32ea3dfbf39ec2c1f3ee2437e2eca5af64668cfa4ca26f5bd6f91a22b9",
+        "dry_grass_tuft": "4da9752ec383eade160cf913426e91ce9d4f1182bdb2fc374353b4a48d083a81",
+        "snowy_shrub": "d7a3b7ba283e06da059559625fe53a658e65a5a2a3a584d8cc8787a0b15e9a17",
+        "forest_fern": "7d8568ed66770c987c7302c0021183c161d0b7cc9cc4c9d32e70f14e565b6886",
+        "rock_scatter": "574136579109b14195a30bcc5f6c812ec7d38a4d6bbdfb34562efeaad56d04d8",
+        "forest_trail_marker": "f4d708f9b100b02dc2f7d620aac981938b99f8ca4e681c930b991a2ed54388fc",
+        "gravel_surface": "b5d82d5ba166e41c0a9057cb8624a0232991d69067efe401904c2911f2fe1d7a",
+        "timber_boardwalk": "a9c594446c6844be15db6984ba5d8364295bdee03bcd82690a3600dc184c6d56",
+        "timber_boardwalk_raised": "f33f7b854b7f489848f286495aaa4f39859abc7103151e5118e3db03c6154a9b",
+        "picket_fence_low_1m": "82530c2aaaf3facf197dfc74a2f685b29d647084bb9ddebdef2032a5b3c2e32e",
+        "picket_fence_low_2m": "7e6cc01114cce2dd6f1c38a201a5d0236625cd6bde5181ca251ff9cc28350c04",
+        "picket_fence_tall_1m": "da342bc580aade908b5e82fd1ed35b21d79f7255aa08ea39466158ef7bc62ea8",
+        "picket_fence_tall_2m": "c6f246a70c4dacbc7daa63b064ede28201179a013fdf8dc422d09b6f1e6461bd",
+        "picket_gate_low_clear_1m": "e877d458e6dc24c191dee7e614b09e208df840fcc434669f4fab93d6e7dbb8b9",
+        "picket_gate_low_clear_2m": "6692b064099303cedf044d182e42a2a5557ecce1491dd7af148cd217dff28402",
+        "picket_gate_tall_clear_1m": "14f6b178903500135553f048d5f38b0d8a3735b8fc9e5b9406f3e6521150e4af",
+        "picket_gate_tall_clear_2m": "6fd57c15b88fcde3c030b2f806c48fb6c179d98d9073b7a20604668425ed340f",
+        "horizontal_fence_low_1m": "30e31b1dd464f682ddb3fc363e8f14ff486169a62f22bbbc0d154c5b485363ed",
+        "horizontal_fence_low_2m": "2c2b8069c8c17912ec144d7ad0d144e3c1b569471cecbe119d30d7aa4f4485b9",
+        "horizontal_fence_tall_1m": "dad94bd2b823c191c557bd983f19ab06f0896c278573b0734d92d8412113b98c",
+        "horizontal_fence_tall_2m": "3fe0525644ab077cedf0b4741d8f0d5cfbe36947f7e97e1ad662ee8cb77a63fd",
+        "horizontal_gate_low_clear_1m": "81ba58f4bdcbed257fdf519b4c89aa7687365db03332f54043da2aa0c27610cd",
+        "horizontal_gate_low_clear_2m": "58c9aa89ae26293137c6ce498c9bb2cfa035f53db50da162fd34685eb3fd3c38",
+        "horizontal_gate_tall_clear_1m": "a3872f7fda798508adf4be9a6dc817e1d024e4899b9399a6d3c42e78eb3184a2",
+        "horizontal_gate_tall_clear_2m": "7cfe124044fad88cfbda9eb821f5ca7ca2145bc257716129f2ffcd5ea7f5e5c2",
+        "wire_mesh_fence_low_1m": "d13aeb1ed26dad1140fe3c1d7bdf7533b9d9ee62701e0e8349f169a99c0f249a",
+        "wire_mesh_fence_low_2m": "13cbc08fc7402c65bc224cf9481843a2468c8e5b77665fc5c716ed28b88d4725",
+        "wire_mesh_fence_tall_1m": "469ad8095e1f48ed29d2c09096d80f44e39ba028954a21a78dcda02866159edf",
+        "wire_mesh_fence_tall_2m": "9bfc907ff8fa89dcd6224218ad93aa1937d9b243f3c38eb828913d85abb08907",
+        "wire_mesh_gate_low_clear_1m": "130e68c43463a32279e957ca8d4c31ed4a4484c1a3e1192505482b29647e8fd8",
+        "wire_mesh_gate_low_clear_2m": "4a0006a7a33291bbad46fd5605dc6c2b011f8dda3a8cfd6099d8de5a8913072d",
+        "wire_mesh_gate_tall_clear_1m": "a88c541cddccf59549b234e2b18756d266a12f03ca5604bcfd1eecbfdfd9b563",
+        "wire_mesh_gate_tall_clear_2m": "05010e6779fe2cb54882aeace55c6241d981fb8635a5fa18aec82be94f50e924",
+        "wall_lamp": "09d47479d056398737f83b224cc7aeec582653db21a68fb0652262383e5229c8",
+        "wall_mailbox": "d9cd5794f9bc3bc8297506015dddd3ea8756675839ad74f222f4f3e2ac117dc3",
+        "kitchen_stove": "592c22b773121e85a6c7f6a05ae4f90fa299a1d990dbc06e350cf5e0f9449d6b",
+        "kerosene_lantern": "9b650bcbbf0de7e72def995f5b657d77423f3960388136a91e1feb3e847a482f",
+        "firewood_crib": "c073e74e315c96121879c65c2ee3d1377d044015f3bc92129aabb0cd791cb962",
+        "camp_cooking_pot": "bcce01587a3e6fabc08d2d847c020d4464a770347287c1d5402d177be40c47f4",
+        "camp_wide_pot": "d3ac4eea55f90ef208dcadae7572f2154d383126f4d976cafea50639523ee6ed",
+        "fuel_jerrycan": "0a2440685c12cfbd8931b9d4b41780cbba799b2aff80f2d8da5c079d3aaa4059",
+        "metal_bucket": "52b1ab174075063b10dcd9d690e79d3bb7f921cb8cc97843e04abc606f1e1dbd",
+        "oval_bucket": "830e2a76805e0a62eba543b8f50a7437198c0183de8d396a30df612b61d9d87a",
+        "metal_toolbox": "ab8274dac053c36ee390fb6052a872a6b8b295229015b608a9ea107c2e5315bd",
+        "carpenter_tool_tote": "422b8209624fb667cea06d666608d07e3ba2c22d7d06fc5c28603769f8b74b27",
+        "sleeping_bag_roll": "5c65bbbbb7b0239ad0fe23ed8bb505e02965485d5c00f9c751c640cf3a4c1ea0",
+        "sleeping_bag_sack": "e60d976d132ec8ea8577edcee59f35c109eb6a8e0f09a98c9111c24c03c255eb",
+        "sleeping_bag_folded": "19333b1b60cdb2617864849768a96a5d39cc65f759ee2347bfb55ce3a0deb42f",
+        "canvas_canteen": "3e9be3a11b19c0c8f002e23f0ef1fa5de1b17cac5ec0e7a8118b7215a3a7afd7",
+        "vacuum_flask": "1da904dd3fbc31577524be9e437f13b66e3772df8ce64c1f3fb6e3739901c5b9",
+        "matchbox": "b0718bacbe9082e7bdae1d36a6bf06640dbb64c4f71bee0d9ab736f0d4440f69",
+        "folded_newspaper": "ef5faa489faabd37fea4aff14102d8fe4b579fd4f3159a22e34adefdc99f2b70",
+        "tied_newspapers": "4d533d6a068ad6544f82f50be0b5751c52e2215e94be37d1ac7787fda8b77aa1",
+        "rolled_newspapers": "adac9390c3777eda0f54e878cc38cc7445683b12c125c49bb78635ec877feb71",
+        "northern_campfire": "62a4df8a117533cfc8c08e06453118f5028b0884c8bf645b9bf82e2855bb4853",
+        "asphalt_edge_line": "007eed02b1b52cd8fde2dd6b9816c3f784f266449bae0d5239f4d3af775ba53a",
+        "guardrail_corner": "b087638ab3b158a7f7d98abf58ab40bc2d28df671eb01303039f7932c26b61f9",
+        "cattail_clump": "077fbbd6e4c842847f9be8e481761d71a6884462dfb972b7ea2abaf4689b60dd",
+        "cattail_rhizome": "14c9e6160ece8cd2270da66243b9cd5064ac68502d3a8e7b872cda5bb9286aea",
+        "juniper_bush": "2bf96dfabec8e5610dfce656ed629801df41ce865837ee28641b657b0fa7c990",
+        "cranberry_patch": "2840137850a0d06ad808f21c292ae9017de312c362723b698a4b9f9949279d2c",
+        "lingonberry_patch": "f8e478aea033f52bea6819ee6ee9ce59a04e0a5d827c688a76281f9489c19239",
+        "rosehip_bush": "4c0b1dd6a09b8704135136c4580abd6b79a9717c8686f475c7d3df07336ad7db",
+        "juniper_bush_no_berries": "a66969ac77feb01f5e05f33f358ef2be02126eab854dc99e48318faba11c7a58",
+        "cranberry_patch_no_berries": "9671139f3e1d5632882329670c0f612100d096789a20c3695680b9da3cd5816c",
+        "lingonberry_patch_no_berries": "681e21403fd3dd20574bdd5b4893f4c92ed6c1d6a8a7cb17accc5073dc2bc479",
+        "rosehip_bush_no_berries": "ee2cc647692376ddd4704d975896920cb1edaf5d09760e88026751c3497f4fda"
+      },
+      "ownedGeometryAndPropertySHA256": {
+        "canned_meat": "d48c15320943ef9c6a4f339f451bd92f9f6e125347517c1f8768c00a15327c0b",
+        "canned_fish": "59e4305872ded798233aceec24b4e5399ea380fdba9547d980d6a10dcbb7c7cf",
+        "canned_beans": "7c5b1d7b0677de88dfbec0a4521623fbdce6efbd77937ce7734fe8377ba7f53a",
+        "oat_carton": "557141f18c7c249ee21b45dba274873109565041e8ce7ac7268ab0791d316d1a",
+        "cracker_box": "80d05072f836e54290323b260a7d3f219e850292de3658aa8381a8228668acd8",
+        "ration_bundle": "85dde32dcf8477eb39319c7d019a88805aaa4f0cbe2e1b96d908fc60abc65c92",
+        "water_bottle": "7aad786c8316dff915ad1f2e9007ea6a81e5a30d874d220abeeac43da92c58ad"
+      },
+      "existingPaletteURIsPreserved": true
+    },
+    "src/main/resources/assets/darkwinter/furniture/meshes.json": {
+      "unchangedEntryCount": 137,
+      "unchangedEntryCanonicalSHA256": {
+        "hospital_bed": "1154f6bc09016fc1b4f636c280355752080bc2219b5d337856f225aec16f6875",
+        "hospital_gurney": "bd7b6b88cedb7d266a6463805f8a59ad83f3dd362f1cc2efbe33a62b92d42a69",
+        "bedside_cabinet": "03b53cd0772d2a9cfc02399526b7036d870688fb45603ceca3c65aeb1b9de8ee",
+        "medical_cabinet": "131e69ddc0ea1a7cf35c7a7874c18d3834e1771c8d90468bf8990e080000a23c",
+        "examination_table": "bc5f64ad0eb7e4e8575098772e22614a3f634803d17e8c073a62fe6b06378b44",
+        "privacy_screen": "1008b7dc1248f91f5f45e1f5565e0ed6bfb848ac4e7434be06e66190440e25a8",
+        "waiting_chair": "f7285e8f9751c681aa02c1ece3957b53003cdda7afeabb94bfd1f90d0e0e817c",
+        "medical_cart": "28c47f05758ea09a3656240a0a639de551ff58baf16253f696636e5f77e593da",
+        "oxygen_cylinder": "e70e9f01be3db3e699e1737364b68f94e956a3022125a5e02b38f8c53d32c284",
+        "wheelchair": "b6fdf64002f442da12df1dc8d9f130d8a39a65a8c06596491003e2b542be9e7f",
+        "steel_locker": "127db2a6a210452ea5619b4f70aba1c4072b98c913ed29e20c8ac114f0baac11",
+        "rusty_workbench": "b6fef48fb9f42909c5e496c73166521fd700a91b2edba62a52568d29823bbf38",
+        "storage_shelf": "4e362ad6672c866752a06510df1a1d665513f5a4e400f04f0741b5b9d544331c",
+        "electrical_cabinet": "f6d17c9f2e8643b350f179a332d9006c7a6b00ef99ba7a472463cc5e8f7a8e75",
+        "control_console": "8224bf3bf9fc467ba98a80a56f2a19111cde07d2252edc026806ab35afc20423",
+        "pipe_rack": "fbe18576adc6895017c245715a4ac63ede8b222a994c445d98883427de98cbae",
+        "metal_crate": "4966b28e652fd166a900740eed41d6e351137df0ce6201093807b84366fdf4dc",
+        "cable_spool": "c0127fe3ef5b9857f204b4aac36882b4efbc229349e1a6df34b18539670b0a96",
+        "rusty_barrel": "280dcae5419f12884202220a285da2955622a952de5d2a2ff4e3a96c861455e9",
+        "ventilation_unit": "87a138d18fb9599a884e4c60f15bf38f3756e1b5e6d18260a3542f7b8f3f9f68",
+        "worn_sofa": "6b53283919237e7c8858993ce416ade45d9e122bb3175e228fba511016fb5280",
+        "wooden_chair": "1a6fa96e1a77979c5ded4186782c76c998af72d00f1e7d5a5dca1ec0f15ada06",
+        "dining_table": "706530754be3dabd6d50a8dfdcedaee935445dc3e33b57e611b6decdad00665e",
+        "writing_desk": "8ac9e8aa8efb46b5175a135d006e47856090e5015f96f23079a674d04d283467",
+        "low_cabinet": "375015ff0907b7a18a6e068dc51ba2309ec59c9c5a0094807a496f6f0d4666ac",
+        "wooden_wardrobe": "ff98c27045ad9e36d9ede0f3eaf8df50a99201d60608dd0d900f9e70aec3a187",
+        "kitchen_sink": "d0cd95a7cb56f27abeee687a203b0c30094e0c32bfcb10b1dd18535411a1414c",
+        "old_fridge": "d825433ae52ade02c3e4cd221819bb09659d20150fc0a6d052f061e8456de578",
+        "old_tv": "efafcfc968a466ae13c05db615e69208e000cda2c0acd3545b172deef84e653d",
+        "radiator": "c0553dda6d200a0a1aaacd33baac4887417ab35b708cd93ae4c6f4eaa5eeca6f",
+        "park_bench": "15cc51c3f43e7b7d6e26271d685a69a87165de2a198d02fa6318abac4122830f",
+        "trash_bin": "709820bd98652784ce2671052e7d3903bfcd2e5bf5bb7d0c798fb533cceded45",
+        "street_lamp": "99a25cc2a5ce28232958862dcd3a4cd438c6d87b1626873d2fbc523c778a3323",
+        "road_barrier": "f23a7b6fbe5d5b1daf92222783f1fc4e26d91ee02442df6b6c0d69a6aec7e224",
+        "concrete_bollard": "0a02a83f059fe7464d832afe1593b47aafadc72b2527de44c9b4148bc27248a6",
+        "bus_stop_sign": "4f7ca93b109db07889afa5df95b6ce86c575cd578cdcd53f833928cff1fd4042",
+        "mailbox": "996e24f609a93bdf915422ebf1ccc2472f2d33a38129f0968efc489828d18c81",
+        "fire_hydrant": "e66342f8c17df5191423e2e6a055baefa4de72c87e85cec6598e05d3fdcc4d93",
+        "pallet_stack": "88412eee1e0ed43488d2437ac601f0bc1d96e128d6f426ecf562d69c7c0042a8",
+        "concrete_planter": "0c1fca494cedf2048317a3170bea5dfe5d58a8f8bda4a582210bfc5a24e8e90c",
+        "asphalt_block": "80b18e26dbc89f99135bc84ab531463f236110b7e8f9231eda52521f7222eac6",
+        "asphalt_white_line": "97723447cdf39eb9ee2574c0f1fc966b98eb4011bd3f42fd2c1850f6173c0fb2",
+        "asphalt_dashed_line": "91278c438040cec39cad35338ae1e4dca124ccbecc8bc1633ef42bf7b4c2d2a0",
+        "asphalt_crosswalk": "a2fa5a0f3fe6b2f7c3df27740e4808fb70eddcd4cec38e75bea23f452f65fae2",
+        "concrete_curb": "502bfc8028c013c57315544e545a2e8450e24df834f74fc9bdd63fc30cce38ea",
+        "drain_grate": "5173e23a5641a62ffc1440dfb9c4abddf3f3dacec582ee05ffa103c1e8b2cd8c",
+        "manhole_cover": "61b70ad19907eaedc83eb7e99ef14022a4d02618bc39cd5b0787fc14e96b7e54",
+        "traffic_cone": "9ed7c56e12dc33ee8d70c37f14edebf2a9a3845cc35d10432c712babb1392016",
+        "road_delineator": "a052a8ce586799c18627f8e765593cda4eced9c0a1e6a62adadbd3c90ad249ff",
+        "road_sign_warning": "940f54d9f2e7f507548a4c0176698be5ee892d09d15684c7c5589e61fbda5274",
+        "road_sign_stop": "a5d2f85f37da5913d21bec69c8443a55aba20b47573efd6dbe58a0742160fbf2",
+        "guardrail_section": "75a958278bcfad8eb1ea828198b282364692b4316789b4c5a0b72b6f9f785a74",
+        "bus_shelter": "5f28b20301b43b3f3c71e62e80ffd469d6be974adb3d8cd87b5535e754a95cb4",
+        "phone_booth": "4e3e5a3bc226d7ccc8ee2308998b5eaff0bb60d6743193a29d6f56ffbeb36c26",
+        "newspaper_kiosk": "81cf7649004dd019e8bf66a1a32103fad8b4b7208aab1e4154d93fa4fb32fee3",
+        "utility_pole": "607a8b848f5fba9b718dc836c791d0a60de878f313c60a4287c146f249f848a5",
+        "junction_box": "c1093893fff4062fbc9ede3ca99db7d60bdab6856ec1c7b391d67c4ccd042c5b",
+        "street_bicycle_rack": "b12c9fc7e0ecacaf9246ea3fee9f86fe469fd829226bf1209c7c7e0ada5b85c7",
+        "park_notice_board": "ac94677ff6cab020f46e8c012d3d80729a877827b64f6d62abf9539278d01165",
+        "concrete_steps": "5061bf85f36e330a61ceb5af86aa5b849128c19b41faf24f45e5b7460b5bc304",
+        "paving_slab_block": "a0fe9b1a89c42e02795e91f147536049a76111bfd82c59dabb8e37988dfc6b7e",
+        "litter_bag": "adac5076108e229f42558c8dde2a1b26a3d1d142f362a095905688f3943af32e",
+        "cardboard_boxes": "92fc4e9e674efe5cc321843d006b774d3aa8d1c2aa742c397ee055cf2ac234b0",
+        "fallen_road_barrier": "15a974fbfe358c56e79edf357da4c0c9aa8ced769d35cd5725cdfa5249430c3a",
+        "spruce_stump": "23940edc3eb1a6222ed4d691ee1221e032cff10ca27f65655f9907fa6169caac",
+        "fallen_spruce_log": "461cac72bbb47382b2531fd00da0d985023f7f4d93546e7826c16f48bbf6ad32",
+        "log_pile": "5c18057338f7f376f56b2cc9207d969df137cbfcb3e2705213f8fb20d919bc97",
+        "boulder_large": "fe65406ddbc4c76b7ea01f28c15030d93dce5d63f8ebb093b7f4633b01a7ca07",
+        "boulder_small": "9a4b271c08aa57d3ce9e25912d82a56bcbd682228caff3b4b21b0ef90a567340",
+        "forest_root_cluster": "8239d175b57e75b0043efccc2df6550a957adcdb85c493bbf5b3d879f6af9b71",
+        "forest_branch_pile": "496ba89ff617fd136ae48ad53cd2f4e41154bfa76e2f44c4504bc1e695790079",
+        "dry_grass_tuft": "4ad744bdbf5edf859cd7246e829f514378b0b62a6e3ef6d7ffe473469bc528fd",
+        "snowy_shrub": "04c7b5d1645ff7357ef6ec9a123aea41c6b1c553b4bad7c9bf091fb49e8b3fa1",
+        "forest_fern": "0b5a3b300e1f8b0f2372c50cbe2d20fa759120d7f364b992d42be34613837225",
+        "rock_scatter": "8c45f0eb7d49ce4945ebaa5d3e7fc383b8d71513f8e7959d6b4b543d89cce527",
+        "forest_trail_marker": "348907a0e4fa3ca1a84a92fbce9fd8172d3770728e0110535788ff0101b3fbb8",
+        "gravel_surface": "4b49c7ff712686e73535d1d2b3181810d0ab61f465e860fb09ff493c9db6ad77",
+        "timber_boardwalk": "653e601107e8ac3bdeab798a52adbba92d57deec0045df0671a45a65a0ee1bc4",
+        "timber_boardwalk_raised": "0a0eefbe5dc0c2f7b99a6987b983087997956f839099af965e8545b326f6ed83",
+        "picket_fence_low_1m": "c6160f06041eefdb8cc0b057a4dae4b736e8c599c2c19337a6660eb9b2555a3b",
+        "picket_fence_low_2m": "49426a1bf544ed212f1206abf99f70c2ec96554ae7b8fe6486833782fccc65e5",
+        "picket_fence_tall_1m": "69a34ed149a9d29118a0be129ce6914ee542aeff77a60712982e801e68971348",
+        "picket_fence_tall_2m": "b193674b6d8e847c30059e8382ef948b0d0b67fe7b99461c96c6346ad5071374",
+        "picket_gate_low_clear_1m": "4c43f57d0fb2b11331c902f624f3778ff6dd0619c54da140de5bccd6508ea52c",
+        "picket_gate_low_clear_2m": "5ae0aa95e3574c97e60aa6958c903214f967a43da1f35f8055fd7eadd1b9b8dc",
+        "picket_gate_tall_clear_1m": "3a1ff54be7e3a9de13e7bdc7216e81b3ba8ee995a0a8bb3423a2d77ecaea95ee",
+        "picket_gate_tall_clear_2m": "4066e97b333099539ccd68ec4cac083237b868b1bbc9c79ed7c5c8ee06b2fe0a",
+        "horizontal_fence_low_1m": "776db3df058dfbdcc25453631d1b2e4a70d622f16fdccda7f91181e2febf7e44",
+        "horizontal_fence_low_2m": "b3e67a8766641e9771d3c190bc952b9ef4fb99409c8232804d1b2ca55d91d3b1",
+        "horizontal_fence_tall_1m": "78fc1b33e024da8e32d332ce39cd80b94b54551b380b5927fd0df257981c5f80",
+        "horizontal_fence_tall_2m": "3a17d69d0587ca1c88fa534ad24de2d555a439869a0e2f47be6628e14719197c",
+        "horizontal_gate_low_clear_1m": "e6d2d8980cd4ad806cf847a414da2b4e55d46b3c75f377dd23d70613e1ff1299",
+        "horizontal_gate_low_clear_2m": "ecec41b0f9a66b840121ed0fdf8b548b73fd9fcf3c9f5d225a16646b008fe8d9",
+        "horizontal_gate_tall_clear_1m": "ea629312ffb18601613152e5071d401b5df79fe065ff735d778961c4d6d14a63",
+        "horizontal_gate_tall_clear_2m": "95c8a84df2a006cb707111356f860f7206d148605e533398fc4771e86500d849",
+        "wire_mesh_fence_low_1m": "20c5638914550954c5cc3406e65eaaace9dc606c1a3a94f1cc86852a8a1f6ab2",
+        "wire_mesh_fence_low_2m": "d30abb689a4331a300b228f4c30d08779f0c2423f456d023931b0179c0da3718",
+        "wire_mesh_fence_tall_1m": "9cc4859c088bdc863c35af8c1e0eacf0336afe4a1561291388a8f518763720c3",
+        "wire_mesh_fence_tall_2m": "d487c16e22748836e38b1e03754d8fe418c1b3c7219742cf17ee4f3b8acaa233",
+        "wire_mesh_gate_low_clear_1m": "b03dc6d6fb1acf151b67c3e7895e4ae63daa6cd2c7b26e1d11cc7812e3d6ceac",
+        "wire_mesh_gate_low_clear_2m": "185012b366f00ef9e078057c449b5b68915c30133e68c2ff1c09256537cd8394",
+        "wire_mesh_gate_tall_clear_1m": "993143ec35b7313c861665b977738f7dcbfa1f12e8bcb0b06db765446c72d618",
+        "wire_mesh_gate_tall_clear_2m": "2b92d94e7570ed73545f1a89979fd31276e0ff72f5728059a62ca57827a44b28",
+        "wall_lamp": "bfb829691e5d7d36a15a5e39d6e30519ebe4deba2a8a261a5cf3b9b96b17e45d",
+        "wall_mailbox": "820939132cce2888ee9dfdcc2ab3d3db67d82f484486d1aabffa04987c950925",
+        "kitchen_stove": "2a1c6be54d885858300e2a88b12f605c39fc43b269e69ec55619681303130e15",
+        "kerosene_lantern": "1ad54238ab85141370c134c53bcf939d6ebc934a4699110cc313f55da90ae803",
+        "firewood_crib": "ed382b09d5758480265b20749358227ba83c71516d4ab979a3c5b060e548902c",
+        "camp_cooking_pot": "ab9c4f0aeee71ae1e9f838453b4fb07b1fbeb60ee6d9e077f03beda8b6d4a2bb",
+        "camp_wide_pot": "f966c4b8f98cb71628691d32f5b3b2fc1ae69864ecff5fe697ab19c9574243b5",
+        "fuel_jerrycan": "15850806fbd4ed6229ec46c1b61a136eac1e470463f7b2220eab8bf1da397c70",
+        "metal_bucket": "cd8ffb4e443e936f417c288dd3ea3de7486b3ea76c3ad6e5c6a2bbe37075995d",
+        "oval_bucket": "bc3fcc4c8088e31aec1fb307667fb90051b53f23328bb19d9632816de29267b5",
+        "metal_toolbox": "9188bca012056764a5775735c6cffb8668f05f72e908bd5d19fee2102f5e00dc",
+        "carpenter_tool_tote": "4a9128e5d7f70a046fa198f89f0311cc029133946459ed852ce4bf79df8025ee",
+        "sleeping_bag_roll": "0b889d19d227fe94d0bae65e27abc69087f02150e57ddfb55328ef00fb0366a8",
+        "sleeping_bag_sack": "6e550f0398f375cf6798bd191a83972a31db1f256a0679e3ed5a8ba02a9df3d3",
+        "sleeping_bag_folded": "ca10914d85668c392071215005c9b6d1a6cce8210a19a43235d223e4b1d749d2",
+        "canvas_canteen": "9fa3b2b6496665e53d09be233915c484a3cf7b8e8a05dd4e410164215490acfe",
+        "vacuum_flask": "bc0a7e31d8348635aed25ef90a2ccea09e0c0947a70bdb17f1f6e1999b80e0d2",
+        "matchbox": "e2d27f8264792391cb35012a71c9803f4a0a0249e8e7d81248e49dc25be78df2",
+        "folded_newspaper": "3b0986043b47bd57d800e3e185646d817e54f585a1a809163323e5fe7b7e8371",
+        "tied_newspapers": "c8880c6204d36866a22c9837e97f2e85497ffd7d0313fb2826512c03a0ae1250",
+        "rolled_newspapers": "14cf95ad7b22a0e9c027f89bce6383871c087b574380f40ff565e4e78380c2c7",
+        "northern_campfire": "c745d976b6e058ed28280ff50d785334054149ae2c82ad4c811b1874e37dc7f5",
+        "asphalt_edge_line": "a58a3f89afb4ffa06a492a322c34dedd66a46f5cff3df4f8ea77575f0200cc14",
+        "guardrail_corner": "1ad4f0e9e13d6af37110b97af5373e3c0f608e4bd0876c7844561b0db1a263a8",
+        "cattail_clump": "56d32652dd4926899edd3850726a120a2ff87f889d25369dfa97e63fc403206e",
+        "cattail_rhizome": "851841d69df63507754e965f5a2cb0f196e546f7e4c7c1f05ec0e0cedaf28686",
+        "juniper_bush": "5bc06bded7fd0cbb3461e785aa21904ed9529ecf3dffaa40d75728ccb4691c40",
+        "cranberry_patch": "3d1e8ae4be7aec4e5fae5fbd57f67372e641c21ac59fedd32c276224f5caf648",
+        "lingonberry_patch": "e468ee5e855fcfe2c83b4744770f9f2a8fc225b601727dbf734d7b7bac8912ed",
+        "rosehip_bush": "c691ea21147873a3c315c5d2245f08008cdc98ac05c9fb842d090d4e2963efb1",
+        "juniper_bush_no_berries": "cf3af0b3edc2e36b34bf7b946559f230be41871bd4aab8c95638c8ca79b1baf1",
+        "cranberry_patch_no_berries": "2286e9a12036f8a7865b5f8a5c4982878a738f904cea9007379111f7bd812b3f",
+        "lingonberry_patch_no_berries": "84dcebc927d889f35a3a02d767cdaef43fd843c6ddab589cfa6e5678fe1c7f28",
+        "rosehip_bush_no_berries": "a2cdfed7bcc2e59feb9f40a6d539dc36f816578cd6139ae4b188e0afc1d5844c"
+      },
+      "ownedGeometryAndPropertySHA256": {
+        "canned_meat": "43f694279750753e1ed04d98d2c0d3d54325bd0f5e0516a24273d45b5a2c6706",
+        "canned_fish": "4bf8fd5c36f9a260537797769abdb499c9831327818e97a476f396e238719d6c",
+        "canned_beans": "d55b5cf3e047ef80eb30d2fc8e34bda17739850f5740617992285f446a8d0b53",
+        "oat_carton": "226f72fe63963d09572e1aecb33b93b6fb599e3eb8fb0a73601b425444b475aa",
+        "cracker_box": "b3c4481b3d1f45d3fe15820ce2334f5f475f237501bea9dd80d916811860ab31",
+        "ration_bundle": "6915ced894878120a2099856a2bc7c44d5612d9c4e0d92872f2ef9fab54ec1f3",
+        "water_bottle": "cdeebc91d1e87539413bed7c6cbb21ff01614925b26e55d664bc5c995af70a4d"
+      },
+      "existingPaletteURIsPreserved": true
+    }
+  },
+  "faceCounts": {
+    "canned_meat": 392,
+    "canned_fish": 421,
+    "canned_beans": 192,
+    "oat_carton": 83,
+    "cracker_box": 261,
+    "ration_bundle": 345,
+    "water_bottle": 457
+  },
+  "imageWrites": false,
+  "oldPNGResourcesUnchanged": true,
+  "atlasRouting": {
+    "expectedAtlas": "minecraft:blocks",
+    "expectedAtlasTexture": "minecraft:textures/atlas/blocks.png",
+    "reason": "MaterialBaker tries items before blocks. Unique block/decor sprites keep placed chunk UVs in the block atlas; item meshes reuse these same baked block sprites."
+  },
+  "nativeProof": {
+    "blocks": [
+      "canned_meat",
+      "canned_fish",
+      "canned_beans",
+      "oat_carton",
+      "cracker_box",
+      "ration_bundle",
+      "water_bottle"
+    ],
+    "items": [
+      "canned_meat",
+      "canned_fish",
+      "canned_beans",
+      "oat_carton",
+      "cracker_box",
+      "ration_bundle",
+      "water_bottle"
+    ],
+    "expectedProvider": "FurnitureMeshModels.MeshBackedModel",
+    "expectedMaterialURIs": [
+      "darkwinter:block/decor/provision_v2_legacy_labels",
+      "darkwinter:block/decor/provision_v2_materials"
+    ],
+    "expectedAtlas": "minecraft:blocks"
+  },
+  "checks": [
+    "All non-scope entries in both shared JSON files keep their canonical SHA256",
+    "All seven geometry and nonvisual properties equal the original archive",
+    "All seven fallback cuboids and item display transforms equal the original archive",
+    "Existing private atlas aliases and URI bindings stay unchanged",
+    "New UVs stay within one atlas cell with their required gutters",
+    "Source models declare both new runtime material dependencies"
+  ],
+  "beforeArchive": "build/provision-art-v2/legacy-before/backup-manifest.json"
+}

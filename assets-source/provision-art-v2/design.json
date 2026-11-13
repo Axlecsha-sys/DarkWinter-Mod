@@ -1,0 +1,439 @@
+{
+  "schema": 2,
+  "reference": "reference.png",
+  "items": [
+    {
+      "id": "canned_corn",
+      "brand": "Northline Canning",
+      "english": "Sweet Corn",
+      "french": "Mais doux",
+      "quantity": "398 mL",
+      "body_tile": 3,
+      "group": "pantry",
+      "cell": 0
+    },
+    {
+      "id": "canned_peas",
+      "brand": "Northline Canning",
+      "english": "Garden Peas",
+      "french": "Petits pois",
+      "quantity": "398 mL",
+      "body_tile": 1,
+      "group": "pantry",
+      "cell": 1
+    },
+    {
+      "id": "canned_tomatoes",
+      "brand": "Northline Canning",
+      "english": "Whole Tomatoes",
+      "french": "Tomates entieres",
+      "quantity": "540 mL",
+      "body_tile": 2,
+      "group": "pantry",
+      "cell": 2
+    },
+    {
+      "id": "canned_peaches",
+      "brand": "Alder Creek Pantry",
+      "english": "Peach Halves",
+      "french": "Demi-peches",
+      "quantity": "398 mL",
+      "body_tile": 3,
+      "group": "pantry",
+      "cell": 3
+    },
+    {
+      "id": "canned_mushroom_soup",
+      "brand": "Alder Creek Pantry",
+      "english": "Mushroom Soup",
+      "french": "Soupe aux champignons",
+      "quantity": "284 mL",
+      "body_tile": 5,
+      "group": "pantry",
+      "cell": 4
+    },
+    {
+      "id": "canned_chicken_noodle_soup",
+      "brand": "Northline Canning",
+      "english": "Chicken Noodle Soup",
+      "french": "Soupe poulet et nouilles",
+      "quantity": "284 mL",
+      "body_tile": 3,
+      "group": "pantry",
+      "cell": 5
+    },
+    {
+      "id": "peanut_butter",
+      "brand": "Timber Trail",
+      "english": "Peanut Butter",
+      "french": "Beurre darachide",
+      "quantity": "500 g",
+      "body_tile": 5,
+      "group": "pantry",
+      "cell": 6
+    },
+    {
+      "id": "berry_jam",
+      "brand": "Boreal Preserves",
+      "english": "Wild Berry Jam",
+      "french": "Confiture de baies",
+      "quantity": "375 mL",
+      "body_tile": 2,
+      "group": "pantry",
+      "cell": 7
+    },
+    {
+      "id": "condensed_milk",
+      "brand": "Hearthvale Dairy",
+      "english": "Condensed Milk",
+      "french": "Lait concentre sucre",
+      "quantity": "300 mL",
+      "body_tile": 0,
+      "group": "snacks",
+      "cell": 0
+    },
+    {
+      "id": "processed_cheese",
+      "brand": "Hearthvale Dairy",
+      "english": "Processed Cheese",
+      "french": "Fromage fondu",
+      "quantity": "250 g",
+      "body_tile": 1,
+      "group": "snacks",
+      "cell": 1
+    },
+    {
+      "id": "salted_peanuts",
+      "brand": "Driftwood Snacks",
+      "english": "Salted Peanuts",
+      "french": "Arachides salees",
+      "quantity": "150 g",
+      "body_tile": 3,
+      "group": "snacks",
+      "cell": 2
+    },
+    {
+      "id": "beef_jerky",
+      "brand": "Ridgeline Smokehouse",
+      "english": "Beef Jerky",
+      "french": "Boeuf seche",
+      "quantity": "80 g",
+      "body_tile": 2,
+      "group": "snacks",
+      "cell": 3
+    },
+    {
+      "id": "granola_bar",
+      "brand": "Timber Trail",
+      "english": "Granola Bar",
+      "french": "Barre granola",
+      "quantity": "40 g",
+      "body_tile": 1,
+      "group": "snacks",
+      "cell": 4
+    },
+    {
+      "id": "potato_chips",
+      "brand": "Driftwood Snacks",
+      "english": "Potato Chips",
+      "french": "Croustilles",
+      "quantity": "180 g",
+      "body_tile": 3,
+      "group": "snacks",
+      "cell": 5
+    },
+    {
+      "id": "smoked_sausage",
+      "brand": "Ridgeline Smokehouse",
+      "english": "Smoked Sausage",
+      "french": "Saucisson fume",
+      "quantity": "300 g",
+      "body_tile": 7,
+      "group": "snacks",
+      "cell": 6
+    },
+    {
+      "id": "chocolate_bar",
+      "brand": "Northstar Sweets",
+      "english": "Chocolate Bar",
+      "french": "Barre de chocolat",
+      "quantity": "100 g",
+      "body_tile": 2,
+      "group": "snacks",
+      "cell": 7
+    },
+    {
+      "id": "wafers",
+      "brand": "Northstar Sweets",
+      "english": "Wafers",
+      "french": "Gaufrettes",
+      "quantity": "150 g",
+      "body_tile": 2,
+      "group": "dry_goods",
+      "cell": 0
+    },
+    {
+      "id": "oatmeal_cookies",
+      "brand": "Copper Kettle",
+      "english": "Oatmeal Cookies",
+      "french": "Biscuits a lavoine",
+      "quantity": "200 g",
+      "body_tile": 4,
+      "group": "dry_goods",
+      "cell": 1
+    },
+    {
+      "id": "energy_bar",
+      "brand": "Timber Trail",
+      "english": "Trail Energy Bar",
+      "french": "Barre energetique",
+      "quantity": "60 g",
+      "body_tile": 2,
+      "group": "dry_goods",
+      "cell": 2
+    },
+    {
+      "id": "instant_noodles",
+      "brand": "Copper Kettle",
+      "english": "Instant Noodles",
+      "french": "Nouilles instantanees",
+      "quantity": "85 g",
+      "body_tile": 5,
+      "group": "dry_goods",
+      "cell": 3
+    },
+    {
+      "id": "potato_flakes",
+      "brand": "Copper Kettle",
+      "english": "Potato Flakes",
+      "french": "Flocons de pommes de terre",
+      "quantity": "250 g",
+      "body_tile": 4,
+      "group": "dry_goods",
+      "cell": 4
+    },
+    {
+      "id": "corn_flakes",
+      "brand": "Timber Trail",
+      "english": "Corn Flakes",
+      "french": "Flocons de mais",
+      "quantity": "375 g",
+      "body_tile": 3,
+      "group": "dry_goods",
+      "cell": 5
+    },
+    {
+      "id": "cola",
+      "brand": "Boreal Bottling",
+      "english": "Cola",
+      "french": "Cola",
+      "quantity": "355 mL",
+      "body_tile": 11,
+      "group": "dry_goods",
+      "cell": 6
+    },
+    {
+      "id": "energy_cola",
+      "brand": "Summit Charge",
+      "english": "Energy Cola",
+      "french": "Cola energetique",
+      "quantity": "355 mL",
+      "body_tile": 12,
+      "group": "dry_goods",
+      "cell": 7
+    },
+    {
+      "id": "lemon_lime_soda",
+      "brand": "Boreal Bottling",
+      "english": "Lemon-Lime Soda",
+      "french": "Soda citron-lime",
+      "quantity": "355 mL",
+      "body_tile": 12,
+      "group": "cold_drinks",
+      "cell": 0
+    },
+    {
+      "id": "ginger_ale",
+      "brand": "Boreal Bottling",
+      "english": "Ginger Ale",
+      "french": "Soda au gingembre",
+      "quantity": "355 mL",
+      "body_tile": 3,
+      "group": "cold_drinks",
+      "cell": 1
+    },
+    {
+      "id": "orange_soda",
+      "brand": "Boreal Bottling",
+      "english": "Orange Soda",
+      "french": "Soda a lorange",
+      "quantity": "355 mL",
+      "body_tile": 5,
+      "group": "cold_drinks",
+      "cell": 2
+    },
+    {
+      "id": "root_beer",
+      "brand": "Boreal Bottling",
+      "english": "Root Beer",
+      "french": "Racinette",
+      "quantity": "355 mL",
+      "body_tile": 5,
+      "group": "cold_drinks",
+      "cell": 3
+    },
+    {
+      "id": "apple_juice",
+      "brand": "Valley Orchards",
+      "english": "Apple Juice",
+      "french": "Jus de pomme",
+      "quantity": "1 L",
+      "body_tile": 1,
+      "group": "cold_drinks",
+      "cell": 4
+    },
+    {
+      "id": "orange_juice",
+      "brand": "Valley Orchards",
+      "english": "Orange Juice",
+      "french": "Jus dorange",
+      "quantity": "1 L",
+      "body_tile": 3,
+      "group": "cold_drinks",
+      "cell": 5
+    },
+    {
+      "id": "grape_juice",
+      "brand": "Valley Orchards",
+      "english": "Grape Juice",
+      "french": "Jus de raisin",
+      "quantity": "1 L",
+      "body_tile": 2,
+      "group": "cold_drinks",
+      "cell": 6
+    },
+    {
+      "id": "iced_tea",
+      "brand": "Spruce House",
+      "english": "Iced Tea",
+      "french": "The glace",
+      "quantity": "1 L",
+      "body_tile": 5,
+      "group": "cold_drinks",
+      "cell": 7
+    },
+    {
+      "id": "fruit_drink",
+      "brand": "Valley Orchards",
+      "english": "Powdered Fruit Drink",
+      "french": "Boisson aux fruits en poudre",
+      "quantity": "200 g",
+      "body_tile": 2,
+      "group": "northern_drinks",
+      "cell": 0
+    },
+    {
+      "id": "black_tea",
+      "brand": "Spruce House",
+      "english": "Black Tea",
+      "french": "The noir",
+      "quantity": "20 bags / sachets",
+      "body_tile": 1,
+      "group": "northern_drinks",
+      "cell": 1
+    },
+    {
+      "id": "coffee",
+      "brand": "Copper Kettle",
+      "english": "Ground Coffee",
+      "french": "Cafe moulu",
+      "quantity": "200 g",
+      "body_tile": 5,
+      "group": "northern_drinks",
+      "cell": 2
+    },
+    {
+      "id": "cocoa",
+      "brand": "Northstar Sweets",
+      "english": "Hot Cocoa",
+      "french": "Chocolat chaud",
+      "quantity": "250 g",
+      "body_tile": 2,
+      "group": "northern_drinks",
+      "cell": 3
+    },
+    {
+      "id": "rosehip_infusion",
+      "brand": "Spruce House",
+      "english": "Rosehip Infusion",
+      "french": "Infusion de cynorhodon",
+      "quantity": "500 mL",
+      "body_tile": 5,
+      "group": "northern_drinks",
+      "cell": 4
+    },
+    {
+      "id": "chaga_infusion",
+      "brand": "Spruce House",
+      "english": "Chaga Infusion",
+      "french": "Infusion de chaga",
+      "quantity": "500 mL",
+      "body_tile": 5,
+      "group": "northern_drinks",
+      "cell": 5
+    },
+    {
+      "id": "cranberry_drink",
+      "brand": "Boreal Preserves",
+      "english": "Cranberry Drink",
+      "french": "Boisson aux canneberges",
+      "quantity": "500 mL",
+      "body_tile": 2,
+      "group": "northern_drinks",
+      "cell": 6
+    },
+    {
+      "id": "lingonberry_drink",
+      "brand": "Boreal Preserves",
+      "english": "Lingonberry Drink",
+      "french": "Boisson aux airelles",
+      "quantity": "500 mL",
+      "body_tile": 2,
+      "group": "northern_drinks",
+      "cell": 7
+    }
+  ],
+  "manufacturers": [
+    "Alder Creek Pantry",
+    "Boreal Bottling",
+    "Boreal Preserves",
+    "Copper Kettle",
+    "Driftwood Snacks",
+    "Hearthvale Dairy",
+    "Northline Canning",
+    "Northstar Sweets",
+    "Ridgeline Smokehouse",
+    "Spruce House",
+    "Summit Charge",
+    "Timber Trail",
+    "Valley Orchards"
+  ],
+  "materials": [
+    "cream wrinkled paper",
+    "forest green folded wrapper",
+    "burgundy folded wrapper",
+    "gold ochre wrapper",
+    "navy carton or lid",
+    "copper brown wrapper",
+    "brushed aluminium",
+    "reddish brown sausage casing",
+    "cream foil",
+    "amber glass",
+    "olive glass",
+    "maroon metal",
+    "green metal",
+    "cream plastic",
+    "dark navy plastic",
+    "matte kraft reverse"
+  ]
+}

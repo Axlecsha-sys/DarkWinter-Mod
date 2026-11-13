@@ -1,0 +1,379 @@
+// WinterKore Engine native build, verified packaging, and Fabric host wiring.
+import groovy.json.JsonOutput
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import java.security.MessageDigest
+import java.util.zip.ZipFile
+
+def wkeVersion='0.1.0'
+def wkeBin=layout.buildDirectory.dir('WKE/bin')
+def wkeResources=layout.buildDirectory.dir('generated/WKE/resources')
+def wkeClasses=layout.buildDirectory.dir('WKE/kernel-check-classes')
+def wkeCompiler=file('build/voxel-faces/toolchains/zig-0.14.1/zig.exe')
+def wkeCompilerSha='1ddf230367e07738c4a769eae66c1db7469e37bd520e81c86356453d0db2b9fd'
+def wkeWindows=System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('win')
+def wkeSha={File f->
+    def digest=MessageDigest.getInstance('SHA-256')
+    f.withInputStream { input-> byte[] bytes=new byte[65536]; int count; while((count=input.read(bytes))!=-1)digest.update(bytes,0,count) }
+    digest.digest().encodeHex().toString()
+}
+def wkeExec={List<String> command->
+    def process=new ProcessBuilder(command).directory(projectDir).redirectErrorStream(true).start()
+    def output=process.inputStream.getText('UTF-8')
+    def result=process.waitFor()
+    if(!output.isBlank())logger.lifecycle(output.trim())
+    if(result!=0)throw new GradleException('WKE command failed ('+result+'): '+command[0])
+}
+sourceSets.named('client') {
+    java.srcDir('WKE/render/java')
+    java.srcDir('WKE/audio/java')
+    java.srcDir('modules/wke/adapter/java')
+    java.exclude('com/dark/winter/visuals/ShadowGrid.java', 'com/dark/winter/visuals/MotionBlurEnvelope.java')
+    resources.srcDir('WKE/render/resources')
+    resources.srcDir(files(wkeResources).builtBy('wkePrepareResources'))
+}
+
+tasks.named('coreBuildNative') { dependsOn 'wkeBootstrapCpp' }
+
+tasks.register('wkeBuildKernels') {
+    group='wke'
+    dependsOn 'wkeBootstrapCpp'
+    description='Build production WKE geometry kernels without Minecraft or a branch-name restriction.'
+    notCompatibleWithConfigurationCache('Verified native compiler execution.')
+    inputs.files(fileTree('WKE/kernels/voxel-faces'))
+    inputs.file('WKE/gradle/wke.gradle')
+    outputs.file(wkeBin.map{it.file('wke_voxel.dll')})
+    doLast {
+        if(!wkeWindows)throw new GradleException('The packaged WKE distribution currently targets Windows x86-64. Use WKE/CMakeLists.txt for independent native builds.')
+        if(!wkeCompiler.isFile()||wkeSha(wkeCompiler)!=wkeCompilerSha)throw new GradleException('Verified existing Zig 0.14.1 compiler required. Run wkeBootstrapCpp to prepare the production compiler.')
+        wkeBin.get().asFile.mkdirs()
+        wkeExec([wkeCompiler.absolutePath,'c++','-std=c++17','-O3','-fno-fast-math','-ffp-contract=off','-Wall','-Wextra','-Wpedantic','-target','x86_64-windows-gnu','-shared',
+            file('WKE/kernels/voxel-faces/voxel_faces.cpp').absolutePath,'-o',wkeBin.get().file('wke_voxel.dll').asFile.absolutePath])
+    }
+}
+tasks.register('wkeBuildRenderer') {
+    group='wke'
+    dependsOn 'wkeBootstrapCpp','coreClientHeaders'
+    description='Build the borrowed-device WKE Vulkan world renderer used by the Fabric host.'
+    notCompatibleWithConfigurationCache('Verified native Vulkan renderer compiler execution.')
+    inputs.files(fileTree('WKE/runtime/embedded') { include 'wke_vulkan.cpp','material_mips.cpp','*.h','*.hpp' })
+    inputs.file('WKE/runtime/src/material_mips.hpp')
+    inputs.file('WKE/gradle/wke.gradle')
+    inputs.file('build/core/deps/Vulkan-Headers-1.3.296/include/vulkan/vulkan_core.h')
+    outputs.file(wkeBin.map{it.file('wke_render.dll')})
+    doLast {
+        if(!wkeWindows)throw new GradleException('Packaged WKE renderer currently targets Windows x86-64.')
+        if(!wkeCompiler.isFile()||wkeSha(wkeCompiler)!=wkeCompilerSha)throw new GradleException('Verified Zig 0.14.1 compiler required.')
+        def headers=file('build/core/deps/Vulkan-Headers-1.3.296/include')
+        if(!new File(headers,'vulkan/vulkan_core.h').isFile())throw new GradleException('Verified Vulkan 1.3.296 headers were not prepared by coreClientHeaders.')
+        wkeBin.get().asFile.mkdirs()
+        wkeExec([wkeCompiler.absolutePath,'c++','-std=c++20','-O3','-fno-fast-math','-ffp-contract=off','-Wall','-Wextra','-Wpedantic','-pthread',
+            '-target','x86_64-windows-gnu','-I'+headers.absolutePath,'-shared',
+            file('WKE/runtime/embedded/wke_vulkan.cpp').absolutePath,
+            file('WKE/runtime/embedded/material_mips.cpp').absolutePath,'-o',wkeBin.get().file('wke_render.dll').asFile.absolutePath])
+    }
+}
+tasks.register('wkeVerifyMaterialsNative') {
+    group='verification'
+    description='Verify the shared native CPU material mip kernel, alpha coverage, bounds and failure contracts.'
+    notCompatibleWithConfigurationCache('Independent CPU compiler verification.')
+    inputs.files('WKE/runtime/embedded/material_mips.cpp','WKE/runtime/embedded/material_mips_checks.cpp',
+            'WKE/runtime/embedded/material_mips.h','WKE/runtime/src/material_mips.hpp','WKE/gradle/wke.gradle')
+    outputs.file(layout.buildDirectory.file('WKE/materials-native-checks.txt'))
+    doLast {
+        if(!wkeCompiler.isFile()||wkeSha(wkeCompiler)!=wkeCompilerSha)throw new GradleException('Verified Zig 0.14.1 compiler required.')
+        def folder=file('build/WKE/material-checks');folder.mkdirs()
+        def binary=new File(folder,'wke_material_checks.exe')
+        wkeExec([wkeCompiler.absolutePath,'c++','-std=c++20','-O2','-fno-fast-math','-ffp-contract=off',
+            '-Wall','-Wextra','-Wpedantic','-target','x86_64-windows-gnu',
+            file('WKE/runtime/embedded/material_mips.cpp').absolutePath,
+            file('WKE/runtime/embedded/material_mips_checks.cpp').absolutePath,'-o',binary.absolutePath])
+        def process=new ProcessBuilder(binary.absolutePath).directory(folder).redirectErrorStream(true).start()
+        def output=process.inputStream.getText('UTF-8')
+        def result=process.waitFor()
+        logger.lifecycle(output.trim())
+        if(result!=0||!output.contains('WKE_MATERIAL_MIPS_PASS'))throw new GradleException('Native material contracts failed: '+result)
+        file('build/WKE/materials-native-checks.txt').text=output
+    }
+}
+tasks.register('wkeVerifyRendererNative') {
+    group='verification'
+    mustRunAfter 'coreClientHeaders'
+    inputs.file('build/core/deps/Vulkan-Headers-1.3.296/include/vulkan/vulkan_core.h')
+    description='Verify WKE Vulkan ABI, borrowed ownership, pipeline and command validation using controlled native Vulkan callbacks.'
+    notCompatibleWithConfigurationCache('Native renderer contract checks.')
+    inputs.files(fileTree('WKE/runtime/embedded') { include '*.cpp','*.h','*.hpp' })
+    inputs.file('WKE/gradle/wke.gradle')
+    outputs.file(layout.buildDirectory.file('WKE/render-native-checks.txt'))
+    doLast {
+        if(!wkeCompiler.isFile()||wkeSha(wkeCompiler)!=wkeCompilerSha)throw new GradleException('Verified Zig 0.14.1 compiler required.')
+        def folder=file('build/WKE/renderer-checks');folder.mkdirs()
+        def binary=new File(folder,'wke_render_checks.exe')
+        def headers=file('build/core/deps/Vulkan-Headers-1.3.296/include')
+        wkeExec([wkeCompiler.absolutePath,'c++','-std=c++20','-O2','-fno-fast-math','-ffp-contract=off','-Wall','-Wextra','-Wpedantic','-pthread',
+            '-target','x86_64-windows-gnu','-I'+headers.absolutePath,
+            file('WKE/runtime/embedded/wke_vulkan.cpp').absolutePath,
+            file('WKE/runtime/embedded/wke_vulkan_checks.cpp').absolutePath,'-o',binary.absolutePath])
+        def process=new ProcessBuilder(binary.absolutePath).directory(folder).redirectErrorStream(true).start()
+        def output=process.inputStream.getText('UTF-8')
+        def result=process.waitFor()
+        logger.lifecycle(output.trim())
+        if(result!=0||!output.contains('WKE_RENDER_NATIVE_PASS'))throw new GradleException('Native WKE renderer contract checks failed: '+result)
+        file('build/WKE/render-native-checks.txt').text=output
+    }
+}
+tasks.register('wkeBuildNative') {
+    group='wke'
+    description='Build WKE core and geometry DLLs with a source/artifact receipt.'
+    dependsOn 'coreBuildNative','wkeBuildKernels','wkeBuildRenderer'
+    notCompatibleWithConfigurationCache('Native artifact receipt.')
+    inputs.files(fileTree('WKE/core'),fileTree('WKE/kernels/voxel-faces'),fileTree('WKE/runtime/embedded'),file('WKE/runtime/src/material_mips.hpp'))
+    inputs.file('WKE/gradle/wke.gradle')
+    inputs.file(layout.buildDirectory.file('core/bin/dw_core.dll'))
+    inputs.file(wkeBin.map{it.file('wke_render.dll')})
+    outputs.files(wkeBin.map{it.file('wke_core.dll')},wkeBin.map{it.file('engine-manifest.json')})
+    doLast {
+        if(!wkeWindows)throw new GradleException('Packaged WKE native binaries currently target Windows x86-64.')
+        def folder=wkeBin.get().asFile; folder.mkdirs()
+        Files.copy(file('build/core/bin/dw_core.dll').toPath(),new File(folder,'wke_core.dll').toPath(),StandardCopyOption.REPLACE_EXISTING)
+        def sources=[:]
+        inputs.files.files.findAll{it.isFile()&&it.name!='dw_core.dll'}.sort{it.absolutePath}.each{source->
+            sources[projectDir.toPath().relativize(source.toPath()).toString().replace('\\','/')]=wkeSha(source)
+        }
+        def binaries=[:]
+        ['wke_core.dll','wke_voxel.dll','wke_render.dll'].each{name->binaries[name]=wkeSha(new File(folder,name))}
+        new File(folder,'engine-manifest.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([
+            schema:1,engine:'WinterKore Engine',version:wkeVersion,platform:'windows-x86_64',
+            coreAbi:1,voxelAbi:1,blockMeshAbi:1,rendererAbi:1,legacyExportNamesPreserved:true,
+            compiler:[name:'Zig/Clang',version:'0.14.1',sha256:wkeCompilerSha],
+            sourceSha256:sources,artifactSha256:binaries
+        ]))+'\n'
+        logger.lifecycle('WKE_NATIVE_BUILT '+folder.absolutePath)
+    }
+}
+tasks.register('wkePrepareResources') {
+    group='wke'
+    description='Package verified WKE DLLs and hashes into normal client resources.'
+    dependsOn 'wkeBuildNative'
+    inputs.files(wkeBin.map{it.file('wke_core.dll')},wkeBin.map{it.file('wke_voxel.dll')},wkeBin.map{it.file('wke_render.dll')},wkeBin.map{it.file('engine-manifest.json')})
+    inputs.files(fileTree('WKE/runtime/embedded/shaders'),fileTree('modules/wke/adapter/resources'))
+    outputs.dir(wkeResources)
+    doLast {
+        def folder=new File(wkeResources.get().asFile,'assets/wke/native/windows-x86_64');folder.mkdirs()
+        ['wke_core.dll','wke_voxel.dll','wke_render.dll'].each{name->
+            def source=wkeBin.get().file(name).asFile
+            def target=new File(folder,name)
+            Files.copy(source.toPath(),target.toPath(),StandardCopyOption.REPLACE_EXISTING)
+            new File(folder,name+'.sha256').text=wkeSha(target)+'\n'
+        }
+        Files.copy(wkeBin.get().file('engine-manifest.json').asFile.toPath(),new File(folder,'engine-manifest.json').toPath(),StandardCopyOption.REPLACE_EXISTING)
+        copy { from 'WKE/runtime/embedded/shaders'; into new File(wkeResources.get().asFile,'assets/wke/shaders') }
+        copy { from 'modules/wke/adapter/resources'; into wkeResources.get().asFile }
+    }
+}
+// Canonical WKE resources replace only the old module's matching source copies.
+// Test by source path: a global exclude would also discard the new resources with the same IDs.
+def retiredVisualSource = file('modules/darkwinter-visuals/src/client/resources/assets/darkwinter_visuals').toPath().toAbsolutePath().normalize().toString()
+def discardRetiredVisualCopy = { details ->
+    def candidate = details.file.toPath().toAbsolutePath().normalize()
+    def oldRoot = java.nio.file.Path.of(retiredVisualSource)
+    if (candidate.startsWith(oldRoot)) {
+        def relative = oldRoot.relativize(candidate).toString().replace(File.separatorChar, '/' as char)
+        if (relative.startsWith('shaders/') || relative.startsWith('post_effect/')) details.exclude()
+    }
+}
+tasks.named('processClientResources') {
+    dependsOn 'wkePrepareResources'
+    eachFile discardRetiredVisualCopy
+}
+tasks.named('sourcesJar') { eachFile discardRetiredVisualCopy }
+tasks.named('sourcesJar') { exclude 'assets/wke/native/**' }
+tasks.named('runClient') {
+    dependsOn 'wkePrepareResources'
+    // Normal launches exercise the shipped resources. Explicit command-line overrides remain supported.
+    ['darkwinter.core.library','darkwinter.voxel.native.library'].each{key->
+        def override=providers.systemProperty(key)
+        if(override.isPresent())systemProperty key,override.get()
+        else systemProperties.remove(key)
+    }
+}
+tasks.register('wkeCompileKernelChecks',JavaCompile) {
+    group='wke'
+    source fileTree('experiments/voxel-faces/java'){include '*.java'}
+    source files('src/client/java/com/dark/winter/client/fixes/mesh/BlockMeshPacking.java',
+        'src/client/java/com/dark/winter/client/fixes/mesh/BlockMeshNative.java',
+        'src/client/java/com/dark/winter/client/fixes/nativebuffers/NativeScratchBuffers.java')
+    classpath=files()
+    destinationDirectory=wkeClasses
+    options.release=25;options.encoding='UTF-8'
+    javaCompiler=javaToolchains.compilerFor{languageVersion=JavaLanguageVersion.of(25)}
+}
+['wkeVerifyMesh':['BlockMeshExperiment','verify',true],
+ 'wkeVerifyVisibility':['VoxelFacesExperiment','verify',true],
+ 'wkeVerifyFallback':['VoxelFacesExperiment','fallback',false]].each{name,definition->
+    tasks.register(name,JavaExec) {
+        group='wke';dependsOn 'wkeCompileKernelChecks'
+        if(definition[2])dependsOn 'wkeBuildNative'
+        classpath=files(wkeClasses);mainClass=definition[0]
+        javaLauncher=javaToolchains.launcherFor{languageVersion=JavaLanguageVersion.of(25)}
+        jvmArgs '--enable-native-access=ALL-UNNAMED'
+        if(definition[2]) {
+            systemProperty 'dw.voxel.native.required','true'
+            systemProperty 'dw.voxel.native.library',wkeBin.get().file('wke_voxel.dll').asFile.absolutePath
+        }
+        args definition[1]
+    }
+}
+tasks.register('wkeCheckBoundary') {
+    group='wke'
+    description='Check that the independent WKE core and geometry kernels do not include Minecraft or game implementation headers.'
+    inputs.files(fileTree('WKE/core'),fileTree('WKE/kernels/voxel-faces'))
+    doLast {
+        inputs.files.files.findAll{it.name.endsWith('.cpp')||it.name.endsWith('.hpp')||it.name.endsWith('.h')}.each{source->
+            if((source.text =~ /(?m)^\s*#\s*include\s*[<"][^>"]*(minecraft|fabric|jni\.h|native_visuals|generation\.hpp|player\.hpp)/).find())
+                throw new GradleException('Game/runtime dependency in independent WKE source: '+source)
+        }
+        logger.lifecycle('WKE_BOUNDARY_PASS core and geometry kernels have no Minecraft/game dependencies.')
+    }
+}
+tasks.register('wkeVerifyPackage') {
+    group='wke';dependsOn 'jar'
+    description='Verify the actual mod JAR contains matching WKE native binaries, hashes and identity.'
+    doLast {
+        def artifact=tasks.named('jar').get().archiveFile.get().asFile
+        def nativeHashes=[:]
+        new ZipFile(artifact).withCloseable{archive->
+            ['wke_core.dll','wke_voxel.dll','wke_render.dll'].each{name->
+                def prefix='assets/wke/native/windows-x86_64/'
+                def entry=archive.getEntry(prefix+name)
+                def hash=archive.getEntry(prefix+name+'.sha256')
+                if(entry==null||hash==null)throw new GradleException('WKE payload missing from mod JAR: '+name)
+                def actual=MessageDigest.getInstance('SHA-256').digest(archive.getInputStream(entry).bytes).encodeHex().toString()
+                def expected=archive.getInputStream(hash).getText('UTF-8').trim()
+                if(actual!=expected)throw new GradleException('WKE payload hash mismatch in mod JAR: '+name)
+                nativeHashes[name]=actual
+            }
+            if(archive.getEntry('com/winterkore/engine/WkeNativeLibraries.class')==null)throw new GradleException('WKE native host adapter missing from mod JAR.')
+            ['com/winterkore/engine/render/WkeVulkanNative.class',
+             'com/winterkore/engine/render/WkeRendererRuntime.class',
+             'com/winterkore/engine/render/mixin/WkeWorldScopeMixin.class',
+             'com/winterkore/engine/render/mixin/WkeWorldPipelineMixin.class',
+             'wke-renderer.mixins.json',
+             'assets/wke/shaders/core/terrain.vsh',
+             'assets/wke/shaders/core/terrain.fsh'].each { path ->
+                if(archive.getEntry(path)==null)throw new GradleException('WKE renderer entry missing from mod JAR: '+path)
+            }
+            def fabric=new groovy.json.JsonSlurper().parse(archive.getInputStream(archive.getEntry('fabric.mod.json')))
+            if(!fabric.mixins.any { it instanceof Map && it.config=='wke-renderer.mixins.json' && it.environment=='client' })
+                throw new GradleException('WKE renderer mixins are not registered for the real mod client.')
+            def mixins=new groovy.json.JsonSlurper().parse(archive.getInputStream(archive.getEntry('wke-renderer.mixins.json')))
+            mixins.client.each { name ->
+                String path=mixins.package.replace('.','/')+'/'+name.replace('.','/')+'.class'
+                if(archive.getEntry(path)==null)throw new GradleException('Registered WKE renderer mixin class missing: '+path)
+            }
+            ['terrain.vsh','terrain.fsh'].each { name ->
+                def entry=archive.getEntry('assets/wke/shaders/core/'+name)
+                def actual=MessageDigest.getInstance('SHA-256').digest(archive.getInputStream(entry).bytes).encodeHex().toString()
+                if(actual!=wkeSha(file('modules/wke/adapter/resources/assets/wke/shaders/core/'+name)))
+                    throw new GradleException('WKE host shader differs from its source: '+name)
+            }
+            ['com/winterkore/engine/material/WkeMaterialMips.class',
+             'com/winterkore/engine/material/WkeFoliageTextures.class',
+             'com/winterkore/engine/graphics/WkeTemporalResolve.class',
+             'com/winterkore/engine/graphics/effects/WkeEffectsContract.class',
+             'com/winterkore/engine/render/effects/WkePostGraphExecutor.class',
+             'com/winterkore/engine/render/effects/WkeParticleReactiveMask.class',
+             'com/winterkore/engine/render/WkeParticleReactiveRects.class',
+             'com/dark/winter/visuals/mixin/TemporalPostFormatMixin.class',
+             'com/winterkore/engine/audio/AcousticModel.class',
+             'com/winterkore/engine/audio/WkeAudioRuntime.class',
+             'com/winterkore/engine/surface/SnowSurface.class',
+             'com/winterkore/engine/surface/host/SnowSurfaceRuntime.class',
+             'com/winterkore/engine/surface/client/SnowSurfaceClient.class',
+             'com/winterkore/engine/surface/host/SnowSurfaceChunkPayload.class',
+             'com/winterkore/engine/surface/client/SnowSurfaceChunkInbox.class',
+             'com/winterkore/engine/surface/client/SnowNativeSectionEpoch.class',
+             'com/winterkore/engine/surface/client/SnowNativeSectionEpoch$Task.class',
+             'com/winterkore/engine/surface/client/SnowNativeSectionEpoch$Owner.class',
+             'com/winterkore/engine/surface/client/SnowInitialNativePreparation.class',
+             'com/winterkore/engine/surface/host/mixin/SnowNativeSectionMixin.class',
+             'com/winterkore/engine/surface/host/mixin/SnowNativeCompileTaskMixin.class'].each { path ->
+                if(archive.getEntry(path)==null)throw new GradleException('Active WKE integration entry missing: '+path)
+            }
+            ['wke-materials.mixins.json','wke-audio.mixins.json','wke-surface.mixins.json','darkwinter-visuals.mixins.json'].each { config ->
+                if(!fabric.mixins.any { it==config || (it instanceof Map && it.config==config) })
+                    throw new GradleException('WKE integration mixins are not registered: '+config)
+                def content=new groovy.json.JsonSlurper().parse(archive.getInputStream(archive.getEntry(config)))
+                ((content.mixins?:[])+(content.client?:[])).each { name ->
+                    def path=content.package.replace('.','/')+'/'+name.replace('.','/')+'.class'
+                    if(archive.getEntry(path)==null)throw new GradleException('Active WKE mixin class missing: '+path)
+                }
+            }
+            def surfaceMixins=new groovy.json.JsonSlurper().parse(archive.getInputStream(archive.getEntry('wke-surface.mixins.json')))
+            if(!(surfaceMixins.client?:[]).containsAll(['SnowNativeSectionMixin','SnowNativeCompileTaskMixin']))
+                throw new GradleException('Initial snow/native ownership publication trackers are not registered on the actual client.')
+            def temporalMixins=new groovy.json.JsonSlurper().parse(archive.getInputStream(archive.getEntry('darkwinter-visuals.mixins.json')))
+            if(!(temporalMixins.client?:[]).contains('TemporalPostFormatMixin'))
+                throw new GradleException('FP16 temporal pipeline mixin is not active in the actual mod JAR.')
+            def canonical=file('WKE/render/resources').toPath().toAbsolutePath().normalize()
+            fileTree('WKE/render/resources').files.each { source ->
+                def path=canonical.relativize(source.toPath().toAbsolutePath().normalize()).toString().replace(File.separatorChar,'/' as char)
+                def entry=archive.getEntry(path)
+                if(entry==null)throw new GradleException('Canonical WKE render resource missing: '+path)
+                def actual=MessageDigest.getInstance('SHA-256').digest(archive.getInputStream(entry).bytes).encodeHex().toString()
+                if(actual!=wkeSha(source))throw new GradleException('Packaged render resource is not the canonical WKE source: '+path)
+            }
+            ['com/dark/winter/visuals/ShadowGrid.class','com/dark/winter/visuals/MotionBlurEnvelope.class'].each { path ->
+                if(archive.getEntry(path)!=null)throw new GradleException('Retired duplicate implementation remains active: '+path)
+            }
+            if(archive.entries().any { it.name.startsWith('com/winterkore/engine/render/test/') ||
+                    it.name.startsWith('com/dark/winter/test/') })
+                throw new GradleException('Private WKE GPU test classes must not be included in the product.');
+        }
+        def receipt=[schema:1,completed:true,path:artifact.absolutePath,bytes:artifact.length(),
+                sha256:wkeSha(artifact),nativeHashes:nativeHashes,
+                canonicalRenderResourceCount:fileTree('WKE/render/resources').files.size(),
+                verifiedAt:java.time.Instant.now().toString(),
+                scope:'Actual mod JAR entries, native/resource SHA-256, registered production mixins and absence of private test classes. This is packaging verification, not an FPS or image-quality verdict.']
+        def receiptFile=file('build/WKE/package-verification.json')
+        receiptFile.parentFile.mkdirs()
+        receiptFile.text=groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(receipt))+'\n'
+        logger.lifecycle('WKE_PACKAGE_PASS '+artifact.absolutePath+' bytes='+receipt.bytes+' sha256='+receipt.sha256)
+    }
+}
+tasks.register('wkeVerifyIndependent') {
+    group='wke'
+    mustRunAfter 'coreClientHeaders'
+    description='Build and verify WKE using its independent PowerShell driver, without Java/Fabric build tools.'
+    notCompatibleWithConfigurationCache('Independent native compiler and owned verification receipt.')
+    doLast {
+        if(!wkeWindows)throw new GradleException('WKE/build.ps1 currently targets Windows x86-64.')
+        def shell=new File(System.getenv('SystemRoot'),'System32/WindowsPowerShell/v1.0/powershell.exe')
+        def output=file('build/WKE/independent')
+        wkeExec([shell.absolutePath,'-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',
+            file('WKE/build.ps1').absolutePath,'-Compiler',wkeCompiler.absolutePath,
+            '-OutputDirectory',output.absolutePath,'-Verify','-Renderer',
+            '-VulkanHeaders',file('build/core/deps/Vulkan-Headers-1.3.296/include').absolutePath])
+        def receipt=new groovy.json.JsonSlurper().parse(new File(output,'build-receipt.json'))
+        if(!receipt.completed||!receipt.verification.completed||!receipt.rendererRequested||receipt.javaRequired||receipt.minecraftRequired)
+            throw new GradleException('Independent WKE build did not complete.')
+    }
+}
+tasks.register('wkeVerify') {
+    group='wke'
+    description='Verify WKE native contracts, independent core, packaged resources and production FFM loading.'
+    dependsOn 'wkeVerifyMaterialsNative','wkeVerifySurface','wkeVerifyRendererNative','wkeCheckBoundary','wkeVerifyIndependent','coreVerifyNative','wkeVerifyMesh','wkeVerifyVisibility','wkeVerifyFallback','wkeVerifyEmbedded','wkeVerifyPackage'
+}
+// Only native host compilation consumes the Windows runtime; the core remains independent.
+def wkeRuntimeConsumers=['coreBuildClient','coreBuildWorld','coreBuildRenderBench','coreBuildPlayerUpdate',
+    'coreCompileGame','coreCheckScene','coreCheckPlayer','coreCheckPlayerTransitions','coreVerifyPlayerUpdate',
+    'coreVerifyGame','coreCheckRasterScene']
+tasks.matching { it.name in wkeRuntimeConsumers }.configureEach {
+    inputs.files(fileTree('WKE/runtime/src') { include '**/*.cpp','**/*.hpp' })
+    inputs.files(fileTree('WKE/runtime/embedded') { include '*.h','*.hpp' })
+}
+// Private verification fixtures are optional in published source archives.
+def wkeClientChecks = file('tests/wke-client/wke-client.gradle')
+if (wkeClientChecks.isFile()) {
+    apply from: wkeClientChecks
+}

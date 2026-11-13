@@ -59,8 +59,10 @@ public final class VanillaFogPipelines {
     }
 
     public static RenderPipeline terrain(RenderPipeline original) {
+        // Only the exact stock terrain shader pair is ours to replace. Foreign vertex stages keep their semantics.
         if(VanillaFogRenderer.current()==null
-                || !Identifier.withDefaultNamespace("core/terrain").equals(original.getShaders().get(ShaderType.FRAGMENT))) return original;
+                || !Identifier.withDefaultNamespace("core/terrain").equals(original.getShaders().get(ShaderType.FRAGMENT))
+                || !Identifier.withDefaultNamespace("core/terrain").equals(original.getShaders().get(ShaderType.VERTEX))) return original;
         boolean horizontal=com.dark.winter.visuals.VisualRenderer.currentFrame()!=null && com.dark.winter.visuals.VisualRenderer.currentFrame().atmosphereAllowed && com.dark.winter.visuals.VisualRenderer.controlsAtmosphere(net.minecraft.client.Minecraft.getInstance().level);
         return (horizontal?HORIZONTAL_TERRAIN:TERRAIN).computeIfAbsent(original,source -> {
             ColorTargetState[] targets=source.getColorTargetStates().toArray(ColorTargetState[]::new);

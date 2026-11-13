@@ -1,0 +1,1118 @@
+{
+  "schema": 1,
+  "purpose": "Inventory-only raster product portraits; preserve existing labels and all world/held 3D assets",
+  "status": "prompts only; no images generated or existing assets edited",
+  "sourceOfTruth": "assets-source/provision-art-v2/design.json plus legacy_pantry-original.png",
+  "styleReference": {
+    "path": "assets-source/provision-art-v2/reference.png",
+    "role": "product illustration quality, framing, material polish and readable silhouette only; never copy label design or fictional branding"
+  },
+  "manufacturers": [
+    "Alder Creek Pantry",
+    "Boreal Bottling",
+    "Boreal Preserves",
+    "Copper Kettle",
+    "Driftwood Snacks",
+    "Hearthvale Dairy",
+    "Northline Canning",
+    "Northstar Sweets",
+    "Ridgeline Smokehouse",
+    "Spruce House",
+    "Summit Charge",
+    "Timber Trail",
+    "Valley Orchards"
+  ],
+  "execution": {
+    "tool": "built-in image_gen",
+    "transparent_background": true,
+    "oneAssetPerCall": true,
+    "master": "high-resolution square RGBA, at least 1024px recommended; final resolution chosen by caller",
+    "identityPolicy": "Original artwork is authoritative. Generation is not a pixel-lock guarantee: inspect logos and all print, then use a targeted edit or a locked original-art insert if exact print drifts. Do not approve a merely similar label.",
+    "alphaQA": "Inspect real alpha and edges over dark/light backgrounds, reject painted checkerboard, halos, clipped ends and shadows baked into an opaque backdrop.",
+    "sourcePortraitFinding": "No complete alpha product portraits exist in these source sheets. All are opaque RGB print atlases. Horizontal wrapper fronts contain useful painted folds but remain rectangular print artwork.",
+    "worldHeldPolicy": "All world, held and placed 3D models and textures remain outside this raster-art task."
+  },
+  "items": [
+    {
+      "order": 1,
+      "id": "canned_corn",
+      "brand": "Northline Canning",
+      "english": "Sweet Corn",
+      "frenchMetadata": "Mais doux",
+      "quantity": "398 mL",
+      "packaging": "a closed cylindrical grocery tin with thin silver rolled rims and a small recessed pull-tab lid; a gently curved paper label, familiar tall pantry-can silhouette",
+      "palette": "gold ochre and warm cream with dark pine-green/black Northline print",
+      "productAngle": "near frontal, 10 degrees yaw and 7 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/pantry-original.png",
+        "rectPx": [
+          0,
+          0,
+          384,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: a closed cylindrical grocery tin with thin silver rolled rims and a small recessed pull-tab lid; a gently curved paper label, familiar tall pantry-can silhouette. Palette and identity: gold ochre and warm cream with dark pine-green/black Northline print. Camera: near frontal, 10 degrees yaw and 7 degrees elevation. The visible manufacturer must remain \"Northline Canning\" and the product remains \"Sweet Corn\", quantity \"398 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/pantry-original.png, pixel rectangle [0, 0, 384, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 2,
+      "id": "canned_peas",
+      "brand": "Northline Canning",
+      "english": "Garden Peas",
+      "frenchMetadata": "Petits pois",
+      "quantity": "398 mL",
+      "packaging": "a closed cylindrical grocery tin with thin silver rolled rims and a small recessed pull-tab lid; a gently curved paper label, familiar tall pantry-can silhouette",
+      "palette": "forest green and warm cream with the existing Northline north-arrow badge",
+      "productAngle": "near frontal, 10 degrees yaw and 7 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/pantry-original.png",
+        "rectPx": [
+          384,
+          0,
+          768,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: a closed cylindrical grocery tin with thin silver rolled rims and a small recessed pull-tab lid; a gently curved paper label, familiar tall pantry-can silhouette. Palette and identity: forest green and warm cream with the existing Northline north-arrow badge. Camera: near frontal, 10 degrees yaw and 7 degrees elevation. The visible manufacturer must remain \"Northline Canning\" and the product remains \"Garden Peas\", quantity \"398 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/pantry-original.png, pixel rectangle [384, 0, 768, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 3,
+      "id": "canned_tomatoes",
+      "brand": "Northline Canning",
+      "english": "Whole Tomatoes",
+      "frenchMetadata": "Tomates entieres",
+      "quantity": "540 mL",
+      "packaging": "a taller closed cylindrical tomato tin with narrow rolled silver ends and a recessed intact lid; the existing label follows a restrained cylindrical curve",
+      "palette": "deep burgundy and cream with dark Northline north-arrow badge and red tomato illustration",
+      "productAngle": "near frontal, 10 degrees yaw and 7 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/pantry-original.png",
+        "rectPx": [
+          768,
+          0,
+          1152,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: a taller closed cylindrical tomato tin with narrow rolled silver ends and a recessed intact lid; the existing label follows a restrained cylindrical curve. Palette and identity: deep burgundy and cream with dark Northline north-arrow badge and red tomato illustration. Camera: near frontal, 10 degrees yaw and 7 degrees elevation. The visible manufacturer must remain \"Northline Canning\" and the product remains \"Whole Tomatoes\", quantity \"540 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/pantry-original.png, pixel rectangle [768, 0, 1152, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 4,
+      "id": "canned_peaches",
+      "brand": "Alder Creek Pantry",
+      "english": "Peach Halves",
+      "frenchMetadata": "Demi-peches",
+      "quantity": "398 mL",
+      "packaging": "a closed medium cylindrical fruit tin, narrow rolled silver ends and recessed intact lid; label stays broad and fully readable",
+      "palette": "gold ochre and cream with Alder Creek arched title and three-pine emblem",
+      "productAngle": "near frontal, 10 degrees yaw and 7 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/pantry-original.png",
+        "rectPx": [
+          1152,
+          0,
+          1536,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: a closed medium cylindrical fruit tin, narrow rolled silver ends and recessed intact lid; label stays broad and fully readable. Palette and identity: gold ochre and cream with Alder Creek arched title and three-pine emblem. Camera: near frontal, 10 degrees yaw and 7 degrees elevation. The visible manufacturer must remain \"Alder Creek Pantry\" and the product remains \"Peach Halves\", quantity \"398 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/pantry-original.png, pixel rectangle [1152, 0, 1536, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 5,
+      "id": "canned_mushroom_soup",
+      "brand": "Alder Creek Pantry",
+      "english": "Mushroom Soup",
+      "frenchMetadata": "Soupe aux champignons",
+      "quantity": "284 mL",
+      "packaging": "a compact upright soup tin with thin silver double seams and an intact recessed pull-tab lid; broad legible label face",
+      "palette": "copper brown, burgundy and warm cream with Alder Creek arched type",
+      "productAngle": "near frontal, 9 degrees yaw and 7 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/pantry-original.png",
+        "rectPx": [
+          0,
+          512,
+          384,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: a compact upright soup tin with thin silver double seams and an intact recessed pull-tab lid; broad legible label face. Palette and identity: copper brown, burgundy and warm cream with Alder Creek arched type. Camera: near frontal, 9 degrees yaw and 7 degrees elevation. The visible manufacturer must remain \"Alder Creek Pantry\" and the product remains \"Mushroom Soup\", quantity \"284 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/pantry-original.png, pixel rectangle [0, 512, 384, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 6,
+      "id": "canned_chicken_noodle_soup",
+      "brand": "Northline Canning",
+      "english": "Chicken Noodle Soup",
+      "frenchMetadata": "Soupe poulet et nouilles",
+      "quantity": "284 mL",
+      "packaging": "a compact upright soup tin with thin silver double seams and an intact recessed pull-tab lid; broad legible label face",
+      "palette": "gold ochre and warm cream with the original dark Northline badge",
+      "productAngle": "near frontal, 9 degrees yaw and 7 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/pantry-original.png",
+        "rectPx": [
+          384,
+          512,
+          768,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: a compact upright soup tin with thin silver double seams and an intact recessed pull-tab lid; broad legible label face. Palette and identity: gold ochre and warm cream with the original dark Northline badge. Camera: near frontal, 9 degrees yaw and 7 degrees elevation. The visible manufacturer must remain \"Northline Canning\" and the product remains \"Chicken Noodle Soup\", quantity \"284 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/pantry-original.png, pixel rectangle [384, 512, 768, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 7,
+      "id": "peanut_butter",
+      "brand": "Timber Trail",
+      "english": "Peanut Butter",
+      "frenchMetadata": "Beurre darachide",
+      "quantity": "500 g",
+      "packaging": "a broad pantry jar with a thin cream screw cap, subtle cap grip ridges, a rounded shoulder and warm brown contents showing above the existing label",
+      "palette": "warm peanut-brown/amber jar, cream cap, copper-brown and cream Timber Trail label with green mountain/trail crest",
+      "productAngle": "near frontal, 10 degrees yaw and 8 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/pantry-original.png",
+        "rectPx": [
+          768,
+          512,
+          1152,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: a broad pantry jar with a thin cream screw cap, subtle cap grip ridges, a rounded shoulder and warm brown contents showing above the existing label. Palette and identity: warm peanut-brown/amber jar, cream cap, copper-brown and cream Timber Trail label with green mountain/trail crest. Camera: near frontal, 10 degrees yaw and 8 degrees elevation. The visible manufacturer must remain \"Timber Trail\" and the product remains \"Peanut Butter\", quantity \"500 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/pantry-original.png, pixel rectangle [768, 512, 1152, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 8,
+      "id": "berry_jam",
+      "brand": "Boreal Preserves",
+      "english": "Wild Berry Jam",
+      "frenchMetadata": "Confiture de baies",
+      "quantity": "375 mL",
+      "packaging": "a wide squat preserve jar with a low dark navy twist cap, curved glass heel and shoulder, deep berry contents visible at the margins of the existing label",
+      "palette": "deep burgundy and cream berry label, dark navy lid and warm dark glass",
+      "productAngle": "near frontal, 10 degrees yaw and 8 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/pantry-original.png",
+        "rectPx": [
+          1152,
+          512,
+          1536,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: a wide squat preserve jar with a low dark navy twist cap, curved glass heel and shoulder, deep berry contents visible at the margins of the existing label. Palette and identity: deep burgundy and cream berry label, dark navy lid and warm dark glass. Camera: near frontal, 10 degrees yaw and 8 degrees elevation. The visible manufacturer must remain \"Boreal Preserves\" and the product remains \"Wild Berry Jam\", quantity \"375 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/pantry-original.png, pixel rectangle [1152, 512, 1536, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 9,
+      "id": "condensed_milk",
+      "brand": "Hearthvale Dairy",
+      "english": "Condensed Milk",
+      "frenchMetadata": "Lait concentre sucre",
+      "quantity": "300 mL",
+      "packaging": "a compact squat cylindrical milk tin, thin silver rolled rims and an intact recessed lid; preserve its short broad silhouette",
+      "palette": "warm cream paper with forest-green Hearthvale oval farm badge and restrained burgundy accents",
+      "productAngle": "near frontal, 8 degrees yaw and 8 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/snacks-original.png",
+        "rectPx": [
+          0,
+          0,
+          384,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: a compact squat cylindrical milk tin, thin silver rolled rims and an intact recessed lid; preserve its short broad silhouette. Palette and identity: warm cream paper with forest-green Hearthvale oval farm badge and restrained burgundy accents. Camera: near frontal, 8 degrees yaw and 8 degrees elevation. The visible manufacturer must remain \"Hearthvale Dairy\" and the product remains \"Condensed Milk\", quantity \"300 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/snacks-original.png, pixel rectangle [0, 0, 384, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 10,
+      "id": "processed_cheese",
+      "brand": "Hearthvale Dairy",
+      "english": "Processed Cheese",
+      "frenchMetadata": "Fromage fondu",
+      "quantity": "250 g",
+      "packaging": "an oblong rectangular cheese block inside softly folded paper and foil, broad cream front, unequal forest-green folded end flaps, shallow wrinkles and thin seated paper overlaps; filled core rather than a rigid box",
+      "palette": "cream central face, forest-green ends, dark-green Hearthvale oval pastoral logo, thin burgundy rules and golden cheese illustration",
+      "productAngle": "horizontal product, front dominates, 18 degrees yaw and 12 degrees elevation, slight natural diagonal tilt",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/horizontal_wrappers-original.png",
+        "rectPx": [
+          0,
+          0,
+          768,
+          280
+        ],
+        "kind": "existing horizontal front print with painted film folds; opaque artwork, not a product portrait",
+        "cropBasis": "existing v2/v4 wrapper regions; inspect edge before extracting"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: an oblong rectangular cheese block inside softly folded paper and foil, broad cream front, unequal forest-green folded end flaps, shallow wrinkles and thin seated paper overlaps; filled core rather than a rigid box. Palette and identity: cream central face, forest-green ends, dark-green Hearthvale oval pastoral logo, thin burgundy rules and golden cheese illustration. Camera: horizontal product, front dominates, 18 degrees yaw and 12 degrees elevation, slight natural diagonal tilt. The visible manufacturer must remain \"Hearthvale Dairy\" and the product remains \"Processed Cheese\", quantity \"250 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/horizontal_wrappers-original.png, pixel rectangle [0, 0, 768, 280]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 11,
+      "id": "salted_peanuts",
+      "brand": "Driftwood Snacks",
+      "english": "Salted Peanuts",
+      "frenchMetadata": "Arachides salees",
+      "quantity": "150 g",
+      "packaging": "a filled sealed snack pouch with a broad softly rounded middle, uneven gathered lower corners and a thin full-width crimped top; small convincing shallow side volume",
+      "palette": "gold ochre pouch with the existing dark Driftwood Snacks ribbon and cream/brown peanut print",
+      "productAngle": "mostly frontal, 7 degrees yaw and 5 degrees elevation, a slight 2-degree tilt",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/snacks-original.png",
+        "rectPx": [
+          768,
+          0,
+          1152,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: a filled sealed snack pouch with a broad softly rounded middle, uneven gathered lower corners and a thin full-width crimped top; small convincing shallow side volume. Palette and identity: gold ochre pouch with the existing dark Driftwood Snacks ribbon and cream/brown peanut print. Camera: mostly frontal, 7 degrees yaw and 5 degrees elevation, a slight 2-degree tilt. The visible manufacturer must remain \"Driftwood Snacks\" and the product remains \"Salted Peanuts\", quantity \"150 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/snacks-original.png, pixel rectangle [768, 0, 1152, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 12,
+      "id": "beef_jerky",
+      "brand": "Ridgeline Smokehouse",
+      "english": "Beef Jerky",
+      "frenchMetadata": "Boeuf seche",
+      "quantity": "80 g",
+      "packaging": "a flatter vacuum-sealed meat pouch with subtle uneven contents beneath the film, gently tensioned corners and thin crimped edges; not a standing rigid carton",
+      "palette": "deep burgundy pouch with cream Ridgeline mountain-seal lettering",
+      "productAngle": "mostly frontal, 6 degrees yaw and 4 degrees elevation, a slight 2-degree tilt",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/snacks-original.png",
+        "rectPx": [
+          1152,
+          0,
+          1536,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: a flatter vacuum-sealed meat pouch with subtle uneven contents beneath the film, gently tensioned corners and thin crimped edges; not a standing rigid carton. Palette and identity: deep burgundy pouch with cream Ridgeline mountain-seal lettering. Camera: mostly frontal, 6 degrees yaw and 4 degrees elevation, a slight 2-degree tilt. The visible manufacturer must remain \"Ridgeline Smokehouse\" and the product remains \"Beef Jerky\", quantity \"80 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/snacks-original.png, pixel rectangle [1152, 0, 1536, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 13,
+      "id": "granola_bar",
+      "brand": "Timber Trail",
+      "english": "Granola Bar",
+      "frenchMetadata": "Barre granola",
+      "quantity": "40 g",
+      "packaging": "one short filled granola bar in a continuous flexible film wrapper, broad cream printed face, thin forest-green pinched seals at the two ends and small unequal wrapping folds",
+      "palette": "cream central face and forest-green wrapper ends with the original green Timber Trail mountain/trail crest",
+      "productAngle": "horizontal, front dominates, 12 degrees yaw and 9 degrees elevation, slight 3-degree tilt",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/horizontal_wrappers-original.png",
+        "rectPx": [
+          768,
+          0,
+          1536,
+          280
+        ],
+        "kind": "existing horizontal front print with painted film folds; opaque artwork, not a product portrait",
+        "cropBasis": "existing v2/v4 wrapper regions; inspect edge before extracting"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one short filled granola bar in a continuous flexible film wrapper, broad cream printed face, thin forest-green pinched seals at the two ends and small unequal wrapping folds. Palette and identity: cream central face and forest-green wrapper ends with the original green Timber Trail mountain/trail crest. Camera: horizontal, front dominates, 12 degrees yaw and 9 degrees elevation, slight 3-degree tilt. The visible manufacturer must remain \"Timber Trail\" and the product remains \"Granola Bar\", quantity \"40 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/horizontal_wrappers-original.png, pixel rectangle [768, 0, 1536, 280]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 14,
+      "id": "potato_chips",
+      "brand": "Driftwood Snacks",
+      "english": "Potato Chips",
+      "frenchMetadata": "Croustilles",
+      "quantity": "180 g",
+      "packaging": "one broad puffy chip bag with a full middle, uneven soft shoulders, gathered lower corners and narrow crimped top and bottom seals; soft flexible foil rather than a rectangular slab",
+      "palette": "gold ochre with the original dark Driftwood Snacks ribbon and pale potato/chip illustration",
+      "productAngle": "mostly frontal, 7 degrees yaw and 5 degrees elevation, a slight 3-degree tilt",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/snacks-original.png",
+        "rectPx": [
+          384,
+          512,
+          768,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one broad puffy chip bag with a full middle, uneven soft shoulders, gathered lower corners and narrow crimped top and bottom seals; soft flexible foil rather than a rectangular slab. Palette and identity: gold ochre with the original dark Driftwood Snacks ribbon and pale potato/chip illustration. Camera: mostly frontal, 7 degrees yaw and 5 degrees elevation, a slight 3-degree tilt. The visible manufacturer must remain \"Driftwood Snacks\" and the product remains \"Potato Chips\", quantity \"180 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/snacks-original.png, pixel rectangle [384, 512, 768, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 15,
+      "id": "smoked_sausage",
+      "brand": "Ridgeline Smokehouse",
+      "english": "Smoked Sausage",
+      "frenchMetadata": "Saucisson fume",
+      "quantity": "300 g",
+      "packaging": "one upright smoked-sausage chub in reddish-brown wrinkled casing, slightly curved filled body, a central printed wraparound label, two narrow tied casing ends and fine cord; no cut slices outside the package",
+      "palette": "reddish-brown casing and the existing burgundy/cream Ridgeline mountain-seal label",
+      "productAngle": "nearly frontal and upright, 8 degrees yaw and 5 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/snacks-original.png",
+        "rectPx": [
+          768,
+          512,
+          1152,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one upright smoked-sausage chub in reddish-brown wrinkled casing, slightly curved filled body, a central printed wraparound label, two narrow tied casing ends and fine cord; no cut slices outside the package. Palette and identity: reddish-brown casing and the existing burgundy/cream Ridgeline mountain-seal label. Camera: nearly frontal and upright, 8 degrees yaw and 5 degrees elevation. The visible manufacturer must remain \"Ridgeline Smokehouse\" and the product remains \"Smoked Sausage\", quantity \"300 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/snacks-original.png, pixel rectangle [768, 512, 1152, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 16,
+      "id": "chocolate_bar",
+      "brand": "Northstar Sweets",
+      "english": "Chocolate Bar",
+      "frenchMetadata": "Barre de chocolat",
+      "quantity": "100 g",
+      "packaging": "one broad flat chocolate slab in a flexible burgundy film wrapper, cream front panel, thin unequal crimped end fins and restrained soft wrapping folds",
+      "palette": "burgundy wrapper, warm cream front band and Northstar Sweets cream-star emblem",
+      "productAngle": "horizontal, front dominates, 14 degrees yaw and 10 degrees elevation, slight 3-degree tilt",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/horizontal_wrappers-original.png",
+        "rectPx": [
+          0,
+          280,
+          768,
+          544
+        ],
+        "kind": "existing horizontal front print with painted film folds; opaque artwork, not a product portrait",
+        "cropBasis": "existing v2/v4 wrapper regions; inspect edge before extracting"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one broad flat chocolate slab in a flexible burgundy film wrapper, cream front panel, thin unequal crimped end fins and restrained soft wrapping folds. Palette and identity: burgundy wrapper, warm cream front band and Northstar Sweets cream-star emblem. Camera: horizontal, front dominates, 14 degrees yaw and 10 degrees elevation, slight 3-degree tilt. The visible manufacturer must remain \"Northstar Sweets\" and the product remains \"Chocolate Bar\", quantity \"100 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/horizontal_wrappers-original.png, pixel rectangle [0, 280, 768, 544]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 17,
+      "id": "wafers",
+      "brand": "Northstar Sweets",
+      "english": "Wafers",
+      "frenchMetadata": "Gaufrettes",
+      "quantity": "150 g",
+      "packaging": "one broad layered wafer pack in softly folded burgundy wrapping; thicker filled core than the chocolate bar, thin unequal closed end seals, broad readable cream face",
+      "palette": "warm burgundy wrapper, cream front band and the original Northstar Sweets star emblem",
+      "productAngle": "horizontal, front dominates, 14 degrees yaw and 10 degrees elevation, slight 2-degree tilt",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/horizontal_wrappers-original.png",
+        "rectPx": [
+          768,
+          280,
+          1536,
+          544
+        ],
+        "kind": "existing horizontal front print with painted film folds; opaque artwork, not a product portrait",
+        "cropBasis": "existing v2/v4 wrapper regions; inspect edge before extracting"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one broad layered wafer pack in softly folded burgundy wrapping; thicker filled core than the chocolate bar, thin unequal closed end seals, broad readable cream face. Palette and identity: warm burgundy wrapper, cream front band and the original Northstar Sweets star emblem. Camera: horizontal, front dominates, 14 degrees yaw and 10 degrees elevation, slight 2-degree tilt. The visible manufacturer must remain \"Northstar Sweets\" and the product remains \"Wafers\", quantity \"150 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/horizontal_wrappers-original.png, pixel rectangle [768, 280, 1536, 544]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 18,
+      "id": "oatmeal_cookies",
+      "brand": "Copper Kettle",
+      "english": "Oatmeal Cookies",
+      "frenchMetadata": "Biscuits a lavoine",
+      "quantity": "200 g",
+      "packaging": "one filled cookie pouch with soft unequal contents, rounded lower corners, lightly gathered shoulders and a narrow uneven sealed top; a broad natural food-packet silhouette",
+      "palette": "dark navy pouch with warm cream Copper Kettle label and copper-kettle emblem",
+      "productAngle": "mostly frontal, 7 degrees yaw and 5 degrees elevation, slight 2-degree tilt",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/dry_goods-original.png",
+        "rectPx": [
+          384,
+          0,
+          768,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one filled cookie pouch with soft unequal contents, rounded lower corners, lightly gathered shoulders and a narrow uneven sealed top; a broad natural food-packet silhouette. Palette and identity: dark navy pouch with warm cream Copper Kettle label and copper-kettle emblem. Camera: mostly frontal, 7 degrees yaw and 5 degrees elevation, slight 2-degree tilt. The visible manufacturer must remain \"Copper Kettle\" and the product remains \"Oatmeal Cookies\", quantity \"200 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/dry_goods-original.png, pixel rectangle [384, 0, 768, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 19,
+      "id": "energy_bar",
+      "brand": "Timber Trail",
+      "english": "Trail Energy Bar",
+      "frenchMetadata": "Barre energetique",
+      "quantity": "60 g",
+      "packaging": "one low filled trail-energy bar in a continuous flexible wrapper, broad cream face, thin burgundy pinched ends and small uneven surface folds; distinctly lower than the wafer pack",
+      "palette": "burgundy wrapper with cream front and green Timber Trail mountain/trail crest",
+      "productAngle": "horizontal, front dominates, 12 degrees yaw and 8 degrees elevation, slight 3-degree tilt",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/horizontal_wrappers-original.png",
+        "rectPx": [
+          0,
+          544,
+          768,
+          784
+        ],
+        "kind": "existing horizontal front print with painted film folds; opaque artwork, not a product portrait",
+        "cropBasis": "existing v2/v4 wrapper regions; inspect edge before extracting"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one low filled trail-energy bar in a continuous flexible wrapper, broad cream face, thin burgundy pinched ends and small uneven surface folds; distinctly lower than the wafer pack. Palette and identity: burgundy wrapper with cream front and green Timber Trail mountain/trail crest. Camera: horizontal, front dominates, 12 degrees yaw and 8 degrees elevation, slight 3-degree tilt. The visible manufacturer must remain \"Timber Trail\" and the product remains \"Trail Energy Bar\", quantity \"60 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/horizontal_wrappers-original.png, pixel rectangle [0, 544, 768, 784]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 20,
+      "id": "instant_noodles",
+      "brand": "Copper Kettle",
+      "english": "Instant Noodles",
+      "frenchMetadata": "Nouilles instantanees",
+      "quantity": "85 g",
+      "packaging": "one broad almost-square pillow packet of instant noodles, low filled centre, rounded slack corners, light gathered shoulders and thin sealed film borders; neither a skinny standing pouch nor a rigid box",
+      "palette": "copper brown with cream Copper Kettle title band and copper-kettle emblem",
+      "productAngle": "mostly frontal, 9 degrees yaw and 5 degrees elevation, slight 2-degree tilt",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/dry_goods-original.png",
+        "rectPx": [
+          1152,
+          0,
+          1536,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one broad almost-square pillow packet of instant noodles, low filled centre, rounded slack corners, light gathered shoulders and thin sealed film borders; neither a skinny standing pouch nor a rigid box. Palette and identity: copper brown with cream Copper Kettle title band and copper-kettle emblem. Camera: mostly frontal, 9 degrees yaw and 5 degrees elevation, slight 2-degree tilt. The visible manufacturer must remain \"Copper Kettle\" and the product remains \"Instant Noodles\", quantity \"85 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/dry_goods-original.png, pixel rectangle [1152, 0, 1536, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 21,
+      "id": "potato_flakes",
+      "brand": "Copper Kettle",
+      "english": "Potato Flakes",
+      "frenchMetadata": "Flocons de pommes de terre",
+      "quantity": "250 g",
+      "packaging": "one upright rectangular carton with crisp thin card edges, a narrow visible side, slightly seated top closing flaps and a delicate real overlap seam; naturally handled card with subtle creases",
+      "palette": "navy carton with cream Copper Kettle title panel and copper-kettle emblem",
+      "productAngle": "shallow three-quarter product view, 22 degrees yaw and 10 degrees elevation, front clearly dominant",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/dry_goods-original.png",
+        "rectPx": [
+          0,
+          512,
+          384,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one upright rectangular carton with crisp thin card edges, a narrow visible side, slightly seated top closing flaps and a delicate real overlap seam; naturally handled card with subtle creases. Palette and identity: navy carton with cream Copper Kettle title panel and copper-kettle emblem. Camera: shallow three-quarter product view, 22 degrees yaw and 10 degrees elevation, front clearly dominant. The visible manufacturer must remain \"Copper Kettle\" and the product remains \"Potato Flakes\", quantity \"250 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/dry_goods-original.png, pixel rectangle [0, 512, 384, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 22,
+      "id": "corn_flakes",
+      "brand": "Timber Trail",
+      "english": "Corn Flakes",
+      "frenchMetadata": "Flocons de mais",
+      "quantity": "375 g",
+      "packaging": "one upright rectangular cereal carton with crisp thin card edges, a narrow visible side, seated overlapping top flaps and a fine closing seam; restrained real card folds",
+      "palette": "gold ochre carton with cream printed face and green Timber Trail mountain/trail crest",
+      "productAngle": "shallow three-quarter product view, 22 degrees yaw and 10 degrees elevation, front clearly dominant",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/dry_goods-original.png",
+        "rectPx": [
+          384,
+          512,
+          768,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one upright rectangular cereal carton with crisp thin card edges, a narrow visible side, seated overlapping top flaps and a fine closing seam; restrained real card folds. Palette and identity: gold ochre carton with cream printed face and green Timber Trail mountain/trail crest. Camera: shallow three-quarter product view, 22 degrees yaw and 10 degrees elevation, front clearly dominant. The visible manufacturer must remain \"Timber Trail\" and the product remains \"Corn Flakes\", quantity \"375 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/dry_goods-original.png, pixel rectangle [384, 512, 768, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 23,
+      "id": "cola",
+      "brand": "Boreal Bottling",
+      "english": "Cola",
+      "frenchMetadata": "Cola",
+      "quantity": "355 mL",
+      "packaging": "one sealed slender beverage can, nearly vertical straight body, a small necked shoulder, thin silver rolled rim, subtly visible recessed lid and real ring pull; silhouette about 1.9 times as tall as wide",
+      "palette": "deep maroon painted metal with the exact cream Boreal Bottling oval and flowing Cola lettering",
+      "productAngle": "nearly frontal, 0 degrees yaw and 7 degrees elevation, only a small lid ellipse",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/dry_goods-original.png",
+        "rectPx": [
+          768,
+          512,
+          1152,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one sealed slender beverage can, nearly vertical straight body, a small necked shoulder, thin silver rolled rim, subtly visible recessed lid and real ring pull; silhouette about 1.9 times as tall as wide. Palette and identity: deep maroon painted metal with the exact cream Boreal Bottling oval and flowing Cola lettering. Camera: nearly frontal, 0 degrees yaw and 7 degrees elevation, only a small lid ellipse. The visible manufacturer must remain \"Boreal Bottling\" and the product remains \"Cola\", quantity \"355 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/dry_goods-original.png, pixel rectangle [768, 512, 1152, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 24,
+      "id": "energy_cola",
+      "brand": "Summit Charge",
+      "english": "Energy Cola",
+      "frenchMetadata": "Cola energetique",
+      "quantity": "355 mL",
+      "packaging": "one sealed slender beverage can, straight body, small shoulder, thin silver rolled rim, subtly visible recessed lid and real ring pull; silhouette about 1.9 times as tall as wide",
+      "palette": "deep forest-green metal with the exact cream Summit Charge lettering and restrained green/yellow lightning stripe",
+      "productAngle": "nearly frontal, 0 degrees yaw and 7 degrees elevation, only a small lid ellipse",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/dry_goods-original.png",
+        "rectPx": [
+          1152,
+          512,
+          1536,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one sealed slender beverage can, straight body, small shoulder, thin silver rolled rim, subtly visible recessed lid and real ring pull; silhouette about 1.9 times as tall as wide. Palette and identity: deep forest-green metal with the exact cream Summit Charge lettering and restrained green/yellow lightning stripe. Camera: nearly frontal, 0 degrees yaw and 7 degrees elevation, only a small lid ellipse. The visible manufacturer must remain \"Summit Charge\" and the product remains \"Energy Cola\", quantity \"355 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/dry_goods-original.png, pixel rectangle [1152, 512, 1536, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 25,
+      "id": "lemon_lime_soda",
+      "brand": "Boreal Bottling",
+      "english": "Lemon-Lime Soda",
+      "frenchMetadata": "Soda citron-lime",
+      "quantity": "355 mL",
+      "packaging": "one sealed slender beverage can, nearly vertical body, understated shoulder, thin silver rolled rim, subtly recessed lid and ring pull; silhouette around 1.9 to 2.0 times as tall as wide",
+      "palette": "deep forest green with cream Boreal Bottling oval, original lemon-and-lime illustration and cream lettering",
+      "productAngle": "nearly frontal, 0 degrees yaw and 7 degrees elevation, only a small lid ellipse",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/cold_drinks-original.png",
+        "rectPx": [
+          0,
+          0,
+          384,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one sealed slender beverage can, nearly vertical body, understated shoulder, thin silver rolled rim, subtly recessed lid and ring pull; silhouette around 1.9 to 2.0 times as tall as wide. Palette and identity: deep forest green with cream Boreal Bottling oval, original lemon-and-lime illustration and cream lettering. Camera: nearly frontal, 0 degrees yaw and 7 degrees elevation, only a small lid ellipse. The visible manufacturer must remain \"Boreal Bottling\" and the product remains \"Lemon-Lime Soda\", quantity \"355 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/cold_drinks-original.png, pixel rectangle [0, 0, 384, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 26,
+      "id": "ginger_ale",
+      "brand": "Boreal Bottling",
+      "english": "Ginger Ale",
+      "frenchMetadata": "Soda au gingembre",
+      "quantity": "355 mL",
+      "packaging": "one sealed slim beverage can, nearly vertical body, understated shoulder, thin silver rolled rim and recessed ring-pull lid; familiar slender silhouette around 1.85 times as tall as wide",
+      "palette": "gold ochre metal with the exact cream-and-green Boreal Bottling oval and original ginger illustration",
+      "productAngle": "nearly frontal, 0 degrees yaw and 7 degrees elevation, only a small lid ellipse",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/cold_drinks-original.png",
+        "rectPx": [
+          384,
+          0,
+          768,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one sealed slim beverage can, nearly vertical body, understated shoulder, thin silver rolled rim and recessed ring-pull lid; familiar slender silhouette around 1.85 times as tall as wide. Palette and identity: gold ochre metal with the exact cream-and-green Boreal Bottling oval and original ginger illustration. Camera: nearly frontal, 0 degrees yaw and 7 degrees elevation, only a small lid ellipse. The visible manufacturer must remain \"Boreal Bottling\" and the product remains \"Ginger Ale\", quantity \"355 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/cold_drinks-original.png, pixel rectangle [384, 0, 768, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 27,
+      "id": "orange_soda",
+      "brand": "Boreal Bottling",
+      "english": "Orange Soda",
+      "frenchMetadata": "Soda a lorange",
+      "quantity": "355 mL",
+      "packaging": "one sealed slender beverage can, nearly vertical body, small shoulder, thin silver rolled rim and recessed ring-pull lid; silhouette around 1.9 times as tall as wide",
+      "palette": "burnt orange/copper metal with cream Boreal Bottling oval and the existing orange illustration",
+      "productAngle": "nearly frontal, 0 degrees yaw and 7 degrees elevation, only a small lid ellipse",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/cold_drinks-original.png",
+        "rectPx": [
+          768,
+          0,
+          1152,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one sealed slender beverage can, nearly vertical body, small shoulder, thin silver rolled rim and recessed ring-pull lid; silhouette around 1.9 times as tall as wide. Palette and identity: burnt orange/copper metal with cream Boreal Bottling oval and the existing orange illustration. Camera: nearly frontal, 0 degrees yaw and 7 degrees elevation, only a small lid ellipse. The visible manufacturer must remain \"Boreal Bottling\" and the product remains \"Orange Soda\", quantity \"355 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/cold_drinks-original.png, pixel rectangle [768, 0, 1152, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 28,
+      "id": "root_beer",
+      "brand": "Boreal Bottling",
+      "english": "Root Beer",
+      "frenchMetadata": "Racinette",
+      "quantity": "355 mL",
+      "packaging": "one sealed slim beverage can, nearly vertical body, small shoulder, thin silver rolled rim and recessed ring-pull lid; familiar slender silhouette around 1.85 times as tall as wide",
+      "palette": "dark warm brown with cream Boreal Bottling oval and original foamy root-beer illustration",
+      "productAngle": "nearly frontal, 0 degrees yaw and 7 degrees elevation, only a small lid ellipse",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/cold_drinks-original.png",
+        "rectPx": [
+          1152,
+          0,
+          1536,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one sealed slim beverage can, nearly vertical body, small shoulder, thin silver rolled rim and recessed ring-pull lid; familiar slender silhouette around 1.85 times as tall as wide. Palette and identity: dark warm brown with cream Boreal Bottling oval and original foamy root-beer illustration. Camera: nearly frontal, 0 degrees yaw and 7 degrees elevation, only a small lid ellipse. The visible manufacturer must remain \"Boreal Bottling\" and the product remains \"Root Beer\", quantity \"355 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/cold_drinks-original.png, pixel rectangle [1152, 0, 1536, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 29,
+      "id": "apple_juice",
+      "brand": "Valley Orchards",
+      "english": "Apple Juice",
+      "frenchMetadata": "Jus de pomme",
+      "quantity": "1 L",
+      "packaging": "one upright one-litre paperboard juice carton with a folded gable top, tucked triangular ends and a thin glued closing ridge; broad readable front, subtle side and heel folds",
+      "palette": "forest green with the existing cream Valley Orchards fruit-tree crest and red apple illustration",
+      "productAngle": "shallow three-quarter, 18 degrees yaw and 9 degrees elevation, front dominant",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/cold_drinks-original.png",
+        "rectPx": [
+          0,
+          512,
+          384,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one upright one-litre paperboard juice carton with a folded gable top, tucked triangular ends and a thin glued closing ridge; broad readable front, subtle side and heel folds. Palette and identity: forest green with the existing cream Valley Orchards fruit-tree crest and red apple illustration. Camera: shallow three-quarter, 18 degrees yaw and 9 degrees elevation, front dominant. The visible manufacturer must remain \"Valley Orchards\" and the product remains \"Apple Juice\", quantity \"1 L\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/cold_drinks-original.png, pixel rectangle [0, 512, 384, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 30,
+      "id": "orange_juice",
+      "brand": "Valley Orchards",
+      "english": "Orange Juice",
+      "frenchMetadata": "Jus dorange",
+      "quantity": "1 L",
+      "packaging": "one upright one-litre paperboard juice carton with a folded gable top, tucked triangular ends and a thin glued closing ridge; broad readable front, subtle side and heel folds",
+      "palette": "gold ochre with the original cream-and-green Valley Orchards fruit-tree crest and orange illustration",
+      "productAngle": "shallow three-quarter, 18 degrees yaw and 9 degrees elevation, front dominant",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/cold_drinks-original.png",
+        "rectPx": [
+          384,
+          512,
+          768,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one upright one-litre paperboard juice carton with a folded gable top, tucked triangular ends and a thin glued closing ridge; broad readable front, subtle side and heel folds. Palette and identity: gold ochre with the original cream-and-green Valley Orchards fruit-tree crest and orange illustration. Camera: shallow three-quarter, 18 degrees yaw and 9 degrees elevation, front dominant. The visible manufacturer must remain \"Valley Orchards\" and the product remains \"Orange Juice\", quantity \"1 L\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/cold_drinks-original.png, pixel rectangle [384, 512, 768, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 31,
+      "id": "grape_juice",
+      "brand": "Valley Orchards",
+      "english": "Grape Juice",
+      "frenchMetadata": "Jus de raisin",
+      "quantity": "1 L",
+      "packaging": "one upright one-litre paperboard juice carton with a folded gable top, tucked triangular ends and a thin glued closing ridge; broad readable front, subtle side and heel folds",
+      "palette": "deep burgundy with the existing cream-and-green Valley Orchards fruit-tree crest and purple grape illustration",
+      "productAngle": "shallow three-quarter, 18 degrees yaw and 9 degrees elevation, front dominant",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/cold_drinks-original.png",
+        "rectPx": [
+          768,
+          512,
+          1152,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one upright one-litre paperboard juice carton with a folded gable top, tucked triangular ends and a thin glued closing ridge; broad readable front, subtle side and heel folds. Palette and identity: deep burgundy with the existing cream-and-green Valley Orchards fruit-tree crest and purple grape illustration. Camera: shallow three-quarter, 18 degrees yaw and 9 degrees elevation, front dominant. The visible manufacturer must remain \"Valley Orchards\" and the product remains \"Grape Juice\", quantity \"1 L\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/cold_drinks-original.png, pixel rectangle [768, 512, 1152, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 32,
+      "id": "iced_tea",
+      "brand": "Spruce House",
+      "english": "Iced Tea",
+      "frenchMetadata": "The glace",
+      "quantity": "1 L",
+      "packaging": "one upright one-litre paperboard iced-tea carton with a folded gable top, tucked triangular ends and a thin glued closing ridge; broad readable front, subtle side and heel folds",
+      "palette": "warm copper brown with the existing cream Spruce House spruce-branch crest and iced-tea illustration",
+      "productAngle": "shallow three-quarter, 18 degrees yaw and 9 degrees elevation, front dominant",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/cold_drinks-original.png",
+        "rectPx": [
+          1152,
+          512,
+          1536,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one upright one-litre paperboard iced-tea carton with a folded gable top, tucked triangular ends and a thin glued closing ridge; broad readable front, subtle side and heel folds. Palette and identity: warm copper brown with the existing cream Spruce House spruce-branch crest and iced-tea illustration. Camera: shallow three-quarter, 18 degrees yaw and 9 degrees elevation, front dominant. The visible manufacturer must remain \"Spruce House\" and the product remains \"Iced Tea\", quantity \"1 L\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/cold_drinks-original.png, pixel rectangle [1152, 512, 1536, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 33,
+      "id": "fruit_drink",
+      "brand": "Valley Orchards",
+      "english": "Powdered Fruit Drink",
+      "frenchMetadata": "Boisson aux fruits en poudre",
+      "quantity": "200 g",
+      "packaging": "one broad soft sachet of powdered fruit drink, a lightly filled middle, gently tensioned rounded corners and a thin uneven top seal; shallow real thickness, not a flat sign",
+      "palette": "deep burgundy with cream Valley Orchards fruit-tree crest and the existing berry-drink/powder illustration",
+      "productAngle": "mostly frontal, 6 degrees yaw and 4 degrees elevation, slight 2-degree tilt",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/northern_drinks-original.png",
+        "rectPx": [
+          0,
+          0,
+          384,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one broad soft sachet of powdered fruit drink, a lightly filled middle, gently tensioned rounded corners and a thin uneven top seal; shallow real thickness, not a flat sign. Palette and identity: deep burgundy with cream Valley Orchards fruit-tree crest and the existing berry-drink/powder illustration. Camera: mostly frontal, 6 degrees yaw and 4 degrees elevation, slight 2-degree tilt. The visible manufacturer must remain \"Valley Orchards\" and the product remains \"Powdered Fruit Drink\", quantity \"200 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/northern_drinks-original.png, pixel rectangle [0, 0, 384, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 34,
+      "id": "black_tea",
+      "brand": "Spruce House",
+      "english": "Black Tea",
+      "frenchMetadata": "The noir",
+      "quantity": "20 bags / sachets",
+      "packaging": "one upright tea carton with crisp thin card edges, modest side depth, seated overlapping top flaps and a fine closing seam; restrained paper handling",
+      "palette": "forest green with cream Spruce House spruce-branch crest and the existing tea-cup illustration",
+      "productAngle": "shallow three-quarter, 20 degrees yaw and 9 degrees elevation, front dominant",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/northern_drinks-original.png",
+        "rectPx": [
+          384,
+          0,
+          768,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one upright tea carton with crisp thin card edges, modest side depth, seated overlapping top flaps and a fine closing seam; restrained paper handling. Palette and identity: forest green with cream Spruce House spruce-branch crest and the existing tea-cup illustration. Camera: shallow three-quarter, 20 degrees yaw and 9 degrees elevation, front dominant. The visible manufacturer must remain \"Spruce House\" and the product remains \"Black Tea\", quantity \"20 bags / sachets\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/northern_drinks-original.png, pixel rectangle [384, 0, 768, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 35,
+      "id": "coffee",
+      "brand": "Copper Kettle",
+      "english": "Ground Coffee",
+      "frenchMetadata": "Cafe moulu",
+      "quantity": "200 g",
+      "packaging": "one taller pantry coffee jar with a low dark navy screw cap, rounded shoulder and heel, brown coffee visible around the existing label; no exposed loose grounds",
+      "palette": "warm coffee brown/amber jar, dark navy cap and cream Copper Kettle coffee-company artwork",
+      "productAngle": "near frontal, 10 degrees yaw and 8 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/northern_drinks-original.png",
+        "rectPx": [
+          768,
+          0,
+          1152,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one taller pantry coffee jar with a low dark navy screw cap, rounded shoulder and heel, brown coffee visible around the existing label; no exposed loose grounds. Palette and identity: warm coffee brown/amber jar, dark navy cap and cream Copper Kettle coffee-company artwork. Camera: near frontal, 10 degrees yaw and 8 degrees elevation. The visible manufacturer must remain \"Copper Kettle\" and the product remains \"Ground Coffee\", quantity \"200 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/northern_drinks-original.png, pixel rectangle [768, 0, 1152, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 36,
+      "id": "cocoa",
+      "brand": "Northstar Sweets",
+      "english": "Hot Cocoa",
+      "frenchMetadata": "Chocolat chaud",
+      "quantity": "250 g",
+      "packaging": "one upright cocoa carton with thin crisp card edges, modest side depth, lightly seated top closing flaps and a fine overlap seam",
+      "palette": "deep burgundy carton with warm cream Northstar Sweets lettering, cream-star emblem and existing cocoa-mug illustration",
+      "productAngle": "shallow three-quarter, 20 degrees yaw and 9 degrees elevation, front dominant",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/northern_drinks-original.png",
+        "rectPx": [
+          1152,
+          0,
+          1536,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one upright cocoa carton with thin crisp card edges, modest side depth, lightly seated top closing flaps and a fine overlap seam. Palette and identity: deep burgundy carton with warm cream Northstar Sweets lettering, cream-star emblem and existing cocoa-mug illustration. Camera: shallow three-quarter, 20 degrees yaw and 9 degrees elevation, front dominant. The visible manufacturer must remain \"Northstar Sweets\" and the product remains \"Hot Cocoa\", quantity \"250 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/northern_drinks-original.png, pixel rectangle [1152, 0, 1536, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 37,
+      "id": "rosehip_infusion",
+      "brand": "Spruce House",
+      "english": "Rosehip Infusion",
+      "frenchMetadata": "Infusion de cynorhodon",
+      "quantity": "500 mL",
+      "packaging": "one sealed amber-glass infusion bottle with a rounded shoulder, relatively slim body and neck, a thin dark navy screw cap and the existing broad paper label",
+      "palette": "warm amber glass, copper-brown/cream Spruce House label and the original rosehip-and-flower illustration",
+      "productAngle": "near frontal, 10 degrees yaw and 8 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/northern_drinks-original.png",
+        "rectPx": [
+          0,
+          512,
+          384,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one sealed amber-glass infusion bottle with a rounded shoulder, relatively slim body and neck, a thin dark navy screw cap and the existing broad paper label. Palette and identity: warm amber glass, copper-brown/cream Spruce House label and the original rosehip-and-flower illustration. Camera: near frontal, 10 degrees yaw and 8 degrees elevation. The visible manufacturer must remain \"Spruce House\" and the product remains \"Rosehip Infusion\", quantity \"500 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/northern_drinks-original.png, pixel rectangle [0, 512, 384, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 38,
+      "id": "chaga_infusion",
+      "brand": "Spruce House",
+      "english": "Chaga Infusion",
+      "frenchMetadata": "Infusion de chaga",
+      "quantity": "500 mL",
+      "packaging": "one sealed amber-glass infusion bottle with a slightly broader body and shorter wider neck than rosehip, a rounded shoulder and a thin dark navy screw cap",
+      "palette": "warm amber glass, copper-brown/cream Spruce House label and the original chaga/birch illustration",
+      "productAngle": "near frontal, 10 degrees yaw and 8 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/northern_drinks-original.png",
+        "rectPx": [
+          384,
+          512,
+          768,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one sealed amber-glass infusion bottle with a slightly broader body and shorter wider neck than rosehip, a rounded shoulder and a thin dark navy screw cap. Palette and identity: warm amber glass, copper-brown/cream Spruce House label and the original chaga/birch illustration. Camera: near frontal, 10 degrees yaw and 8 degrees elevation. The visible manufacturer must remain \"Spruce House\" and the product remains \"Chaga Infusion\", quantity \"500 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/northern_drinks-original.png, pixel rectangle [384, 512, 768, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 39,
+      "id": "cranberry_drink",
+      "brand": "Boreal Preserves",
+      "english": "Cranberry Drink",
+      "frenchMetadata": "Boisson aux canneberges",
+      "quantity": "500 mL",
+      "packaging": "one sealed amber-glass berry-drink bottle with a softly rounded juice-bottle shoulder, medium neck and a thin dark navy screw cap; preserve a believable filled bottle",
+      "palette": "warm amber glass, burgundy/cream Boreal Preserves label and the original cranberry-sprig illustration",
+      "productAngle": "near frontal, 10 degrees yaw and 8 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/northern_drinks-original.png",
+        "rectPx": [
+          768,
+          512,
+          1152,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one sealed amber-glass berry-drink bottle with a softly rounded juice-bottle shoulder, medium neck and a thin dark navy screw cap; preserve a believable filled bottle. Palette and identity: warm amber glass, burgundy/cream Boreal Preserves label and the original cranberry-sprig illustration. Camera: near frontal, 10 degrees yaw and 8 degrees elevation. The visible manufacturer must remain \"Boreal Preserves\" and the product remains \"Cranberry Drink\", quantity \"500 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/northern_drinks-original.png, pixel rectangle [768, 512, 1152, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 40,
+      "id": "lingonberry_drink",
+      "brand": "Boreal Preserves",
+      "english": "Lingonberry Drink",
+      "frenchMetadata": "Boisson aux airelles",
+      "quantity": "500 mL",
+      "packaging": "one sealed amber-glass berry-drink bottle with a slimmer taller body and neck, smoothly rounded shoulder and a thin dark navy screw cap",
+      "palette": "warm amber glass, burgundy/cream Boreal Preserves label and the original lingonberry-sprig illustration",
+      "productAngle": "near frontal, 10 degrees yaw and 8 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/northern_drinks-original.png",
+        "rectPx": [
+          1152,
+          512,
+          1536,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one sealed amber-glass berry-drink bottle with a slimmer taller body and neck, smoothly rounded shoulder and a thin dark navy screw cap. Palette and identity: warm amber glass, burgundy/cream Boreal Preserves label and the original lingonberry-sprig illustration. Camera: near frontal, 10 degrees yaw and 8 degrees elevation. The visible manufacturer must remain \"Boreal Preserves\" and the product remains \"Lingonberry Drink\", quantity \"500 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/northern_drinks-original.png, pixel rectangle [1152, 512, 1536, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 41,
+      "id": "canned_meat",
+      "brand": "Ridgeline Smokehouse",
+      "english": "Canned Beef",
+      "frenchMetadata": "Boeuf en conserve",
+      "quantity": "340 g",
+      "packaging": "one broad squat cylindrical meat tin with thin rolled silver double seams and an intact pressed-metal lid; the existing burgundy label follows the body gently",
+      "palette": "burgundy and cream with the original Ridgeline Smokehouse mountain seal and beef illustration",
+      "productAngle": "shallow three-quarter, 14 degrees yaw and 13 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/legacy_pantry-original.png",
+        "rectPx": [
+          0,
+          0,
+          384,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one broad squat cylindrical meat tin with thin rolled silver double seams and an intact pressed-metal lid; the existing burgundy label follows the body gently. Palette and identity: burgundy and cream with the original Ridgeline Smokehouse mountain seal and beef illustration. Camera: shallow three-quarter, 14 degrees yaw and 13 degrees elevation. The visible manufacturer must remain \"Ridgeline Smokehouse\" and the product remains \"Canned Beef\", quantity \"340 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/legacy_pantry-original.png, pixel rectangle [0, 0, 384, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 42,
+      "id": "canned_fish",
+      "brand": "Northline Canning",
+      "english": "Wild Salmon",
+      "frenchMetadata": "Saumon sauvage",
+      "quantity": "170 g",
+      "packaging": "one low oblong rounded-rectangular fish tin, narrow rolled silver seam, intact recessed lid and real ring pull; the supplied label is a paper band around the low body",
+      "palette": "silver metal with navy/cream Northline Canning print and the original salmon illustration",
+      "productAngle": "shallow three-quarter, 18 degrees yaw and 18 degrees elevation, broad lid visible but label also readable",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/legacy_pantry-original.png",
+        "rectPx": [
+          384,
+          0,
+          768,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one low oblong rounded-rectangular fish tin, narrow rolled silver seam, intact recessed lid and real ring pull; the supplied label is a paper band around the low body. Palette and identity: silver metal with navy/cream Northline Canning print and the original salmon illustration. Camera: shallow three-quarter, 18 degrees yaw and 18 degrees elevation, broad lid visible but label also readable. The visible manufacturer must remain \"Northline Canning\" and the product remains \"Wild Salmon\", quantity \"170 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/legacy_pantry-original.png, pixel rectangle [384, 0, 768, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 43,
+      "id": "canned_beans",
+      "brand": "Alder Creek Pantry",
+      "english": "Baked Beans",
+      "frenchMetadata": "Feves au four",
+      "quantity": "398 mL",
+      "packaging": "one closed upright cylindrical beans tin with narrow rolled silver ends and a pressed intact lid; broad curved label face",
+      "palette": "burgundy and cream with the original Alder Creek Pantry arched logo, three pine trees and bean-bowl illustration",
+      "productAngle": "near frontal, 10 degrees yaw and 8 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/legacy_pantry-original.png",
+        "rectPx": [
+          768,
+          0,
+          1152,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one closed upright cylindrical beans tin with narrow rolled silver ends and a pressed intact lid; broad curved label face. Palette and identity: burgundy and cream with the original Alder Creek Pantry arched logo, three pine trees and bean-bowl illustration. Camera: near frontal, 10 degrees yaw and 8 degrees elevation. The visible manufacturer must remain \"Alder Creek Pantry\" and the product remains \"Baked Beans\", quantity \"398 mL\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/legacy_pantry-original.png, pixel rectangle [768, 0, 1152, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 44,
+      "id": "oat_carton",
+      "brand": "Timber Trail",
+      "english": "Rolled Oats",
+      "frenchMetadata": "Flocons d'avoine",
+      "quantity": "1 kg",
+      "packaging": "one upright paperboard oats carton with a folded gable top, tucked triangular ends and a thin glued closing ridge; broad legible front",
+      "palette": "forest green and cream with the original Timber Trail mountain/trail badge and rolled-oats illustration",
+      "productAngle": "shallow three-quarter, 18 degrees yaw and 10 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/legacy_pantry-original.png",
+        "rectPx": [
+          1152,
+          0,
+          1536,
+          512
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one upright paperboard oats carton with a folded gable top, tucked triangular ends and a thin glued closing ridge; broad legible front. Palette and identity: forest green and cream with the original Timber Trail mountain/trail badge and rolled-oats illustration. Camera: shallow three-quarter, 18 degrees yaw and 10 degrees elevation. The visible manufacturer must remain \"Timber Trail\" and the product remains \"Rolled Oats\", quantity \"1 kg\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/legacy_pantry-original.png, pixel rectangle [1152, 0, 1536, 512]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 45,
+      "id": "cracker_box",
+      "brand": "Copper Kettle",
+      "english": "Salted Crackers",
+      "frenchMetadata": "Craquelins sales",
+      "quantity": "250 g",
+      "packaging": "one horizontal rectangular cracker carton, thin crisp paperboard edges, a shallow visible side and a seated top flap with a fine closing seam",
+      "palette": "warm matte kraft and cream with navy Copper Kettle print and original square-cracker illustration",
+      "productAngle": "horizontal shallow three-quarter, 18 degrees yaw and 12 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/legacy_pantry-original.png",
+        "rectPx": [
+          0,
+          512,
+          384,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one horizontal rectangular cracker carton, thin crisp paperboard edges, a shallow visible side and a seated top flap with a fine closing seam. Palette and identity: warm matte kraft and cream with navy Copper Kettle print and original square-cracker illustration. Camera: horizontal shallow three-quarter, 18 degrees yaw and 12 degrees elevation. The visible manufacturer must remain \"Copper Kettle\" and the product remains \"Salted Crackers\", quantity \"250 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/legacy_pantry-original.png, pixel rectangle [0, 512, 384, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 46,
+      "id": "ration_bundle",
+      "brand": "Timber Trail",
+      "english": "Field Ration",
+      "frenchMetadata": "Ration de terrain",
+      "quantity": "800 g",
+      "packaging": "one compact bundle of three kraft-paper-wrapped ration packets secured by one broad printed paper belly band; filled rectangular packets with soft paper folds, no loose food outside",
+      "palette": "matte warm kraft, forest-green Timber Trail mountain/trail crest and the exact cream/brown Field Ration artwork",
+      "productAngle": "horizontal shallow three-quarter, 18 degrees yaw and 13 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/legacy_pantry-original.png",
+        "rectPx": [
+          384,
+          512,
+          768,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one compact bundle of three kraft-paper-wrapped ration packets secured by one broad printed paper belly band; filled rectangular packets with soft paper folds, no loose food outside. Palette and identity: matte warm kraft, forest-green Timber Trail mountain/trail crest and the exact cream/brown Field Ration artwork. Camera: horizontal shallow three-quarter, 18 degrees yaw and 13 degrees elevation. The visible manufacturer must remain \"Timber Trail\" and the product remains \"Field Ration\", quantity \"800 g\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/legacy_pantry-original.png, pixel rectangle [384, 512, 768, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    },
+    {
+      "order": 47,
+      "id": "water_bottle",
+      "brand": "Boreal Bottling",
+      "english": "Spring Water",
+      "frenchMetadata": "Eau de source",
+      "quantity": "1 L",
+      "packaging": "one sealed rectangular amber bottle with softly bevelled shoulders, a short neck, a grey screw cap and the existing broad spring-water paper label",
+      "palette": "amber glass with navy/cream/forest-green Boreal Bottling label and original painted mountain-spring illustration",
+      "productAngle": "shallow three-quarter, 14 degrees yaw and 10 degrees elevation",
+      "sourceFront": {
+        "path": "assets-source/provision-art-v2/legacy_pantry-original.png",
+        "rectPx": [
+          768,
+          512,
+          1152,
+          1024
+        ],
+        "kind": "opaque flat front label artwork; not a product portrait",
+        "cropBasis": "4 columns by 2 rows, row-major"
+      },
+      "prompt": "Create ONE finished, premium hand-painted cinematic survival-game inventory product icon, as a clean product cutout with a genuinely transparent RGBA background. The supplied current artwork crop is the authority for our label: preserve its exact fictional manufacturer logo, existing English/French print, ingredient illustration, borders, typography hierarchy and colors. Form convincing physical packaging around that artwork with natural material folds, subtle surface wear and crisp readable printing; do not output a flat label tile or a preview of an old game mesh. Use the original concept only for the polish, product framing and rendering finish, never copy its brands, words, colors or label arrangement. Use soft broad upper-left light, restrained lower-right self-shading, readable midtones and small material highlights; no heavy black ambient-occlusion bands. Centre the complete product with safe transparent margins, generous approximately 82-88 percent longest-side occupancy, an intact silhouette and no cropping. No UI, no scene, no hands, no tabletop, no extra food props, no extra products, no watermark, no invented slogans, no fake checkerboard, no grey/white matte or long cast shadow. Deliver a sharp high-resolution square master suitable for clean downsampling to 96-128px; preserve actual alpha and fine edge transparency. Subject: one sealed rectangular amber bottle with softly bevelled shoulders, a short neck, a grey screw cap and the existing broad spring-water paper label. Palette and identity: amber glass with navy/cream/forest-green Boreal Bottling label and original painted mountain-spring illustration. Camera: shallow three-quarter, 14 degrees yaw and 10 degrees elevation. The visible manufacturer must remain \"Boreal Bottling\" and the product remains \"Spring Water\", quantity \"1 L\". Keep the French wording, accent marks and every existing graphic detail from the supplied image; do not re-typeset from metadata or replace the label with a similar design. Input A is the isolated existing front artwork from assets-source/provision-art-v2/legacy_pantry-original.png, pixel rectangle [768, 512, 1152, 1024]. Input A supplies artwork, not the final object shape. If a concept reference is supplied as Input B, it supplies finish and silhouette presentation only. The result is an inventory-only raster portrait; do not change or imitate the current world/held 3D model. Preserve the original logo, illustration and letterform aspect ratios; use only gentle perspective, never mechanically squeeze a portrait label into a horizontal strip. If needed, retain the supplied print as an intact label panel with matching unprinted packaging around it."
+    }
+  ]
+}

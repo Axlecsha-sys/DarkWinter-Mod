@@ -1,0 +1,12 @@
+// Compatibility mapping for existing opt-in host/diagnostic tasks.
+ext.wkeNativeFile = { Object value ->
+    File original=project.file(value)
+    String relative=project.relativePath(original).replace(File.separatorChar,'/' as char)
+    String prefix='native/darkwinter-client/src/'
+    if(relative.startsWith(prefix) && relative.substring(prefix.length()) in ['renderer.cpp','scene.cpp','vma.cpp'])
+        return project.file('WKE/runtime/src/'+relative.substring(prefix.length()))
+    String shaders='native/darkwinter-client/shaders'
+    if(relative==shaders || relative.startsWith(shaders+'/'))
+        return project.file('WKE/runtime/shaders'+relative.substring(shaders.length()))
+    original
+}

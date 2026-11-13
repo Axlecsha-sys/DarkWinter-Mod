@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "project": "DarkWinter",
+  "voice_profile": "A",
+  "recording_language": "en_us",
+  "integration_status": "source_assets_not_connected_to_game",
+  "format": {
+    "container": "wav",
+    "codec": "pcm_s16le",
+    "sample_rate_hz": 24000,
+    "channels": 1,
+    "bits_per_sample": 16
+  },
+  "subtitles": {
+    "ru_ru": "subtitles_ru_ru.json",
+    "en_us": "subtitles_en_us.json"
+  },
+  "lines": [
+    {
+      "id": "protagonist.cold",
+      "file": "01_cold_en_post.wav",
+      "subtitle_key": "protagonist.cold",
+      "duration_seconds": 2.136875,
+      "sha256": "e97db122f9f42e80ac76812b3c54b3406e8e459d11aea8a90fb59c7401d1ee04"
+    },
+    {
+      "id": "protagonist.wind",
+      "file": "02_wind_en_post.wav",
+      "subtitle_key": "protagonist.wind",
+      "duration_seconds": 2.056875,
+      "sha256": "60e95c344647d6265da74d2790ed92ada668998802f2e68aba9a0fc118851550"
+    },
+    {
+      "id": "protagonist.hungry",
+      "file": "03_hungry_en_post.wav",
+      "subtitle_key": "protagonist.hungry",
+      "duration_seconds": 2.136875,
+      "sha256": "1a3b7bf4f2857a9c51ee6f407c97ec44e19419307d9370b1a141adb218892325"
+    },
+    {
+      "id": "protagonist.thirsty",
+      "file": "04_thirsty_en_post.wav",
+      "subtitle_key": "protagonist.thirsty",
+      "duration_seconds": 1.096875,
+      "sha256": "1e3337dae5b521fc77b2825cdc2d664ca2419e4f8b99d6c6a316e54d6e39ee15"
+    },
+    {
+      "id": "protagonist.exhausted",
+      "file": "05_exhausted_en_post.wav",
+      "subtitle_key": "protagonist.exhausted",
+      "duration_seconds": 2.136875,
+      "sha256": "bc57d1ae009ecd9789f2c9b96243f2df01d00c0e4a595865bfee8db9a191718a"
+    },
+    {
+      "id": "protagonist.warmth",
+      "file": "06_warmth_en_post.wav",
+      "subtitle_key": "protagonist.warmth",
+      "duration_seconds": 4.216875,
+      "sha256": "cabbddda1000b7be84a5ea057092e75dda4f59e0de9d7a49a149964ff84fda3b"
+    },
+    {
+      "id": "protagonist.traffic",
+      "file": "07_traffic_en_post.wav",
+      "subtitle_key": "protagonist.traffic",
+      "duration_seconds": 2.696875,
+      "sha256": "2fa068bca2ba10dab8874cad494be29880cbad5b1c23a3feb6d35457d36f6ea4"
+    },
+    {
+      "id": "protagonist.coming_back",
+      "file": "08_coming_back_en_post.wav",
+      "subtitle_key": "protagonist.coming_back",
+      "duration_seconds": 1.896875,
+      "sha256": "18c3cc664e6691f3267556ab98a5fe3d69e08ccd373cfd46bde0a50d585cdab4"
+    },
+    {
+      "id": "protagonist.little_things",
+      "file": "09_little_things_en_post.wav",
+      "subtitle_key": "protagonist.little_things",
+      "duration_seconds": 2.456875,
+      "sha256": "ceb9df8c9a75b84567637b5e2681f276385d9d2ef46011b1ac7decaeeafefca4"
+    },
+    {
+      "id": "protagonist.view",
+      "file": "10_view_en_post.wav",
+      "subtitle_key": "protagonist.view",
+      "duration_seconds": 2.056875,
+      "sha256": "79f48ace0b57cb9b98422b948088df50986f5a3b61394962751b02a90b754893"
+    }
+  ]
+}

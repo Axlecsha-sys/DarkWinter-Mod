@@ -4,6 +4,7 @@ package com.dark.winter.client.mixin.client;
 
 import com.dark.winter.client.SprintStamina;
 import com.dark.winter.client.motion.GaitRuntime;
+import com.dark.winter.client.interaction.HousePassageClient;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.ClientInput;
@@ -26,7 +27,18 @@ public abstract class AutoRunInputMixin extends ClientInput {
     @Inject(method = "tick", at = @At("TAIL"))
     private void darkwinter$autoRun(CallbackInfo ci) {
         Minecraft client = Minecraft.getInstance();
-        darkwinter$updateAutoRun(client);
+        if (HousePassageClient.active()) {
+            darkwinter$autoForward = 0;
+            this.moveVector = HousePassageClient.walkingInput(client);
+            this.keyPresses = moveVector.y > .01f ? new Input(true, false, false, false, false, false, false) : Input.EMPTY;
+        } else if (HousePassageClient.restrictMovement()) {
+            darkwinter$autoForward = 0;
+            Input original = this.keyPresses;
+            this.keyPresses = new Input(original.forward(), original.backward(), original.left(), original.right(),
+                    false, original.shift(), false);
+        } else {
+            darkwinter$updateAutoRun(client);
+        }
         this.moveVector = GaitRuntime.filterMovement(client, this.moveVector);
     }
 

@@ -1,0 +1,68 @@
+{
+  "source": "F:\\DarkWinter\\tools\\darkwinter-workshop\\data\\workspace.json",
+  "sourceSha256": "afc2e40c5456216f5aa686084952a35dbfc693f3256ae5bbc846c854facae9ef",
+  "task": {
+    "title": "Добыча еды в лесу",
+    "description": "В лесу наверное можно добывать еду с помощью охоты: Собрание ягод (можжевельник, клюква, брусника, шиповник), Заболонь, Корни рогоза; охота: кролики, волки; ",
+    "status": "todo",
+    "priority": "high",
+    "sectionId": "ec384c72-011b-456e-beef-2a36b4ea5a1e",
+    "linkId": null,
+    "parentId": "e18eec6b-97f5-455a-b076-783128287196",
+    "id": "2508c4e4-23eb-4646-aea6-60af6ebe7ec2",
+    "updatedAt": "2026-11-05T22:29:51.338Z",
+    "images": [
+      {
+        "id": "93d3254a-0879-419c-85ae-6b450284dbe5",
+        "src": "/media/575445487a8742638f35f896cb91fd81.png",
+        "title": "изображение.png"
+      },
+      {
+        "id": "288e047f-f8f8-4c7b-8dbb-68d94a62cf2c",
+        "src": "/media/62e640e28c2748a2b3265ffb260e81b5.png",
+        "title": "изображение.png"
+      },
+      {
+        "id": "04f6fb26-1386-4f43-b8f4-df85383debb2",
+        "src": "/media/89a7126ad4fc4be48a572b04d7e6c034.png",
+        "title": "изображение.png"
+      },
+      {
+        "id": "120d11a6-fe9b-4983-a0d7-caec996ffea4",
+        "src": "/media/9e9b35706f9842d7878d19f269ca67e2.png",
+        "title": "изображение.png"
+      },
+      {
+        "id": "0df34165-d0ed-460d-a88e-a3199e537dbe",
+        "src": "/media/27b413017c9a4956952331f0f84e56a0.png",
+        "title": "изображение.png"
+      },
+      {
+        "id": "37c39df3-c6e1-45a3-8182-b2f8be824265",
+        "src": "/media/f87bf2bf541e497da868259b6a61bd0d.png",
+        "title": "изображение.png"
+      },
+      {
+        "id": "00fb06bc-3d7b-4116-a1d9-8c522273e154",
+        "src": "/media/4d468a7b230a43a6b427faa7e12cc4b5.png",
+        "title": "изображение.png"
+      },
+      {
+        "id": "b934e084-c3d4-406d-a394-e2394872cca6",
+        "src": "/media/cfd04af276ed424eb37bcd3b91ab00ab.png",
+        "title": "изображение.png"
+      },
+      {
+        "id": "f5c23deb-0f82-4791-b83a-c386af6422b2",
+        "src": "/media/400ae61ffd83483b9a50b97e20eec0cf.png",
+        "title": "изображение.png"
+      }
+    ],
+    "attachments": [
+      {
+        "boardId": "overview",
+        "nodeId": "ad4da618-8e92-4665-8d24-bce695f8f7af"
+      }
+    ]
+  }
+}

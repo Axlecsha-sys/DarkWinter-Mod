@@ -1,0 +1,96 @@
+// Select an optional local client runtime profile without changing server or Gradle JVMs.
+import java.util.Locale
+import java.util.Properties
+
+def runtimeProfile = new Properties()
+def profileText = providers.fileContents(layout.projectDirectory.file(
+    'run/config/darkwinter/client-runtime.properties')).asText.orNull
+if (profileText != null) runtimeProfile.load(new StringReader(profileText))
+def allowedKeys = ['gc', 'heap', 'softHeap', 'backend'] as Set
+if (runtimeProfile.stringPropertyNames().any { !allowedKeys.contains(it) }) {
+    throw new GradleException('Unknown key in local client runtime profile; use gc, heap, softHeap and backend.')
+}
+def setting = { String property, String key, String fallback ->
+    def override = providers.gradleProperty(property)
+    override.isPresent() ? override.get().trim() : runtimeProfile.getProperty(key, fallback).trim()
+}
+def collector = setting('darkwinter.clientGc', 'gc', 'system').toLowerCase(Locale.ROOT)
+def heap = setting('darkwinter.clientHeap', 'heap', '')
+def softHeap = setting('darkwinter.clientSoftHeap', 'softHeap', '')
+def backend = setting('darkwinter.graphicsBackend', 'backend', 'SYSTEM').toUpperCase(Locale.ROOT)
+if (!(collector in ['system', 'g1', 'zgc'])) throw new GradleException('Client gc must be system, g1 or zgc.')
+if (!heap.isEmpty() && !(heap ==~ /[1-9][0-9]{0,5}[mMgG]/)) {
+    throw new GradleException('Client heap must be empty or a positive size such as 4G or 4096M.')
+}
+// Sizes are byte-comparable; JVM M/G suffixes use binary units, not decimal gigabytes.
+def memoryBytes = { String value ->
+    def match = value =~ /([0-9]+)([kKmMgGtT]?)/
+    if (!match.matches()) throw new GradleException('Invalid inherited client memory size.')
+    String unit = match.group(2).toUpperCase(Locale.ROOT)
+    int shift = unit.isEmpty() ? 0 : ['K': 10, 'M': 20, 'G': 30, 'T': 40][unit]
+    new BigInteger(match.group(1)).shiftLeft(shift)
+}
+if (!softHeap.isEmpty()) {
+    if (!(softHeap ==~ /[1-9][0-9]{0,5}[mMgG]/)) {
+        throw new GradleException('Client softHeap must be empty or a positive size such as 4G or 4096M.')
+    }
+    if (collector != 'zgc' || heap.isEmpty()) {
+        throw new GradleException('Client softHeap requires gc=zgc and an explicit heap maximum.')
+    }
+    if (memoryBytes(softHeap) > memoryBytes(heap)) {
+        throw new GradleException('Client softHeap must not exceed the heap maximum.')
+    }
+}
+if (!(backend in ['SYSTEM', 'OPENGL', 'VULKAN'])) {
+    throw new GradleException('Client backend must be SYSTEM, OPENGL or VULKAN.')
+}
+def inheritedOptions = ['JAVA_TOOL_OPTIONS', 'JDK_JAVA_OPTIONS', '_JAVA_OPTIONS'].collect {
+    providers.environmentVariable(it).orElse('').get()
+}.join(' ')
+loom.runs.named('client') {
+    def existing = (getVmArgs().join(' ') + ' ' + inheritedOptions)
+    def collectors = (existing =~ /-XX:\+Use[A-Za-z0-9]+GC/).findAll().unique()
+    String requested = collector == 'g1' ? '-XX:+UseG1GC' : '-XX:+UseZGC'
+    if (collector != 'system') {
+        String disabled = requested.replace(':+', ':-')
+        if (collectors.any { it != requested } || existing.contains(disabled)) {
+            throw new GradleException('Conflicting inherited client collector; remove it or use gc=system.')
+        }
+        if (!collectors.contains(requested)) vmArg requested
+    }
+    if (!heap.isEmpty()) {
+        if (existing =~ /(?:-Xmx\S+|-XX:MaxHeapSize=\S+)/) {
+            throw new GradleException('Existing client heap limit conflicts with the local profile; use an empty heap or remove that limit.')
+        }
+        vmArg '-Xmx' + heap
+    }
+    if (!softHeap.isEmpty()) {
+        if (existing =~ /-XX:SoftMaxHeapSize=\S+/) {
+            throw new GradleException('Existing client soft heap conflicts with the local profile; use an empty softHeap or remove that limit.')
+        }
+        def minimums = existing =~ /(?:-Xms|-XX:MinHeapSize=)(\S+)/
+        while (minimums.find()) {
+            if (memoryBytes(minimums.group(1)) > memoryBytes(softHeap)) {
+                throw new GradleException('Existing client minimum heap exceeds softHeap and prevents the requested memory target.')
+            }
+        }
+        // A ZGC heuristic target, never a forced collection or a replacement for the hard maximum.
+        vmArg '-XX:SoftMaxHeapSize=' + softHeap
+        // Release unused ZGC heap sooner while preserving explicit JVM memory policy.
+        boolean hasUncommitDelay = (existing =~ /(?:^|[\s"'])-XX:ZUncommitDelay=[^\s"']+/).find()
+        boolean uncommitDisabled = (existing =~ /(?:^|[\s"'])-XX:-ZUncommit(?=$|[\s"'])/).find()
+        if (!hasUncommitDelay && !uncommitDisabled) vmArg '-XX:ZUncommitDelay=30'
+    }
+    if (backend != 'SYSTEM') {
+        def args = getProgramArgs()
+        int index = args.indexOf('--graphicsBackend')
+        if (index >= 0) {
+            if (index + 1 >= args.size() || args[index + 1] != backend) {
+                throw new GradleException('Existing client graphics backend conflicts with the local profile.')
+            }
+        } else {
+            programArg '--graphicsBackend'
+            programArg backend
+        }
+    }
+}

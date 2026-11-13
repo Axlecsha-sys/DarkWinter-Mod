@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "interior_rug_tartan": "darkwinter:block/interior/interior_rug_tartan",
+    "particle": "darkwinter:block/interior/interior_rug_tartan"
+  },
+  "elements": [
+    {
+      "from": [
+        2.2,
+        0,
+        2.4
+      ],
+      "to": [
+        16,
+        0.29,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_tartan"
+        },
+        "up": {
+          "texture": "#interior_rug_tartan"
+        },
+        "north": {
+          "texture": "#interior_rug_tartan"
+        },
+        "south": {
+          "texture": "#interior_rug_tartan"
+        },
+        "west": {
+          "texture": "#interior_rug_tartan"
+        },
+        "east": {
+          "texture": "#interior_rug_tartan"
+        }
+      }
+    }
+  ]
+}

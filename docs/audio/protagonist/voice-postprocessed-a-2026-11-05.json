@@ -1,0 +1,476 @@
+{
+  "report": {
+    "project": "DarkWinter",
+    "date": "2026-11-05",
+    "voice_profile": "A",
+    "status": "postprocessed_awaiting_author_listening",
+    "processing": {
+      "high_pass_hz": 55,
+      "bass_shelf": {
+        "hz": 160,
+        "gain_db": 1.8
+      },
+      "low_mid_bell": {
+        "hz": 360,
+        "gain_db": -1.5,
+        "q": 0.85
+      },
+      "presence_bell": {
+        "hz": 2500,
+        "gain_db": 0.6,
+        "q": 0.8
+      },
+      "deesser": {
+        "band_start_hz": 4200,
+        "max_reduction_db": 2.8
+      },
+      "warmth": {
+        "low_pass_hz": 280,
+        "drive": 2.5,
+        "wet": 0.2
+      },
+      "compressor": {
+        "threshold_dbfs": -21,
+        "ratio": 1.7,
+        "soft_knee_db": 6,
+        "max_gain_reduction_db": 3
+      },
+      "level_matching": "Active speech RMS, -20 dBFS target; same original activity mask for before/after.",
+      "headroom": "Anticipatory peak limiter: 2 ms attack, 60 ms release, sample ceiling -1.5 dBFS; no true-peak certification.",
+      "quantization": "PCM16, deterministic TPDF dither; 5 ms edge fades."
+    },
+    "verification": {
+      "source_checksums_verified": true,
+      "all_frame_counts_unchanged": true,
+      "all_output_files_decoded": true,
+      "overloaded_samples": 0,
+      "subjective_listening": "Not available to the assistant; author review required.",
+      "in_game_test": "not_run",
+      "game_playback_or_subtitle_code_changed": false
+    },
+    "lines": [
+      {
+        "id": "cold",
+        "line_id": "protagonist.cold",
+        "text": "So fucking cold...",
+        "ru": "Как же, блядь, холодно…",
+        "file": "wav/01_cold_en_post.wav",
+        "source_file": "originals/dw_protagonist_cold_en.wav",
+        "source_sha256": "7950b31bd436da0eb733a0c9a07fdc7139045c22054568ac698c74eb15dff1b5",
+        "output_sha256": "e97db122f9f42e80ac76812b3c54b3406e8e459d11aea8a90fb59c7401d1ee04",
+        "duration_seconds": 2.136875,
+        "sample_rate": 24000,
+        "channels": 1,
+        "bits": 16,
+        "input_active_rms_dbfs": -17.960928654355858,
+        "output_active_rms_dbfs": -20.091030471608754,
+        "output_rms_dbfs": -20.465407869032617,
+        "output_sample_peak_dbfs": -1.5002633770788845,
+        "dc_offset": 0.0000633118502912645,
+        "max_deesser_reduction_db": 2.799999999999998,
+        "max_compressor_reduction_db": 2.9999785620498236,
+        "peak_limiter_max_reduction_db": 1.4090635990359548,
+        "peak_limiter_passes": 1,
+        "full_scale_samples": 0,
+        "frames_unchanged": true
+      },
+      {
+        "id": "wind",
+        "line_id": "protagonist.wind",
+        "text": "Gotta get out of this wind.",
+        "ru": "Надо укрыться от ветра.",
+        "file": "wav/02_wind_en_post.wav",
+        "source_file": "originals/dw_protagonist_wind_en.wav",
+        "source_sha256": "94b4257d95e7500433cd10270a8e56a1df2a0e0a6ceed3b322f44312190c9e33",
+        "output_sha256": "60e95c344647d6265da74d2790ed92ada668998802f2e68aba9a0fc118851550",
+        "duration_seconds": 2.056875,
+        "sample_rate": 24000,
+        "channels": 1,
+        "bits": 16,
+        "input_active_rms_dbfs": -14.041792881774018,
+        "output_active_rms_dbfs": -20.000001083081465,
+        "output_rms_dbfs": -20.776534606455478,
+        "output_sample_peak_dbfs": -5.820927543897581,
+        "dc_offset": 0.00007200207280904993,
+        "max_deesser_reduction_db": 2.799999999999998,
+        "max_compressor_reduction_db": 2.582068532811399,
+        "peak_limiter_max_reduction_db": 0,
+        "peak_limiter_passes": 1,
+        "full_scale_samples": 0,
+        "frames_unchanged": true
+      },
+      {
+        "id": "hungry",
+        "line_id": "protagonist.hungry",
+        "text": "When did I last eat...?",
+        "ru": "Когда я в последний раз ел?..",
+        "file": "wav/03_hungry_en_post.wav",
+        "source_file": "originals/dw_protagonist_hungry_en.wav",
+        "source_sha256": "cd9108e2fc0805c5d1b6ba9dd8cdde99763a5faec4c1f800bbfd0d7252848539",
+        "output_sha256": "1a3b7bf4f2857a9c51ee6f407c97ec44e19419307d9370b1a141adb218892325",
+        "duration_seconds": 2.136875,
+        "sample_rate": 24000,
+        "channels": 1,
+        "bits": 16,
+        "input_active_rms_dbfs": -14.903240406523485,
+        "output_active_rms_dbfs": -20.000000082613,
+        "output_rms_dbfs": -20.555870958683595,
+        "output_sample_peak_dbfs": -6.3628360691323085,
+        "dc_offset": 0.0000453476274967705,
+        "max_deesser_reduction_db": 2.799999999999998,
+        "max_compressor_reduction_db": 2.6349913608442392,
+        "peak_limiter_max_reduction_db": 0,
+        "peak_limiter_passes": 1,
+        "full_scale_samples": 0,
+        "frames_unchanged": true
+      },
+      {
+        "id": "thirsty",
+        "line_id": "protagonist.thirsty",
+        "text": "Need some water.",
+        "ru": "Нужна вода.",
+        "file": "wav/04_thirsty_en_post.wav",
+        "source_file": "originals/dw_protagonist_thirsty_en.wav",
+        "source_sha256": "d5b8eb9b13ca765a7aef34d568d99cfb817c6c0e77bf9fc9a3deee060860493c",
+        "output_sha256": "1e3337dae5b521fc77b2825cdc2d664ca2419e4f8b99d6c6a316e54d6e39ee15",
+        "duration_seconds": 1.096875,
+        "sample_rate": 24000,
+        "channels": 1,
+        "bits": 16,
+        "input_active_rms_dbfs": -14.590015561241643,
+        "output_active_rms_dbfs": -20.00000143452507,
+        "output_rms_dbfs": -20.669021889549853,
+        "output_sample_peak_dbfs": -6.1854387487944145,
+        "dc_offset": 0.000055133352252492876,
+        "max_deesser_reduction_db": 2.799999999999998,
+        "max_compressor_reduction_db": 2.4158998776640237,
+        "peak_limiter_max_reduction_db": 0,
+        "peak_limiter_passes": 1,
+        "full_scale_samples": 0,
+        "frames_unchanged": true
+      },
+      {
+        "id": "exhausted",
+        "line_id": "protagonist.exhausted",
+        "text": "Just... give me a second.",
+        "ru": "Дай мне… перевести дух.",
+        "file": "wav/05_exhausted_en_post.wav",
+        "source_file": "originals/dw_protagonist_exhausted_en.wav",
+        "source_sha256": "15556ec757710e99077a27536638994e74e39b84658d007e9b4f699abb879b3c",
+        "output_sha256": "bc57d1ae009ecd9789f2c9b96243f2df01d00c0e4a595865bfee8db9a191718a",
+        "duration_seconds": 2.136875,
+        "sample_rate": 24000,
+        "channels": 1,
+        "bits": 16,
+        "input_active_rms_dbfs": -15.420607128266548,
+        "output_active_rms_dbfs": -20.00000269651907,
+        "output_rms_dbfs": -21.25630204144229,
+        "output_sample_peak_dbfs": -5.2098240060373735,
+        "dc_offset": 0.000041025122134578826,
+        "max_deesser_reduction_db": 2.799999999999998,
+        "max_compressor_reduction_db": 2.9995465687623866,
+        "peak_limiter_max_reduction_db": 0,
+        "peak_limiter_passes": 1,
+        "full_scale_samples": 0,
+        "frames_unchanged": true
+      },
+      {
+        "id": "warmth",
+        "line_id": "protagonist.warmth",
+        "text": "That's better... Much better.",
+        "ru": "Так лучше… Намного лучше.",
+        "file": "wav/06_warmth_en_post.wav",
+        "source_file": "originals/dw_protagonist_warmth_en.wav",
+        "source_sha256": "1454c65318ac5a5c6152e47b41f09fbde5362ba51c9e0e271a624977d676e74d",
+        "output_sha256": "cabbddda1000b7be84a5ea057092e75dda4f59e0de9d7a49a149964ff84fda3b",
+        "duration_seconds": 4.216875,
+        "sample_rate": 24000,
+        "channels": 1,
+        "bits": 16,
+        "input_active_rms_dbfs": -16.732158331209895,
+        "output_active_rms_dbfs": -19.99999242852481,
+        "output_rms_dbfs": -21.564324142175145,
+        "output_sample_peak_dbfs": -5.501508760029693,
+        "dc_offset": 0.00002817248445296675,
+        "max_deesser_reduction_db": 2.799999999999998,
+        "max_compressor_reduction_db": 2.999999929718789,
+        "peak_limiter_max_reduction_db": 0,
+        "peak_limiter_passes": 1,
+        "full_scale_samples": 0,
+        "frames_unchanged": true
+      },
+      {
+        "id": "traffic",
+        "line_id": "protagonist.traffic",
+        "text": "Never thought I'd miss the sound of traffic.",
+        "ru": "Никогда бы не подумал, что буду скучать по шуму машин.",
+        "file": "wav/07_traffic_en_post.wav",
+        "source_file": "originals/dw_protagonist_traffic_en.wav",
+        "source_sha256": "3e46ea9019aa704e6be649dbd995d6798802a57e6336fcbba3f77e3b0b763de3",
+        "output_sha256": "2fa068bca2ba10dab8874cad494be29880cbad5b1c23a3feb6d35457d36f6ea4",
+        "duration_seconds": 2.696875,
+        "sample_rate": 24000,
+        "channels": 1,
+        "bits": 16,
+        "input_active_rms_dbfs": -15.232547586545223,
+        "output_active_rms_dbfs": -20.000005215861467,
+        "output_rms_dbfs": -20.259987357905306,
+        "output_sample_peak_dbfs": -5.384937862436732,
+        "dc_offset": 0.00008049898232304944,
+        "max_deesser_reduction_db": 2.799999999999998,
+        "max_compressor_reduction_db": 2.6237815987916284,
+        "peak_limiter_max_reduction_db": 0,
+        "peak_limiter_passes": 1,
+        "full_scale_samples": 0,
+        "frames_unchanged": true
+      },
+      {
+        "id": "coming_back",
+        "line_id": "protagonist.coming_back",
+        "text": "Somebody thought they'd be coming back.",
+        "ru": "Кто-то ведь думал, что ещё вернётся.",
+        "file": "wav/08_coming_back_en_post.wav",
+        "source_file": "originals/dw_protagonist_coming_back_en.wav",
+        "source_sha256": "cc6fb77c545146092b2cbcf346dba047830c0908effdea47f324b029278667c1",
+        "output_sha256": "18c3cc664e6691f3267556ab98a5fe3d69e08ccd373cfd46bde0a50d585cdab4",
+        "duration_seconds": 1.896875,
+        "sample_rate": 24000,
+        "channels": 1,
+        "bits": 16,
+        "input_active_rms_dbfs": -14.360436184935168,
+        "output_active_rms_dbfs": -20.000004700991013,
+        "output_rms_dbfs": -20.847917021045163,
+        "output_sample_peak_dbfs": -5.0112261767819675,
+        "dc_offset": 0.00003368430056459363,
+        "max_deesser_reduction_db": 2.799999999999998,
+        "max_compressor_reduction_db": 2.2316250244175517,
+        "peak_limiter_max_reduction_db": 0,
+        "peak_limiter_passes": 1,
+        "full_scale_samples": 0,
+        "frames_unchanged": true
+      },
+      {
+        "id": "little_things",
+        "line_id": "protagonist.little_things",
+        "text": "Funny how the little things stick with you.",
+        "ru": "Странно, как всякие мелочи врезаются в память.",
+        "file": "wav/09_little_things_en_post.wav",
+        "source_file": "originals/dw_protagonist_little_things_en.wav",
+        "source_sha256": "a317e7d191e749530071a8de1e61ae09487ba1d0531bdc142c4e866374a8c2b3",
+        "output_sha256": "ceb9df8c9a75b84567637b5e2681f276385d9d2ef46011b1ac7decaeeafefca4",
+        "duration_seconds": 2.456875,
+        "sample_rate": 24000,
+        "channels": 1,
+        "bits": 16,
+        "input_active_rms_dbfs": -15.334778592091936,
+        "output_active_rms_dbfs": -20.000011112733564,
+        "output_rms_dbfs": -20.478104470794733,
+        "output_sample_peak_dbfs": -6.3810530104474985,
+        "dc_offset": 0.00007417637266943314,
+        "max_deesser_reduction_db": 2.799999999999998,
+        "max_compressor_reduction_db": 2.6855562841701834,
+        "peak_limiter_max_reduction_db": 0,
+        "peak_limiter_passes": 1,
+        "full_scale_samples": 0,
+        "frames_unchanged": true
+      },
+      {
+        "id": "view",
+        "line_id": "protagonist.view",
+        "text": "Still a hell of a view.",
+        "ru": "А вид всё-таки охрененный.",
+        "file": "wav/10_view_en_post.wav",
+        "source_file": "originals/dw_protagonist_view_en.wav",
+        "source_sha256": "42ecf0392b8d4d03baa23fd15a203af7e7c65d0b0590435f72d262d4386300be",
+        "output_sha256": "79f48ace0b57cb9b98422b948088df50986f5a3b61394962751b02a90b754893",
+        "duration_seconds": 2.056875,
+        "sample_rate": 24000,
+        "channels": 1,
+        "bits": 16,
+        "input_active_rms_dbfs": -14.202091375430765,
+        "output_active_rms_dbfs": -20.00000351757146,
+        "output_rms_dbfs": -20.530799809649977,
+        "output_sample_peak_dbfs": -6.267955320953151,
+        "dc_offset": 0.00004516218276802897,
+        "max_deesser_reduction_db": 2.799999999999998,
+        "max_compressor_reduction_db": 2.5865433434415226,
+        "peak_limiter_max_reduction_db": 0,
+        "peak_limiter_passes": 1,
+        "full_scale_samples": 0,
+        "frames_unchanged": true
+      }
+    ],
+    "preview_timeline": [
+      {
+        "id": "cold",
+        "start_seconds": 0,
+        "duration_seconds": 2.136875,
+        "text": "So fucking cold...",
+        "ru": "Как же, блядь, холодно…"
+      },
+      {
+        "id": "wind",
+        "start_seconds": 2.886875,
+        "duration_seconds": 2.056875,
+        "text": "Gotta get out of this wind.",
+        "ru": "Надо укрыться от ветра."
+      },
+      {
+        "id": "hungry",
+        "start_seconds": 5.69375,
+        "duration_seconds": 2.136875,
+        "text": "When did I last eat...?",
+        "ru": "Когда я в последний раз ел?.."
+      },
+      {
+        "id": "thirsty",
+        "start_seconds": 8.580625,
+        "duration_seconds": 1.096875,
+        "text": "Need some water.",
+        "ru": "Нужна вода."
+      },
+      {
+        "id": "exhausted",
+        "start_seconds": 10.4275,
+        "duration_seconds": 2.136875,
+        "text": "Just... give me a second.",
+        "ru": "Дай мне… перевести дух."
+      },
+      {
+        "id": "warmth",
+        "start_seconds": 13.314375,
+        "duration_seconds": 4.216875,
+        "text": "That's better... Much better.",
+        "ru": "Так лучше… Намного лучше."
+      },
+      {
+        "id": "traffic",
+        "start_seconds": 18.28125,
+        "duration_seconds": 2.696875,
+        "text": "Never thought I'd miss the sound of traffic.",
+        "ru": "Никогда бы не подумал, что буду скучать по шуму машин."
+      },
+      {
+        "id": "coming_back",
+        "start_seconds": 21.728125,
+        "duration_seconds": 1.896875,
+        "text": "Somebody thought they'd be coming back.",
+        "ru": "Кто-то ведь думал, что ещё вернётся."
+      },
+      {
+        "id": "little_things",
+        "start_seconds": 24.375,
+        "duration_seconds": 2.456875,
+        "text": "Funny how the little things stick with you.",
+        "ru": "Странно, как всякие мелочи врезаются в память."
+      },
+      {
+        "id": "view",
+        "start_seconds": 27.581875,
+        "duration_seconds": 2.056875,
+        "text": "Still a hell of a view.",
+        "ru": "А вид всё-таки охрененный."
+      }
+    ]
+  },
+  "work_directory": "C:\\workspace\\darkwinter-audio\\postprocessed-a-2026-11-05",
+  "assets": [
+    {
+      "file_name": "DarkWinter_Voice_A_Postprocessed_10.zip",
+      "library_file_id": "libfile_e251ec6c99ac819195259c1be7489b9a",
+      "file_id": "file_000000008f6082109c661af69e9adb78",
+      "local_path": "C:\\workspace\\darkwinter-audio\\postprocessed-a-2026-11-05\\DarkWinter_Voice_A_Postprocessed_10.zip",
+      "current_version_number": 0
+    },
+    {
+      "file_name": "DarkWinter_Voice_A_Postprocessed_All_10.wav",
+      "library_file_id": "libfile_16964c63cf348191a097c3dadcc0c2ba",
+      "file_id": "file_00000000542881f4b10139d50967449f",
+      "local_path": "C:\\workspace\\darkwinter-audio\\postprocessed-a-2026-11-05\\DarkWinter_Voice_A_Postprocessed_All_10.wav",
+      "current_version_number": 0
+    },
+    {
+      "file_name": "01_cold_en_post.wav",
+      "library_file_id": "libfile_85e4502557688191abc6850281eb821b",
+      "file_id": "file_00000000a66082108897e49b3eb5e0a6",
+      "local_path": "C:\\workspace\\darkwinter-audio\\postprocessed-a-2026-11-05\\wav\\01_cold_en_post.wav",
+      "current_version_number": 0
+    },
+    {
+      "file_name": "02_wind_en_post.wav",
+      "library_file_id": "libfile_98bae590c73881918a16ffc0aa05beab",
+      "file_id": "file_00000000c35881f4be6286ea7b35f502",
+      "local_path": "C:\\workspace\\darkwinter-audio\\postprocessed-a-2026-11-05\\wav\\02_wind_en_post.wav",
+      "current_version_number": 0
+    },
+    {
+      "file_name": "03_hungry_en_post.wav",
+      "library_file_id": "libfile_54f169d151288191af58838f96fa51c4",
+      "file_id": "file_00000000d21881f4839eb9ca3ee96f7a",
+      "local_path": "C:\\workspace\\darkwinter-audio\\postprocessed-a-2026-11-05\\wav\\03_hungry_en_post.wav",
+      "current_version_number": 0
+    },
+    {
+      "file_name": "04_thirsty_en_post.wav",
+      "library_file_id": "libfile_0fd248567c3c8191af3287a2f4b92b82",
+      "file_id": "file_00000000843082468212666b62bf4d11",
+      "local_path": "C:\\workspace\\darkwinter-audio\\postprocessed-a-2026-11-05\\wav\\04_thirsty_en_post.wav",
+      "current_version_number": 0
+    },
+    {
+      "file_name": "05_exhausted_en_post.wav",
+      "library_file_id": "libfile_cc8aa6148680819183cfa81a1a9a2309",
+      "file_id": "file_00000000468881f494a157d4418af39e",
+      "local_path": "C:\\workspace\\darkwinter-audio\\postprocessed-a-2026-11-05\\wav\\05_exhausted_en_post.wav",
+      "current_version_number": 0
+    },
+    {
+      "file_name": "06_warmth_en_post.wav",
+      "library_file_id": "libfile_821db049530c8191a9e25b590521af14",
+      "file_id": "file_00000000a4548246a1899dbab2e478f1",
+      "local_path": "C:\\workspace\\darkwinter-audio\\postprocessed-a-2026-11-05\\wav\\06_warmth_en_post.wav",
+      "current_version_number": 0
+    },
+    {
+      "file_name": "07_traffic_en_post.wav",
+      "library_file_id": "libfile_d85a40e77dfc8191925e56463227cda8",
+      "file_id": "file_0000000018c4824397f05fab6802e605",
+      "local_path": "C:\\workspace\\darkwinter-audio\\postprocessed-a-2026-11-05\\wav\\07_traffic_en_post.wav",
+      "current_version_number": 0
+    },
+    {
+      "file_name": "08_coming_back_en_post.wav",
+      "library_file_id": "libfile_ea65ada8c7fc8191ab8f54e9b91cffea",
+      "file_id": "file_00000000017c824380b02dfb23759ba4",
+      "local_path": "C:\\workspace\\darkwinter-audio\\postprocessed-a-2026-11-05\\wav\\08_coming_back_en_post.wav",
+      "current_version_number": 0
+    },
+    {
+      "file_name": "09_little_things_en_post.wav",
+      "library_file_id": "libfile_69f9b9053a448191b7e77d14538da3ed",
+      "file_id": "file_0000000091248210b2bec4084ceac48a",
+      "local_path": "C:\\workspace\\darkwinter-audio\\postprocessed-a-2026-11-05\\wav\\09_little_things_en_post.wav",
+      "current_version_number": 0
+    },
+    {
+      "file_name": "10_view_en_post.wav",
+      "library_file_id": "libfile_5a6a02bddb7081918c37657b76e334e8",
+      "file_id": "file_000000001dc48243be4037c9a2c7c026",
+      "local_path": "C:\\workspace\\darkwinter-audio\\postprocessed-a-2026-11-05\\wav\\10_view_en_post.wav",
+      "current_version_number": 0
+    }
+  ],
+  "project_source_assets": {
+    "root": "assets-source/audio/protagonist",
+    "catalog": "assets-source/audio/protagonist/lines.json",
+    "subtitles_ru_ru": "assets-source/audio/protagonist/subtitles_ru_ru.json",
+    "subtitles_en_us": "assets-source/audio/protagonist/subtitles_en_us.json",
+    "wav_files": 10,
+    "checks": {
+      "processed_wav_checksums_match": true,
+      "wav_format": "PCM16 mono 24000 Hz",
+      "translations_match_each_recording": true
+    },
+    "integration_status": "source_assets_not_connected_to_game"
+  }
+}

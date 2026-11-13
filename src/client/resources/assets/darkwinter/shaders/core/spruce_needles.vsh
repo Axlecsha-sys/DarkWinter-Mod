@@ -18,6 +18,8 @@ layout(location = 5) in vec4 LightSize;
 layout(std140) uniform SpruceWind {
     vec4 NeedleWind; // World X/Z flow, bounded displacement, game-time seconds.
     vec4 NeedleCameraOffset;
+    vec4 NeedleAtlasBounds;
+    vec4 BarkAtlasBounds;
 };
 
 uniform sampler2D Sampler2;
@@ -57,6 +59,7 @@ void main() {
     cylindricalVertexDistance = fog_cylindrical_distance(pos);
     vec4 materialColor = woody ? vec4(0.90, 0.87, 0.81, 1.0) : NeedleColor;
     vertexColor = materialColor * sample_lightmap(Sampler2, ivec2(LightSize.xy));
-    texCoord0 = UV0;
+    vec4 atlasBounds = woody ? BarkAtlasBounds : NeedleAtlasBounds;
+    texCoord0 = mix(atlasBounds.xy, atlasBounds.zw, UV0);
     detailVisibility = visible;
 }

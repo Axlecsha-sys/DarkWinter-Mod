@@ -31,6 +31,22 @@ public record FurnitureCatalog(Map<String, String> palette, List<Entry> entries)
         }
     }
 
+    public static int partHeightLimit(String id) {
+        // Keep the original saved sink footprint while allowing its tap to extend over the cabinet.
+        return id.equals("kitchen_sink") ? 20 : 16;
+    }
+
+    public static int partWidthLimit(String id, int part) {
+        // The open end bay extends the second part while preserving existing saved footprints.
+        return id.equals("interior_kitchen_worktable") && part == 1 ? 25 : 16;
+    }
+
+    public static double partMinimum(String id, int part, int axis) {
+        if (!id.equals("interior_wide_dresser")) return 0;
+        if (axis == 2) return -2.6;
+        return axis == 0 && part == 0 ? -1.216 : 0;
+    }
+
     public static FurnitureCatalog load() {
         try (InputStream stream = FurnitureCatalog.class.getResourceAsStream(RESOURCE)) {
             if (stream == null) throw new IllegalStateException("Missing furniture catalog: " + RESOURCE);
@@ -76,7 +92,15 @@ public record FurnitureCatalog(Map<String, String> palette, List<Entry> entries)
                     for (JsonElement rawBox : part.getAsJsonArray("boxes")) {
                         JsonObject box = rawBox.getAsJsonObject();
                         double[] from = vector(box, "from"), to = vector(box, "to");
-                        for (int axis = 0; axis < 3; axis++) require(from[axis] >= 0 && to[axis] <= 16 && from[axis] < to[axis], id + ": box outside local 0..16 bounds");
+                        for (int axis = 0; axis < 3; axis++) {
+                            int limit = switch (axis) {
+                                case 0 -> partWidthLimit(id, parts.size());
+                                case 1 -> partHeightLimit(id);
+                                default -> 16;
+                            };
+                            require(from[axis] >= partMinimum(id, parts.size(), axis) && to[axis] <= limit
+                                    && from[axis] < to[axis], id + ": box outside local part bounds");
+                        }
                         String texture = text(box, "texture");
                         require(palette.containsKey(texture), id + ": unknown texture palette key " + texture);
                         boxes.add(new Box(from[0], from[1], from[2], to[0], to[1], to[2], texture,

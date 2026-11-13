@@ -104,8 +104,94 @@ publishing {
 // Include the visual renderer source module.
 apply from: 'modules/darkwinter-visuals/module.gradle'
 
+// Bind diagnostic reports to the exact production source and assets.
+apply from: 'gradle/performance.gradle'
+
+// Optional ignored profile affects only the normal development client.
+apply from: 'gradle/client-runtime.gradle'
+
 // Load optional local development tasks only when their infrastructure is installed.
 def developmentScript = file('tools/gradle/development.gradle')
 if (file('tools').isDirectory() && file('tests').isDirectory() && developmentScript.isFile()) {
     apply from: developmentScript
+}
+
+// Opt-in standalone Java/C++ voxel experiment. No production classes or libraries added.
+apply from: 'gradle/voxel-faces.gradle'
+
+// Detached block-light prefix prototype; native compilation requires an explicit opt-in task.
+apply from: 'gradle/light-prefix.gradle'
+
+// Native C++ editor uses a separate opt-in exact-generation worker.
+apply from: 'gradle/biome-editor.gradle'
+
+// Explicit private native A/B captures never participate in normal builds or launches.
+if (gradle.startParameter.taskNames.any { it.tokenize(':').last() in ['compileShadowReuseClientTest', 'runShadowReuseControlClientTest', 'runShadowReuseCandidateClientTest'] }) {
+    apply from: 'tests/shadow-reuse-vulkan/shadow-reuse.gradle'
+}
+
+// Private JFR and cache-invalidation diagnostics are isolated from the uninstrumented A/B fixture.
+if (gradle.startParameter.taskNames.any { it.tokenize(':').last() in ['compileShadowReuseDiagnosticClientTest', 'runShadowReuseDiagnosticClientTest'] }) {
+    apply from: 'tests/shadow-reuse-diagnostics/shadow-reuse-diagnostics.gradle'
+}
+
+// Native input and frame-latency diagnostics are absent from normal builds and launches.
+if (gradle.startParameter.taskNames.any { it.tokenize(':').last() in ['compileBlockBreakFrameClientTest', 'runBlockBreakFrameControlClientTest', 'runBlockBreakFrameCandidateClientTest', 'runBlockBreakFrameProfileClientTest', 'runBlockBreakFrameTintControlClientTest', 'runBlockBreakFrameTintCandidateClientTest'] }) {
+    apply from: 'tests/block-break-frame/block-break-frame.gradle'
+}
+
+// Private native lighting checks load only for their explicit verification aliases.
+if (gradle.startParameter.taskNames.any { it.tokenize(':').last() in ['compileLightParallelProbe', 'runLightParallelControlClientTest', 'runLightParallelCandidateClientTest', 'runLightParallelPerfControlClientTest', 'runLightParallelPerfCandidateClientTest'] }) {
+    apply from: 'tests/light-parallel/light-parallel.gradle'
+}
+
+// Shared WKE source paths keep the deferred standalone host buildable.
+apply from: 'WKE/gradle/source-layout.gradle'
+// Independent voxel core and explicit standalone verification tasks.
+apply from: 'gradle/core.gradle'
+
+// WinterKore Engine: independent native sources and packaged Fabric integration.
+apply from: 'WKE/gradle/wke.gradle'
+apply from: 'WKE/surface/surface.gradle'
+
+if (gradle.startParameter.taskNames.any { it.tokenize(':').last() == 'wkeMigrateRuntime' }) {
+    apply from: 'WKE/build-tools/migrate-runtime.gradle'
+}
+
+// Private GPU evidence for WKE world rendering; absent from normal builds.
+if (gradle.startParameter.taskNames.any { it.tokenize(':').last() in ['wkeRendererCompileClientTest','wkeRendererVerifyClient'] }) {
+    apply from: 'tests/wke-renderer/wke-renderer.gradle'
+}
+
+// Isolated checks for real graphics controls, GPU atlas mips and film output.
+if (gradle.startParameter.taskNames.any { it.tokenize(':').last() in ['renderSettingsCompileClientTest','renderSettingsVerifyClient'] }) {
+    apply from: 'tests/render-settings/render-settings.gradle'
+}
+
+// Invocation-owned integrated forest, GPU filtering/TAA, snow and acoustic validation.
+if (gradle.startParameter.taskNames.any { it.tokenize(':').last() in ['wkeSceneCompileClientTest','wkeSceneVerifyClient','wkeSceneTemporalWeightsClient','wkeSceneGpuPassTimingClient','wkeSceneCloudFidelityClient'] }) {
+    apply from: 'tests/wke-scene/wke-scene.gradle'
+}
+
+// Preserve authored texture masters while packaging a complete block-atlas mip chain.
+apply from: 'gradle/texture-mips.gradle'
+
+// Separate read-only post-run vegetation diagnostics.
+if (gradle.startParameter.taskNames.any { it.tokenize(':').last() == 'wkeAnalyzeVegetationTrace' }) {
+    apply from: 'tests/wke-snow-v2/analyze-vegetation.gradle'
+}
+
+// Real Test-world snow/vegetation regression; baseline uses only the pinned production JAR.
+if (gradle.startParameter.taskNames.any { it.tokenize(':').last().startsWith('wkeSnowV2') }) {
+    apply from: 'tests/wke-snow-v2/wke-snow-v2.gradle'
+}
+
+// Isolated visual regression for full-screen menu backgrounds and the pause sidebar.
+if (gradle.startParameter.taskNames.any { it.tokenize(':').last() in ['uiEdgesVerifyClient','uiEdgesCompileClientTest'] }) {
+    apply from: 'tests/ui-edges/ui-edges.gradle'
+}
+
+// Prepared forest audio is imported only on explicit request.
+if (gradle.startParameter.taskNames.any { it.tokenize(':').last() == 'forestAudioImport' }) {
+    apply from: 'gradle/forest-audio-import.gradle'
 }

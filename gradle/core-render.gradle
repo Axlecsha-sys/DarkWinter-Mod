@@ -1,0 +1,180 @@
+// Native rendering study; ordinary builds and interactive windows are untouched.
+import groovy.json.JsonOutput
+def study=file('build/core/render-study')
+def source=file('native/darkwinter-client')
+def stamp=new Date().format('yyyyMMdd-HHmmss-SSS')
+def run=file('build/core/render-studies/'+stamp)
+def execute={List<String> args->
+ def p=new ProcessBuilder(args).directory(projectDir).redirectErrorStream(true).start()
+ String text=p.inputStream.getText('UTF-8');int code=p.waitFor()
+ if(!text.isBlank())logger.lifecycle(text.trim())
+ if(code!=0)throw new GradleException('Renderer study failed ('+code+'): '+args[0])
+}
+tasks.register('corePrepareRenderStudy'){
+ notCompatibleWithConfigurationCache('Frozen native renderer inputs and read-only inventory.')
+ doLast{
+  study.mkdirs()
+  def frozen=new File(study,'baseline');frozen.mkdirs()
+  def sha={File f->java.security.MessageDigest.getInstance('SHA-256').digest(f.bytes).encodeHex().toString()}
+  if(!new File(frozen,'world.dwv').isFile()||!new File(frozen,'assets.dwa').isFile()){
+   if(!file('build/core/biome-source/scene.json').isFile())throw new GradleException('Export biome inputs before creating the renderer baseline.')
+   execute(['python',new File(source,'build-tools/pack-biome.py').absolutePath,file('build/core/biome-source').absolutePath,frozen.absolutePath])
+  }
+  File receipt=new File(frozen,'input-receipt.json')
+  def hashes=['world.dwv','assets.dwa'].collectEntries{name->[(name):sha(new File(frozen,name))]}
+  if(!receipt.isFile())receipt.text=JsonOutput.prettyPrint(JsonOutput.toJson(hashes))+'\n'
+  if(new groovy.json.JsonSlurper().parse(receipt)!=hashes)throw new GradleException('Frozen renderer inputs changed.')
+  File backup=file('build/core/package/DarkWinter-World-Stage3-Windows-x64.zip')
+  File oldArchive=file('build/core/package/DarkWinter-World-Windows-x64.zip')
+  if(!backup.exists()&&oldArchive.isFile()&&sha(oldArchive)=='0bf08c0b4001bf651a84af1560958f611c55751505b48d1529351879e651dee9')java.nio.file.Files.copy(oldArchive.toPath(),backup.toPath())
+
+
+  execute(['python',new File(source,'build-tools/render-variants.py').absolutePath,projectDir.absolutePath])
+  def processes=[]
+  ProcessHandle.allProcesses().withCloseable{stream->stream.forEach{p->def command=p.info().command().orElse('');if(command.toLowerCase(Locale.ROOT).endsWith('darkwinter.exe'))processes.add([pid:p.pid(),command:command])}}
+  execute(['git','branch','--show-current'])
+  def status=new ProcessBuilder(['git','status','--porcelain=v1']).directory(projectDir).redirectErrorStream(true).start()
+  new File(study,'git-status.txt').text=status.inputStream.getText('UTF-8');if(status.waitFor()!=0)throw new GradleException('Git inventory failed')
+  new File(study,'processes.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([otherDarkWinterProcesses:processes]))+'\n'
+  logger.lifecycle('OTHER_NATIVE_WINDOWS '+JsonOutput.toJson(processes))
+ }
+}
+tasks.register('coreBuildRenderBench'){
+ dependsOn 'corePrepareRenderStudy','coreClientHeaders','coreVmaHeaders'
+ notCompatibleWithConfigurationCache('Explicit native renderer benchmark build.')
+ doLast{
+  def compiler=file('build/voxel-faces/toolchains/zig-0.14.1/zig.exe')
+  def sha=java.security.MessageDigest.getInstance('SHA-256').digest(compiler.bytes).encodeHex().toString()
+  if(sha!='1ddf230367e07738c4a769eae66c1db7469e37bd520e81c86356453d0db2b9fd')throw new GradleException('Compiler integrity')
+  def args=[compiler.absolutePath,'c++','-std=c++20','-O3','-fno-fast-math','-ffp-contract=off','-pthread','-static','-target','x86_64-windows-gnu','-DUNICODE','-D_UNICODE','-DNOMINMAX','-DVMA_VULKAN_VERSION=1001000','-DVMA_STATIC_VULKAN_FUNCTIONS=0','-DVMA_DYNAMIC_VULKAN_FUNCTIONS=1','-isystem',file('build/core/deps/VulkanMemoryAllocator-3.3.0').absolutePath,'-I'+file('build/core/deps/Vulkan-Headers-1.3.296/include').absolutePath]
+  args+=['checks/render-bench.cpp','src/renderer.cpp','src/scene.cpp','src/vma.cpp'].collect{wkeNativeFile(new File(source,it)).absolutePath}
+  args+=['src/core.cpp','src/format.cpp'].collect{file('WKE/core/'+it).absolutePath}
+  execute(args+['-luser32','-lshell32','-lgdi32','-o',new File(study,'render-bench.exe').absolutePath])
+ }
+}
+['baseline','grid','shadow','occupancy','combined','cache','cache_grid','primary_only','triangle_probe','indexed'].each{name->
+ tasks.register('coreCompileRender'+name.capitalize(),JavaExec){
+  dependsOn 'corePrepareRenderStudy','coreCompileClientShaderTool'
+  classpath=sourceSets.client.runtimeClasspath+files('build/core/client-tools/classes');mainClass='CompileCoreShader'
+  javaLauncher=javaToolchains.launcherFor{languageVersion=JavaLanguageVersion.of(25)}
+  jvmArgs '--enable-native-access=ALL-UNNAMED'
+  args new File(study,name+'.comp').absolutePath,new File(study,name+'.spv').absolutePath
+ }
+}
+tasks.register('coreScreenRenderCandidates'){
+ group='verification';dependsOn 'coreBuildRenderBench'
+ ['baseline','grid','shadow','occupancy','combined'].each{dependsOn 'coreCompileRender'+it.capitalize()}
+ notCompatibleWithConfigurationCache('Owned renderer screening measurements.')
+ doLast{
+  run.mkdirs()
+  ['ground','overview'].each{camera->
+   ['baseline','grid','shadow','occupancy','combined'].each{name->
+    execute([new File(study,'render-bench.exe').absolutePath,new File(study,'baseline').absolutePath,new File(study,name+'.spv').absolutePath,new File(run,camera+'-'+name).absolutePath,camera,'180','0'])
+   }
+  }
+  file('build/core/latest-render-screen.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,run:run.absolutePath]))+'\n'
+ }
+}
+
+tasks.register('coreBuildSahAssets'){
+ dependsOn 'corePrepareRenderStudy'
+ notCompatibleWithConfigurationCache('Offline shared-shape BVH construction.')
+ doLast{execute(['python',new File(source,'build-tools/rebuild-bvh.py').absolutePath,new File(study,'baseline/assets.dwa').absolutePath,new File(study,'sah').absolutePath])}
+}
+tasks.register('coreScreenRenderTraversal'){
+ group='verification';dependsOn 'coreBuildRenderBench','coreBuildSahAssets'
+ ['baseline','cache','cache_grid','primary_only'].each{dependsOn 'coreCompileRender'+it.capitalize()}
+ notCompatibleWithConfigurationCache('Traversal study, unchanged geometry and texture data.')
+ doLast{
+  run.mkdirs()
+  ['ground','overview'].each{camera->
+   ['baseline','cache','cache_grid','primary_only','sah'].each{name->
+    def dist=name=='sah'?new File(study,'sah'):new File(study,'baseline')
+    def shader=new File(study,(name=='sah'?'baseline':name)+'.spv')
+    execute([new File(study,'render-bench.exe').absolutePath,dist.absolutePath,shader.absolutePath,new File(run,camera+'-'+name).absolutePath,camera,'180','0'])
+   }
+  }
+  file('build/core/latest-render-traversal.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,run:run.absolutePath]))+'\n'
+ }
+}
+
+tasks.register('coreCompareRenderStudies'){
+ notCompatibleWithConfigurationCache('Complete static GPU capture comparison.')
+ doLast{
+  ['screen','traversal'].each{name->
+   def input=new groovy.json.JsonSlurper().parse(file('build/core/latest-render-'+name+'.json'))
+   execute(['python',new File(source,'build-tools/compare-render.py').absolutePath,input.run])
+  }
+ }
+}
+tasks.register('coreVerifySahRenderer'){
+ dependsOn 'coreBuildRenderBench','coreBuildSahAssets','coreCompileRenderBaseline'
+ notCompatibleWithConfigurationCache('Independent CPU/GPU hit checks over rebuilt shape hierarchy.')
+ doLast{
+  run.mkdirs()
+  ['ground','overview','negative'].each{camera->
+   execute([new File(study,'render-bench.exe').absolutePath,new File(study,'sah').absolutePath,new File(study,'baseline.spv').absolutePath,new File(run,'sah-verify-'+camera).absolutePath,camera,'60','1'])
+  }
+  file('build/core/latest-sah-verify.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,run:run.absolutePath]))+'\n'
+ }
+}
+
+tasks.register('coreDiagnoseRenderDifference'){
+ dependsOn 'coreBuildRenderBench','coreBuildSahAssets','coreCompileRenderTriangle_probe'
+ notCompatibleWithConfigurationCache('Full primary-hit diagnosis of changed pixels.')
+ doLast{
+  run.mkdirs()
+  ['ground','overview'].each{camera->['baseline','sah'].each{name->
+   def dist=name=='sah'?new File(study,'sah'):new File(study,'baseline')
+   execute([new File(study,'render-bench.exe').absolutePath,dist.absolutePath,new File(study,'triangle_probe.spv').absolutePath,new File(run,camera+'-'+name).absolutePath,camera,'60','2'])
+  }}
+  execute(['python',new File(source,'build-tools/explain-render-diff.py').absolutePath,projectDir.absolutePath,run.absolutePath])
+ }
+}
+
+tasks.register('coreBuildIndexedAssets'){
+ dependsOn 'corePrepareRenderStudy'
+ notCompatibleWithConfigurationCache('Stable triangle payloads with indexed SAH leaves.')
+ doLast{
+  ['indexed','indexed_wide'].each{name->execute(['python',new File(source,'build-tools/rebuild-bvh.py').absolutePath,new File(study,'baseline/assets.dwa').absolutePath,new File(study,name).absolutePath,'refs',name=='indexed'?'0.000001':'0.0001'])}
+ }
+}
+tasks.register('coreScreenIndexedRenderer'){
+ dependsOn 'coreBuildRenderBench','coreBuildIndexedAssets','coreCompileRenderBaseline','coreCompileRenderIndexed'
+ notCompatibleWithConfigurationCache('Same original triangles and stable surface priority.')
+ doLast{
+  run.mkdirs()
+  ['ground','overview'].each{camera->
+   ['baseline','baseline_indexed','indexed','indexed_wide'].each{name->
+    def dist=name.startsWith('baseline')?new File(study,'baseline'):new File(study,name)
+    def shader=new File(study,(name=='baseline'?'baseline':'indexed')+'.spv')
+    execute([new File(study,'render-bench.exe').absolutePath,dist.absolutePath,shader.absolutePath,new File(run,camera+'-'+name).absolutePath,camera,'180','0'])
+   }
+  }
+  execute(['python',new File(source,'build-tools/compare-render.py').absolutePath,run.absolutePath])
+  file('build/core/latest-render-indexed.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,run:run.absolutePath]))+'\n'
+ }
+}
+
+tasks.register('coreVerifyIndexedRenderer'){
+ dependsOn 'coreBuildRenderBench','coreBuildIndexedAssets','coreCompileRenderIndexed','coreCompareRenderStudies'
+ notCompatibleWithConfigurationCache('CPU reference checks for final indexed traversal.')
+ doLast{
+  run.mkdirs()
+  ['ground','overview','negative'].each{camera->
+   execute([new File(study,'render-bench.exe').absolutePath,new File(study,'indexed').absolutePath,new File(study,'indexed.spv').absolutePath,new File(run,'indexed-verify-'+camera).absolutePath,camera,'60','1'])
+  }
+  file('build/core/latest-indexed-verify.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,run:run.absolutePath]))+'\n'
+ }
+}
+
+tasks.register('coreCompareRenderer'){
+ group='verification';dependsOn 'coreBuildRenderBench','coreBuildWorld','coreCompileRenderBaseline'
+ notCompatibleWithConfigurationCache('Balanced paired measurements of final package.')
+ doLast{
+  execute(['python',new File(source,'build-tools/paired-render.py').absolutePath,projectDir.absolutePath,run.absolutePath])
+  file('build/core/latest-render-paired.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,run:run.absolutePath]))+'\n'
+ }
+}
+
+tasks.named('coreCheckScene'){dependsOn 'corePrepareRenderStudy'}

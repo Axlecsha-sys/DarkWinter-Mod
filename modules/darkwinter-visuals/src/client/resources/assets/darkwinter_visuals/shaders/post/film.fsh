@@ -17,18 +17,20 @@ vec3 sampleImage(vec2 uv) { return texture(MainSampler,safeUV(uv)).rgb; }
 vec3 filmExposure(vec2 uv) {
     uv=safeUV(uv);
     vec3 current=texture(MainSampler,uv).rgb;
-    if(FilmTiming.x<.5) return current;
+    if(!nlModuleFlag(8) || FilmTiming.x<.5) return current;
     // Unreprojected history places Sun/Moon discs at old camera positions.
     // Keep temporal film exposure on geometry, while the sky uses this frame.
     // The lens, colour grade, scan structure and grain still apply to both.
     if(nlSky(nlDepth(DepthSampler,uv))) return current;
     float freshness=1.0-smoothstep(.075,.18,FilmTiming.y);
-    // Keep the trace short at low frame rates; bound its weight at very high frame rates.
-    float shutter=min(.28,Film.z*(1.0/60.0)/max(FilmTiming.y,1.0/240.0));
+    // Java supplies a restrained, physical-time camera envelope; frame-rate changes do not pump its amplitude.
+    float shutter=clamp(Film.z,0.0,.16);
+    // Camera motion suppresses held/alternating-field trails through Film.yw.
     float field=mod(floor(gl_FragCoord.y)+FilmTiming.w,2.0);
     float previousWeight=min(.34,shutter+Film.y*.35*field)*freshness;
     vec3 previous=texture(PreviousSampler,uv).rgb;
     vec3 exposure=mix(current,previous,previousWeight);
+    if(Film.w<=0.0) return exposure;
     float heldFreshness=1.0-smoothstep(.10,.20,FilmTiming.z);
     return mix(exposure,texture(HeldSampler,uv).rgb,Film.w*heldFreshness);
 }
@@ -68,6 +70,12 @@ void main() {
         fragColor=texCoord.x<.035?vec4(1,0,.65,source.a):source;return;
     }
     if(Flags.z>.5 || Look.x<=0.0) { fragColor=source;return; }
+    // Analog film is independent of the artistic grade. No history, lens shift, diffusion,
+    // chroma bleed, vignette, scan structure or grain is evaluated in this branch.
+    if(!nlModuleFlag(8)) {
+        fragColor=vec4(clamp(mix(source.rgb,grade(source.rgb),Look.x),0.0,1.0),source.a);
+        return;
+    }
     vec2 size=vec2(textureSize(MainSampler,0));
     // Reference pixel spacing scales with output height; no geometry displacement.
     vec2 px=vec2(1.0)/size;

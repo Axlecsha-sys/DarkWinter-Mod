@@ -1,0 +1,142 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "cut_wood": "darkwinter:block/nature/cut_spruce",
+    "locker_h_hardware": "darkwinter:block/decor/locker_h_hardware",
+    "street_s_wood": "darkwinter:block/decor/street_s_wood",
+    "street_s_wood_end": "darkwinter:block/decor/street_s_wood_end",
+    "deadwood_b_bark": "darkwinter:block/nature/b_deadwood_bark",
+    "particle": "darkwinter:block/decor/street_s_wood"
+  },
+  "elements": [
+    {
+      "from": [
+        0.55,
+        0,
+        3.69
+      ],
+      "to": [
+        1.75,
+        9.85,
+        13.25
+      ],
+      "faces": {
+        "down": {
+          "texture": "#street_s_wood"
+        },
+        "up": {
+          "texture": "#street_s_wood"
+        },
+        "north": {
+          "texture": "#street_s_wood"
+        },
+        "south": {
+          "texture": "#street_s_wood"
+        },
+        "west": {
+          "texture": "#street_s_wood"
+        },
+        "east": {
+          "texture": "#street_s_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        14.25,
+        0,
+        3.69
+      ],
+      "to": [
+        15.45,
+        9.25,
+        13.25
+      ],
+      "faces": {
+        "down": {
+          "texture": "#street_s_wood"
+        },
+        "up": {
+          "texture": "#street_s_wood"
+        },
+        "north": {
+          "texture": "#street_s_wood"
+        },
+        "south": {
+          "texture": "#street_s_wood"
+        },
+        "west": {
+          "texture": "#street_s_wood"
+        },
+        "east": {
+          "texture": "#street_s_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        1.75,
+        0.69,
+        3.93
+      ],
+      "to": [
+        14.25,
+        1.15,
+        12.93
+      ],
+      "faces": {
+        "down": {
+          "texture": "#street_s_wood"
+        },
+        "up": {
+          "texture": "#street_s_wood"
+        },
+        "north": {
+          "texture": "#street_s_wood"
+        },
+        "south": {
+          "texture": "#street_s_wood"
+        },
+        "west": {
+          "texture": "#street_s_wood"
+        },
+        "east": {
+          "texture": "#street_s_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        1.75,
+        1.15,
+        4.03
+      ],
+      "to": [
+        14.25,
+        10,
+        12.9
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cut_wood"
+        },
+        "up": {
+          "texture": "#cut_wood"
+        },
+        "north": {
+          "texture": "#cut_wood"
+        },
+        "south": {
+          "texture": "#cut_wood"
+        },
+        "west": {
+          "texture": "#cut_wood"
+        },
+        "east": {
+          "texture": "#cut_wood"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,262 @@
+// Stage 3: mutable native world and the existing DarkWinter_Test biome.
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+def nativeWorldSource=file('native/darkwinter-client')
+def worldStamp=new Date().format('yyyyMMdd-HHmmss-SSS')
+def worldRun=file('build/core/world-runs/'+worldStamp)
+def worldDist=file('build/core/world-client')
+def worldExecute={List<String> args->
+    def p=new ProcessBuilder(args).directory(projectDir).redirectErrorStream(true).start()
+    String out=p.inputStream.getText('UTF-8');int code=p.waitFor()
+    if(!out.isBlank())logger.lifecycle(out.trim())
+    if(code!=0)throw new GradleException('Native world command failed ('+code+'): '+args[0])
+    out.trim()
+}
+tasks.register('coreInspectWorldInputs') {
+    group='verification';notCompatibleWithConfigurationCache('Read-only project inventory.')
+    doLast{worldExecute(['python',new File(nativeWorldSource,'build-tools/inspect-world-inputs.py').absolutePath])}
+}
+
+if(gradle.startParameter.taskNames.any{it.tokenize(':').last() in ['coreExportBiome','runClientGameTest','compileGametestJava']}) {
+    def exportDirectory='build/run/coreBiomeExport-'+worldStamp
+    fabricApi.configureTests {
+        createSourceSet=true;modId='darkwinter-world-export'
+        enableGameTests=false;enableClientGameTests=true;clearRunDirectory=false
+    }
+    sourceSets.gametest {
+        java.setSrcDirs(['native/darkwinter-client/export/java'])
+        resources.setSrcDirs(['native/darkwinter-client/export/resources'])
+    }
+    tasks.register('corePrepareBiomeExport') {
+        doLast {
+            def config=file(exportDirectory+'/config/darkwinter');config.mkdirs()
+            new File(config,'visuals.properties').text='enabled=false\n'
+            file('build/core/biome-source').mkdirs()
+        }
+    }
+    loom.runs.named('clientGameTest') {
+        runDir=exportDirectory
+        vmArg '-Dfabric.client.gametest.modid=darkwinter-world-export'
+        vmArg '-Ddarkwinter.worldExport='+file('build/core/biome-source').absolutePath
+        vmArg '--enable-native-access=ALL-UNNAMED'
+        vmArg '-Xmx8G'
+        programArg '--graphicsBackend';programArg 'VULKAN'
+    }
+    tasks.named('runClientGameTest') {
+        dependsOn 'corePrepareBiomeExport'
+        timeout=Duration.ofMinutes(15)
+        notCompatibleWithConfigurationCache('Owned actual biome export.')
+        doLast {
+            def result=file('build/core/biome-source/scene.json')
+            if(!result.isFile()||!new JsonSlurper().parse(result).completed)throw new GradleException('Biome export incomplete.')
+        }
+    }
+    tasks.register('coreExportBiome'){group='build';dependsOn 'runClientGameTest'}
+}
+
+tasks.register('corePackBiome') {
+    group='build';notCompatibleWithConfigurationCache('Actual exported biome and source UI pack.')
+    inputs.files(file('native/darkwinter-client/export/palette-order.json'),file('src/client/resources/assets/darkwinter/textures/entity/northern_survivor.png'),fileTree('build/core/biome-source'),fileTree('build/core/player-source'),fileTree('native/darkwinter-client/build-tools'){include '*.py'},fileTree('src/client/resources/assets/darkwinter/textures/gui/cinematic'),fileTree('src/client/resources/assets/darkwinter/font'))
+    outputs.files(['world.dwv','assets.dwa','biome.json','camera.txt','ui.dwu','ui_regular.ttf','license.txt','ui-sources.json','bvh.json','collision.dwc','avatar.dwp','player-assets.json'].collect{new File(worldDist,it)})
+    doLast {
+        if(!file('build/core/biome-source/scene.json').isFile())throw new GradleException('Run coreExportBiome once first.')
+        worldExecute(['python',new File(nativeWorldSource,'build-tools/pack-biome.py').absolutePath,file('build/core/biome-source').absolutePath,worldDist.absolutePath])
+        copy {from worldDist;include 'world.dwv','assets.dwa';into file('build/core/source-scene/current')}
+        File hierarchy=file('build/core/derived-bvh/'+worldStamp)
+        worldExecute(['python',new File(nativeWorldSource,'build-tools/rebuild-bvh.py').absolutePath,new File(worldDist,'assets.dwa').absolutePath,hierarchy.absolutePath,'refs'])
+        java.nio.file.Files.copy(new File(hierarchy,'assets.dwa').toPath(),new File(worldDist,'assets.dwa').toPath(),java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+        java.nio.file.Files.copy(new File(hierarchy,'bvh.json').toPath(),new File(worldDist,'bvh.json').toPath(),java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+        def biome=new JsonSlurper().parse(new File(worldDist,'biome.json'))
+        def bvh=new JsonSlurper().parse(new File(worldDist,'bvh.json'))
+        if(bvh.indexedLeaves!=true||bvh.triangles!=biome.triangles)throw new GradleException('Indexed hierarchy receipt mismatch')
+        biome.assetsBytes=bvh.bytes;biome.bvhNodes=bvh.nodes;biome.bvhMethod=bvh.method;biome.indexedLeaves=true
+        new File(worldDist,'biome.json').text=JsonOutput.prettyPrint(JsonOutput.toJson(biome))+'\n'
+        worldExecute(['python',new File(nativeWorldSource,'build-tools/pack-ui.py').absolutePath,projectDir.absolutePath,worldDist.absolutePath])
+        worldExecute(['python',new File(nativeWorldSource,'build-tools/pack-player.py').absolutePath,projectDir.absolutePath,worldDist.absolutePath])
+    }
+}
+tasks.register('coreExportNativeCelestials') {
+    group='build';description='Export the exact project Sun/Moon texels and local sky source references.'
+    notCompatibleWithConfigurationCache('Fixed-path native visual asset export.')
+    inputs.file(new File(nativeWorldSource,'build-tools/export-visual-celestials.py'))
+    inputs.files(fileTree('modules/darkwinter-visuals/src/client/resources/assets/minecraft/textures/environment/celestial'))
+    outputs.files(file('build/core/visual-shaders/celestial/celestial.dwc'),file('build/core/visual-shaders/celestial/celestial-manifest.json'))
+    outputs.dir(file('build/core/visual-shaders/celestial/reference'))
+    doLast {worldExecute(['python',new File(nativeWorldSource,'build-tools/export-visual-celestials.py').absolutePath])}
+}
+tasks.register('coreExportNativeStars') {
+    group='build';dependsOn 'coreExportNativeCelestials'
+    description='Export exact source star geometry and the DarkWinter small-star adjustment.'
+    notCompatibleWithConfigurationCache('Deterministic source-derived star geometry.')
+    inputs.file(new File(nativeWorldSource,'build-tools/export-visual-stars.py'))
+    inputs.files(fileTree('build/core/visual-shaders/celestial/reference'))
+    inputs.files(fileTree('modules/darkwinter-visuals/src/client/java'){include '**/SmallStarsMixin.java'})
+    outputs.files(file('build/core/visual-shaders/celestial/stars.dws'),file('build/core/visual-shaders/celestial/stars-manifest.json'))
+    doLast {worldExecute(['python',new File(nativeWorldSource,'build-tools/export-visual-stars.py').absolutePath])}
+}
+tasks.register('corePrepareNativeVisuals') {
+    group='build';dependsOn 'coreExportNativeStars'
+    description='Port the actual DarkWinter visual shader includes and bindings to Vulkan GLSL.'
+    notCompatibleWithConfigurationCache('Reproducible native shader preprocessing.')
+    inputs.file(new File(nativeWorldSource,'build-tools/port-visual-shaders.py'))
+    inputs.files(fileTree('modules/darkwinter-visuals/src/client/resources/assets/darkwinter_visuals/shaders'))
+    inputs.files(fileTree(file('WKE/runtime/shaders/visuals')))
+    outputs.dir(file('build/core/visual-shaders/src'))
+    outputs.file(file('build/core/visual-shaders/port-manifest.json'))
+    doLast {worldExecute(['python',new File(nativeWorldSource,'build-tools/port-visual-shaders.py').absolutePath])}
+}
+tasks.register('coreCompileWorldShader',JavaExec) {
+    inputs.files(fileTree(file('WKE/runtime/shaders')),fileTree('build/core/visual-shaders/src'))
+    outputs.dir(new File(worldDist,'visuals'))
+    outputs.files(['trace.comp','raster.vert','raster.frag','shadow.vert','shadow.frag','depth_resolve.frag'].collect{new File(worldDist,it+'.spv')})
+    dependsOn 'coreCompileClientShaderTool','corePrepareNativeVisuals'
+    classpath=sourceSets.client.runtimeClasspath+files('build/core/client-tools/classes');mainClass='CompileCoreShader'
+    javaLauncher=javaToolchains.launcherFor{languageVersion=JavaLanguageVersion.of(25)}
+    jvmArgs '--enable-native-access=ALL-UNNAMED'
+    doFirst {
+        def pairs=[]
+        ['trace.comp','raster.vert','raster.frag','shadow.vert','shadow.frag','depth_resolve.frag'].each { name ->
+            pairs += [file('WKE/runtime/shaders/'+name).absolutePath,new File(worldDist,name+'.spv').absolutePath]
+        }
+        fileTree('build/core/visual-shaders/src').matching{include '*.vert','*.frag'}.files.sort{it.name}.each { input ->
+            pairs += [input.absolutePath,new File(worldDist,'visuals/'+input.name+'.spv').absolutePath]
+        }
+        setArgs(pairs)
+    }
+    doLast {
+        copy {from 'build/core/visual-shaders/port-manifest.json';into new File(worldDist,'visuals')}
+        copy {from 'build/core/visual-shaders/celestial';include '*.dwc','*.dws','*.json';into new File(worldDist,'visuals')}
+    }
+}
+
+tasks.register('coreCompileSoundTool',JavaCompile){
+    source=file('native/darkwinter-client/build-tools/ExportCoreSounds.java')
+    classpath=sourceSets.client.runtimeClasspath;destinationDirectory=file('build/core/sound-tools/classes')
+    javaCompiler=javaToolchains.compilerFor{languageVersion=JavaLanguageVersion.of(25)}
+    options.release=25;options.encoding='UTF-8'
+}
+tasks.register('corePackSounds',JavaExec){
+    dependsOn 'coreCompileSoundTool','downloadAssets'
+    inputs.file('native/darkwinter-client/build-tools/ExportCoreSounds.java');outputs.file(new File(worldDist,'footsteps.dws'))
+    classpath=sourceSets.client.runtimeClasspath+files('build/core/sound-tools/classes');mainClass='ExportCoreSounds'
+    javaLauncher=javaToolchains.launcherFor{languageVersion=JavaLanguageVersion.of(25)}
+    jvmArgs '--enable-native-access=ALL-UNNAMED'
+    def assets=new File(gradle.gradleUserHomeDir,'caches/fabric-loom/assets')
+    args assets.absolutePath,new File(assets,'indexes/26.3-34.json').absolutePath,new File(worldDist,'footsteps.dws').absolutePath
+}
+
+tasks.register('coreBuildWorld') {
+    group='build';dependsOn 'coreClientHeaders','coreVmaHeaders','corePackBiome','coreCompileWorldShader','corePackSounds'
+    notCompatibleWithConfigurationCache('Explicit native world build.')
+    doLast {
+        def compiler=file('build/voxel-faces/toolchains/zig-0.14.1/zig.exe')
+        def sha={File f->java.security.MessageDigest.getInstance('SHA-256').digest(f.bytes).encodeHex().toString()}
+        if(sha(compiler)!='1ddf230367e07738c4a769eae66c1db7469e37bd520e81c86356453d0db2b9fd')throw new GradleException('Compiler integrity')
+        def args=[compiler.absolutePath,'c++','-std=c++20','-O3','-fno-fast-math','-ffp-contract=off','-Wall','-Wextra','-Wpedantic','-Wno-missing-field-initializers','-pthread','-static','-target','x86_64-windows-gnu','-DUNICODE','-D_UNICODE','-DNOMINMAX','-DVMA_VULKAN_VERSION=1001000','-DVMA_STATIC_VULKAN_FUNCTIONS=0','-DVMA_DYNAMIC_VULKAN_FUNCTIONS=1','-isystem',file('build/core/deps/VulkanMemoryAllocator-3.3.0').absolutePath,'-I'+file('build/core/deps/Vulkan-Headers-1.3.296/include').absolutePath]
+        args+=['src/world_main.cpp','src/player.cpp','src/audio.cpp','src/ui.cpp','src/renderer.cpp','src/scene.cpp','src/vma.cpp','src/generation.cpp','src/streaming.cpp'].collect{wkeNativeFile(new File(nativeWorldSource,it)).absolutePath}
+        args+=['src/core.cpp','src/format.cpp'].collect{file('WKE/core/'+it).absolutePath}
+        args+=['-Wl,--subsystem,windows','-luser32','-lshell32','-lgdi32','-lwinmm','-o',new File(worldDist,'DarkWinter.exe').absolutePath]
+        worldExecute(args)
+        java.nio.file.Files.copy(new File(nativeWorldSource,'README_WORLD_RU.txt').toPath(),new File(worldDist,'README_RU.txt').toPath(),java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+        copy {from 'build/core/deps/Vulkan-Headers-1.3.296/LICENSE.md';into new File(worldDist,'licenses/Vulkan-Headers')}
+        copy {from 'build/core/deps/Vulkan-Headers-1.3.296/LICENSES';into new File(worldDist,'licenses/Vulkan-Headers')}
+        copy {from 'build/voxel-faces/toolchains/zig-0.14.1/lib/libcxx/LICENSE.TXT';into new File(worldDist,'licenses/libcxx')}
+        copy {from 'build/core/deps/VulkanMemoryAllocator-3.3.0/LICENSE.txt';into new File(worldDist,'licenses');rename {'VulkanMemoryAllocator-MIT.txt'}}
+        def hashes=[:];['DarkWinter.exe','world.dwv','assets.dwa','ui.dwu','trace.comp.spv','ui_regular.ttf','collision.dwc','avatar.dwp','footsteps.dws'].each{hashes[it]=sha(new File(worldDist,it))}
+        ['raster.vert.spv','raster.frag.spv','shadow.vert.spv','shadow.frag.spv','depth_resolve.frag.spv'].each{hashes[it]=sha(new File(worldDist,it))}
+        fileTree(new File(worldDist,'visuals')).files.findAll{it.isFile()}.each{hashes['visuals/'+new File(worldDist,'visuals').toPath().relativize(it.toPath()).toString().replace('\\','/')]=sha(it)}
+        hashes['licenses/VulkanMemoryAllocator-MIT.txt']=sha(new File(worldDist,'licenses/VulkanMemoryAllocator-MIT.txt'))
+        new File(worldDist,'build-receipt.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([schema:5,completed:true,artifactSha256:hashes,renderer:'Vulkan raster + original DarkWinter visual graph',runtime:'Native C++/Win32/Vulkan; no JVM',source:'Actual DarkWinter_Test; indexed SAH over unchanged triangles; original GUI art/font']))+'\n'
+    }
+}
+tasks.register('coreVerifyWorld') {
+    group='verification';dependsOn 'coreBuildWorld'
+    notCompatibleWithConfigurationCache('Owned world editing, GPU and save/reopen exercise.')
+    doLast {
+        worldRun.mkdirs()
+        worldExecute([new File(worldDist,'DarkWinter.exe').absolutePath,'--hidden','--verify','--exercise-world','--frames','720','--report',worldRun.absolutePath])
+        def result=new JsonSlurper().parse(new File(worldRun,'stage6.json'))
+        if(!result.completed)throw new GradleException('Native world verification failed.')
+        file('build/core/latest-world.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,run:worldRun.absolutePath,result:result]))+'\n'
+        logger.lifecycle('CORE_WORLD_PASS '+worldRun.absolutePath)
+    }
+}
+
+tasks.register('coreInspectFluid') {
+    notCompatibleWithConfigurationCache('Read-only local API source inspection.')
+    doLast {
+        def jar=file('.gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-clientOnly-7e9a32a5b8/26.3/minecraft-clientOnly-7e9a32a5b8-26.3-sources.jar')
+        new java.util.zip.ZipFile(jar).withCloseable{zip->
+            ['FluidRenderer','FluidStateModelSet','FluidModel'].each{name->
+                def entry=zip.getEntry('net/minecraft/client/renderer/block/'+name+'.java')
+                def target=file('build/core/api-sources/'+name+'.java');target.parentFile.mkdirs()
+                target.text=zip.getInputStream(entry).getText('UTF-8')
+            }
+        }
+    }
+}
+
+tasks.register('coreAuditWorld') {
+    group='verification';dependsOn 'coreVerifyWorld'
+    notCompatibleWithConfigurationCache('Native package and owned no-Java process checks.')
+    doLast {
+        File audit=file('build/core/world-audits/'+worldStamp)
+        worldExecute(['python',new File(nativeWorldSource,'build-tools/audit-world.py').absolutePath,projectDir.absolutePath,audit.absolutePath])
+        file('build/core/latest-world-audit.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,run:audit.absolutePath]))+'\n'
+    }
+}
+
+tasks.register('coreCheckScene') {
+    group='verification';dependsOn 'coreBuildWorld'
+    notCompatibleWithConfigurationCache('Native scene boundary and format regression.')
+    doLast {
+        File bin=file('build/core/scene-checks/scene-checks.exe');bin.parentFile.mkdirs()
+        def compiler=file('build/voxel-faces/toolchains/zig-0.14.1/zig.exe')
+        def args=[compiler.absolutePath,'c++','-std=c++20','-O2','-ffp-contract=off','-pthread','-static','-target','x86_64-windows-gnu']
+        args+=['native/darkwinter-client/checks/scene-checks.cpp','WKE/runtime/src/scene.cpp','WKE/core/src/core.cpp','WKE/core/src/format.cpp'].collect{file(it).absolutePath}
+        worldExecute(args+['-o',bin.absolutePath])
+        worldExecute([bin.absolutePath,projectDir.absolutePath,file('build/core/scene-checks/'+worldStamp).absolutePath])
+    }
+}
+tasks.named('coreAuditWorld'){dependsOn 'coreCheckScene'}
+tasks.register('coreRunWorld') {
+    group='application';dependsOn 'coreAuditWorld'
+    notCompatibleWithConfigurationCache('Interactive native world launch.')
+    doLast {
+        def report=file('build/core/world-interactive/'+worldStamp);report.mkdirs()
+        def builder=new ProcessBuilder([new File(worldDist,'DarkWinter.exe').absolutePath,'--play','--report',report.absolutePath]).directory(worldDist)
+        def environment=new HashMap(builder.environment());builder.environment().clear()
+        ['SystemRoot','WINDIR','TEMP','TMP','USERPROFILE','LOCALAPPDATA','APPDATA'].each{key->if(environment[key]!=null)builder.environment()[key]=environment[key]}
+        builder.environment()['PATH']=new File(System.getenv('SystemRoot'),'System32').absolutePath
+        def process=builder.start();Thread.sleep(2500)
+        if(new File(report,'error.json').isFile())throw new GradleException(new File(report,'error.json').getText('UTF-8'))
+        if(!process.isAlive())throw new GradleException('Native world exited during startup.')
+        file('build/core/latest-world-interactive.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([started:true,pid:process.pid(),running:true,javaEnvironment:false,report:report.absolutePath]))+'\n'
+        logger.lifecycle('CORE_WORLD_STARTED '+process.pid())
+    }
+}
+
+tasks.register('coreCheckPlayer') {
+    group='verification';dependsOn 'coreBuildWorld'
+    notCompatibleWithConfigurationCache('Native player behavior, timestep and collision checks.')
+    doLast{
+        File bin=file('build/core/player-checks/player-checks.exe');bin.parentFile.mkdirs()
+        def compiler=file('build/voxel-faces/toolchains/zig-0.14.1/zig.exe')
+        def args=[compiler.absolutePath,'c++','-std=c++20','-O2','-ffp-contract=off','-pthread','-static','-target','x86_64-windows-gnu']
+        args+=['native/darkwinter-client/checks/player-checks.cpp','native/darkwinter-client/src/player.cpp','WKE/runtime/src/scene.cpp','WKE/core/src/core.cpp','WKE/core/src/format.cpp'].collect{file(it).absolutePath}
+        worldExecute(args+['-o',bin.absolutePath])
+        worldExecute([bin.absolutePath,worldDist.absolutePath,file('build/core/player-checks/'+worldStamp).absolutePath])
+    }
+}
+tasks.register('coreVerifyPlayer'){
+    group='verification';dependsOn 'coreCheckPlayer'
+    notCompatibleWithConfigurationCache('Actual native player input, GPU, pause and save/reopen.')
+    doLast{
+        File report=file('build/core/player-runs/'+worldStamp);report.mkdirs()
+        worldExecute([new File(worldDist,'DarkWinter.exe').absolutePath,'--hidden','--verify','--exercise-player','--frames','720','--report',report.absolutePath])
+        def result=new JsonSlurper().parse(new File(report,'stage6.json'))
+        if(!result.completed||!result.reload||!result.pause)throw new GradleException('Player exercise failed')
+        file('build/core/latest-player.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,run:report.absolutePath,result:result]))+'\n'
+    }
+}
+tasks.named('coreAuditWorld'){dependsOn 'coreVerifyPlayer'}

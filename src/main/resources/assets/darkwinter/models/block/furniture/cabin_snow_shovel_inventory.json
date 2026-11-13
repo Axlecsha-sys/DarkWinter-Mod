@@ -1,0 +1,213 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "metal": "darkwinter:block/decor/rusted_steel",
+    "locker_h_hardware": "darkwinter:block/decor/locker_h_hardware",
+    "home_pine_n": "darkwinter:block/decor/home_pine_n",
+    "cabin_window_metal": "darkwinter:block/construction/cabin_window_metal",
+    "particle": "darkwinter:block/construction/cabin_window_metal"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        5.82053,
+        1.0,
+        4.94699
+      ],
+      "to": [
+        10.17947,
+        4.82721,
+        6.69407
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cabin_window_metal"
+        },
+        "up": {
+          "texture": "#cabin_window_metal"
+        },
+        "north": {
+          "texture": "#cabin_window_metal"
+        },
+        "south": {
+          "texture": "#cabin_window_metal"
+        },
+        "west": {
+          "texture": "#cabin_window_metal"
+        },
+        "east": {
+          "texture": "#cabin_window_metal"
+        }
+      }
+    },
+    {
+      "from": [
+        7.53255,
+        3.88063,
+        6.36686
+      ],
+      "to": [
+        8.4616,
+        10.34891,
+        9.2475
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_pine_n"
+        },
+        "up": {
+          "texture": "#home_pine_n"
+        },
+        "north": {
+          "texture": "#home_pine_n"
+        },
+        "south": {
+          "texture": "#home_pine_n"
+        },
+        "west": {
+          "texture": "#home_pine_n"
+        },
+        "east": {
+          "texture": "#home_pine_n"
+        }
+      }
+    },
+    {
+      "from": [
+        7.9182,
+        10.34891,
+        8.82679
+      ],
+      "to": [
+        8.45576,
+        13.42821,
+        10.41611
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_pine_n"
+        },
+        "up": {
+          "texture": "#home_pine_n"
+        },
+        "north": {
+          "texture": "#home_pine_n"
+        },
+        "south": {
+          "texture": "#home_pine_n"
+        },
+        "west": {
+          "texture": "#home_pine_n"
+        },
+        "east": {
+          "texture": "#home_pine_n"
+        }
+      }
+    },
+    {
+      "from": [
+        7.14107,
+        13.20033,
+        10.00125
+      ],
+      "to": [
+        9.25626,
+        15.0,
+        11.05301
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    }
+  ]
+}

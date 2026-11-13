@@ -1,0 +1,416 @@
+{
+  "schema": 1,
+  "agent": "rigid",
+  "requested": [
+    "canned_corn",
+    "canned_peas",
+    "canned_tomatoes",
+    "canned_peaches",
+    "canned_mushroom_soup",
+    "canned_chicken_noodle_soup",
+    "peanut_butter",
+    "berry_jam",
+    "cola",
+    "energy_cola",
+    "lemon_lime_soda",
+    "ginger_ale",
+    "orange_soda",
+    "root_beer",
+    "black_tea",
+    "coffee",
+    "cocoa"
+  ],
+  "items": [
+    {
+      "id": "canned_corn",
+      "prompt": "Use case: precise-object-edit / product-mockup. EDIT the attached flat label into ONE complete finished premium semi-realistic hand-painted survival-game inventory product portrait. The attached image is OUR exact artwork/edit target, NOT merely loose inspiration. IDENTITY LOCK: keep its precise original brand logo, all existing English/French words and accents, quantities, food illustration, palette, borders and print hierarchy. Do not redesign, rebrand or replace the front. Form beautiful believable physical packaging around it, with natural volume, refined material highlights, crisp readable front and fine restrained wear. One isolated product, centered full silhouette, safe margins, about 84% long-side occupancy, square high-resolution master. Soft neutral broad upper-left studio illumination and gentle self-shading, luminous readable midtones, no dark filter, no strong black AO. Only slight three-quarter angle: yaw 8-12 degrees, pitch 8-10 degrees; front dominant. Real transparent RGBA background and clean alpha edges. No floor, no external cast shadow, no props, no loose food, no UI, no captions, no watermark, no fake checkerboard. Preserve original letterform proportions, never squash the print. Only change the surrounding object form and lighting; retain our supplied art faithfully. Subject: gold ochre and cream pantry tin, closed cylindrical steel tin with very thin rolled silver seams, realistic recessed intact lid and a small real pull tab, broad readable paper label; familiar tall grocery-tin shape. Exact manufacturer \"Northline Canning\"; product \"Sweet Corn\"; quantity \"398 mL\". Preserve every other letter from the supplied image.",
+      "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\canned_corn.png",
+      "output_hint": "Generated images are saved to C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde as C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-0174562a-ab95-40c3-a7d3-eb80635ef382.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "archived_generated_visual_pass",
+      "tool": "built-in image_gen",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-0174562a-ab95-40c3-a7d3-eb80635ef382.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\canned_corn.png",
+      "visualReview": "Brand, main product title, quantity, source palette and package silhouette inspected; passed.",
+      "archiveInfo": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "pngColorType": 6,
+        "sha256": "ed65209370ef8a4adb8e6cc222366ef41792965254cb3ca0b7f5d8a7a79e60b2",
+        "defaultOriginalRetained": true
+      },
+      "qaStatus": "Brand, main product text, quantity, palette and product silhouette visually checked. Full final alpha audit and in-game integration were not completed before cancellation.",
+      "integrated": false,
+      "alphaQARecordedBeforeCancellation": {
+        "pngColorType": 6,
+        "width": 1254,
+        "height": 1254,
+        "alpha0": 781333,
+        "alpha255": 981,
+        "dominantInteriorAlpha": 253,
+        "edgePixelsAbove32": 0,
+        "componentsAbove32": 1,
+        "outsideLargestComponentAbove32": 0
+      }
+    },
+    {
+      "id": "canned_peas",
+      "prompt": "Use case: precise-object-edit / product-mockup. EDIT the attached flat label into ONE complete finished premium semi-realistic hand-painted survival-game inventory product portrait. The attached image is OUR exact artwork/edit target, NOT merely loose inspiration. IDENTITY LOCK: keep its precise original brand logo, all existing English/French words and accents, quantities, food illustration, palette, borders and print hierarchy. Do not redesign, rebrand or replace the front. Form beautiful believable physical packaging around it, with natural volume, refined material highlights, crisp readable front and fine restrained wear. One isolated product, centered full silhouette, safe margins, about 84% long-side occupancy, square high-resolution master. Soft neutral broad upper-left studio illumination and gentle self-shading, luminous readable midtones, no dark filter, no strong black AO. Only slight three-quarter angle: yaw 8-12 degrees, pitch 8-10 degrees; front dominant. Real transparent RGBA background and clean alpha edges. No floor, no external cast shadow, no props, no loose food, no UI, no captions, no watermark, no fake checkerboard. Preserve original letterform proportions, never squash the print. Only change the surrounding object form and lighting; retain our supplied art faithfully. Subject: forest-green and cream pantry tin, closed cylindrical steel tin with very thin rolled silver seams, realistic recessed intact lid and a small real pull tab, broad readable paper label; familiar tall grocery-tin shape. Exact manufacturer \"Northline Canning\"; product \"Garden Peas\"; quantity \"398 mL\". Preserve every other letter from the supplied image.",
+      "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\canned_peas.png",
+      "output_hint": "Generated images are saved to C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde as C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-c863aa4b-c9cd-4083-9f9f-447dd5a4f636.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "archived_generated_visual_pass",
+      "tool": "built-in image_gen",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-c863aa4b-c9cd-4083-9f9f-447dd5a4f636.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\canned_peas.png",
+      "visualReview": "Brand, main product title, quantity, source palette and package silhouette inspected; passed.",
+      "archiveInfo": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "pngColorType": 6,
+        "sha256": "aa5304104202f189b0196ae6bdd11f43650163e1cb1350ace422aafd7ace92d6",
+        "defaultOriginalRetained": true
+      },
+      "qaStatus": "Brand, main product text, quantity, palette and product silhouette visually checked. Full final alpha audit and in-game integration were not completed before cancellation.",
+      "integrated": false
+    },
+    {
+      "id": "canned_tomatoes",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / product-mockup. EDIT the attached flat label into ONE complete finished premium semi-realistic hand-painted survival-game inventory product portrait. The attached image is OUR exact artwork/edit target, NOT merely loose inspiration. IDENTITY LOCK: keep its precise original brand logo, all existing English/French words and accents, quantities, food illustration, palette, borders and print hierarchy. Do not redesign, rebrand or replace the front. Form beautiful believable physical packaging around it, with natural volume, refined material highlights, crisp readable front and fine restrained wear. One isolated product, centered full silhouette, safe margins, about 84% long-side occupancy, square high-resolution master. Soft neutral broad upper-left studio illumination and gentle self-shading, luminous readable midtones, no dark filter, no strong black AO. Only slight three-quarter angle: yaw 8-12 degrees, pitch 8-10 degrees; front dominant. Real transparent RGBA background and clean alpha edges. No floor, no external cast shadow, no props, no loose food, no UI, no captions, no watermark, no fake checkerboard. Preserve original letterform proportions, never squash the print. Only change the surrounding object form and lighting; retain our supplied art faithfully. Subject: deep burgundy and cream taller tomato tin, closed cylindrical steel grocery tin with very thin silver rolled seams and an intact realistically recessed pull-tab lid. Broad readable curved paper label. Exact manufacturer \"Northline Canning\"; product \"Whole Tomatoes\"; quantity \"540 mL\". Preserve the original English/French print and ingredient illustration precisely. Keep at least 6% clean transparent margin above and below, no stray particles outside the product.",
+      "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\canned_tomatoes.png",
+      "output_hint": "Generated images are saved to C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde as C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-173c79ca-ed23-4286-86ef-4e3429a3ce11.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "archived_generated_visual_pass",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-173c79ca-ed23-4286-86ef-4e3429a3ce11.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\canned_tomatoes.png",
+      "visualReview": "Brand, product, French line, quantity, palette and silhouette inspected; passed.",
+      "archiveInfo": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "pngColorType": 6,
+        "sha256": "f0eabd7597250830c5b43d5398c61b7cdbb6595ace07d4eb8b938daeda03ff8e",
+        "defaultOriginalRetained": true
+      },
+      "qaStatus": "Brand, main product text, quantity, palette and product silhouette visually checked. Full final alpha audit and in-game integration were not completed before cancellation.",
+      "integrated": false
+    },
+    {
+      "id": "canned_peaches",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / product-mockup. EDIT the attached flat label into ONE complete finished premium semi-realistic hand-painted survival-game inventory product portrait. The attached image is OUR exact artwork/edit target, NOT merely loose inspiration. IDENTITY LOCK: keep its precise original brand logo, all existing English/French words and accents, quantities, food illustration, palette, borders and print hierarchy. Do not redesign, rebrand or replace the front. Form beautiful believable physical packaging around it, with natural volume, refined material highlights, crisp readable front and fine restrained wear. One isolated product, centered full silhouette, safe margins, about 84% long-side occupancy, square high-resolution master. Soft neutral broad upper-left studio illumination and gentle self-shading, luminous readable midtones, no dark filter, no strong black AO. Only slight three-quarter angle: yaw 8-12 degrees, pitch 8-10 degrees; front dominant. Real transparent RGBA background and clean alpha edges. No floor, no external cast shadow, no props, no loose food, no UI, no captions, no watermark, no fake checkerboard. Preserve original letterform proportions, never squash the print. Only change the surrounding object form and lighting; retain our supplied art faithfully. Subject: gold ochre and cream fruit tin, closed cylindrical steel grocery tin with very thin silver rolled seams and an intact realistically recessed pull-tab lid. Broad readable curved paper label. Exact manufacturer \"Alder Creek Pantry\"; product \"Peach Halves\"; quantity \"398 mL\". Preserve the original English/French print and ingredient illustration precisely. Keep at least 6% clean transparent margin above and below, no stray particles outside the product.",
+      "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\canned_peaches.png",
+      "output_hint": "Generated images are saved to C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde as C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-eb47f762-5508-4d89-9ecc-da9df43bc2a2.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "archived_generated_visual_pass",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-eb47f762-5508-4d89-9ecc-da9df43bc2a2.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\canned_peaches.png",
+      "visualReview": "Brand, product, French line, quantity, palette and silhouette inspected; passed.",
+      "archiveInfo": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "pngColorType": 6,
+        "sha256": "1bc741215d6723599091bc6a83ad2ce250c8666d052d9c4527a0a5f5a158d6be",
+        "defaultOriginalRetained": true
+      },
+      "qaStatus": "Brand, main product text, quantity, palette and product silhouette visually checked. Full final alpha audit and in-game integration were not completed before cancellation.",
+      "integrated": false
+    },
+    {
+      "id": "canned_chicken_noodle_soup",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / product-mockup. EDIT the attached flat label into ONE complete finished premium semi-realistic hand-painted survival-game inventory product portrait. The attached image is OUR exact artwork/edit target, NOT merely loose inspiration. IDENTITY LOCK: keep its precise original brand logo, all existing English/French words and accents, quantities, food illustration, palette, borders and print hierarchy. Do not redesign, rebrand or replace the front. Form beautiful believable physical packaging around it, with natural volume, refined material highlights, crisp readable front and fine restrained wear. One isolated product, centered full silhouette, safe margins, about 84% long-side occupancy, square high-resolution master. Soft neutral broad upper-left studio illumination and gentle self-shading, luminous readable midtones, no dark filter, no strong black AO. Only slight three-quarter angle: yaw 8-12 degrees, pitch 8-10 degrees; front dominant. Real transparent RGBA background and clean alpha edges. No floor, no external cast shadow, no props, no loose food, no UI, no captions, no watermark, no fake checkerboard. Preserve original letterform proportions, never squash the print. Only change the surrounding object form and lighting; retain our supplied art faithfully. Subject: compact gold ochre and cream soup tin, closed cylindrical steel grocery tin with very thin silver rolled seams and an intact recessed pull-tab lid, broad readable label. Compact soup-can proportions, not a tall beverage can. Exact manufacturer \"Northline Canning\"; product \"Chicken Noodle Soup\"; quantity \"284 mL\". Preserve every English/French letter and the original illustrated soup bowl. Keep clean transparent margins above/below and no stray particles.",
+      "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\canned_chicken_noodle_soup.png",
+      "output_hint": "Generated images are saved to C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde as C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-87127430-53af-4aef-af22-17dbca8a834c.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "archived_generated_visual_pass",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-87127430-53af-4aef-af22-17dbca8a834c.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\canned_chicken_noodle_soup.png",
+      "visualReview": "Brand, product, French line, quantity, palette and silhouette inspected; passed.",
+      "archiveInfo": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "pngColorType": 6,
+        "sha256": "6e7e0329ce5bae5682dbf3194258bf0e99655977a038bcc4fa3b2b3c10615b9b",
+        "defaultOriginalRetained": true
+      },
+      "qaStatus": "Brand, main product text, quantity, palette and product silhouette visually checked. Full final alpha audit and in-game integration were not completed before cancellation.",
+      "integrated": false
+    },
+    {
+      "id": "canned_mushroom_soup",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / product-mockup. EDIT the attached flat label into ONE complete finished premium semi-realistic hand-painted survival-game inventory product portrait. The attached image is OUR exact artwork/edit target, NOT merely loose inspiration. IDENTITY LOCK: keep its precise original brand logo, all existing English/French words and accents, quantities, food illustration, palette, borders and print hierarchy. Do not redesign, rebrand or replace the front. Form beautiful believable physical packaging around it, with natural volume, refined material highlights, crisp readable front and fine restrained wear. One isolated product, centered full silhouette, safe margins, about 84% long-side occupancy, square high-resolution master. Soft neutral broad upper-left studio illumination and gentle self-shading, luminous readable midtones, no dark filter, no strong black AO. Only slight three-quarter angle: yaw 8-12 degrees, pitch 8-10 degrees; front dominant. Real transparent RGBA background and clean alpha edges. No floor, no external cast shadow, no props, no loose food, no UI, no captions, no watermark, no fake checkerboard. Preserve original letterform proportions, never squash the print. Only change the surrounding object form and lighting; retain our supplied art faithfully. Subject: compact copper-brown and cream soup tin, closed cylindrical steel grocery tin with very thin silver rolled seams and an intact recessed pull-tab lid, broad readable label. Compact soup-can proportions, not a tall beverage can. Exact manufacturer \"Alder Creek Pantry\"; product \"Mushroom Soup\"; quantity \"284 mL\". Preserve every English/French letter and the original illustrated soup bowl. Keep clean transparent margins above/below and no stray particles.",
+      "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\canned_mushroom_soup.png",
+      "output_hint": "Generated images are saved to C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde as C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-8481176e-50ef-4015-9e03-303354803d18.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "archived_generated_visual_pass",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-8481176e-50ef-4015-9e03-303354803d18.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\canned_mushroom_soup.png",
+      "visualReview": "Brand, product, French line, quantity, palette and silhouette inspected; passed.",
+      "archiveInfo": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "pngColorType": 6,
+        "sha256": "fc9d7c70301697f8ac3e62cc25c5f90279069fb490757518a1624f5eb849a707",
+        "defaultOriginalRetained": true
+      },
+      "qaStatus": "Brand, main product text, quantity, palette and product silhouette visually checked. Full final alpha audit and in-game integration were not completed before cancellation.",
+      "integrated": false
+    },
+    {
+      "id": "berry_jam",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / product-mockup. EDIT the attached flat label into ONE complete finished premium semi-realistic hand-painted survival-game inventory product portrait. The attached image is OUR exact artwork/edit target, NOT merely loose inspiration. IDENTITY LOCK: keep its precise original brand logo, all existing English/French words and accents, quantities, food illustration, palette, borders and print hierarchy. Do not redesign, rebrand or replace the front. Form beautiful believable physical packaging around it, with natural volume, refined material highlights, crisp readable front and fine restrained wear. One isolated product, centered full silhouette, safe margins, about 84% long-side occupancy, square high-resolution master. Soft neutral broad upper-left studio illumination and gentle self-shading, luminous readable midtones, no dark filter, no strong black AO. Only slight three-quarter angle: yaw 8-12 degrees, pitch 8-10 degrees; front dominant. Real transparent RGBA background and clean alpha edges. No floor, no external cast shadow, no props, no loose food, no UI, no captions, no watermark, no fake checkerboard. Preserve original letterform proportions, never squash the print. Only change the surrounding object form and lighting; retain our supplied art faithfully. Subject: wide dark berry preserve jar with a dark navy twist cap, broad realistic pantry jar, rounded shoulder and heel, believable contents visible above and below the exact paper label. The lid has a thin realistic rim and very fine grip detail, not a stack of thick disks. Exact manufacturer \"Boreal Preserves\"; product \"Wild Berry Jam\"; quantity \"375 mL\". Preserve every English/French word and existing ingredient illustration. Slight three-quarter only, clean full silhouette, generous transparent margin with no stray flecks.",
+      "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\berry_jam.png",
+      "output_hint": "Generated images are saved to C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde as C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-7c7b9a0f-db24-4e22-8adb-bd3b069607d3.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "archived_generated_visual_pass",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-7c7b9a0f-db24-4e22-8adb-bd3b069607d3.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\berry_jam.png",
+      "visualReview": "Brand, product, French line, quantity, palette and silhouette inspected; passed.",
+      "archiveInfo": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "pngColorType": 6,
+        "sha256": "4d8ecc4271673330b200e55258f42fcc9b79e0becf5e79a66e06ec0e101a9221",
+        "defaultOriginalRetained": true
+      },
+      "qaStatus": "Brand, main product text, quantity, palette and product silhouette visually checked. Full final alpha audit and in-game integration were not completed before cancellation.",
+      "integrated": false
+    },
+    {
+      "id": "peanut_butter",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / product-mockup. EDIT the attached flat label into ONE complete finished premium semi-realistic hand-painted survival-game inventory product portrait. The attached image is OUR exact artwork/edit target, NOT merely loose inspiration. IDENTITY LOCK: keep its precise original brand logo, all existing English/French words and accents, quantities, food illustration, palette, borders and print hierarchy. Do not redesign, rebrand or replace the front. Form beautiful believable physical packaging around it, with natural volume, refined material highlights, crisp readable front and fine restrained wear. One isolated product, centered full silhouette, safe margins, about 84% long-side occupancy, square high-resolution master. Soft neutral broad upper-left studio illumination and gentle self-shading, luminous readable midtones, no dark filter, no strong black AO. Only slight three-quarter angle: yaw 8-12 degrees, pitch 8-10 degrees; front dominant. Real transparent RGBA background and clean alpha edges. No floor, no external cast shadow, no props, no loose food, no UI, no captions, no watermark, no fake checkerboard. Preserve original letterform proportions, never squash the print. Only change the surrounding object form and lighting; retain our supplied art faithfully. Subject: wide warm-brown pantry jar with cream screw cap, broad realistic pantry jar, rounded shoulder and heel, believable contents visible above and below the exact paper label. The lid has a thin realistic rim and very fine grip detail, not a stack of thick disks. Exact manufacturer \"Timber Trail\"; product \"Peanut Butter\"; quantity \"500 g\". Preserve every English/French word and existing ingredient illustration. Slight three-quarter only, clean full silhouette, generous transparent margin with no stray flecks.",
+      "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\peanut_butter.png",
+      "output_hint": "Generated images are saved to C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde as C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-83d6727b-9f97-4d64-a001-6fa5d569fc02.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "archived_generated_visual_pass",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-83d6727b-9f97-4d64-a001-6fa5d569fc02.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\peanut_butter.png",
+      "visualReview": "Brand, product, French line, quantity, palette and silhouette inspected; passed.",
+      "archiveInfo": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "pngColorType": 6,
+        "sha256": "33593ee6be000d8d12f091144f79b8105dff6ba06f1229ec72060d117f362579",
+        "defaultOriginalRetained": true
+      },
+      "qaStatus": "Brand, main product text, quantity, palette and product silhouette visually checked. Full final alpha audit and in-game integration were not completed before cancellation.",
+      "integrated": false
+    },
+    {
+      "id": "cola",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / product-mockup. EDIT the attached flat label into ONE complete finished premium semi-realistic hand-painted survival-game inventory product portrait. The attached image is OUR exact artwork/edit target, NOT merely loose inspiration. IDENTITY LOCK: keep its precise original brand logo, all existing English/French words and accents, quantities, food illustration, palette, borders and print hierarchy. Do not redesign, rebrand or replace the front. Form beautiful believable physical packaging around it, with natural volume, refined material highlights, crisp readable front and fine restrained wear. One isolated product, centered full silhouette, safe margins, about 84% long-side occupancy, square high-resolution master. Soft neutral broad upper-left studio illumination and gentle self-shading, luminous readable midtones, no dark filter, no strong black AO. Only slight three-quarter angle: yaw 8-12 degrees, pitch 8-10 degrees; front dominant. Real transparent RGBA background and clean alpha edges. No floor, no external cast shadow, no props, no loose food, no UI, no captions, no watermark, no fake checkerboard. Preserve original letterform proportions, never squash the print. Only change the surrounding object form and lighting; retain our supplied art faithfully. Subject: slender maroon beverage can with small silver top and ring pull. An elegant straight cylindrical beverage can, small authentic necked shoulder, thin rolled lip and a subtly visible recessed metal ring-pull lid, height/diameter near 1.9. Do not turn it into a tall skinny energy-drink tube or a squat food tin. Exact manufacturer \"Boreal Bottling\"; product \"Cola\"; quantity \"355 mL\". Preserve the supplied logo, printed mountains, lettering and small French line. The face stays crisp; subtle painted metal reflections, no large washed-out glare. Clean transparent margin, no particles outside silhouette.",
+      "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\cola.png",
+      "output_hint": "Generated images are saved to C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde as C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-69b1fa62-f2b6-4cf9-952e-22341adfcd99.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "archived_generated_visual_pass",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-69b1fa62-f2b6-4cf9-952e-22341adfcd99.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\cola.png",
+      "visualReview": "Brand, product, French line, quantity, palette and silhouette inspected; passed.",
+      "archiveInfo": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "pngColorType": 6,
+        "sha256": "37c8cf76fa0586e365351b9f40b5fe8e8a68cff71819bb9ee9ed05f7f6c65c5b",
+        "defaultOriginalRetained": true
+      },
+      "qaStatus": "Brand, main product text, quantity, palette and product silhouette visually checked. Full final alpha audit and in-game integration were not completed before cancellation.",
+      "integrated": false
+    },
+    {
+      "id": "energy_cola",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / product-mockup. EDIT the attached flat label into ONE complete finished premium semi-realistic hand-painted survival-game inventory product portrait. The attached image is OUR exact artwork/edit target, NOT merely loose inspiration. IDENTITY LOCK: keep its precise original brand logo, all existing English/French words and accents, quantities, food illustration, palette, borders and print hierarchy. Do not redesign, rebrand or replace the front. Form beautiful believable physical packaging around it, with natural volume, refined material highlights, crisp readable front and fine restrained wear. One isolated product, centered full silhouette, safe margins, about 84% long-side occupancy, square high-resolution master. Soft neutral broad upper-left studio illumination and gentle self-shading, luminous readable midtones, no dark filter, no strong black AO. Only slight three-quarter angle: yaw 8-12 degrees, pitch 8-10 degrees; front dominant. Real transparent RGBA background and clean alpha edges. No floor, no external cast shadow, no props, no loose food, no UI, no captions, no watermark, no fake checkerboard. Preserve original letterform proportions, never squash the print. Only change the surrounding object form and lighting; retain our supplied art faithfully. Subject: slender dark forest-green beverage can with restrained green/yellow lightning, silver top and ring pull. An elegant straight cylindrical beverage can, small authentic necked shoulder, thin rolled lip and a subtly visible recessed metal ring-pull lid, height/diameter near 1.9. Do not turn it into a tall skinny energy-drink tube or a squat food tin. Exact manufacturer \"Summit Charge\"; product \"Energy Cola\"; quantity \"355 mL\". Preserve the supplied logo, printed mountains, lettering and small French line. The face stays crisp; subtle painted metal reflections, no large washed-out glare. Clean transparent margin, no particles outside silhouette.",
+      "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\energy_cola.png",
+      "output_hint": "Generated images are saved to C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde as C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-ef0d5b48-c2e4-4048-b343-054c4c96366a.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "archived_generated_visual_pass",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-ef0d5b48-c2e4-4048-b343-054c4c96366a.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\energy_cola.png",
+      "visualReview": "Brand, product, French line, quantity, palette and silhouette inspected; passed.",
+      "archiveInfo": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "pngColorType": 6,
+        "sha256": "0f7c4b337a1b9d339dd3aead74d8ff3d4e331e659dbbf549e54e9ea956a47aed",
+        "defaultOriginalRetained": true
+      },
+      "qaStatus": "Brand, main product text, quantity, palette and product silhouette visually checked. Full final alpha audit and in-game integration were not completed before cancellation.",
+      "integrated": false
+    },
+    {
+      "id": "lemon_lime_soda",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / product-mockup. EDIT the attached flat label into ONE complete finished premium semi-realistic hand-painted survival-game inventory product portrait. The attached image is OUR exact artwork/edit target, NOT merely loose inspiration. IDENTITY LOCK: keep its precise original brand logo, all existing English/French words and accents, quantities, food illustration, palette, borders and print hierarchy. Do not redesign, rebrand or replace the front. Form beautiful believable physical packaging around it, with natural volume, refined material highlights, crisp readable front and fine restrained wear. One isolated product, centered full silhouette, safe margins, about 84% long-side occupancy, square high-resolution master. Soft neutral broad upper-left studio illumination and gentle self-shading, luminous readable midtones, no dark filter, no strong black AO. Only slight three-quarter angle: yaw 8-12 degrees, pitch 8-10 degrees; front dominant. Real transparent RGBA background and clean alpha edges. No floor, no external cast shadow, no props, no loose food, no UI, no captions, no watermark, no fake checkerboard. Preserve original letterform proportions, never squash the print. Only change the surrounding object form and lighting; retain our supplied art faithfully. Subject: slender forest-green beverage can with silver top and ring pull. A familiar slender straight-sided beverage can, authentic small shoulder and very thin rolled lip, recessed ring-pull lid, height/diameter near 1.9. Exact manufacturer \"Boreal Bottling\"; product \"Lemon-Lime Soda\"; quantity \"355 mL\". All food images remain printed ON the can, no loose ingredients outside. Preserve source oval badge, bilingual lettering, thin rules and illustrations. Clean readable bright painted-metal finish, slight three-quarter only, full silhouette with transparent margin and no stray flecks.",
+      "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\lemon_lime_soda.png",
+      "output_hint": "Generated images are saved to C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde as C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-a22fe0d2-c028-4095-b804-7e459943a46e.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "archived_generated_visual_pass",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-a22fe0d2-c028-4095-b804-7e459943a46e.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\lemon_lime_soda.png",
+      "visualReview": "Brand, product, French line, quantity, palette and silhouette inspected; passed.",
+      "archiveInfo": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "pngColorType": 6,
+        "sha256": "e173910c0e76b8db8268517613288730b6035e6440d8843f49150ca6f8086918",
+        "defaultOriginalRetained": true
+      },
+      "qaStatus": "Brand, main product text, quantity, palette and product silhouette visually checked. Full final alpha audit and in-game integration were not completed before cancellation.",
+      "integrated": false
+    },
+    {
+      "id": "ginger_ale",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: background-extraction / precise-object-edit. Repair ONLY the alpha/background of the FIRST attached finished Ginger Ale can portrait. Keep the entire can exactly as pictured: same shape, angle, light, gold color, silver ring-pull top, brand logo BOREAL BOTTLING, Ginger Ale, Soda au gingembre, 355 mL, printed ginger, borders and fine texture. Do not redraw or redesign the product or text. Remove every faint grey haze, red/yellow fringe, speck, stray pixel and semi-transparent residue OUTSIDE the exact product silhouette, including above the lid and below the base. Exterior background must be truly fully transparent alpha=0, not a checkerboard or a painted black/white matte. Retain clean natural anti-aliased edges immediately at the can boundary. Product interior should be opaque, except physically fine anti-aliasing at the silhouette. No floor or external shadow. SECOND attached image is our original label for identity preservation only. One finished isolated can, full silhouette, transparent margins; no other changes.",
+      "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\ginger_ale.png",
+      "output_hint": "Generated images are saved to C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde as C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-20715d34-f043-4812-be36-2197c3f54895.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "archived_after_completed_alpha_edit",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-20715d34-f043-4812-be36-2197c3f54895.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\ginger_ale.png",
+      "visualReview": "Background-only edit preserved product identity and removed broad haze; alpha numerical review pending.",
+      "attempts": [
+        {
+          "prompt": "Use case: precise-object-edit / product-mockup. EDIT the attached flat label into ONE complete finished premium semi-realistic hand-painted survival-game inventory product portrait. The attached image is OUR exact artwork/edit target, NOT merely loose inspiration. IDENTITY LOCK: keep its precise original brand logo, all existing English/French words and accents, quantities, food illustration, palette, borders and print hierarchy. Do not redesign, rebrand or replace the front. Form beautiful believable physical packaging around it, with natural volume, refined material highlights, crisp readable front and fine restrained wear. One isolated product, centered full silhouette, safe margins, about 84% long-side occupancy, square high-resolution master. Soft neutral broad upper-left studio illumination and gentle self-shading, luminous readable midtones, no dark filter, no strong black AO. Only slight three-quarter angle: yaw 8-12 degrees, pitch 8-10 degrees; front dominant. Real transparent RGBA background and clean alpha edges. No floor, no external cast shadow, no props, no loose food, no UI, no captions, no watermark, no fake checkerboard. Preserve original letterform proportions, never squash the print. Only change the surrounding object form and lighting; retain our supplied art faithfully. Subject: slender gold ochre beverage can with silver top and ring pull. A familiar slender straight-sided beverage can, authentic small shoulder and very thin rolled lip, recessed ring-pull lid, height/diameter near 1.9. Exact manufacturer \"Boreal Bottling\"; product \"Ginger Ale\"; quantity \"355 mL\". All food images remain printed ON the can, no loose ingredients outside. Preserve source oval badge, bilingual lettering, thin rules and illustrations. Clean readable bright painted-metal finish, slight three-quarter only, full silhouette with transparent margin and no stray flecks.",
+          "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\ginger_ale.png",
+          "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-72a1847a-8d91-4db7-bdd4-862be515d1b6.png",
+          "status": "superseded_low_alpha_background_haze",
+          "archivedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\archive\\ginger_ale-attempt-1.png",
+          "defaultOriginalRetained": true
+        }
+      ],
+      "editSource": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-72a1847a-8d91-4db7-bdd4-862be515d1b6.png",
+      "archiveInfo": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "pngColorType": 6,
+        "sha256": "b442291c36810f746d51e5aaa646cf4000d598cfc8ad9f7f1a3102f1bdb1016d",
+        "defaultOriginalRetained": true
+      },
+      "qaStatus": "Background-only built-in edit completed before cancellation. Brand/title/quantity and product visually retained; final alpha was not fully numerically audited.",
+      "integrated": false
+    },
+    {
+      "id": "orange_soda",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / product-mockup. EDIT the attached flat label into ONE complete finished premium semi-realistic hand-painted survival-game inventory product portrait. The attached image is OUR exact artwork/edit target, NOT merely loose inspiration. IDENTITY LOCK: keep its precise original brand logo, all existing English/French words and accents, quantities, food illustration, palette, borders and print hierarchy. Do not redesign, rebrand or replace the front. Form beautiful believable physical packaging around it, with natural volume, refined material highlights, crisp readable front and fine restrained wear. One isolated product, centered full silhouette, safe margins, about 84% long-side occupancy, square high-resolution master. Soft neutral broad upper-left studio illumination and gentle self-shading, luminous readable midtones, no dark filter, no strong black AO. Only slight three-quarter angle: yaw 8-12 degrees, pitch 8-10 degrees; front dominant. Real transparent RGBA background and clean alpha edges. No floor, no external cast shadow, no props, no loose food, no UI, no captions, no watermark, no fake checkerboard. Preserve original letterform proportions, never squash the print. Only change the surrounding object form and lighting; retain our supplied art faithfully. Subject: slender burnt orange beverage can with silver top and ring pull, familiar slender straight-sided beverage can, small authentic shoulder, fine silver rolled lip and a subtly visible recessed ring-pull lid, height/diameter near 1.9. Exact manufacturer \"Boreal Bottling\"; product \"Orange Soda\"; quantity \"355 mL\". Preserve original bilingual print, badge, border rules and ingredient image printed ON the can; no physical fruit or mug outside it. Clean readable paint finish without washed-out glare. Complete silhouette with clean transparent margin and no haze or stray particles outside the product.",
+      "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\orange_soda.png",
+      "output_hint": "Generated images are saved to C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde as C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-e9424233-fb84-4e20-bb48-4f467b7745a9.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "archived_generated_visual_pass",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-e9424233-fb84-4e20-bb48-4f467b7745a9.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\orange_soda.png",
+      "visualReview": "Brand, product, French line, quantity, palette and silhouette inspected; passed.",
+      "archiveInfo": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "pngColorType": 6,
+        "sha256": "ea99b2fb9e60fec6599dd8ebe7449fb778d96dd3be4ba5006f2087a679c8158e",
+        "defaultOriginalRetained": true
+      },
+      "qaStatus": "Brand, main product text, quantity, palette and product silhouette visually checked. Full final alpha audit and in-game integration were not completed before cancellation.",
+      "integrated": false
+    },
+    {
+      "id": "root_beer",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / product-mockup. EDIT the attached flat label into ONE complete finished premium semi-realistic hand-painted survival-game inventory product portrait. The attached image is OUR exact artwork/edit target, NOT merely loose inspiration. IDENTITY LOCK: keep its precise original brand logo, all existing English/French words and accents, quantities, food illustration, palette, borders and print hierarchy. Do not redesign, rebrand or replace the front. Form beautiful believable physical packaging around it, with natural volume, refined material highlights, crisp readable front and fine restrained wear. One isolated product, centered full silhouette, safe margins, about 84% long-side occupancy, square high-resolution master. Soft neutral broad upper-left studio illumination and gentle self-shading, luminous readable midtones, no dark filter, no strong black AO. Only slight three-quarter angle: yaw 8-12 degrees, pitch 8-10 degrees; front dominant. Real transparent RGBA background and clean alpha edges. No floor, no external cast shadow, no props, no loose food, no UI, no captions, no watermark, no fake checkerboard. Preserve original letterform proportions, never squash the print. Only change the surrounding object form and lighting; retain our supplied art faithfully. Subject: slender dark warm-brown beverage can with silver top and ring pull, familiar slender straight-sided beverage can, small authentic shoulder, fine silver rolled lip and a subtly visible recessed ring-pull lid, height/diameter near 1.9. Exact manufacturer \"Boreal Bottling\"; product \"Root Beer\"; quantity \"355 mL\". Preserve original bilingual print, badge, border rules and ingredient image printed ON the can; no physical fruit or mug outside it. Clean readable paint finish without washed-out glare. Complete silhouette with clean transparent margin and no haze or stray particles outside the product.",
+      "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\root_beer.png",
+      "output_hint": "Generated images are saved to C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde as C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-7d438354-90da-4eba-80b0-79d86e940790.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "archived_generated_visual_pass",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-7d438354-90da-4eba-80b0-79d86e940790.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\root_beer.png",
+      "visualReview": "Brand, product, French line, quantity, palette and silhouette inspected; passed.",
+      "archiveInfo": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "pngColorType": 6,
+        "sha256": "260ed98d434553330e70208290b837d97a978a85082612705553233c30220ced",
+        "defaultOriginalRetained": true
+      },
+      "qaStatus": "Brand, main product text, quantity, palette and product silhouette visually checked. Full final alpha audit and in-game integration were not completed before cancellation.",
+      "integrated": false
+    },
+    {
+      "id": "black_tea",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / product-mockup. EDIT the attached flat label into ONE complete finished premium semi-realistic hand-painted survival-game inventory product portrait. The attached image is OUR exact artwork/edit target, NOT merely loose inspiration. IDENTITY LOCK: keep its precise original brand logo, all existing English/French words and accents, quantities, food illustration, palette, borders and print hierarchy. Do not redesign, rebrand or replace the front. Form beautiful believable physical packaging around it, with natural volume, refined material highlights, crisp readable front and fine restrained wear. One isolated product, centered full silhouette, safe margins, about 84% long-side occupancy, square high-resolution master. Soft neutral broad upper-left studio illumination and gentle self-shading, luminous readable midtones, no dark filter, no strong black AO. Only slight three-quarter angle: yaw 8-12 degrees, pitch 8-10 degrees; front dominant. Real transparent RGBA background and clean alpha edges. No floor, no external cast shadow, no props, no loose food, no UI, no captions, no watermark, no fake checkerboard. Preserve original letterform proportions, never squash the print. Only change the surrounding object form and lighting; retain our supplied art faithfully. Subject: forest-green and cream upright tea carton with thin folded card seams. One closed upright paperboard tea carton with fine real folded card edges, seated top flaps, a thin closing seam and a narrow visible side; no giant bevel or brick look. Exact manufacturer \"Spruce House\"; product \"Black Tea\"; quantity \"20 bags / sachets\". Preserve the source logo and all bilingual text/illustrations exactly. The artwork stays crisp and readable on the main front, with only slight yaw 12 degrees and pitch 10 degrees. Full intact product in clean transparent margin; no haze, flecks or cast shadow outside silhouette.",
+      "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\black_tea.png",
+      "output_hint": "Generated images are saved to C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde as C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-4cfbf454-2041-47a2-96ac-ce19c6947f51.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "archived_generated_visual_pass",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-4cfbf454-2041-47a2-96ac-ce19c6947f51.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\black_tea.png",
+      "visualReview": "Brand, product, French line, quantity, palette and silhouette inspected; passed.",
+      "archiveInfo": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "pngColorType": 6,
+        "sha256": "89b2a8fd956432995745cd050a2916154eb6ed834d961d963c6b1e92f01a3e4a",
+        "defaultOriginalRetained": true
+      },
+      "qaStatus": "Brand, main product text, quantity, palette and product silhouette visually checked. Full final alpha audit and in-game integration were not completed before cancellation.",
+      "integrated": false
+    },
+    {
+      "id": "coffee",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / product-mockup. EDIT the attached flat label into ONE complete finished premium semi-realistic hand-painted survival-game inventory product portrait. The attached image is OUR exact artwork/edit target, NOT merely loose inspiration. IDENTITY LOCK: keep its precise original brand logo, all existing English/French words and accents, quantities, food illustration, palette, borders and print hierarchy. Do not redesign, rebrand or replace the front. Form beautiful believable physical packaging around it, with natural volume, refined material highlights, crisp readable front and fine restrained wear. One isolated product, centered full silhouette, safe margins, about 84% long-side occupancy, square high-resolution master. Soft neutral broad upper-left studio illumination and gentle self-shading, luminous readable midtones, no dark filter, no strong black AO. Only slight three-quarter angle: yaw 8-12 degrees, pitch 8-10 degrees; front dominant. Real transparent RGBA background and clean alpha edges. No floor, no external cast shadow, no props, no loose food, no UI, no captions, no watermark, no fake checkerboard. Preserve original letterform proportions, never squash the print. Only change the surrounding object form and lighting; retain our supplied art faithfully. Subject: taller amber coffee jar with low dark navy screw cap. A real amber glass pantry jar with coffee contents and a thin dark navy screw lid, refined grip ridges, gently rounded shoulder and heel; not an empty cylinder. Exact manufacturer \"Copper Kettle\"; product \"Ground Coffee\"; quantity \"200 g\". Preserve the source logo and all bilingual text/illustrations exactly. The artwork stays crisp and readable on the main front, with only slight yaw 12 degrees and pitch 10 degrees. Full intact product in clean transparent margin; no haze, flecks or cast shadow outside silhouette.",
+      "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\coffee.png",
+      "output_hint": "Generated images are saved to C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde as C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-cc57df4e-96a6-4ce0-b638-2a00100565ae.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "archived_generated_visual_pass",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-cc57df4e-96a6-4ce0-b638-2a00100565ae.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\coffee.png",
+      "visualReview": "Brand, product, French line, quantity, palette and silhouette inspected; passed.",
+      "archiveInfo": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "pngColorType": 6,
+        "sha256": "996216a5c92179ae0ce56893a4d30587d585100589b3e8d1d47ea222292e89ab",
+        "defaultOriginalRetained": true
+      },
+      "qaStatus": "Brand, main product text, quantity, palette and product silhouette visually checked. Full final alpha audit and in-game integration were not completed before cancellation.",
+      "integrated": false
+    },
+    {
+      "id": "cocoa",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / product-mockup. EDIT the attached flat label into ONE complete finished premium semi-realistic hand-painted survival-game inventory product portrait. The attached image is OUR exact artwork/edit target, NOT merely loose inspiration. IDENTITY LOCK: keep its precise original brand logo, all existing English/French words and accents, quantities, food illustration, palette, borders and print hierarchy. Do not redesign, rebrand or replace the front. Form beautiful believable physical packaging around it, with natural volume, refined material highlights, crisp readable front and fine restrained wear. One isolated product, centered full silhouette, safe margins, about 84% long-side occupancy, square high-resolution master. Soft neutral broad upper-left studio illumination and gentle self-shading, luminous readable midtones, no dark filter, no strong black AO. Only slight three-quarter angle: yaw 8-12 degrees, pitch 8-10 degrees; front dominant. Real transparent RGBA background and clean alpha edges. No floor, no external cast shadow, no props, no loose food, no UI, no captions, no watermark, no fake checkerboard. Preserve original letterform proportions, never squash the print. Only change the surrounding object form and lighting; retain our supplied art faithfully. Subject: deep burgundy and cream upright cocoa carton with thin folded card seams, one closed upright paperboard cocoa carton with fine real folded card edges, seated top flaps and a delicate closing seam; a narrow side is visible but the crisp front dominates. Exact manufacturer \"Northstar Sweets\"; product \"Hot Cocoa\"; quantity \"250 g\". Preserve the original cream star, serif lettering and printed chocolate/cocoa mug illustration without adding physical props. Slight yaw 12 degrees and pitch 10 degrees. Intact full silhouette with transparent margins, no background haze or colored specks.",
+      "source": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\references\\cocoa.png",
+      "output_hint": "Generated images are saved to C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde as C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-a816ea55-b28a-41cd-94d4-465160f2f3b1.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "archived_with_known_shape_issue",
+      "defaultPath": "C:\\Users\\Maxim K\\.codex\\generated_images\\01a1c678-e99a-7b32-8285-75f8b628bfde\\exec-a816ea55-b28a-41cd-94d4-465160f2f3b1.png",
+      "generatedPath": "F:\\DarkWinter\\assets-source\\provision-inventory-art\\generated\\cocoa.png",
+      "visualReview": "Print preserved, but generated gable roof is the wrong closure for this flat-top cocoa carton; needs shape-only repair.",
+      "archiveInfo": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "pngColorType": 6,
+        "sha256": "3090383ab99fe34eb8f34775c66b493001d064903d8918256e4f42100bb43a50",
+        "defaultOriginalRetained": true
+      },
+      "qaStatus": "Generated gable closure differs from the requested flat-top cocoa carton. Shape edit was NOT started; task cancelled. Print/brand/title/quantity visually reviewed.",
+      "integrated": false
+    }
+  ],
+  "status": "cancelled_by_user_archived_only",
+  "generationCallsCompleted": 18,
+  "finalImages": 17,
+  "completedEdits": [
+    "ginger_ale"
+  ],
+  "notStartedEdits": [
+    "cocoa"
+  ],
+  "productionEdited": false,
+  "defaultOriginalsRetained": true,
+  "note": "No further image generation/edit is authorized. Existing generated portraits are archived only; raster inventory task cancelled."
+}

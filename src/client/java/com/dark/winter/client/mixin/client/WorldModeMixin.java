@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class WorldModeMixin {
     @Inject(method="onCreate",at=@At("HEAD"))
     private void darkwinter$prepareTestingCreation(CallbackInfo ci) {
+        com.dark.winter.client.GentleTerrainCreation.prepareCreation((CreateWorldScreen)(Object)this);
         com.dark.winter.client.TestingWorlds.prepareCreation((CreateWorldScreen)(Object)this);
     }
 

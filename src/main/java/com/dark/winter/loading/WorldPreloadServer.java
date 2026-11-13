@@ -33,6 +33,7 @@ public final class WorldPreloadServer {
     private static final int STARTS_PER_TICK = 24;
     private static final Map<MinecraftServer, Job> JOBS = new IdentityHashMap<>();
     private static volatile Published published;
+    private static volatile java.util.function.BooleanSupplier automaticPreference = () -> true;
     private static TicketType preloadTicket;
 
     private WorldPreloadServer() { }
@@ -44,7 +45,7 @@ public final class WorldPreloadServer {
                 new TicketType(TicketType.NO_TIMEOUT, TicketType.FLAG_LOADING));
         PayloadTypeRegistry.clientboundPlay().register(WorldPreloadPayload.TYPE, WorldPreloadPayload.CODEC);
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-            start(handler.player);
+            if (server.isSingleplayer() && automaticPreference.getAsBoolean()) start(handler.player);
         });
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
             // Local connection shutdown can fire on a Netty IO thread. TicketStorage, the job map,
@@ -62,6 +63,11 @@ public final class WorldPreloadServer {
             Published value = published;
             if (value != null && value.server == server) published = null;
         });
+    }
+
+    /** The integrated host installs its preference before opening a local world. */
+    public static void setAutomaticPreference(java.util.function.BooleanSupplier preference) {
+        automaticPreference = preference;
     }
 
     /** Called on the server thread, after vanilla has restored the player and their dimension. */

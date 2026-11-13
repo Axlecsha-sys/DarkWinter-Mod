@@ -33,7 +33,9 @@ void main() {
         if(i>=count) break;
         vec3 p=direction*((float(i)+jitter)*stepLength);
         vec3 q=nlLightCoord(p);
-        float lit=nlVolumeShadow(ShadowSampler,q,Shadow.z*.5)*nlCoverage(q);
+        float coverage=nlCoverage(q);
+        float lit=0.0;
+        if(coverage>0.0) lit=nlVolumeShadow(ShadowSampler,q,Shadow.z*.5)*coverage;
         vec2 advected=p.xz+CameraInfo.xz-FogStyle.yz;
         vec2 wind=normalize(WindTime.xy+vec2(1e-4,0.0));
         float gust=.5+.5*sin(dot(advected,wind)*.041);

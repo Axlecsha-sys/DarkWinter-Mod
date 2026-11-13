@@ -1,0 +1,21 @@
+{
+  "reason": "Placed block meshes require block-atlas sprites; original artwork pixels copied unchanged.",
+  "textures": [
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/decor/provision_v2_legacy_labels.png",
+      "source": "F:/DarkWinter/assets-source/provision-art-v2/legacy_pantry-original.png",
+      "size": 3511248,
+      "sha256": "8901a34d3e2a41fc5d1c7ffd09c6a26aa255bddf3b75dd93e42af0bd49592a7a",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/decor/provision_v2_materials.png",
+      "source": "F:/DarkWinter/src/client/resources/assets/darkwinter/textures/item/provisions_v2/materials.png",
+      "size": 1491579,
+      "sha256": "9f95d3bdabe882f9aedac0acdbd45c9dc8707cc7ef6624c458f027c2d812871d",
+      "width": 1024,
+      "height": 1024
+    }
+  ]
+}

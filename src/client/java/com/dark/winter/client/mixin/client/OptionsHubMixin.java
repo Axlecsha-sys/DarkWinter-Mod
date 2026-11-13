@@ -88,13 +88,7 @@ public abstract class OptionsHubMixin extends Screen {
         return super.mouseScrolled(x,y,horizontal,vertical);
     }
     @Override public void extractRenderState(GuiGraphicsExtractor g,int mx,int my,float dt) {
-        var l=UiLayout.hub(width,height);
-        HudStyle.text(g,Component.translatable("options.title"),l.left(),18,1.42f,HudStyle.INK);
-        g.fill(l.left(),39,width-l.left(),40,0x90537384);
-        HudStyle.text(g,Component.translatable("menu.darkwinter.categories"),l.left(),46,.73f,HudStyle.MUTED);
-        HudStyle.panel(g,l.right()-4,48,l.contentWidth()+8,Math.max(60,height-90));
-        HudStyle.fit(g,Component.translatable("menu.darkwinter.common"),l.right()+6,54,
-                l.contentWidth()-(darkwinter$lastScroll>0?58:12),.75f,HudStyle.MUTED);
+        com.dark.winter.client.SettingsNavigation.frame(g,this,Component.translatable("menu.darkwinter.common"),darkwinter$lastScroll>0?58:12);
         super.extractRenderState(g,mx,my,dt);
     }
 }

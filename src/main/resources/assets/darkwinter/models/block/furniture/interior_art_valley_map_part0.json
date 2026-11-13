@@ -1,0 +1,77 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "locker_h_hardware": "darkwinter:block/decor/locker_h_hardware",
+    "street_s_wood": "darkwinter:block/decor/street_s_wood",
+    "interior_art_valley_map": "darkwinter:block/interior/interior_art_valley_map",
+    "interior_art_valley_map_frame": "darkwinter:block/interior/interior_art_valley_map_frame",
+    "particle": "darkwinter:block/interior/interior_art_valley_map"
+  },
+  "elements": [
+    {
+      "from": [
+        1.058824,
+        3.264706,
+        14.87
+      ],
+      "to": [
+        14.941176,
+        12.735294,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_art_valley_map"
+        },
+        "up": {
+          "texture": "#interior_art_valley_map"
+        },
+        "north": {
+          "texture": "#interior_art_valley_map"
+        },
+        "south": {
+          "texture": "#interior_art_valley_map"
+        },
+        "west": {
+          "texture": "#interior_art_valley_map"
+        },
+        "east": {
+          "texture": "#interior_art_valley_map"
+        }
+      }
+    },
+    {
+      "from": [
+        7.46,
+        12.735294,
+        15.51
+      ],
+      "to": [
+        8.54,
+        13.215294,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#locker_h_hardware"
+        },
+        "up": {
+          "texture": "#locker_h_hardware"
+        },
+        "north": {
+          "texture": "#locker_h_hardware"
+        },
+        "south": {
+          "texture": "#locker_h_hardware"
+        },
+        "west": {
+          "texture": "#locker_h_hardware"
+        },
+        "east": {
+          "texture": "#locker_h_hardware"
+        }
+      }
+    }
+  ]
+}

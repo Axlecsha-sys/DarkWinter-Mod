@@ -1,0 +1,175 @@
+{
+  "schema": 4,
+  "scope": [
+    "canned_meat",
+    "canned_fish",
+    "canned_beans",
+    "oat_carton",
+    "cracker_box",
+    "ration_bundle",
+    "water_bottle"
+  ],
+  "files": [
+    {
+      "path": "src/main/resources/assets/darkwinter/furniture/meshes.json",
+      "sha256": "88c76fb1a761c83c4bfa9fc061ba085491c5f2f6ef766d9ecc357f637da13a3c",
+      "bytes": 33951602
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/furniture/catalog.json",
+      "sha256": "d4672c178084375a74e40b2f2ae7871a9ebd101c4828575a59dd5777114820ec",
+      "bytes": 597492
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/models/block/furniture/canned_meat_part0.json",
+      "sha256": "92d2934642a882ad6a828238c65231f2678a819b516813bb7374ec8de045f5b4",
+      "bytes": 4293
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/models/block/furniture/canned_meat_inventory.json",
+      "sha256": "2bbd4c844aa804d091336b9c3a5bcaa4d22d41962e0965b8ee5fb4198909221b",
+      "bytes": 5301
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/models/block/furniture/canned_fish_part0.json",
+      "sha256": "7a70c4a40864af0d2a17d0cda746a1edbe95429515365285059ffde7ac6404be",
+      "bytes": 4293
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/models/block/furniture/canned_fish_inventory.json",
+      "sha256": "c2f1c01879ffe1380e98acc783b237f29c2551235b8f67fb43fe8425269ca9b8",
+      "bytes": 5309
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/models/block/furniture/canned_beans_part0.json",
+      "sha256": "f5636b7a3d1200f4fbb34fd75c725f608e26bfd04fc9fe90e7ac562bedb7ac78",
+      "bytes": 4124
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/models/block/furniture/canned_beans_inventory.json",
+      "sha256": "5ad41dd227602b57255c050a781948d518236e90f501607fbf1e0dff6c641ece",
+      "bytes": 5139
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/models/block/furniture/oat_carton_part0.json",
+      "sha256": "0eb14b123f9f7fdb3ce0efe7b6dfcfaac4f8d2782b65da64eda0dc6b828776ea",
+      "bytes": 4109
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/models/block/furniture/oat_carton_inventory.json",
+      "sha256": "192b69c2a899e6dc7c3cec71d2c9ed6ec50e4c968dc43fd9fb1bce9806c22c99",
+      "bytes": 5115
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/models/block/furniture/cracker_box_part0.json",
+      "sha256": "748e358bb2a24b03496e34b7baa3aceb935c09e7998f835c85dfc9dbc239f3e3",
+      "bytes": 4280
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/models/block/furniture/cracker_box_inventory.json",
+      "sha256": "cd5a4340d64729c66fadb838999b6a35ad98b09e50810193faa754800f757ba4",
+      "bytes": 5295
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/models/block/furniture/ration_bundle_part0.json",
+      "sha256": "fb066a175da363130bb2e68408320aa013a1ae4517ae1eea5597d17aaa8b2e75",
+      "bytes": 4280
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/models/block/furniture/ration_bundle_inventory.json",
+      "sha256": "7d8a9fe6eabab05d8446814703630d2eae0c99833848b636aaaa7a891f235f75",
+      "bytes": 5295
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/models/block/furniture/water_bottle_part0.json",
+      "sha256": "79bc499cc43ea126ad136193442985c76dfbded92c3852d3f356199399521fcd",
+      "bytes": 4294
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/models/block/furniture/water_bottle_inventory.json",
+      "sha256": "a1e9c6cb0d2c9af54b396042074b6fadb97b771672144aa4a3d3e6bf980cecf2",
+      "bytes": 5309
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/items/canned_meat.json",
+      "sha256": "68a6212273e7987b0c5a9d93780b0b8b8b2e383288b2898c9c7604980f4494c9",
+      "bytes": 122
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/blockstates/canned_meat.json",
+      "sha256": "24c2ee7654ecb44e61d420eacc5795d17918a68221e3ebf18da1187ab69aff38",
+      "bytes": 2854
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/items/canned_fish.json",
+      "sha256": "64d5489496ca1797a1bca61f2075fa21eabc340e80ef2a83f3aa5b973a6a7598",
+      "bytes": 122
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/blockstates/canned_fish.json",
+      "sha256": "69236477171119d950f70e257148ae13eb811dcaf0838be69d4524a6d2266bfc",
+      "bytes": 2854
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/items/canned_beans.json",
+      "sha256": "e6b88429fbbd0622bbcc4cb960127343e1feea0e5a228068eae45558cf8b921f",
+      "bytes": 123
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/blockstates/canned_beans.json",
+      "sha256": "4fee348588405b0025f5260b38ef02d2562adf92863ce0d603bdab0990e2853a",
+      "bytes": 2858
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/items/oat_carton.json",
+      "sha256": "d65434fdd1ddf1baad7963540149b33aa7d69405884b637e0972a56554ff9ae5",
+      "bytes": 121
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/blockstates/oat_carton.json",
+      "sha256": "c026c8f46a85a841722ee44b75ecbe717ef7a99b5f0b0d445748a986d9a8e33c",
+      "bytes": 2850
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/items/cracker_box.json",
+      "sha256": "ad818dc8347297c51eadea04e49a9dc59a80e57e77e461daf31a3286636c642d",
+      "bytes": 122
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/blockstates/cracker_box.json",
+      "sha256": "7b99d4526b61c4cd34c8ada4b8ee6f12a1bc104035dfd908c2dfd138528466c5",
+      "bytes": 2854
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/items/ration_bundle.json",
+      "sha256": "4ffe7aaabd6a3ab69f98aff5c67f773d896ee1583da88d21d9a637818b8827e7",
+      "bytes": 124
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/blockstates/ration_bundle.json",
+      "sha256": "4889be0db84ea0d155322c3bb53e00e20b2965f9d43d0bd7633f371b09d0dfef",
+      "bytes": 2862
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/items/water_bottle.json",
+      "sha256": "2cb3f74c9f08239e010ea432ab1d11bb6b89cb0e479d7b0a0fec982e42a04893",
+      "bytes": 123
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/blockstates/water_bottle.json",
+      "sha256": "f4402c02031abae7d7c0a6bf596d2f3b985341701cb3db3d96594ccb7ebc338e",
+      "bytes": 2858
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/decor/provision_v2_materials.png",
+      "sha256": "9f95d3bdabe882f9aedac0acdbd45c9dc8707cc7ef6624c458f027c2d812871d",
+      "bytes": 1491579
+    },
+    {
+      "path": "src/main/resources/assets/darkwinter/textures/block/decor/provision_v2_legacy_labels.png",
+      "sha256": "8901a34d3e2a41fc5d1c7ffd09c6a26aa255bddf3b75dd93e42af0bd49592a7a",
+      "bytes": 3511248
+    }
+  ],
+  "note": "V3 before V4: byte-exact seven-prop inputs; old art and all placement/fallback resources retained."
+}

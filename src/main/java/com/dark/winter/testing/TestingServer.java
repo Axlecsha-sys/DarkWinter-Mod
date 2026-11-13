@@ -42,7 +42,10 @@ public final class TestingServer {
     static Context context(MinecraftServer server){return server==null?null:STATES.get(server);}
     static final class Context {
         final MinecraftServer server;final Path directory;final TestingEdits edits;final boolean readOnlyPreview;
+        final TestingSnowFloorRecovery snowFloorRecovery;
+        private final TestingMetadataCache settingsCache=new TestingMetadataCache(),islandCache=new TestingMetadataCache();
         volatile TestingSettings settings;
+        volatile TestingPresentation presentation=TestingPresentation.neutral();
         volatile String message="Лаборатория готова";
         BlockPos a,b;
         final Map<String,Zone> zones=new ConcurrentHashMap<>();
@@ -59,6 +62,7 @@ public final class TestingServer {
             Files.createDirectories(directory);Path path=directory.resolve("settings.json");
             settings=Files.exists(path)?GSON.fromJson(Files.readString(path),TestingSettings.class):new TestingSettings();
             settings.validate();edits=new TestingEdits(server.overworld(),directory);
+            snowFloorRecovery=new TestingSnowFloorRecovery(this);
             Path zonesFile=directory.resolve("island.json");
             if(Files.exists(zonesFile)) {
                 JsonObject root=JsonParser.parseString(Files.readString(zonesFile)).getAsJsonObject();
@@ -67,13 +71,14 @@ public final class TestingServer {
                 TestingWorldDocuments.loadLegacyZones(this,root);
                 for(JsonElement e:root.getAsJsonArray("vegetation")) vegetation.add(e.getAsString());
             }
+            presentation=TestingPresentation.capture(settings,null);
             save();
         }
         void save() throws IOException {
-            TestingEdits.atomic(directory.resolve("settings.json"),GSON.toJsonTree(settings));
+            settingsCache.write(directory.resolve("settings.json"),GSON.toJsonTree(settings),TestingEdits::atomic);
             JsonObject root=new JsonObject();root.addProperty("schema",2);
             root.add("heights",GSON.toJsonTree(heights));root.add("zones",GSON.toJsonTree(zones));root.add("zoneRules",GSON.toJsonTree(zoneRules));
-            root.add("vegetation",GSON.toJsonTree(vegetation));TestingEdits.atomic(directory.resolve("island.json"),root);
+            root.add("vegetation",GSON.toJsonTree(vegetation));islandCache.write(directory.resolve("island.json"),root,TestingEdits::atomic);
             edits.saveProvenance();
         }
         void event(String action,String value) {
@@ -111,11 +116,14 @@ public final class TestingServer {
             c.vegetation.removeIf(category->!c.edits.origins.containsValue(category));
             for(String category:List.of("grass","bushes","trees"))if(c.edits.origins.containsValue(category))c.vegetation.add(category);
             if(!busy(server)&&!c.jobs.isEmpty()) c.jobs.removeFirst().run();
+            c.snowFloorRecovery.tick();
             TestingScenarios.tick(server);
             if(server.getTickCount()%100==0) {
                 if(!enabled(server,"weather")) server.setWeatherParameters(6000,0,false,false);
                 try {c.edits.saveProvenance();} catch(IOException e) {c.message="Ошибка сохранения лаборатории: "+e.getMessage();LOG.error(c.message,e);}
             }
+            // Publish only final shared settings, after temporary actor scopes restore their owner.
+            c.presentation=TestingPresentation.capture(c.settings,c.presentation);
         });
         net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents.BEFORE.register((world,player,pos,state,entity)->!busy(world.getServer()));
         net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents.AFTER.register((world,player,pos,state,entity)->authored(world,pos));
@@ -150,6 +158,14 @@ public final class TestingServer {
         Context c=STATES.get(server);return c!=null&&c.settings.enabled(module);
     }
     public static TestingSettings settings(MinecraftServer server) {Context c=server==null?null:STATES.get(server);return c==null?OFF:c.settings;}
+    /** Server-owned physical surfaces run in ordinary worlds and an active PLAY laboratory only. */
+    public static boolean surfaceSimulationAllowed(MinecraftServer server) {
+        if(server==null)return false;
+        if(!isTesting(server))return true;
+        Context c=STATES.get(server);
+        return c!=null&&!c.readOnlyPreview&&"PLAY".equals(c.settings.mode)&&!busy(server)&&!recoveryBlocked(server);
+    }
+    public static TestingPresentation presentation(MinecraftServer server) {Context c=server==null?null:STATES.get(server);return c==null?TestingPresentation.neutral():c.presentation;}
     public static String value(MinecraftServer server,String key) {
         Context c=STATES.get(server);if(c==null)return OFF.value(key);
         if(key.equals("scene_selected"))return TestingScene.selected(server);
@@ -183,7 +199,7 @@ public final class TestingServer {
                 if(c.edits.documentsBusy()&&!action.equals("preview_brush"))throw new IOException("Дождитесь транзакции документов");
                 if(action.equals("mode")&&(busy(server)||TestingImportLoader.active(server)||TestingNaturalLoader.active(server)))throw new IOException("Дождитесь завершения операции перед сменой режима");
                 rebuildSupport(c);
-                boolean destructive=Set.of("place","rotate","remove","move","copy","brush","biome","vegetation","protect","unprotect","zone_rules","spawn","undo","redo","group_rotate","resize").contains(action)||TestingScene.mutating(action);
+                boolean destructive=Set.of("place","rotate","remove","move","copy","brush","biome","vegetation","protect","unprotect","zone_rules","spawn","undo","redo","group_rotate","resize","repair_snow").contains(action)||TestingScene.mutating(action);
                 if(destructive&&!"EDIT".equals(c.settings.mode)&&!"CHARACTER".equals(c.settings.mode))
                     throw new IOException("Редактирование территории запрещено во время полноценного теста");
                 if(destructive&&busy(server))throw new IOException("Дождитесь окончания предыдущей операции");
@@ -254,6 +270,10 @@ public final class TestingServer {
                     row.addProperty("natural",natural);row.addProperty("objects",objects);zones.add(name,row);
                 }
                 JsonObject documents=new JsonObject();documents.addProperty("schema",1);documents.add("zones",payload);applyDocumentBatch(c.server,action+" "+name,documents);
+            }
+            case "repair_snow" -> {
+                var repaired=TestingSnowCoverRepair.repair(p,32);
+                c.message="Восстановлен снежный покров: "+repaired.repaired()+" блоков. Undo отменяет восстановление.";
             }
             case "undo" -> c.edits.undo();
             case "redo" -> c.edits.redo();
@@ -441,7 +461,7 @@ public final class TestingServer {
     public static void authored(net.minecraft.world.level.Level level,BlockPos pos) {
         if(level.isClientSide()||level.getServer()==null)return;Context c=STATES.get(level.getServer());if(c==null)return;
         String previous=c.edits.origins.get(pos.asLong());
-        c.edits.origins.put(pos.asLong(),("building".equals(previous)||"object".equals(previous))?previous:category(level.getBlockState(pos)));c.event("author",pos.toShortString());
+        c.edits.setOrigin(pos.asLong(),("building".equals(previous)||"object".equals(previous))?previous:category(level.getBlockState(pos)));c.event("author",pos.toShortString());
     }
     public static void applyBatch(MinecraftServer server,String label,Map<BlockPos,BlockState> states,
             Map<BlockPos,net.minecraft.nbt.CompoundTag> entities,String origin) throws IOException {

@@ -6,7 +6,7 @@ import java.nio.file.*;
 import java.io.*;
 import java.util.*;
 
-/** Presentation only. Unknown keys survive saves; changes never affect world or gameplay settings. */
+/** Local interface and creative-mode preferences. Unknown keys survive saves. */
 public final class UiPreferences {
     public enum Motion { FULL, REDUCED, OFF }
     public enum PauseBackdrop { WORLD, SHELTER }
@@ -14,6 +14,9 @@ public final class UiPreferences {
     private static PauseBackdrop pause=PauseBackdrop.WORLD;
     private static float strength=1f;
     private static boolean mist=true;
+    private static boolean creativeHouseMovement=true, creativeHouseAnimation=true;
+    private static boolean creativeItemHighlight=true;
+    private static volatile boolean additionalChunkPreload=true;
     private static final long START=System.nanoTime();
     private static final Path FILE=FabricLoader.getInstance().getConfigDir().resolve("darkwinter/ui.properties");
     private static final org.slf4j.Logger LOG=org.slf4j.LoggerFactory.getLogger("DarkWinter/UI");
@@ -29,12 +32,24 @@ public final class UiPreferences {
             String mv=p.getProperty("menuMist","true").trim();
             if(!mv.equalsIgnoreCase("true")&&!mv.equalsIgnoreCase("false")) throw new IllegalArgumentException("menuMist must be true/false");
             motion=m;pause=b;strength=s;mist=Boolean.parseBoolean(mv);
+            creativeHouseMovement=Boolean.parseBoolean(p.getProperty("creativeHouseMovement","true"));
+            creativeHouseAnimation=Boolean.parseBoolean(p.getProperty("creativeHouseAnimation","true"));
+            creativeItemHighlight=Boolean.parseBoolean(p.getProperty("creativeItemHighlight","true"));
+            additionalChunkPreload=Boolean.parseBoolean(p.getProperty("additionalChunkPreload","true"));
         } catch(IOException|IllegalArgumentException e){LOG.warn("Cannot read UI settings; keeping last valid state",e);}
     }
     public static Motion motion(){return motion;}
     public static PauseBackdrop pauseBackdrop(){return pause;}
     public static float strength(){return strength;}
     public static boolean mist(){return mist;}
+    public static boolean creativeHouseMovement(){return creativeHouseMovement;}
+    public static boolean creativeHouseAnimation(){return creativeHouseAnimation;}
+    public static boolean creativeItemHighlight(){return creativeItemHighlight;}
+    public static boolean additionalChunkPreload(){return additionalChunkPreload;}
+    public static void setAdditionalChunkPreload(boolean value){additionalChunkPreload=value;save();}
+    public static void setCreativeHouseMovement(boolean value){creativeHouseMovement=value;save();}
+    public static void setCreativeHouseAnimation(boolean value){creativeHouseAnimation=value;save();}
+    public static void setCreativeItemHighlight(boolean value){creativeItemHighlight=value;save();}
     public static boolean animated(){return motion!=Motion.OFF;}
     public static boolean full(){return motion==Motion.FULL;}
     public static double seconds(){return animated()?(System.nanoTime()-START)/1_000_000_000.0:0;}
@@ -48,10 +63,14 @@ public final class UiPreferences {
             if(Files.exists(FILE)) try(var in=Files.newBufferedReader(FILE)){p.load(in);}
             p.setProperty("analogMotion",motion.name());p.setProperty("pauseBackdrop",pause.name());
             p.setProperty("analogStrength",Float.toString(strength));p.setProperty("menuMist",Boolean.toString(mist));
+            p.setProperty("creativeHouseMovement",Boolean.toString(creativeHouseMovement));
+            p.setProperty("creativeHouseAnimation",Boolean.toString(creativeHouseAnimation));
+            p.setProperty("creativeItemHighlight",Boolean.toString(creativeItemHighlight));
+            p.setProperty("additionalChunkPreload",Boolean.toString(additionalChunkPreload));
             Files.createDirectories(FILE.getParent());
             Path tmp=Files.createTempFile(FILE.getParent(),"ui-",".tmp");
             try {
-                try(var out=Files.newBufferedWriter(tmp)){p.store(out,"DarkWinter UI: presentation only");}
+                try(var out=Files.newBufferedWriter(tmp)){p.store(out,"DarkWinter client preferences");}
                 try {Files.move(tmp,FILE,StandardCopyOption.ATOMIC_MOVE,StandardCopyOption.REPLACE_EXISTING);}
                 catch(AtomicMoveNotSupportedException e){Files.move(tmp,FILE,StandardCopyOption.REPLACE_EXISTING);}
             } finally {Files.deleteIfExists(tmp);}

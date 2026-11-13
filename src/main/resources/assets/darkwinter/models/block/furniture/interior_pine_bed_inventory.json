@@ -1,0 +1,437 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "home_set_warm_pine": "darkwinter:block/interior/home_set_warm_pine",
+    "home_set_worn_iron": "darkwinter:block/interior/home_set_worn_iron",
+    "home_set_bed_linen": "darkwinter:block/interior/home_set_bed_linen",
+    "home_set_maple_quilt": "darkwinter:block/interior/home_set_maple_quilt",
+    "particle": "darkwinter:block/interior/home_set_warm_pine"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        4.70588,
+        4.55783,
+        1.0
+      ],
+      "to": [
+        5.50165,
+        8.5043,
+        1.79577
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        10.49835,
+        4.55783,
+        1.0
+      ],
+      "to": [
+        11.29412,
+        8.5043,
+        1.79577
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        5.3351,
+        5.64045,
+        1.17581
+      ],
+      "to": [
+        10.6649,
+        8.04164,
+        1.60145
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        5.1963,
+        5.61269,
+        1.5922
+      ],
+      "to": [
+        10.8037,
+        7.71315,
+        8.0
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_bed_linen"
+        },
+        "up": {
+          "texture": "#home_set_bed_linen"
+        },
+        "north": {
+          "texture": "#home_set_bed_linen"
+        },
+        "south": {
+          "texture": "#home_set_bed_linen"
+        },
+        "west": {
+          "texture": "#home_set_bed_linen"
+        },
+        "east": {
+          "texture": "#home_set_bed_linen"
+        }
+      }
+    },
+    {
+      "from": [
+        4.73364,
+        5.76999,
+        1.64772
+      ],
+      "to": [
+        11.26636,
+        7.71315,
+        8.0
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_maple_quilt"
+        },
+        "up": {
+          "texture": "#home_set_maple_quilt"
+        },
+        "north": {
+          "texture": "#home_set_maple_quilt"
+        },
+        "south": {
+          "texture": "#home_set_maple_quilt"
+        },
+        "west": {
+          "texture": "#home_set_maple_quilt"
+        },
+        "east": {
+          "texture": "#home_set_maple_quilt"
+        }
+      }
+    },
+    {
+      "from": [
+        4.70588,
+        4.55783,
+        14.20423
+      ],
+      "to": [
+        5.50165,
+        11.44217,
+        15.0
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        10.49835,
+        4.55783,
+        14.20423
+      ],
+      "to": [
+        11.29412,
+        11.44217,
+        15.0
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        5.3351,
+        6.13549,
+        14.38929
+      ],
+      "to": [
+        10.6649,
+        10.85922,
+        14.81494
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        5.1963,
+        5.61269,
+        8.0
+      ],
+      "to": [
+        10.8037,
+        7.71315,
+        14.39392
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_bed_linen"
+        },
+        "up": {
+          "texture": "#home_set_bed_linen"
+        },
+        "north": {
+          "texture": "#home_set_bed_linen"
+        },
+        "south": {
+          "texture": "#home_set_bed_linen"
+        },
+        "west": {
+          "texture": "#home_set_bed_linen"
+        },
+        "east": {
+          "texture": "#home_set_bed_linen"
+        }
+      }
+    },
+    {
+      "from": [
+        4.73364,
+        5.76999,
+        8.0
+      ],
+      "to": [
+        11.26636,
+        7.71315,
+        11.3265
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_maple_quilt"
+        },
+        "up": {
+          "texture": "#home_set_maple_quilt"
+        },
+        "north": {
+          "texture": "#home_set_maple_quilt"
+        },
+        "south": {
+          "texture": "#home_set_maple_quilt"
+        },
+        "west": {
+          "texture": "#home_set_maple_quilt"
+        },
+        "east": {
+          "texture": "#home_set_maple_quilt"
+        }
+      }
+    },
+    {
+      "from": [
+        6.0152,
+        7.38004,
+        11.6735
+      ],
+      "to": [
+        9.97555,
+        8.34237,
+        14.20886
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_bed_linen"
+        },
+        "up": {
+          "texture": "#home_set_bed_linen"
+        },
+        "north": {
+          "texture": "#home_set_bed_linen"
+        },
+        "south": {
+          "texture": "#home_set_bed_linen"
+        },
+        "west": {
+          "texture": "#home_set_bed_linen"
+        },
+        "east": {
+          "texture": "#home_set_bed_linen"
+        }
+      }
+    }
+  ]
+}

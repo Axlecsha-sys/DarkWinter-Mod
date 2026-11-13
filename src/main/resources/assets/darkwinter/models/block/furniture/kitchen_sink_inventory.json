@@ -2,29 +2,11 @@
   "parent": "minecraft:block/block",
   "ambientocclusion": true,
   "textures": {
-    "metal": "darkwinter:block/decor/rusted_steel",
-    "enamel": "darkwinter:block/decor/chipped_enamel",
-    "fabric": "darkwinter:block/decor/faded_fabric",
-    "concrete": "darkwinter:block/decor/aged_concrete",
-    "ceramic": "darkwinter:block/decor/cracked_ceramic",
-    "wood": "darkwinter:block/weathered_planks_gray",
-    "dark_wood": "darkwinter:block/weathered_planks_dark",
     "black": "minecraft:block/black_concrete",
-    "glass": "darkwinter:block/frozen_glass",
-    "asphalt": "darkwinter:block/outdoor/asphalt",
-    "bark": "darkwinter:block/nature/spruce_bark",
-    "cut_wood": "darkwinter:block/nature/cut_spruce",
-    "rock": "darkwinter:block/nature/granite",
-    "foliage": "darkwinter:block/nature/foliage",
-    "white": "minecraft:block/white_concrete",
-    "red": "minecraft:block/red_concrete",
-    "yellow": "minecraft:block/yellow_concrete",
-    "orange": "minecraft:block/orange_concrete",
-    "soil": "minecraft:block/dirt",
-    "snow": "minecraft:block/snow",
-    "cardboard": "minecraft:block/brown_concrete",
-    "dry_grass": "minecraft:block/hay_block_side",
-    "particle": "darkwinter:block/weathered_planks_gray"
+    "b4_frame": "darkwinter:block/construction/b4_frame",
+    "interior_sink_steel": "darkwinter:block/interior/interior_sink_steel",
+    "interior_kitchen_wood": "darkwinter:block/interior/interior_kitchen_wood",
+    "particle": "darkwinter:block/interior/interior_kitchen_wood"
   },
   "display": {
     "gui": {
@@ -101,385 +83,513 @@
   "elements": [
     {
       "from": [
-        1.875,
+        3.08799,
         1.0,
-        3.1875
+        3.48446
       ],
       "to": [
-        14.125,
-        9.75,
-        13.6875
+        12.91201,
+        9.89853,
+        12.78219
       ],
       "faces": {
         "down": {
-          "texture": "#wood"
+          "texture": "#interior_kitchen_wood"
         },
         "up": {
-          "texture": "#wood"
+          "texture": "#interior_kitchen_wood"
         },
         "north": {
-          "texture": "#wood"
+          "texture": "#interior_kitchen_wood"
         },
         "south": {
-          "texture": "#wood"
+          "texture": "#interior_kitchen_wood"
         },
         "west": {
-          "texture": "#wood"
+          "texture": "#interior_kitchen_wood"
         },
         "east": {
-          "texture": "#wood"
+          "texture": "#interior_kitchen_wood"
         }
       }
     },
     {
       "from": [
-        2.75,
-        1.875,
-        2.3125
+        2.61784,
+        9.89853,
+        2.85292
       ],
       "to": [
-        7.125,
-        8.875,
-        3.1875
+        13.38216,
+        11.95456,
+        3.65989
       ],
       "faces": {
         "down": {
-          "texture": "#enamel"
+          "texture": "#interior_sink_steel"
         },
         "up": {
-          "texture": "#enamel"
+          "texture": "#interior_sink_steel"
         },
         "north": {
-          "texture": "#enamel"
+          "texture": "#interior_sink_steel"
         },
         "south": {
-          "texture": "#enamel"
+          "texture": "#interior_sink_steel"
         },
         "west": {
-          "texture": "#enamel"
+          "texture": "#interior_sink_steel"
         },
         "east": {
-          "texture": "#enamel"
+          "texture": "#interior_sink_steel"
         }
       }
     },
     {
       "from": [
-        8.0,
-        1.875,
-        2.3125
+        2.61784,
+        9.89853,
+        10.67704
       ],
       "to": [
-        13.25,
-        8.875,
-        3.1875
+        13.38216,
+        11.95456,
+        13.14708
       ],
       "faces": {
         "down": {
-          "texture": "#enamel"
+          "texture": "#interior_sink_steel"
         },
         "up": {
-          "texture": "#enamel"
+          "texture": "#interior_sink_steel"
         },
         "north": {
-          "texture": "#enamel"
+          "texture": "#interior_sink_steel"
         },
         "south": {
-          "texture": "#enamel"
+          "texture": "#interior_sink_steel"
         },
         "west": {
-          "texture": "#enamel"
+          "texture": "#interior_sink_steel"
         },
         "east": {
-          "texture": "#enamel"
+          "texture": "#interior_sink_steel"
         }
       }
     },
     {
       "from": [
-        5.375,
-        5.375,
-        1.4375
+        12.46993,
+        9.89853,
+        3.65989
       ],
       "to": [
-        6.25,
-        7.125,
-        2.3125
+        13.38216,
+        11.95456,
+        10.67704
       ],
       "faces": {
         "down": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "up": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "north": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "south": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "west": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "east": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         }
       }
     },
     {
       "from": [
-        8.875,
-        5.375,
-        1.4375
+        2.61784,
+        9.89853,
+        3.65989
       ],
       "to": [
-        9.75,
-        7.125,
-        2.3125
+        6.51236,
+        11.95456,
+        10.67704
       ],
       "faces": {
         "down": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "up": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "north": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "south": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "west": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "east": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         }
       }
     },
     {
       "from": [
-        1.0,
-        9.75,
-        1.4375
+        11.97873,
+        9.89853,
+        3.65989
       ],
       "to": [
+        12.46993,
+        10.64235,
+        10.67704
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_sink_steel"
+        },
+        "up": {
+          "texture": "#interior_sink_steel"
+        },
+        "north": {
+          "texture": "#interior_sink_steel"
+        },
+        "south": {
+          "texture": "#interior_sink_steel"
+        },
+        "west": {
+          "texture": "#interior_sink_steel"
+        },
+        "east": {
+          "texture": "#interior_sink_steel"
+        }
+      }
+    },
+    {
+      "from": [
+        6.51236,
+        9.89853,
+        3.65989
+      ],
+      "to": [
+        7.1018,
+        10.64235,
+        10.67704
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_sink_steel"
+        },
+        "up": {
+          "texture": "#interior_sink_steel"
+        },
+        "north": {
+          "texture": "#interior_sink_steel"
+        },
+        "south": {
+          "texture": "#interior_sink_steel"
+        },
+        "west": {
+          "texture": "#interior_sink_steel"
+        },
+        "east": {
+          "texture": "#interior_sink_steel"
+        }
+      }
+    },
+    {
+      "from": [
+        8.23858,
+        11.94754,
+        11.45595
+      ],
+      "to": [
+        8.81399,
+        12.37558,
+        12.03135
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_sink_steel"
+        },
+        "up": {
+          "texture": "#interior_sink_steel"
+        },
+        "north": {
+          "texture": "#interior_sink_steel"
+        },
+        "south": {
+          "texture": "#interior_sink_steel"
+        },
+        "west": {
+          "texture": "#interior_sink_steel"
+        },
+        "east": {
+          "texture": "#interior_sink_steel"
+        }
+      }
+    },
+    {
+      "from": [
+        8.35086,
+        12.37558,
+        11.56822
+      ],
+      "to": [
+        8.70172,
+        14.89474,
+        11.94013
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_sink_steel"
+        },
+        "up": {
+          "texture": "#interior_sink_steel"
+        },
+        "north": {
+          "texture": "#interior_sink_steel"
+        },
+        "south": {
+          "texture": "#interior_sink_steel"
+        },
+        "west": {
+          "texture": "#interior_sink_steel"
+        },
+        "east": {
+          "texture": "#interior_sink_steel"
+        }
+      }
+    },
+    {
+      "from": [
+        8.34033,
+        14.08777,
+        9.36133
+      ],
+      "to": [
+        8.71224,
         15.0,
-        11.5,
-        4.0625
+        11.62436
       ],
       "faces": {
         "down": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "up": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "north": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "south": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "west": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "east": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         }
       }
     },
     {
       "from": [
-        1.0,
-        9.75,
-        11.0625
+        2.70205,
+        11.91245,
+        12.71202
       ],
       "to": [
-        15.0,
-        11.5,
-        14.5625
+        13.29093,
+        12.3405,
+        13.06288
       ],
       "faces": {
         "down": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "up": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "north": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "south": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "west": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "east": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         }
       }
     },
     {
       "from": [
-        1.0,
-        9.75,
-        4.0625
+        6.43517,
+        11.94754,
+        11.09106
       ],
       "to": [
-        3.625,
-        11.5,
-        11.0625
+        10.63143,
+        12.21419,
+        12.52957
       ],
       "faces": {
         "down": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "up": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "north": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "south": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "west": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "east": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         }
       }
     },
     {
       "from": [
-        12.375,
-        9.75,
-        4.0625
+        9.90165,
+        12.1791,
+        11.53314
       ],
       "to": [
-        15.0,
-        11.5,
-        11.0625
+        10.30864,
+        12.45979,
+        11.94013
       ],
       "faces": {
         "down": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "up": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "north": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "south": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "west": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "east": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         }
       }
     },
     {
       "from": [
-        3.625,
-        8.875,
-        4.0625
+        9.81744,
+        12.1791,
+        11.44893
       ],
       "to": [
-        12.375,
-        9.75,
-        11.0625
+        10.39285,
+        12.79661,
+        12.02434
       ],
       "faces": {
         "down": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "up": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "north": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "south": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "west": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         },
         "east": {
-          "texture": "#ceramic"
+          "texture": "#interior_sink_steel"
         }
       }
     },
     {
       "from": [
-        7.125,
-        11.5,
-        11.9375
+        6.73691,
+        12.1791,
+        11.53314
       ],
       "to": [
-        8.875,
-        15.0,
-        13.6875
+        7.14391,
+        12.45979,
+        11.94013
       ],
       "faces": {
         "down": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "up": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "north": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "south": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "west": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "east": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         }
       }
     },
     {
       "from": [
-        7.125,
-        13.25,
-        8.4375
+        6.65271,
+        12.1791,
+        11.44893
       ],
       "to": [
-        8.875,
-        15.0,
-        11.9375
+        7.22811,
+        12.79661,
+        12.02434
       ],
       "faces": {
         "down": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "up": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "north": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "south": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "west": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         },
         "east": {
-          "texture": "#metal"
+          "texture": "#interior_sink_steel"
         }
       }
     }

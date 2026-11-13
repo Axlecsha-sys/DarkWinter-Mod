@@ -15,6 +15,7 @@ public final class DarkWinterInventoryHooks {
     private DarkWinterInventoryHooks() {}
 
     public static void init() {
+        com.dark.winter.client.inventory.InventoryUseAction.init();
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (client.player == null || client.level == null) {
                 setupDone = false;

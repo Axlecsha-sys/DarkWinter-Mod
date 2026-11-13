@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.dark.winter.mixin.placement",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "ItemSurfacePlacementMixin",
+    "HangingEntityItemSurfaceMixin",
+    "HangingEntitySurfaceMixin",
+    "ItemFrameSurfaceMixin",
+    "BlockAttachedSurfaceDataMixin"
+  ],
+  "injectors": {"defaultRequire": 1},
+  "overwrites": {"requireAnnotations": true}
+}

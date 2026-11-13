@@ -1,0 +1,152 @@
+{
+  "project": "DarkWinter",
+  "date": "2026-11-05",
+  "voice_profile": "protagonist_a",
+  "category": "quiet_reflections",
+  "status": "recorded_awaiting_author_review",
+  "generator": {
+    "provider": "Qwen3-TTS official online demo",
+    "model": "Qwen3-TTS-12Hz-1.7B-CustomVoice",
+    "speaker": "Ryan",
+    "execution": "remote",
+    "billing": "free_public_demo",
+    "license_card": "https://huggingface.co/Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice"
+  },
+  "invariant_style_prompt": "Male survival game protagonist, 33 years old. Speak in a naturally very deep, heavy, resonant bass register, with clear articulation and only a faint dry rasp. Neutral North American English. Quiet, restrained self-talk, grounded intimate acting, steady chest resonance. Dry close microphone recording.",
+  "game_integration": {
+    "sound_events_registered": false,
+    "automatic_triggers_added": false,
+    "subtitles_connected_to_game": false,
+    "contexts_are_suggestions": true
+  },
+  "checks": {
+    "originals_preserved": true,
+    "normalization": "Preview gain toward -23 dBFS active RMS; peak ceiling -1 dBFS; 5 ms edge fades.",
+    "subjective_listening": "Not available to the assistant; awaiting author review.",
+    "in_game": "not_run"
+  },
+  "subtitles": {
+    "en_us": {
+      "protagonist.traffic": "Never thought I'd miss the sound of traffic.",
+      "protagonist.coming_back": "Somebody thought they'd be coming back.",
+      "protagonist.little_things": "Funny how the little things stick with you.",
+      "protagonist.view": "Still a hell of a view."
+    },
+    "ru_ru": {
+      "protagonist.traffic": "Никогда бы не подумал, что буду скучать по шуму машин.",
+      "protagonist.coming_back": "Кто-то ведь думал, что ещё вернётся.",
+      "protagonist.little_things": "Странно, как всякие мелочи врезаются в память.",
+      "protagonist.view": "А вид всё-таки охрененный."
+    }
+  },
+  "lines": [
+    {
+      "id": "traffic",
+      "text": "Never thought I'd miss the sound of traffic.",
+      "ru": "Никогда бы не подумал, что буду скучать по шуму машин.",
+      "context": "A quiet moment while exploring.",
+      "acting": "A quiet, thoughtful observation about an ordinary sound he once took for granted. Subtle wistfulness and dry self-awareness. Natural conversational pace, softly falling ending.",
+      "event_id": "908ddb7dbb8e4d85b4d5bae10bfe5aff",
+      "url": "https://darkwinter-audio-online.bouncygoose19.chatgpt.site/audio/speech-908ddb7dbb8e4d85b4d5bae10bfe5aff-0.wav",
+      "download_url_is_temporary": false,
+      "style_prompt": "Male survival game protagonist, 33 years old. Speak in a naturally very deep, heavy, resonant bass register, with clear articulation and only a faint dry rasp. Neutral North American English. Quiet, restrained self-talk, grounded intimate acting, steady chest resonance. Dry close microphone recording. A quiet, thoughtful observation about an ordinary sound he once took for granted. Subtle wistfulness and dry self-awareness. Natural conversational pace, softly falling ending.",
+      "line_id": "protagonist.traffic",
+      "review_status": "awaiting_author_review",
+      "source_file": "originals/dw_protagonist_traffic_en.wav",
+      "preview_file": "dw_protagonist_traffic_en.wav",
+      "source_sha256": "3e46ea9019aa704e6be649dbd995d6798802a57e6336fcbba3f77e3b0b763de3",
+      "preview_sha256": "c5a50c65176ba1eb691dd438c3df5ac7a475bfac18c7a5ab109b7566a5c57b18",
+      "measurements": {
+        "duration_seconds": 2.696875,
+        "sample_rate": 24000,
+        "channels": 1,
+        "bits": 16,
+        "preview_peak_dbfs": -7.600620598637313,
+        "preview_rms_dbfs": -23.092547375267483,
+        "preview_full_scale_samples": 0,
+        "gain_db": -7.600292985691858
+      }
+    },
+    {
+      "id": "coming_back",
+      "text": "Somebody thought they'd be coming back.",
+      "ru": "Кто-то ведь думал, что ещё вернётся.",
+      "context": "Looking at belongings left behind in an abandoned home.",
+      "acting": "He notices ordinary belongings left behind in an empty home and quietly realizes their owner expected to return. Matter-of-fact, restrained sadness, a small reflective pause. Natural conversational pace.",
+      "download_url_is_temporary": true,
+      "style_prompt": "Male survival game protagonist, 33 years old. Speak in a naturally very deep, heavy, resonant bass register, with clear articulation and only a faint dry rasp. Neutral North American English. Quiet, restrained self-talk, grounded intimate acting, steady chest resonance. Dry close microphone recording. He notices ordinary belongings left behind in an empty home and quietly realizes their owner expected to return. Matter-of-fact, restrained sadness, a small reflective pause. Natural conversational pace.",
+      "event_id": "89d657cc82f74cd28c77e6590298d6d5",
+      "url": "https://qwen-qwen3-tts.hf.space/gradio_api/file=/tmp/gradio/51021ead85168db0e166f07c07fdd67b5d23b74ccff886a64a2092d4c7c3e845/audio.wav",
+      "line_id": "protagonist.coming_back",
+      "review_status": "awaiting_author_review",
+      "source_file": "originals/dw_protagonist_coming_back_en.wav",
+      "preview_file": "dw_protagonist_coming_back_en.wav",
+      "source_sha256": "cc6fb77c545146092b2cbcf346dba047830c0908effdea47f324b029278667c1",
+      "preview_sha256": "c1e0ccb1aceaaeba0ce9c8cbfaff34fd0cfbc4835ebfa7ffd067e2c5f9d13fc0",
+      "measurements": {
+        "duration_seconds": 1.896875,
+        "sample_rate": 24000,
+        "channels": 1,
+        "bits": 16,
+        "preview_peak_dbfs": -7.886340899226179,
+        "preview_rms_dbfs": -23.092620428556565,
+        "preview_full_scale_samples": 0,
+        "gain_db": -7.8858490332942
+      }
+    },
+    {
+      "id": "little_things",
+      "text": "Funny how the little things stick with you.",
+      "ru": "Странно, как всякие мелочи врезаются в память.",
+      "context": "A quiet moment of recollection while exploring.",
+      "acting": "A private, thoughtful reflection on small memories that remain vivid. A faint rueful warmth and a gentle reflective cadence. Natural conversational pace.",
+      "event_id": "bafa4422b3b54677bce753a703ee563c",
+      "url": "https://darkwinter-audio-online.bouncygoose19.chatgpt.site/audio/speech-bafa4422b3b54677bce753a703ee563c-0.wav",
+      "download_url_is_temporary": false,
+      "style_prompt": "Male survival game protagonist, 33 years old. Speak in a naturally very deep, heavy, resonant bass register, with clear articulation and only a faint dry rasp. Neutral North American English. Quiet, restrained self-talk, grounded intimate acting, steady chest resonance. Dry close microphone recording. A private, thoughtful reflection on small memories that remain vivid. A faint rueful warmth and a gentle reflective cadence. Natural conversational pace.",
+      "line_id": "protagonist.little_things",
+      "review_status": "awaiting_author_review",
+      "source_file": "originals/dw_protagonist_little_things_en.wav",
+      "preview_file": "dw_protagonist_little_things_en.wav",
+      "source_sha256": "a317e7d191e749530071a8de1e61ae09487ba1d0531bdc142c4e866374a8c2b3",
+      "preview_sha256": "c5f83cffbd4bf3810751c07f820bd86287360f1c9df377a14e4fa1b0358db0aa",
+      "measurements": {
+        "duration_seconds": 2.456875,
+        "sample_rate": 24000,
+        "channels": 1,
+        "bits": 16,
+        "preview_peak_dbfs": -7.289574057942124,
+        "preview_rms_dbfs": -23.10170729082212,
+        "preview_full_scale_samples": 0,
+        "gain_db": -7.289204430077342
+      }
+    },
+    {
+      "id": "view",
+      "text": "Still a hell of a view.",
+      "ru": "А вид всё-таки охрененный.",
+      "context": "Taking in a beautiful landscape.",
+      "acting": "He takes in a striking landscape and quietly appreciates the view. Subtle genuine admiration with dry understated humour. Relaxed conversational pace and a softly settled ending.",
+      "event_id": "daf46b1e63dc4965bea684e2c1bf6ef1",
+      "url": "https://darkwinter-audio-online.bouncygoose19.chatgpt.site/audio/speech-daf46b1e63dc4965bea684e2c1bf6ef1-0.wav",
+      "download_url_is_temporary": false,
+      "style_prompt": "Male survival game protagonist, 33 years old. Speak in a naturally very deep, heavy, resonant bass register, with clear articulation and only a faint dry rasp. Neutral North American English. Quiet, restrained self-talk, grounded intimate acting, steady chest resonance. Dry close microphone recording. Quiet, relaxed appreciation of a beautiful landscape, with dry understated humour. Natural conversational pace.",
+      "line_id": "protagonist.view",
+      "review_status": "awaiting_author_review",
+      "source_file": "originals/dw_protagonist_view_en.wav",
+      "preview_file": "dw_protagonist_view_en.wav",
+      "source_sha256": "42ecf0392b8d4d03baa23fd15a203af7e7c65d0b0590435f72d262d4386300be",
+      "preview_sha256": "5b46056d8d45fee69bc245247d941e010fc77a76582d525a67ccccb5ae4ea20e",
+      "measurements": {
+        "duration_seconds": 2.056875,
+        "sample_rate": 24000,
+        "channels": 1,
+        "bits": 16,
+        "preview_peak_dbfs": -8.566863817212504,
+        "preview_rms_dbfs": -23.29903214274426,
+        "preview_full_scale_samples": 0,
+        "gain_db": -8.566513032435074
+      }
+    }
+  ]
+}

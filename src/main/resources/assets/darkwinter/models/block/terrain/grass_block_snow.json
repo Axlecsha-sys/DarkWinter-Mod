@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/grass_block_snow",
+  "textures": {
+    "side": "darkwinter:block/terrain/grass_side_snow_z5"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "com.dark.winter.export.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "AtlasCapture",
+    "SpriteAccess"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

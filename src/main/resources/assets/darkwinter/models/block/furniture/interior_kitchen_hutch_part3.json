@@ -1,0 +1,111 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "black": "minecraft:block/black_concrete",
+    "b4_frame": "darkwinter:block/construction/b4_frame",
+    "interior_kitchen_wood": "darkwinter:block/interior/interior_kitchen_wood",
+    "interior_hutch_glass": "darkwinter:block/interior/interior_hutch_glass",
+    "interior_hutch_enamel": "darkwinter:block/interior/interior_hutch_enamel",
+    "interior_hutch_blue": "darkwinter:block/interior/interior_hutch_blue",
+    "particle": "darkwinter:block/interior/interior_kitchen_wood"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        6.02
+      ],
+      "to": [
+        5.08,
+        1.6,
+        14.73
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "up": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "north": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "south": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "west": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "east": {
+          "texture": "#interior_kitchen_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        1.6,
+        5.1
+      ],
+      "to": [
+        5.08,
+        14.1,
+        14.73
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "up": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "north": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "south": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "west": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "east": {
+          "texture": "#interior_kitchen_wood"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        14.1,
+        4.86
+      ],
+      "to": [
+        5.65,
+        14.58,
+        15.02
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "up": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "north": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "south": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "west": {
+          "texture": "#interior_kitchen_wood"
+        },
+        "east": {
+          "texture": "#interior_kitchen_wood"
+        }
+      }
+    }
+  ]
+}

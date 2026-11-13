@@ -29,9 +29,12 @@ final class TestingNativeJournal {
     private record Record(long sequence,boolean snapshot,String id,String file,String sha,long bytes,TestingEdits.Operation operation) {}
     private record Receipt(ChunkPos chunk,long sequence,CompletableFuture<Void> future) {}
     private static final class Checkpoint {
-        final long sequence;final Future<?> metadata;final Map<ChunkPos,Long> required;
+        final long sequence,originsGeneration;final Future<?> metadata;final Map<ChunkPos,Long> required;
         CompletableFuture<Void> flush;
-        Checkpoint(long sequence,Future<?> metadata,Map<ChunkPos,Long> required){this.sequence=sequence;this.metadata=metadata;this.required=required;}
+        boolean metadataAcknowledged;
+        Checkpoint(long sequence,long originsGeneration,Future<?> metadata,Map<ChunkPos,Long> required){
+            this.sequence=sequence;this.originsGeneration=originsGeneration;this.metadata=metadata;this.required=required;
+        }
     }
     private final TestingEdits owner;private final ServerLevel world;private final Path directory,tail;private final long baseAtLoad;
     private final List<Record> records=new ArrayList<>();
@@ -120,7 +123,7 @@ final class TestingNativeJournal {
         Future<?> writing;
         try{writing=METADATA.submit(()->{TestingEdits.writeNativeMetadata(target,metadata);return null;});}
         catch(RejectedExecutionException failure){throw new IOException("Native metadata worker unavailable",failure);}
-        checkpoint=new Checkpoint(mark,writing,Map.copyOf(required));
+        checkpoint=new Checkpoint(mark,metadata.originsGeneration(),writing,Map.copyOf(required));
     }
     private void pollReceipts()throws IOException {
         Iterator<Receipt> iterator=receipts.iterator();
@@ -149,7 +152,7 @@ final class TestingNativeJournal {
         boolean covered=current.required.entrySet().stream().allMatch(entry->written.getOrDefault(entry.getKey(),-1L)>=entry.getValue());
         if(covered&&current.flush==null)current.flush=world.getChunkSource().chunkMap.synchronize(true);
         if(current.flush==null||!current.flush.isDone()||!current.metadata.isDone())return;
-        completed(current.flush);completed(current.metadata);
+        completed(current.flush);acknowledgeMetadata(current);
         long mark=current.sequence;
         List<Record> retained=records.stream().filter(record->record.sequence()>mark).toList();
         // Persist per-world terrain hints/settings after the older metadata DTO finished.
@@ -164,7 +167,22 @@ final class TestingNativeJournal {
     }
     /** Explicit bulk/STOP only: waits for already submitted plain metadata IO, never invokes Minecraft or waits for chunk futures. */
     void awaitCheckpoint()throws IOException {
-        Checkpoint current=checkpoint;if(current!=null)completed(current.metadata);
+        requireThread();
+        Checkpoint current=checkpoint;if(current!=null)acknowledgeMetadata(current);
+    }
+    /** Periodic saves defer while metadata IO is pending; only explicit barriers may wait for it. */
+    boolean provenanceReady()throws IOException {
+        requireThread();
+        Checkpoint current=checkpoint;
+        if(current==null)return true;
+        if(!current.metadata.isDone())return false;
+        acknowledgeMetadata(current);return true;
+    }
+    private void acknowledgeMetadata(Checkpoint current)throws IOException {
+        if(current.metadataAcknowledged)return;
+        completed(current.metadata);
+        owner.nativeMetadataPersisted(current.originsGeneration);
+        current.metadataAcknowledged=true;
     }
 
     TestingEdits.Operation recovery(TestingEdits.Operation pending,boolean pendingNative)throws IOException {

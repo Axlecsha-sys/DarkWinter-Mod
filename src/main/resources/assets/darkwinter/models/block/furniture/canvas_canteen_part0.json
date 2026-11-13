@@ -1,0 +1,95 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "metal": "darkwinter:block/decor/rusted_steel",
+    "enamel": "darkwinter:block/decor/chipped_enamel",
+    "fabric": "darkwinter:block/decor/faded_fabric",
+    "concrete": "darkwinter:block/decor/aged_concrete",
+    "ceramic": "darkwinter:block/decor/cracked_ceramic",
+    "wood": "darkwinter:block/weathered_planks_gray",
+    "dark_wood": "darkwinter:block/weathered_planks_dark",
+    "black": "minecraft:block/black_concrete",
+    "glass": "darkwinter:block/frozen_glass",
+    "asphalt": "darkwinter:block/outdoor/asphalt",
+    "bark": "darkwinter:block/nature/spruce_bark",
+    "cut_wood": "darkwinter:block/nature/cut_spruce",
+    "rock": "darkwinter:block/nature/granite",
+    "foliage": "darkwinter:block/nature/foliage",
+    "white": "minecraft:block/white_concrete",
+    "red": "minecraft:block/red_concrete",
+    "yellow": "minecraft:block/yellow_concrete",
+    "orange": "minecraft:block/orange_concrete",
+    "soil": "minecraft:block/dirt",
+    "snow": "minecraft:block/snow",
+    "cardboard": "minecraft:block/brown_concrete",
+    "dry_grass": "minecraft:block/hay_block_side",
+    "locker_h_enamel": "darkwinter:block/decor/locker_h_enamel",
+    "locker_h_hardware": "darkwinter:block/decor/locker_h_hardware",
+    "locker_h_labels": "darkwinter:block/decor/locker_h_labels",
+    "home_pine_n": "darkwinter:block/decor/home_pine_n",
+    "home_pine_n_end": "darkwinter:block/decor/home_pine_n_end",
+    "street_s_wood": "darkwinter:block/decor/street_s_wood",
+    "street_s_wood_end": "darkwinter:block/decor/street_s_wood_end",
+    "street_s_glass": "darkwinter:block/decor/street_s_glass",
+    "outdoor_d_asphalt": "darkwinter:block/outdoor/d_asphalt",
+    "outdoor_d_concrete": "darkwinter:block/outdoor/d_concrete",
+    "outdoor_d_paint": "darkwinter:block/outdoor/d_paint",
+    "outdoor_d_snow": "darkwinter:block/outdoor/d_snow",
+    "outdoor_d_asphalt_v2": "darkwinter:block/outdoor/d_asphalt_v2",
+    "outdoor_d_asphalt_v3": "darkwinter:block/outdoor/d_asphalt_v3",
+    "outdoor_d_asphalt_v4": "darkwinter:block/outdoor/d_asphalt_v4",
+    "outdoor_d_snow_cover": "darkwinter:block/outdoor/d_snow_cover",
+    "outdoor_d_gravel": "darkwinter:block/outdoor/d_gravel",
+    "outdoor_f1_wood": "darkwinter:block/outdoor/f1_grey_timber",
+    "nature_a_granite": "darkwinter:block/nature/a_graphite_granite",
+    "deadwood_b_bark": "darkwinter:block/nature/b_deadwood_bark",
+    "deadwood_b_wood": "darkwinter:block/nature/b_deadwood_wood",
+    "deadwood_b_dry_boughs": "darkwinter:block/nature/b_deadwood_dry_boughs",
+    "plants_c_bark": "darkwinter:block/nature/c_winter_bark",
+    "plants_c_tips": "darkwinter:block/nature/c_winter_bark",
+    "plants_c_grass": "darkwinter:block/nature/c_dry_grass",
+    "plants_c_fern": "darkwinter:block/nature/c_winter_fern",
+    "plants_c_fronds": "darkwinter:block/nature/c_fern_fronds",
+    "camping_cloth": "darkwinter:block/decor/camping_cloth",
+    "provision_labels": "darkwinter:block/decor/provision_labels",
+    "camping_galvanized": "darkwinter:block/decor/camping_galvanized",
+    "northern_refined_materials": "darkwinter:block/decor/northern_refined_materials",
+    "northern_refined_labels": "darkwinter:block/decor/northern_refined_labels",
+    "particle": "darkwinter:block/decor/northern_refined_materials"
+  },
+  "elements": [
+    {
+      "from": [
+        6.54,
+        0,
+        7.12
+      ],
+      "to": [
+        9.46,
+        3.55,
+        8.86
+      ],
+      "faces": {
+        "down": {
+          "texture": "#northern_refined_materials"
+        },
+        "up": {
+          "texture": "#northern_refined_materials"
+        },
+        "north": {
+          "texture": "#northern_refined_materials"
+        },
+        "south": {
+          "texture": "#northern_refined_materials"
+        },
+        "west": {
+          "texture": "#northern_refined_materials"
+        },
+        "east": {
+          "texture": "#northern_refined_materials"
+        }
+      }
+    }
+  ]
+}

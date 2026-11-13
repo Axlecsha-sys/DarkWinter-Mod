@@ -1,0 +1,181 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "home_set_worn_iron": "darkwinter:block/interior/home_set_worn_iron",
+    "home_set_phone_ivory": "darkwinter:block/interior/home_set_phone_ivory",
+    "home_set_phone_cord": "darkwinter:block/interior/home_set_phone_cord",
+    "home_set_phone_keys": "darkwinter:block/interior/home_set_phone_keys",
+    "particle": "darkwinter:block/interior/home_set_phone_ivory"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        1.0,
+        5.06747,
+        2.79053
+      ],
+      "to": [
+        12.20846,
+        9.15609,
+        14.12588
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "up": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "north": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "south": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "west": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "east": {
+          "texture": "#home_set_phone_ivory"
+        }
+      }
+    },
+    {
+      "from": [
+        8.59919,
+        6.9003,
+        3.143
+      ],
+      "to": [
+        11.39074,
+        10.93253,
+        13.71702
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "up": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "north": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "south": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "west": {
+          "texture": "#home_set_phone_ivory"
+        },
+        "east": {
+          "texture": "#home_set_phone_ivory"
+        }
+      }
+    },
+    {
+      "from": [
+        10.98187,
+        5.06747,
+        1.87412
+      ],
+      "to": [
+        15.0,
+        7.61934,
+        9.02216
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_phone_cord"
+        },
+        "up": {
+          "texture": "#home_set_phone_cord"
+        },
+        "north": {
+          "texture": "#home_set_phone_cord"
+        },
+        "south": {
+          "texture": "#home_set_phone_cord"
+        },
+        "west": {
+          "texture": "#home_set_phone_cord"
+        },
+        "east": {
+          "texture": "#home_set_phone_cord"
+        }
+      }
+    }
+  ]
+}

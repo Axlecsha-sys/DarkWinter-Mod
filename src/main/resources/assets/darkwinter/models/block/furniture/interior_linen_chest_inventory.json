@@ -1,0 +1,341 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "metal": "darkwinter:block/decor/rusted_steel",
+    "locker_h_hardware": "darkwinter:block/decor/locker_h_hardware",
+    "interior_honey_timber": "darkwinter:block/interior/interior_honey_timber",
+    "interior_dark_timber": "darkwinter:block/interior/interior_dark_timber",
+    "particle": "darkwinter:block/interior/interior_honey_timber"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        1.40385,
+        4.93077,
+        4.84731
+      ],
+      "to": [
+        2.35692,
+        10.36923,
+        5.91885
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_honey_timber"
+        },
+        "up": {
+          "texture": "#interior_honey_timber"
+        },
+        "north": {
+          "texture": "#interior_honey_timber"
+        },
+        "south": {
+          "texture": "#interior_honey_timber"
+        },
+        "west": {
+          "texture": "#interior_honey_timber"
+        },
+        "east": {
+          "texture": "#interior_honey_timber"
+        }
+      }
+    },
+    {
+      "from": [
+        1.40385,
+        4.93077,
+        10.08115
+      ],
+      "to": [
+        2.35692,
+        10.36923,
+        11.15269
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_honey_timber"
+        },
+        "up": {
+          "texture": "#interior_honey_timber"
+        },
+        "north": {
+          "texture": "#interior_honey_timber"
+        },
+        "south": {
+          "texture": "#interior_honey_timber"
+        },
+        "west": {
+          "texture": "#interior_honey_timber"
+        },
+        "east": {
+          "texture": "#interior_honey_timber"
+        }
+      }
+    },
+    {
+      "from": [
+        1.40385,
+        5.73846,
+        4.84731
+      ],
+      "to": [
+        8.0,
+        10.43385,
+        11.15269
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_honey_timber"
+        },
+        "up": {
+          "texture": "#interior_honey_timber"
+        },
+        "north": {
+          "texture": "#interior_honey_timber"
+        },
+        "south": {
+          "texture": "#interior_honey_timber"
+        },
+        "west": {
+          "texture": "#interior_honey_timber"
+        },
+        "east": {
+          "texture": "#interior_honey_timber"
+        }
+      }
+    },
+    {
+      "from": [
+        1.0,
+        10.34231,
+        4.54038
+      ],
+      "to": [
+        8.0,
+        11.06923,
+        11.45962
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_honey_timber"
+        },
+        "up": {
+          "texture": "#interior_honey_timber"
+        },
+        "north": {
+          "texture": "#interior_honey_timber"
+        },
+        "south": {
+          "texture": "#interior_honey_timber"
+        },
+        "west": {
+          "texture": "#interior_honey_timber"
+        },
+        "east": {
+          "texture": "#interior_honey_timber"
+        }
+      }
+    },
+    {
+      "from": [
+        13.64308,
+        4.93077,
+        4.84731
+      ],
+      "to": [
+        14.59615,
+        10.36923,
+        5.91885
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_honey_timber"
+        },
+        "up": {
+          "texture": "#interior_honey_timber"
+        },
+        "north": {
+          "texture": "#interior_honey_timber"
+        },
+        "south": {
+          "texture": "#interior_honey_timber"
+        },
+        "west": {
+          "texture": "#interior_honey_timber"
+        },
+        "east": {
+          "texture": "#interior_honey_timber"
+        }
+      }
+    },
+    {
+      "from": [
+        13.64308,
+        4.93077,
+        10.08115
+      ],
+      "to": [
+        14.59615,
+        10.36923,
+        11.15269
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_honey_timber"
+        },
+        "up": {
+          "texture": "#interior_honey_timber"
+        },
+        "north": {
+          "texture": "#interior_honey_timber"
+        },
+        "south": {
+          "texture": "#interior_honey_timber"
+        },
+        "west": {
+          "texture": "#interior_honey_timber"
+        },
+        "east": {
+          "texture": "#interior_honey_timber"
+        }
+      }
+    },
+    {
+      "from": [
+        8.0,
+        5.73846,
+        4.84731
+      ],
+      "to": [
+        14.59615,
+        10.43385,
+        11.15269
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_honey_timber"
+        },
+        "up": {
+          "texture": "#interior_honey_timber"
+        },
+        "north": {
+          "texture": "#interior_honey_timber"
+        },
+        "south": {
+          "texture": "#interior_honey_timber"
+        },
+        "west": {
+          "texture": "#interior_honey_timber"
+        },
+        "east": {
+          "texture": "#interior_honey_timber"
+        }
+      }
+    },
+    {
+      "from": [
+        8.0,
+        10.34231,
+        4.54038
+      ],
+      "to": [
+        15.0,
+        11.06923,
+        11.45962
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_honey_timber"
+        },
+        "up": {
+          "texture": "#interior_honey_timber"
+        },
+        "north": {
+          "texture": "#interior_honey_timber"
+        },
+        "south": {
+          "texture": "#interior_honey_timber"
+        },
+        "west": {
+          "texture": "#interior_honey_timber"
+        },
+        "east": {
+          "texture": "#interior_honey_timber"
+        }
+      }
+    }
+  ]
+}

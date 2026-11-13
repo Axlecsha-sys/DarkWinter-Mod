@@ -3,6 +3,7 @@ package com.dark.winter.block;
 
 import com.dark.winter.block.entity.WallModuleBlockEntity;
 import com.dark.winter.component.WallBuildManager;
+import com.dark.winter.placement.SurfacePlacement;
 import com.dark.winter.registry.ModDataComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -81,6 +82,8 @@ public class WallSegmentBlock extends HorizontalDirectionalBlock implements Enti
 
     /** The preview uses exactly the same snapping decision as server placement. */
     public static Direction resolvePlacementFacing(BlockPlaceContext context) {
+        Direction planned = SurfacePlacement.plannedWallFacing(context);
+        if (planned != null) return planned;
         return BuildingAlignment.resolve(context, resolveActiveShape(context), context.getHorizontalDirection().getOpposite());
     }
 

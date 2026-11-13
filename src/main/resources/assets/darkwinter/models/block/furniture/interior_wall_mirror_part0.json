@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "interior_oiled_pine": "darkwinter:block/interior/interior_oiled_pine",
+    "interior_mirror_glass": "darkwinter:block/interior/interior_mirror_glass",
+    "particle": "darkwinter:block/interior/interior_oiled_pine"
+  },
+  "elements": [
+    {
+      "from": [
+        3.82,
+        1.24,
+        14.85
+      ],
+      "to": [
+        12.18,
+        14.76,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_oiled_pine"
+        },
+        "up": {
+          "texture": "#interior_oiled_pine"
+        },
+        "north": {
+          "texture": "#interior_oiled_pine"
+        },
+        "south": {
+          "texture": "#interior_oiled_pine"
+        },
+        "west": {
+          "texture": "#interior_oiled_pine"
+        },
+        "east": {
+          "texture": "#interior_oiled_pine"
+        }
+      }
+    }
+  ]
+}

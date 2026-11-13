@@ -1,0 +1,449 @@
+// Legacy diagnostic tasks for the production WKE geometry kernels; Java references remain separate.
+import org.gradle.api.GradleException
+import org.gradle.api.tasks.compile.JavaCompile
+import org.gradle.api.tasks.JavaExec
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+
+def repoRoot = project.projectDir
+def nativeSource = file('WKE/kernels/voxel-faces')
+def javaSource = file('experiments/voxel-faces/java')
+def cmakeBuild = layout.buildDirectory.dir('voxel-faces/cmake')
+def classesDir = layout.buildDirectory.dir('voxel-faces/java-classes')
+def systemOs = System.getProperty('os.name').toLowerCase(Locale.ROOT)
+def libraryName = systemOs.contains('win') ? 'dw_voxel_faces.dll' :
+                  (systemOs.contains('mac') ? 'libdw_voxel_faces.dylib' : 'libdw_voxel_faces.so')
+def libraryOutput = layout.buildDirectory.file('voxel-faces/bin/' + libraryName)
+
+// Pinned, portable C++ toolchain for the Windows experiment. No admin/PATH changes.
+def zigVersion = '0.14.1'
+def zigArchiveName = 'zig-x86_64-windows-' + zigVersion + '.zip'
+def zigDownloadUrl = 'https://ziglang.org/download/' + zigVersion + '/' + zigArchiveName
+def zigSha256 = '554f5378228923ffd558eac35e21af020c73789d87afeabf4bfd16f2e6feed2c'
+def zigArchiveBytes = 82229343L
+def zigRoot = layout.buildDirectory.dir('voxel-faces/toolchains/zig-' + zigVersion)
+def zigExe = layout.buildDirectory.file('voxel-faces/toolchains/zig-' + zigVersion + '/zig.exe')
+def zigArchive = layout.buildDirectory.file('voxel-faces/downloads/' + zigArchiveName)
+
+def tryCmake = {
+    def candidates = [
+        System.getenv('DW_CMAKE_EXECUTABLE'),
+        System.getenv('CMAKE_EXECUTABLE'),
+        'cmake',
+        'C:\\Program Files\\CMake\\bin\\cmake.exe',
+        'C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe',
+        'C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe',
+        'C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe',
+        'C:\\Program Files\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe'
+    ]
+    for (String candidate : candidates) {
+        if (candidate == null || candidate.isBlank()) continue
+        try {
+            def p = new ProcessBuilder(candidate, '--version').redirectErrorStream(true).start()
+            def version = p.inputStream.getText('UTF-8')
+            if (p.waitFor() == 0 && version.contains('cmake version')) return candidate
+        } catch (IOException ignored) { }
+    }
+    return null
+}
+
+def runNativeCommand = { List<String> command ->
+    def p = new ProcessBuilder(command).directory(repoRoot).redirectErrorStream(true).start()
+    def output = p.inputStream.getText('UTF-8')
+    int exitCode = p.waitFor()
+    if (output) logger.lifecycle(output)
+    if (exitCode != 0) throw new GradleException('Native build failed (exit ' + exitCode + ') for: ' + command[0])
+}
+
+def branchCheck = tasks.register('voxelFacesEnvironment') {
+    group = 'verification'
+    description = 'Check experimental branch, JVM and CMake without changing sources.'
+    notCompatibleWithConfigurationCache('Environment probe uses Git and local CMake tools.')
+    doLast {
+        def gitProcess = new ProcessBuilder('git', 'branch', '--show-current')
+            .directory(repoRoot).redirectErrorStream(true).start()
+        String branch = gitProcess.inputStream.getText('UTF-8').trim()
+        if (gitProcess.waitFor() != 0) throw new GradleException('Cannot determine current Git branch.')
+        logger.lifecycle('Voxel experiment Git branch: ' + branch)
+        if (!(branch in ['develop/с++', 'develop/c++'])) {
+            throw new GradleException('Refusing experimental build outside develop/с++ or develop/c++.')
+        }
+        logger.lifecycle('Gradle JVM: ' + System.getProperty('java.version'))
+        def cmake = tryCmake()
+        logger.lifecycle('CMake: ' + (cmake == null ? 'NOT FOUND' : cmake))
+        if (cmake == null && systemOs.contains('win')) {
+            logger.lifecycle('Native Windows task uses SHA-256 verified portable Zig/Clang; CMake not required.')
+        } else if (cmake == null) {
+            logger.lifecycle('CMake is required for the non-Windows native experiment.')
+        }
+    }
+}
+
+tasks.register('voxelFacesToolchains') {
+    group = 'verification'
+    description = 'Diagnose locally available C++ compilers without installing anything.'
+    dependsOn(branchCheck)
+    notCompatibleWithConfigurationCache('Read-only Windows toolchain discovery uses local processes.')
+    doLast {
+        for (String name : ['clang++', 'g++', 'clang-cl', 'cl', 'ninja', 'cmake', 'zig', 'msbuild']) {
+            try {
+                def process = new ProcessBuilder('where.exe', name).redirectErrorStream(true).start()
+                String output = process.inputStream.getText('UTF-8').trim()
+                if (process.waitFor() == 0) {
+                    logger.lifecycle(name + ': ' + output.replace('\r', '').replace('\n', ' | '))
+                }
+            } catch (IOException ignored) { }
+        }
+        String programFiles86 = System.getenv('ProgramFiles(x86)') ?: 'C:\\Program Files (x86)'
+        File vswhere = new File(programFiles86, 'Microsoft Visual Studio\\Installer\\vswhere.exe')
+        if (vswhere.isFile()) {
+            logger.lifecycle('Visual Studio installer probe: ' + vswhere.absolutePath)
+            def process = new ProcessBuilder(vswhere.absolutePath, '-products', '*', '-property', 'installationPath')
+                .redirectErrorStream(true).start()
+            String output = process.inputStream.getText('UTF-8').trim()
+            if (process.waitFor() == 0) logger.lifecycle('Visual Studio installations: ' + output)
+        } else {
+            logger.lifecycle('vswhere.exe: NOT FOUND')
+        }
+    }
+}
+
+// Shared production compiler installer; experimental tasks retain their branch guard.
+def zigInstallTask = tasks.register('wkeBootstrapCpp') {
+    group = 'wke'
+    description = 'Install a SHA-256 verified portable Zig/Clang C++17 toolchain into build/ (Windows x64).'
+    mustRunAfter(branchCheck)
+    notCompatibleWithConfigurationCache('Opt-in authenticated toolchain download and extraction.')
+    onlyIf { systemOs.contains('win') }
+    doLast {
+        File root = zigRoot.get().asFile
+        File compiler = zigExe.get().asFile
+        File marker = new File(root, '.install-complete')
+        def hashFile = { File file ->
+            def md = java.security.MessageDigest.getInstance('SHA-256')
+            file.withInputStream { input ->
+                byte[] buffer = new byte[64 * 1024]
+                int size
+                while ((size = input.read(buffer)) != -1) {
+                    if (size > 0) md.update(buffer, 0, size)
+                }
+            }
+            return md.digest().encodeHex().toString()
+        }
+        String expectedMarker = 'zig ' + zigVersion + '\n' + zigSha256 + '\n'
+        String compilerSha256 = '1ddf230367e07738c4a769eae66c1db7469e37bd520e81c86356453d0db2b9fd'
+        if (marker.isFile() && compiler.isFile() &&
+                marker.getText('UTF-8') == expectedMarker &&
+                hashFile(compiler).equalsIgnoreCase(compilerSha256) &&
+                new File(root, 'lib/std/std.zig').isFile()) {
+            logger.lifecycle('Verified C++ toolchain already installed: ' + compiler.absolutePath)
+            return
+        }
+        File archive = zigArchive.get().asFile
+        archive.parentFile.mkdirs()
+        boolean cached = archive.isFile() && archive.length() == zigArchiveBytes &&
+                         hashFile(archive).equalsIgnoreCase(zigSha256)
+        if (!cached) {
+            logger.lifecycle('Downloading official Zig ' + zigVersion + ' C++ compiler (' +
+                             zigArchiveBytes + ' bytes) to ignored build directory.')
+            File temp = new File(archive.parentFile, archive.name + '.part')
+            if (temp.exists()) temp.delete()
+            def conn = (java.net.HttpURLConnection) new URL(zigDownloadUrl).openConnection()
+            conn.setConnectTimeout(25000)
+            conn.setReadTimeout(60000)
+            conn.setRequestProperty('User-Agent', 'DarkWinter-voxel-native-experiment/1.0')
+            conn.setInstanceFollowRedirects(true)
+            try {
+                if (conn.responseCode != 200) {
+                    throw new GradleException('Zig download HTTP ' + conn.responseCode + ' from official host.')
+                }
+                long received = 0
+                conn.inputStream.withCloseable { input ->
+                    temp.withOutputStream { output ->
+                        byte[] buffer = new byte[64 * 1024]
+                        int size
+                        long lastReported = 0
+                        while ((size = input.read(buffer)) != -1) {
+                            if (size <= 0) continue
+                            received += size
+                            if (received > zigArchiveBytes) {
+                                throw new GradleException('Zig archive exceeds pinned size.')
+                            }
+                            output.write(buffer, 0, size)
+                            if (received - lastReported >= 8L * 1024 * 1024) {
+                                logger.lifecycle('Zig download: ' + (received / (1024 * 1024)) + ' MiB')
+                                lastReported = received
+                            }
+                        }
+                    }
+                }
+                if (received != zigArchiveBytes || !hashFile(temp).equalsIgnoreCase(zigSha256)) {
+                    throw new GradleException('Zig archive size or SHA-256 does not match official release metadata.')
+                }
+                Files.move(temp.toPath(), archive.toPath(), StandardCopyOption.REPLACE_EXISTING)
+            } finally {
+                conn.disconnect()
+            }
+        } else {
+            logger.lifecycle('Using SHA-256 verified cached Zig archive.')
+        }
+
+        // Extraction never leaves build/voxel-faces/toolchains/zig-<version>.
+        if (marker.exists()) marker.delete()
+        root.mkdirs()
+        String prefix = zigArchiveName.substring(0, zigArchiveName.length() - 4) + '/'
+        File canonicalRoot = root.canonicalFile
+        def zip = new java.util.zip.ZipFile(archive)
+        try {
+            def entries = zip.entries()
+            int extracted = 0
+            while (entries.hasMoreElements()) {
+                def entry = entries.nextElement()
+                if (!entry.name.startsWith(prefix)) {
+                    throw new GradleException('Unexpected ZIP path: ' + entry.name)
+                }
+                String relative = entry.name.substring(prefix.length())
+                if (relative.isEmpty()) continue
+                File target = new File(canonicalRoot, relative).canonicalFile
+                if (!target.toPath().startsWith(canonicalRoot.toPath())) {
+                    throw new GradleException('Unsafe ZIP path: ' + entry.name)
+                }
+                if (entry.isDirectory()) {
+                    target.mkdirs()
+                } else {
+                    target.parentFile.mkdirs()
+                    zip.getInputStream(entry).withCloseable { input ->
+                        Files.copy(input, target.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                    }
+                }
+                extracted++
+                if (extracted % 400 == 0) logger.lifecycle('Zig unpacked ' + extracted + ' files')
+            }
+        } finally {
+            zip.close()
+        }
+        if (!compiler.isFile() || !hashFile(compiler).equalsIgnoreCase(compilerSha256) ||
+                !new File(root, 'lib/std/std.zig').isFile()) {
+            throw new GradleException('Verified archive did not install the pinned compiler and standard library.')
+        }
+        runNativeCommand([compiler.absolutePath, 'version'])
+        marker.setText(expectedMarker, 'UTF-8')
+        logger.lifecycle('Portable native toolchain installed in project build/: ' + compiler.absolutePath)
+    }
+}
+
+// Keep the legacy experiment entry point and its original branch restriction.
+tasks.register('voxelFacesBootstrapCpp') {
+    group = 'verification'
+    description = 'Prepare the shared compiler after checking the experimental branch.'
+    dependsOn(branchCheck, zigInstallTask)
+}
+
+def javaTask = tasks.register('voxelFacesCompileJava', JavaCompile) {
+    group = 'verification'
+    description = 'Compile standalone Java reference and FFM bridge (not included in the mod).'
+    dependsOn(branchCheck)
+    source = fileTree(javaSource) { include '*.java' }
+    // The tests compile the exact packet codec and FFM bridge used by the client, not copies.
+    source(files('src/client/java/com/dark/winter/client/fixes/mesh/BlockMeshPacking.java',
+                 'src/client/java/com/dark/winter/client/fixes/mesh/BlockMeshNative.java',
+                 'src/client/java/com/dark/winter/client/fixes/nativebuffers/NativeScratchBuffers.java'))
+    classpath = files()
+    destinationDirectory.set(classesDir)
+    options.release = 25
+    javaCompiler.set(javaToolchains.compilerFor {
+        languageVersion = JavaLanguageVersion.of(25)
+    })
+}
+
+def nativeTask = tasks.register('voxelFacesBuildNative') {
+    group = 'verification'
+    description = 'Build standalone C++17 visibility DLL/SO using verified Zig/Clang on Windows or CMake elsewhere.'
+    notCompatibleWithConfigurationCache('Opt-in native compiler invocation uses local toolchain discovery.')
+    dependsOn(branchCheck, zigInstallTask)
+    inputs.files(fileTree(nativeSource))
+    outputs.file(libraryOutput)
+    doLast {
+        if (systemOs.contains('win')) {
+            File zig = zigExe.get().asFile
+            if (!zig.isFile()) throw new GradleException('Portable C++ toolchain was not installed.')
+            File destination = libraryOutput.get().asFile
+            destination.parentFile.mkdirs()
+            runNativeCommand([zig.absolutePath, 'c++', '-std=c++17', '-O3', '-fno-fast-math', '-ffp-contract=off',
+                              '-target', 'x86_64-windows-gnu', '-shared',
+                              new File(nativeSource, 'voxel_faces.cpp').absolutePath,
+                              '-o', destination.absolutePath])
+            if (!destination.isFile() || destination.length() == 0L) {
+                throw new GradleException('Zig did not create the expected DLL.')
+            }
+            logger.lifecycle('Verified portable C++ built DLL: ' + destination.absolutePath)
+            return
+        }
+        String cmake = tryCmake()
+        if (cmake == null) throw new GradleException('CMake is required outside Windows.')
+        File nativeBuildDir = cmakeBuild.get().asFile
+        nativeBuildDir.mkdirs()
+        runNativeCommand([cmake, '-S', nativeSource.absolutePath, '-B', nativeBuildDir.absolutePath,
+                          '-DCMAKE_BUILD_TYPE=Release'])
+        runNativeCommand([cmake, '--build', nativeBuildDir.absolutePath, '--config', 'Release', '--parallel', '2'])
+        File built = fileTree(nativeBuildDir).files
+            .findAll { it.isFile() && it.name.toLowerCase(Locale.ROOT).endsWith(libraryName.toLowerCase(Locale.ROOT)) }
+            .sort { a, b -> a.absolutePath <=> b.absolutePath }
+            .find { it.parentFile.name.equalsIgnoreCase('Release') } ?:
+            fileTree(nativeBuildDir).files.find {
+                it.isFile() && it.name.toLowerCase(Locale.ROOT).endsWith(libraryName.toLowerCase(Locale.ROOT))
+            }
+        if (built == null) throw new GradleException('CMake succeeded, but native library is missing: ' + libraryName)
+        File target = libraryOutput.get().asFile
+        target.parentFile.mkdirs()
+        Files.copy(built.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING)
+        logger.lifecycle('Native experiment binary: ' + target.absolutePath)
+    }
+}
+
+def configureJava = { JavaExec task, String mode, boolean needsNative ->
+    task.group = 'verification'
+    task.dependsOn(javaTask)
+    if (needsNative) task.dependsOn(nativeTask)
+    task.classpath = files(classesDir)
+    task.mainClass.set('VoxelFacesExperiment')
+    task.javaLauncher.set(javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(25)
+    })
+    task.jvmArgs('--enable-native-access=ALL-UNNAMED')
+    if (needsNative) {
+        task.systemProperty('dw.voxel.native.required', 'true')
+        task.systemProperty('dw.voxel.native.library', libraryOutput.get().asFile.absolutePath)
+    }
+    task.args(mode)
+}
+
+tasks.register('blockMeshVerify', JavaExec) {
+    description = 'Verify real BLOCK vertex packet layout, FFM, guards and parallel native calls.'
+    configureJava(delegate, 'verify', true)
+    mainClass.set('BlockMeshExperiment')
+}
+
+tasks.register('blockMeshBenchmark', JavaExec) {
+    description = 'Compare shared Java/C++ BLOCK packet writers; not a Minecraft FPS test.'
+    configureJava(delegate, 'benchmark', true)
+    mainClass.set('BlockMeshExperiment')
+}
+
+tasks.register('voxelFacesVerify', JavaExec) {
+    description = 'Check C++ FFM against independent oracle and Java masks.'
+    configureJava(delegate, 'verify', true)
+}
+
+tasks.register('voxelFacesBenchmark', JavaExec) {
+    description = 'Run local warm-up and comparative Java / native FFM timings.'
+    configureJava(delegate, 'benchmark', true)
+}
+
+tasks.register('voxelFacesFallback', JavaExec) {
+    description = 'Check pure Java fallback without compiling or loading a native library.'
+    configureJava(delegate, 'fallback', false)
+}
+
+tasks.register('voxelFacesJavaBenchmark', JavaExec) {
+    description = 'Measure standalone Java baseline when C++ tools are unavailable.'
+    configureJava(delegate, 'benchmark', false)
+}
+
+// Only the development client receives FFM permissions and a path to the *optional*
+// separately built DLL. Ordinary publication JARs remain portable and default to Java.
+tasks.named('runClient') {
+    jvmArgs('--enable-native-access=ALL-UNNAMED')
+    systemProperty('darkwinter.voxel.native.library', libraryOutput.get().asFile.absolutePath)
+}
+
+
+def fabricSourceCache = new File(gradle.gradleUserHomeDir, 'caches/modules-2/files-2.1/net.fabricmc.fabric-api')
+tasks.register('blockMeshInspectFabricSources') {
+    group = 'verification'
+    description = 'Inspect installed Fabric renderer source dependencies for the chunk mesh adapter.'
+    dependsOn(branchCheck)
+    notCompatibleWithConfigurationCache('Read-only installed source JAR audit.')
+    doLast {
+        def dependencies = [
+            'fabric-renderer-api-v1/17.0.16+79385d0b5d/59980ad0bc042938c848aaa9fe52f1243c130860/fabric-renderer-api-v1-17.0.16+79385d0b5d-sources.jar',
+            'fabric-renderer-indigo/9.1.24+b9d63e335d/a108d79ffb93cddb95ee1209c824cfd01279b1cc/fabric-renderer-indigo-9.1.24+b9d63e335d-sources.jar'
+        ]
+        File folder = new File(repoRoot, 'build/voxel-faces/inspection/fabric')
+        folder.mkdirs()
+        dependencies.each { relative ->
+            File archive = new File(fabricSourceCache, relative)
+            if (!archive.isFile()) throw new GradleException('Installed source dependency missing: ' + relative)
+            def zip = new java.util.zip.ZipFile(archive)
+            try {
+                zip.entries().each { entry ->
+                    if (!entry.directory && entry.name.endsWith('.java') &&
+                            (entry.name.contains('/renderer/mesh/') || entry.name.contains('/renderer/render/') ||
+                             entry.name.contains('/renderer/block/render/') || entry.name.endsWith('/QuadEmitter.java') ||
+                             entry.name.endsWith('/QuadView.java'))) {
+                        File target = new File(folder, entry.name).canonicalFile
+                        if (!target.toPath().startsWith(folder.canonicalFile.toPath())) throw new GradleException('Unsafe source path')
+                        target.parentFile.mkdirs()
+                        zip.getInputStream(entry).withCloseable { input ->
+                            Files.copy(input, target.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                        }
+                        logger.lifecycle('Fabric renderer audit: ' + entry.name)
+                    }
+                }
+            } finally { zip.close() }
+        }
+    }
+}
+
+tasks.register('voxelFacesInspectRendererSources') {
+    group = 'verification'
+    description = 'Copy selected Minecraft 26.3 renderer sources to ignored build for precise integration audit.'
+    dependsOn(branchCheck)
+    notCompatibleWithConfigurationCache('Local source JAR audit is opt-in and read-only.')
+    doLast {
+        File jar = new File(repoRoot, '.gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-clientOnly-7e9a32a5b8/26.3/minecraft-clientOnly-7e9a32a5b8-26.3-sources.jar')
+        if (!jar.isFile()) throw new GradleException('Pinned Minecraft 26.3 source JAR not found.')
+        def paths = [
+            'net/minecraft/client/renderer/chunk/SectionCompiler.java',
+            'com/mojang/blaze3d/vertex/BufferBuilder.java',
+            'com/mojang/blaze3d/vertex/VertexConsumer.java',
+            'com/mojang/blaze3d/vertex/QuadInstance.java',
+            'net/minecraft/client/resources/model/geometry/BakedQuad.java',
+            'com/mojang/blaze3d/vertex/ByteBufferBuilder.java',
+            'com/mojang/blaze3d/vertex/MeshData.java',
+            'com/mojang/blaze3d/vertex/DefaultVertexFormat.java',
+            'net/minecraft/client/renderer/block/BlockQuadOutput.java',
+            'net/minecraft/client/renderer/block/FluidRenderer.java',
+            'net/minecraft/client/renderer/SectionBufferBuilderPack.java',
+            'net/minecraft/client/renderer/block/BlockModelLighter.java',
+            'net/minecraft/client/renderer/block/model/BakedQuad.java',
+            'net/minecraft/client/renderer/block/model/BlockModelPart.java',
+            'net/minecraft/client/renderer/chunk/ChunkSectionLayer.java',
+            'net/minecraft/client/renderer/block/ModelBlockRenderer.java',
+            'net/minecraft/client/renderer/chunk/RenderSectionRegion.java',
+            'net/minecraft/client/renderer/chunk/SectionCopy.java',
+            'net/minecraft/world/level/block/Block.java',
+            'net/minecraft/world/level/block/state/BlockBehaviour.java',
+            'net/minecraft/world/level/block/state/BlockState.java',
+            'net/minecraft/client/renderer/block/model/BlockStateModel.java'
+        ]
+        File folder = new File(repoRoot, 'build/voxel-faces/inspection')
+        folder.mkdirs()
+        def zip = new java.util.zip.ZipFile(jar)
+        try {
+            paths.each { path ->
+                def entry = zip.getEntry(path)
+                if (entry != null) {
+                    File output = new File(folder, path.substring(path.lastIndexOf('/') + 1))
+                    zip.getInputStream(entry).withCloseable { input ->
+                        Files.copy(input, output.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                    }
+                    logger.lifecycle('Renderer source audit: ' + output.name)
+                } else logger.lifecycle('Renderer source not in this JAR: ' + path)
+            }
+        } finally {
+            zip.close()
+        }
+    }
+}

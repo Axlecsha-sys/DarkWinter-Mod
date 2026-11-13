@@ -1,0 +1,124 @@
+{
+  "provider": "Stable Audio 3 official free online SFX demo",
+  "eventIds": [
+    "b3c585a2e4b340a6b4d730873c68be36",
+    "cf548428861e44bcb23658b4c9e75332"
+  ],
+  "sourceDurationSeconds": 8,
+  "method": "Original generated float WAV sources retained; highpass/lowpass, gain reduction, edge fades, mono48000 Vorbis quality5. No local generative model.",
+  "subjectiveListeningVerified": false,
+  "files": [
+    {
+      "file": "forest_bird_01.ogg",
+      "seconds": 2.05,
+      "channels": 1,
+      "sampleRate": 48000,
+      "codec": "vorbis",
+      "peak": 0.13783539831638336,
+      "rms": 0.016512307314539714,
+      "dc": -1.0436414228816164e-06,
+      "sourceWindow": [
+        0.1,
+        2.15
+      ],
+      "sha256": "dc2ab7b0fc47614812a8e5b76843188a4b87a1d7977c57039f3cc5e34140a690",
+      "bytes": 21850
+    },
+    {
+      "file": "forest_bird_02.ogg",
+      "seconds": 2.05,
+      "channels": 1,
+      "sampleRate": 48000,
+      "codec": "vorbis",
+      "peak": 0.23924364149570465,
+      "rms": 0.027234566061666913,
+      "dc": 5.257893725931612e-07,
+      "sourceWindow": [
+        2.6,
+        4.65
+      ],
+      "sha256": "ea0758b0209f8e42f9a6c8a63a76e29b80a27583de34060930534e191d2d9827",
+      "bytes": 22937
+    },
+    {
+      "file": "forest_bird_03.ogg",
+      "seconds": 2.35,
+      "channels": 1,
+      "sampleRate": 48000,
+      "codec": "vorbis",
+      "peak": 0.24075189232826233,
+      "rms": 0.029739278691874472,
+      "dc": 2.848493092374819e-06,
+      "sourceWindow": [
+        5.2,
+        7.55
+      ],
+      "sha256": "b5eeeeeceb92a38e8b71b671671bf12b44db4e64c42c014908864ab0a86059f7",
+      "bytes": 25642
+    },
+    {
+      "file": "forest_creak_01.ogg",
+      "seconds": 0.9473333333333334,
+      "channels": 1,
+      "sampleRate": 48000,
+      "codec": "vorbis",
+      "peak": 0.28426700830459595,
+      "rms": 0.008158016704892192,
+      "dc": -8.497544279053547e-07,
+      "sourceWindow": [
+        0,
+        0.95
+      ],
+      "sha256": "a1040b9abbf48414b6e3d92204c2ef93477cf75770fe09c53899ba315ae1065a",
+      "bytes": 14344
+    },
+    {
+      "file": "forest_creak_02.ogg",
+      "seconds": 0.9473333333333334,
+      "channels": 1,
+      "sampleRate": 48000,
+      "codec": "vorbis",
+      "peak": 0.24144291877746582,
+      "rms": 0.007036882097754433,
+      "dc": 7.449182149507199e-07,
+      "sourceWindow": [
+        1.15,
+        2.1
+      ],
+      "sha256": "b81c2e60889363efbb44b120c45325675d5744b0e30eaea896e43fe3b695ed02",
+      "bytes": 13031
+    },
+    {
+      "file": "forest_creak_03.ogg",
+      "seconds": 0.7906666666666666,
+      "channels": 1,
+      "sampleRate": 48000,
+      "codec": "vorbis",
+      "peak": 0.35108527541160583,
+      "rms": 0.011926996978244208,
+      "dc": -9.233696148812692e-07,
+      "sourceWindow": [
+        2.48,
+        3.25
+      ],
+      "sha256": "58ae1f49d0679b436a4eff62feb23e18879417f392232ba799557f05574ae856",
+      "bytes": 12337
+    },
+    {
+      "file": "forest_creak_04.ogg",
+      "seconds": 0.7673333333333333,
+      "channels": 1,
+      "sampleRate": 48000,
+      "codec": "vorbis",
+      "peak": 0.12795722484588623,
+      "rms": 0.0055751765973118435,
+      "dc": 2.3207806015350701e-07,
+      "sourceWindow": [
+        6.18,
+        6.95
+      ],
+      "sha256": "94a760b09f58f7301982d0e28aff8d6e230b3b8af22d024b053fae1e6f2b08bb",
+      "bytes": 11906
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "source_manifest": "../breathing.json",
+  "processing": "Gentle shared character master; different dialogue/breathing levels; no gate, pitch shift, reverb or time stretching",
+  "files": [
+    {
+      "source": "running_breath.wav",
+      "source_sha256": "6cf60c7ae6f01425e161e21378376cfae9c0c27599a2fe2e3f9bb6ce2e844dbe",
+      "master": "running_loop.wav",
+      "game_path": "src/client/resources/assets/darkwinter/sounds/protagonist/breathing/running_loop.ogg",
+      "game_sha256": "2ff8ed58677106df87a8fa9173b5fd9f82b626f6d11f7681706039bd24480ea9",
+      "edit": {
+        "start_seconds": 0.8,
+        "end_seconds": 10.44,
+        "crossfade_seconds": 0.16
+      },
+      "measurements": {
+        "samples": 418068,
+        "sample_rate": 44100,
+        "channels": 1,
+        "seconds": 9.48,
+        "peak_dbfs": -10.600635883009105,
+        "rms_dbfs": -29.323795534572646,
+        "overloaded_samples": 0,
+        "dc": 9.181327060098253e-07
+      },
+      "seam_delta": 0.00372314453125,
+      "master_sha256": "c7958c3a188c6b7cae88dfabac333147cf45914f015b19f7b483c7d6bc4dd36f"
+    },
+    {
+      "source": "jump_breath_01.wav",
+      "source_sha256": "008567c63e656e073d5475bdc0103e1c66e5589485d0ef2cf5a8b3d4eb325671",
+      "master": "jump_01.wav",
+      "game_path": "src/client/resources/assets/darkwinter/sounds/protagonist/breathing/jump_01.ogg",
+      "game_sha256": "11039bdafed52451cb29cd46400926ab95a87f1c7e059eb9eb7a88509dda9333",
+      "edit": {
+        "start_seconds": 0.07,
+        "end_seconds": 1.1,
+        "fade_in_seconds": 0.008,
+        "fade_out_seconds": 0.04
+      },
+      "measurements": {
+        "samples": 45423,
+        "sample_rate": 44100,
+        "channels": 1,
+        "seconds": 1.03,
+        "peak_dbfs": -10.405456252294396,
+        "rms_dbfs": -29.57337801190431,
+        "overloaded_samples": 0,
+        "dc": -2.641245499367893e-09
+      },
+      "seam_delta": null,
+      "master_sha256": "58581f23ecd43b300611ceb71af12e7a6e35e741c3b8397a7786948a4508a80b"
+    }
+  ],
+  "previous_processing": "loop edit / quiet-tail trim only; original timbre, level, pitch and dynamics retained",
+  "postprocessing_version": 2
+}

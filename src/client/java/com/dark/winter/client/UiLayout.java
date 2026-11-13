@@ -37,6 +37,8 @@ public final class UiLayout {
     }
     public static int hudWidth(int width){return Math.max(108,Math.min(192,Math.round(width*.43f)));}
     public static int pauseTop(int height){return Math.max(52,Math.min(Math.round(height*.225f),height-184));}
+    /** Pause controls keep a small inner padding while their background reaches the screen edge. */
+    public static int pauseLeft(int width){return Math.max(0,Math.min(16,(width-menuWidth(width))/2));}
     public static int menuLeft(int width){return Math.max(20,Math.min(60,Math.round(width*.075f)));}
     public static int menuWidth(int width){return Math.min(214,Math.max(140,Math.round(width*.32f)));}
     public static int menuStep(int height){return height<280?25:31;}

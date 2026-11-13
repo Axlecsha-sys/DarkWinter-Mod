@@ -12,6 +12,16 @@
     "darkwinter:snowy_shrub",
     "darkwinter:forest_fern",
     "darkwinter:rock_scatter",
-    "darkwinter:forest_trail_marker"
+    "darkwinter:forest_trail_marker",
+    "darkwinter:cattail_clump",
+    "darkwinter:cattail_rhizome",
+    "darkwinter:juniper_bush",
+    "darkwinter:cranberry_patch",
+    "darkwinter:lingonberry_patch",
+    "darkwinter:rosehip_bush",
+    "darkwinter:juniper_bush_no_berries",
+    "darkwinter:cranberry_patch_no_berries",
+    "darkwinter:lingonberry_patch_no_berries",
+    "darkwinter:rosehip_bush_no_berries"
   ]
 }

@@ -56,12 +56,32 @@ public final class FirstPersonGripRenderer {
                 || stack.is(ItemTags.HOES) || stack.is(ItemTags.SWORDS);
     }
 
+    static void recordBodyGrip(AvatarRenderState state) {
+        if (!state.rightHandItemState.isEmpty()) recordGrip(state.rightHandItemStack, HumanoidArm.RIGHT);
+        if (!state.leftHandItemState.isEmpty()) recordGrip(state.leftHandItemStack, HumanoidArm.LEFT);
+    }
+
+    private static void recordGrip(ItemStack stack, HumanoidArm hand) {
+        lastFrame = new GripFrame(lastFrame.submitted() + 1, BuiltInRegistries.ITEM.getKey(stack.getItem()).toString(), hand);
+    }
+
+    private static Shape shape(Minecraft client, AvatarRenderState state) {
+        var renderer = client.getEntityRenderDispatcher().getRenderer(state);
+        return ((PlayerModelAccessor)renderer.getModel()).darkwinter$isSlim() ? SLIM : WIDE;
+    }
+
+    private static void submitGeometry(Minecraft client, AvatarRenderState state, Shape shape, HumanoidArm hand,
+                                       PoseStack poses, SubmitNodeCollector collector, int light) {
+        boolean sleeve = hand == HumanoidArm.RIGHT ? state.showRightSleeve : state.showLeftSleeve;
+        collector.submitModelPart(shape.arm(hand, sleeve), poses, RenderTypes.entityTranslucent(state.skin.body().texturePath()),
+                light, OverlayTexture.NO_OVERLAY, null);
+        if (client.player != null) ClothingLayer.submitGrip(shape.neutral, shape.neutral.getArm(hand), client.player, poses, collector, light);
+    }
+
     public static void submit(AvatarRenderState state, HumanoidArm hand, ItemStack stack, ItemStackRenderState itemGeometry, PoseStack poses, SubmitNodeCollector collector, int light) {
         if (state.isInvisible || stack.isEmpty()) return;
         Minecraft client = Minecraft.getInstance();
-        var renderer = client.getEntityRenderDispatcher().getRenderer(state);
-        Shape shape = ((PlayerModelAccessor)renderer.getModel()).darkwinter$isSlim() ? SLIM : WIDE;
-        boolean sleeve = hand == HumanoidArm.RIGHT ? state.showRightSleeve : state.showLeftSleeve;
+        Shape shape = shape(client, state);
         ModelPart arm = shape.neutral.getArm(hand);
         // Position the real palm at the item-frame grip rather than moving any skeleton pivot.
         Vector3f palm = FirstPersonSurfaces.curl(new Vector3f(arm.x, arm.y + FirstPersonSurfaces.PALM_Y, -.13f)).div(16);
@@ -73,11 +93,9 @@ public final class FirstPersonGripRenderer {
         poses.pushPose();
         poses.translate(target.x - palm.x, target.y - palm.y, target.z - palm.z);
         poses.rotateDegrees(Axis.XP, -75);
-        collector.submitModelPart(shape.arm(hand, sleeve), poses, RenderTypes.entityTranslucent(state.skin.body().texturePath()),
-                light, OverlayTexture.NO_OVERLAY, null);
-        if (client.player != null) ClothingLayer.submitGrip(shape.neutral, arm, client.player, poses, collector, light);
+        submitGeometry(client, state, shape, hand, poses, collector, light);
         poses.popPose();
-        lastFrame = new GripFrame(lastFrame.submitted() + 1, BuiltInRegistries.ITEM.getKey(stack.getItem()).toString(), hand);
+        recordGrip(stack, hand);
     }
 
     static Vector3f gripTarget(ItemStackRenderState item, boolean tool, boolean block) {

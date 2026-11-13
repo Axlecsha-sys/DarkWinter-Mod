@@ -1,0 +1,125 @@
+{
+  "status": "cancelled; archived only, not connected to game",
+  "images": [
+    {
+      "file": "apple_juice.png",
+      "sha256": "80207bd9625e3e7f77d9c701a2fa5aa658675bebd18e4d1cc1542a01c3c84a70"
+    },
+    {
+      "file": "berry_jam.png",
+      "sha256": "4d8ecc4271673330b200e55258f42fcc9b79e0becf5e79a66e06ec0e101a9221"
+    },
+    {
+      "file": "black_tea.png",
+      "sha256": "89b2a8fd956432995745cd050a2916154eb6ed834d961d963c6b1e92f01a3e4a"
+    },
+    {
+      "file": "canned_beans.png",
+      "sha256": "9acb05015457c546e3baa6e95faaef5f348f916296f96bedac70f50498fd2047"
+    },
+    {
+      "file": "canned_chicken_noodle_soup.png",
+      "sha256": "6e7e0329ce5bae5682dbf3194258bf0e99655977a038bcc4fa3b2b3c10615b9b"
+    },
+    {
+      "file": "canned_corn.png",
+      "sha256": "ed65209370ef8a4adb8e6cc222366ef41792965254cb3ca0b7f5d8a7a79e60b2"
+    },
+    {
+      "file": "canned_fish.png",
+      "sha256": "eead17e01a3e86a980e9a93abc4175caf6e8d49f4ce4c382e5323ed0b8466327"
+    },
+    {
+      "file": "canned_meat.png",
+      "sha256": "960fd93737b26ad52ce002923281666fc91d624218bfd6b431cc4b5e9ccc7721"
+    },
+    {
+      "file": "canned_mushroom_soup.png",
+      "sha256": "fc9d7c70301697f8ac3e62cc25c5f90279069fb490757518a1624f5eb849a707"
+    },
+    {
+      "file": "canned_peaches.png",
+      "sha256": "1bc741215d6723599091bc6a83ad2ce250c8666d052d9c4527a0a5f5a158d6be"
+    },
+    {
+      "file": "canned_peas.png",
+      "sha256": "aa5304104202f189b0196ae6bdd11f43650163e1cb1350ace422aafd7ace92d6"
+    },
+    {
+      "file": "canned_tomatoes.png",
+      "sha256": "f0eabd7597250830c5b43d5398c61b7cdbb6595ace07d4eb8b938daeda03ff8e"
+    },
+    {
+      "file": "cocoa.png",
+      "sha256": "3090383ab99fe34eb8f34775c66b493001d064903d8918256e4f42100bb43a50"
+    },
+    {
+      "file": "coffee.png",
+      "sha256": "996216a5c92179ae0ce56893a4d30587d585100589b3e8d1d47ea222292e89ab"
+    },
+    {
+      "file": "cola.png",
+      "sha256": "37c8cf76fa0586e365351b9f40b5fe8e8a68cff71819bb9ee9ed05f7f6c65c5b"
+    },
+    {
+      "file": "cracker_box.png",
+      "sha256": "d6c3af13a9e8b9775e4e3d0a885217d7061598b126d59c2aa79e01fe7183c576"
+    },
+    {
+      "file": "energy_cola.png",
+      "sha256": "0f7c4b337a1b9d339dd3aead74d8ff3d4e331e659dbbf549e54e9ea956a47aed"
+    },
+    {
+      "file": "ginger_ale.png",
+      "sha256": "b442291c36810f746d51e5aaa646cf4000d598cfc8ad9f7f1a3102f1bdb1016d"
+    },
+    {
+      "file": "granola_bar.png",
+      "sha256": "8aec171409decf886a218fede53870eb922249eed6feedf13cdaf122e53fdc2b"
+    },
+    {
+      "file": "grape_juice.png",
+      "sha256": "ed834326fa3bf2283ab9339e3841aeb51539b1aadd5b8707e1082302b296eb0a"
+    },
+    {
+      "file": "lemon_lime_soda.png",
+      "sha256": "e173910c0e76b8db8268517613288730b6035e6440d8843f49150ca6f8086918"
+    },
+    {
+      "file": "oat_carton.png",
+      "sha256": "48e0eb3ec5663375d24893750ef2938424f96f942071af91988a113e6a0bc4f4"
+    },
+    {
+      "file": "orange_juice.png",
+      "sha256": "078c240f79bee178d854bb11f6e0bcae2732e0cb69970e7c75e798db4c40f63e"
+    },
+    {
+      "file": "orange_soda.png",
+      "sha256": "ea99b2fb9e60fec6599dd8ebe7449fb778d96dd3be4ba5006f2087a679c8158e"
+    },
+    {
+      "file": "peanut_butter.png",
+      "sha256": "33593ee6be000d8d12f091144f79b8105dff6ba06f1229ec72060d117f362579"
+    },
+    {
+      "file": "potato_chips.png",
+      "sha256": "b6a7ad01e35c0d5814ec1c2b39d2e1807884615459a929fff523d6251740184b"
+    },
+    {
+      "file": "processed_cheese.png",
+      "sha256": "a0c11c0e1dbee54b6d98fcd08b35b0216c6c84253f05919dd32bb4aaf409ce13"
+    },
+    {
+      "file": "ration_bundle.png",
+      "sha256": "08d0236357f2f4221150f95740b2c56937af0c86aee52d4d25ed0f361f065bd9"
+    },
+    {
+      "file": "root_beer.png",
+      "sha256": "260ed98d434553330e70208290b837d97a978a85082612705553233c30220ced"
+    },
+    {
+      "file": "water_bottle.png",
+      "sha256": "d5cfe9363ce7a96074e2279db0d5064284edd3e3d86d59b4c5413488017556bf"
+    }
+  ]
+}

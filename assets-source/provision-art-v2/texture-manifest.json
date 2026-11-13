@@ -1,0 +1,132 @@
+{
+  "tool": "built-in image_gen",
+  "processing": "Label pixels copied unchanged; material swatch atlas uniformly resized to 1024 square. No screenshot processing.",
+  "textures": [
+    {
+      "group": "pantry",
+      "original": {
+        "path": "assets-source/provision-art-v2/pantry-original.png",
+        "sha256": "70a5d3c28f0dd421600210a167b3cf5b2f102590990d527635104a38ccd51a21",
+        "size": 3547580,
+        "width": 1536,
+        "height": 1024
+      },
+      "production": {
+        "path": "src/client/resources/assets/darkwinter/textures/item/provisions_v2/pantry.png",
+        "sha256": "70a5d3c28f0dd421600210a167b3cf5b2f102590990d527635104a38ccd51a21",
+        "size": 3547580,
+        "width": 1536,
+        "height": 1024
+      },
+      "staged": "F:\\DarkWinter\\build\\provision-art-v2\\import\\pantry.png"
+    },
+    {
+      "group": "snacks",
+      "original": {
+        "path": "assets-source/provision-art-v2/snacks-original.png",
+        "sha256": "c766310f831b9e3553d0675df31c91c3eaf475f552fb5bb5356a52080056ddfc",
+        "size": 3318930,
+        "width": 1536,
+        "height": 1024
+      },
+      "production": {
+        "path": "src/client/resources/assets/darkwinter/textures/item/provisions_v2/snacks.png",
+        "sha256": "c766310f831b9e3553d0675df31c91c3eaf475f552fb5bb5356a52080056ddfc",
+        "size": 3318930,
+        "width": 1536,
+        "height": 1024
+      },
+      "staged": "F:\\DarkWinter\\build\\provision-art-v2\\import\\snacks.png"
+    },
+    {
+      "group": "dry_goods",
+      "original": {
+        "path": "assets-source/provision-art-v2/dry_goods-original.png",
+        "sha256": "56f2b10a5a3b171c12d5a993f8dd1622a18e926b0900c6c0fdf947a6e357e12f",
+        "size": 3354622,
+        "width": 1536,
+        "height": 1024
+      },
+      "production": {
+        "path": "src/client/resources/assets/darkwinter/textures/item/provisions_v2/dry_goods.png",
+        "sha256": "56f2b10a5a3b171c12d5a993f8dd1622a18e926b0900c6c0fdf947a6e357e12f",
+        "size": 3354622,
+        "width": 1536,
+        "height": 1024
+      },
+      "staged": "F:\\DarkWinter\\build\\provision-art-v2\\import\\dry_goods.png"
+    },
+    {
+      "group": "cold_drinks",
+      "original": {
+        "path": "assets-source/provision-art-v2/cold_drinks-original.png",
+        "sha256": "25272d2284938817b7436d8526cc01a5cde870c00fd9462c0728a89e618f61ba",
+        "size": 3405314,
+        "width": 1536,
+        "height": 1024
+      },
+      "production": {
+        "path": "src/client/resources/assets/darkwinter/textures/item/provisions_v2/cold_drinks.png",
+        "sha256": "25272d2284938817b7436d8526cc01a5cde870c00fd9462c0728a89e618f61ba",
+        "size": 3405314,
+        "width": 1536,
+        "height": 1024
+      },
+      "staged": "F:\\DarkWinter\\build\\provision-art-v2\\import\\cold_drinks.png"
+    },
+    {
+      "group": "northern_drinks",
+      "original": {
+        "path": "assets-source/provision-art-v2/northern_drinks-original.png",
+        "sha256": "43bd5dbc813a85e0d68072f505e0065794743bf27820c9586748f650e1e4c436",
+        "size": 3412182,
+        "width": 1536,
+        "height": 1024
+      },
+      "production": {
+        "path": "src/client/resources/assets/darkwinter/textures/item/provisions_v2/northern_drinks.png",
+        "sha256": "43bd5dbc813a85e0d68072f505e0065794743bf27820c9586748f650e1e4c436",
+        "size": 3412182,
+        "width": 1536,
+        "height": 1024
+      },
+      "staged": "F:\\DarkWinter\\build\\provision-art-v2\\import\\northern_drinks.png"
+    },
+    {
+      "group": "materials",
+      "original": {
+        "path": "assets-source/provision-art-v2/materials-original.png",
+        "sha256": "ce7671090b6986cae0ad2739a334dddfb507fc345ac34db93da67533e618f711",
+        "size": 2306465,
+        "width": 1254,
+        "height": 1254
+      },
+      "production": {
+        "path": "src/client/resources/assets/darkwinter/textures/item/provisions_v2/materials.png",
+        "sha256": "9f95d3bdabe882f9aedac0acdbd45c9dc8707cc7ef6624c458f027c2d812871d",
+        "size": 1491579,
+        "width": 1024,
+        "height": 1024
+      },
+      "staged": "F:\\DarkWinter\\build\\provision-art-v2\\import\\materials.png"
+    },
+    {
+      "group": "horizontal_wrappers",
+      "original": {
+        "path": "assets-source/provision-art-v2/horizontal_wrappers-original.png",
+        "sha256": "f3e972907f22791753ea277735df92cf90db98569482f01546c31ff9498c75a1",
+        "size": 3286705,
+        "width": 1536,
+        "height": 1024
+      },
+      "production": {
+        "path": "src/client/resources/assets/darkwinter/textures/item/provisions_v2/horizontal_wrappers.png",
+        "sha256": "f3e972907f22791753ea277735df92cf90db98569482f01546c31ff9498c75a1",
+        "size": 3286705,
+        "width": 1536,
+        "height": 1024
+      },
+      "staged": "F:\\DarkWinter\\build\\provision-art-v2\\import\\horizontal_wrappers.png"
+    }
+  ]
+}

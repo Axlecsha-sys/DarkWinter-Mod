@@ -44,4 +44,9 @@ public final class TestSpruceBoughBlock extends Block {
         int d = state.getValue(DIRECTION);
         return state.setValue(DIRECTION, switch (mirror) { case LEFT_RIGHT -> (4-d)&7; case FRONT_BACK -> (-d)&7; default -> d; });
     }
+    @Override public BlockState playerWillDestroy(net.minecraft.world.level.Level level,BlockPos pos,BlockState state,net.minecraft.world.entity.player.Player player){
+        BlockState result=super.playerWillDestroy(level,pos,state,player);
+        com.dark.winter.block.SnowyPlantFloorRestore.treeRemoved(level,pos,state);
+        return result;
+    }
 }

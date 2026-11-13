@@ -1,0 +1,13 @@
+Highlight outline data
+
+Source: https://github.com/Team-Resourceful/Highlight/tree/26.x
+Git tree: 1b9ffadfe5e6c12c99e1548cc509d2957704c573
+Copyright (c) 2023 Team Resourceful; MIT License.
+
+The 75 JSON outline assets in src/client/resources/assets/minecraft/darkwinter/highlights/
+are unmodified outline definitions from Highlight. Only the resource folder was renamed
+from resourcefullib/highlights to darkwinter/highlights. The complete original MIT license
+is retained beside this notice and in the distributable JAR under META-INF/licenses.
+
+DarkWinter uses its own reload parser, bounded model-edge extraction and native 26.3
+feature-renderer integration. ResourcefulLib and Highlight JARs are not bundled.

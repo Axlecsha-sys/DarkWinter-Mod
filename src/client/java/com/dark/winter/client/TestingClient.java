@@ -4,7 +4,7 @@ package com.dark.winter.client;
 import com.dark.winter.testing.TestingServer;
 import com.dark.winter.client.online.OnlineTestingView;
 import com.mojang.blaze3d.platform.InputConstants;
-import java.lang.management.ManagementFactory;
+import com.dark.winter.client.diagnostics.TestingDiagnosticSampler;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,19 +47,20 @@ public final class TestingClient {
     private static long lastRender;
     private static final float[] FRAME_MS = new float[120];
     private static final String[] FRAME_SCREEN = new String[120];
-    private static long lastFrameSampleMillis,cpuSampleMillis;
+    private static final TestingDiagnosticSampler DIAGNOSTIC_SAMPLER = new TestingDiagnosticSampler();
+    private static long lastFrameSampleMillis,cpuSampleMillis,diagnosticTextAt;
+    private static Component diagnosticUsageText=Component.empty(),diagnosticFrameText=Component.empty(),diagnosticCpuText=Component.empty();
     private static int frameIndex, frameCount;
     private static double cpuLoad = -1;
-    private static long cpuMeasuredAt;
     private static String reportStatus="";
     private static String lastScreenshot="",screenshotStatus="Снимок ещё не сохранён";
     private static String lastProtectionPreview="";
     private static volatile List<String> recentErrors=List.of();
     private static String errorScope="Сбор журнала выключен";
-    private static long lastLogPoll;
     private TestingClient() {}
 
     public static void init() {
+        net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents.CLIENT_STOPPING.register(client -> DIAGNOSTIC_SAMPLER.close());
         KeyMapping.Category category = KeyMapping.Category.register(Identifier.fromNamespaceAndPath("darkwinter","testing"));
         collapseKey=key("panel",InputConstants.KEY_F7,category);
         characterKey=key("character",InputConstants.KEY_F9,category);
@@ -83,7 +84,7 @@ public final class TestingClient {
     }
     public static void reset() {
         selected=null;adjacent=null;first=null;second=null;collapsed=false;diagnostic=false;requestedDiagnostic=null;requestedDiagnosticAt=0;
-        previousMode="";frameCount=0;frameIndex=0;lastRender=0;lastFrameSampleMillis=0;cpuSampleMillis=0;lastScreenshot="";screenshotStatus="Снимок ещё не сохранён";lastProtectionPreview="";recentErrors=List.of();lastLogPoll=0;errorScope="Сбор журнала выключен";TestingCameraState.reset();
+        previousMode="";frameCount=0;frameIndex=0;lastRender=0;lastFrameSampleMillis=0;cpuSampleMillis=0;cpuLoad=-1;diagnosticTextAt=0;DIAGNOSTIC_SAMPLER.invalidate();lastScreenshot="";screenshotStatus="Снимок ещё не сохранён";lastProtectionPreview="";recentErrors=List.of();errorScope="Сбор журнала выключен";TestingCameraState.reset();
     }
     public static void tick(Minecraft c) {
         if(c.level!=observedLevel) { observedLevel=c.level;reset(); }
@@ -92,8 +93,10 @@ public final class TestingClient {
         var labSettings=TestingAccess.settings();
         boolean configuredDiagnostics=labSettings!=null&&labSettings.diagnostics;
         if(configuredDiagnostics!=diagnostic){
-            diagnostic=configuredDiagnostics;lastRender=0;
-            if(diagnostic){frameCount=0;frameIndex=0;cpuLoad=-1;cpuMeasuredAt=0;lastFrameSampleMillis=0;cpuSampleMillis=0;}
+            diagnostic=configuredDiagnostics;lastRender=0;diagnosticTextAt=0;
+            DIAGNOSTIC_SAMPLER.invalidate();cpuLoad=-1;cpuSampleMillis=0;
+            recentErrors=List.of();errorScope=diagnostic?"Ожидание фоновой выборки журнала":"Сбор журнала выключен";
+            if(diagnostic){frameCount=0;frameIndex=0;lastFrameSampleMillis=0;}
         }
         if(requestedDiagnostic!=null&&(configuredDiagnostics==requestedDiagnostic||System.nanoTime()-requestedDiagnosticAt>2_000_000_000L))requestedDiagnostic=null;
         if(diagnostic)pollErrorLog(c);
@@ -259,19 +262,11 @@ public final class TestingClient {
     public static List<String> recentErrors(){return recentErrors;}
     public static String errorScope(){return errorScope;}
     private static void pollErrorLog(Minecraft c){
-        long now=System.nanoTime();if(lastLogPoll!=0&&now-lastLogPoll<2_000_000_000L)return;lastLogPoll=now;
-        Path file=c.gameDirectory.toPath().resolve("logs/latest.log");
-        try(var channel=Files.newByteChannel(file,java.nio.file.StandardOpenOption.READ)){
-            long start=Math.max(0,channel.size()-65536);channel.position(start);
-            var buffer=java.nio.ByteBuffer.allocate((int)Math.min(65536,channel.size()-start));
-            while(buffer.hasRemaining()&&channel.read(buffer)>0){}
-            buffer.flip();String text=java.nio.charset.StandardCharsets.UTF_8.decode(buffer).toString();
-            if(start>0){int newline=text.indexOf('\n');if(newline>=0)text=text.substring(newline+1);}
-            List<String> rows=text.lines().filter(line->line.contains("/WARN")||line.contains("/ERROR")||line.contains(" WARN ")||line.contains(" ERROR ")||line.startsWith("Caused by:"))
-                    .map(line->line.length()>512?line.substring(0,512)+"…":line).toList();
-            recentErrors=List.copyOf(rows.subList(Math.max(0,rows.size()-32),rows.size()));
-            errorScope="Последние 64 KiB: "+recentErrors.size()+" строк WARN/ERROR; "+java.time.Instant.now();
-        }catch(Exception e){errorScope="Журнал недоступен: "+e.getMessage();recentErrors=List.of();}
+        var snapshot=DIAGNOSTIC_SAMPLER.request(c.gameDirectory.toPath().resolve("logs/latest.log"),System.nanoTime());
+        cpuLoad=snapshot.cpuLoad();cpuSampleMillis=snapshot.cpuSampleMillis();
+        recentErrors=snapshot.recentErrors();
+        errorScope=cpuSampleMillis==0 && snapshot.errorScope().equals("Сбор журнала выключен")
+                ?"Ожидание фоновой выборки журнала":snapshot.errorScope();
     }
     private static Path reportsDirectory() {
         return FabricLoader.getInstance().getGameDir().resolve("darkwinter-testing/client-reports");
@@ -393,7 +388,7 @@ public final class TestingClient {
         Minecraft c=Minecraft.getInstance();
         if(!active()){lastRender=0;return;}
         if(diagnostic)sampleDiagnostics(c);else lastRender=0;
-        if(c.gui.screen()!=null)return;
+        if(c.gui.screen()!=null||DebugOverlayVisibility.expandedDebugOwnsHud())return;
         int panelY=44; // Leave the native notification band clear with either HUD setting.
         int w=hudPanelWidth(g.guiWidth()),h=collapsed?30:Math.max(30,Math.min(g.guiHeight()-panelY-34,198));
         int x=hudPanelLeft(g.guiWidth());
@@ -433,21 +428,24 @@ public final class TestingClient {
             frameIndex=(frameIndex+1)%FRAME_MS.length;frameCount=Math.min(frameCount+1,FRAME_MS.length);
         }
         lastRender=now;
-        if(now-cpuMeasuredAt>1_000_000_000L) {
-            var bean=ManagementFactory.getOperatingSystemMXBean();
-            cpuLoad=bean instanceof com.sun.management.OperatingSystemMXBean os?os.getProcessCpuLoad():-1;
-            cpuMeasuredAt=now;cpuSampleMillis=System.currentTimeMillis();
-        }
     }
+
     public static int measuredFrames(){return frameCount;}
     private static void renderDiagnostics(GuiGraphicsExtractor g,int x,int y,int width,int height) {
         HudStyle.instrumentPanel(g,x,y,width,height);
-        var rt=Runtime.getRuntime();
-        HudStyle.fit(g,Component.literal("FPS "+Minecraft.getInstance().getFps()+" • память "+(rt.totalMemory()-rt.freeMemory())/1048576+" MiB"),x+8,y+8,width-16,.7f,HudStyle.INK);
-        float sum=0,max=0;
-        for(int i=0;i<frameCount;i++){float ms=FRAME_MS[(frameIndex-frameCount+i+FRAME_MS.length)%FRAME_MS.length];sum+=ms;max=Math.max(max,ms);}
-        if(height>=36)HudStyle.fit(g,Component.literal(String.format(java.util.Locale.ROOT,"Кадр: средн. %.1f / max %.1f мс",frameCount==0?0:sum/frameCount,max)),x+8,y+20,width-16,.65f,HudStyle.MUTED);
-        if(height>=48)HudStyle.fit(g,Component.literal("CPU процесса: "+(cpuLoad<0?"недоступно":Math.round(cpuLoad*100)+"%")+" • GPU: недоступно"),x+8,y+31,width-16,.62f,HudStyle.MUTED);
+        long now=System.nanoTime();
+        if(diagnosticTextAt==0 || now-diagnosticTextAt>=200_000_000L) {
+            diagnosticTextAt=now;
+            var rt=Runtime.getRuntime();
+            diagnosticUsageText=Component.literal("FPS "+Minecraft.getInstance().getFps()+" • память "+(rt.totalMemory()-rt.freeMemory())/1048576+" MiB");
+            float sum=0,max=0;
+            for(int i=0;i<frameCount;i++){float ms=FRAME_MS[(frameIndex-frameCount+i+FRAME_MS.length)%FRAME_MS.length];sum+=ms;max=Math.max(max,ms);}
+            diagnosticFrameText=Component.literal(String.format(java.util.Locale.ROOT,"Кадр: средн. %.1f / max %.1f мс",frameCount==0?0:sum/frameCount,max));
+            diagnosticCpuText=Component.literal("CPU процесса: "+(cpuLoad<0?"недоступно":Math.round(cpuLoad*100)+"%")+" • GPU: недоступно");
+        }
+        HudStyle.fit(g,diagnosticUsageText,x+8,y+8,width-16,.7f,HudStyle.INK);
+        if(height>=36)HudStyle.fit(g,diagnosticFrameText,x+8,y+20,width-16,.65f,HudStyle.MUTED);
+        if(height>=48)HudStyle.fit(g,diagnosticCpuText,x+8,y+31,width-16,.62f,HudStyle.MUTED);
         if(height<66)return;
         int gw=width-16;
         for(int i=0;i<Math.min(frameCount,gw);i++) {

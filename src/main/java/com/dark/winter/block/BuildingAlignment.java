@@ -67,6 +67,7 @@ public final class BuildingAlignment {
         }
         // Vanilla NORTH doors occupy z=13..16; NORTH wall panels occupy z=0..4.
         if (state.getBlock() instanceof DoorBlock) return state.getValue(DoorBlock.FACING).getOpposite();
+        if (state.getBlock() instanceof PanelDoorBlock) return state.getValue(FurnitureBlock.FACING);
         return null;
     }
 

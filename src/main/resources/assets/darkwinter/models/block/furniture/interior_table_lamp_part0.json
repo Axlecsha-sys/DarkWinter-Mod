@@ -1,0 +1,111 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "interior_black_iron": "darkwinter:block/interior/interior_black_iron",
+    "interior_dulled_brass": "darkwinter:block/interior/interior_dulled_brass",
+    "interior_book_pages": "darkwinter:block/interior/interior_book_pages",
+    "interior_lamp_linen": "darkwinter:block/interior/interior_lamp_linen",
+    "interior_lamp_linen_inner": "darkwinter:block/interior/interior_lamp_linen_inner",
+    "interior_olive_glaze": "darkwinter:block/interior/interior_olive_glaze",
+    "particle": "darkwinter:block/interior/interior_olive_glaze"
+  },
+  "elements": [
+    {
+      "from": [
+        5.96,
+        0,
+        5.96
+      ],
+      "to": [
+        10.04,
+        4.08,
+        10.04
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_olive_glaze"
+        },
+        "up": {
+          "texture": "#interior_olive_glaze"
+        },
+        "north": {
+          "texture": "#interior_olive_glaze"
+        },
+        "south": {
+          "texture": "#interior_olive_glaze"
+        },
+        "west": {
+          "texture": "#interior_olive_glaze"
+        },
+        "east": {
+          "texture": "#interior_olive_glaze"
+        }
+      }
+    },
+    {
+      "from": [
+        4.48,
+        4.93,
+        4.48
+      ],
+      "to": [
+        11.52,
+        10.33,
+        11.52
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_lamp_linen"
+        },
+        "up": {
+          "texture": "#interior_lamp_linen"
+        },
+        "north": {
+          "texture": "#interior_lamp_linen"
+        },
+        "south": {
+          "texture": "#interior_lamp_linen"
+        },
+        "west": {
+          "texture": "#interior_lamp_linen"
+        },
+        "east": {
+          "texture": "#interior_lamp_linen"
+        }
+      }
+    },
+    {
+      "from": [
+        9.29,
+        0.06,
+        8.52
+      ],
+      "to": [
+        13.49,
+        0.24,
+        10.59
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_black_iron"
+        },
+        "up": {
+          "texture": "#interior_black_iron"
+        },
+        "north": {
+          "texture": "#interior_black_iron"
+        },
+        "south": {
+          "texture": "#interior_black_iron"
+        },
+        "west": {
+          "texture": "#interior_black_iron"
+        },
+        "east": {
+          "texture": "#interior_black_iron"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,269 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "interior_pendant_enamel": "darkwinter:block/interior/interior_pendant_enamel",
+    "interior_pendant_enamel_inner": "darkwinter:block/interior/interior_pendant_enamel_inner",
+    "interior_pendant_dark_metal": "darkwinter:block/interior/interior_pendant_dark_metal",
+    "interior_pendant_bulb": "darkwinter:block/interior/interior_pendant_bulb",
+    "particle": "darkwinter:block/interior/interior_pendant_enamel"
+  },
+  "elements": [
+    {
+      "from": [
+        2.24,
+        1.68,
+        2.24
+      ],
+      "to": [
+        13.76,
+        2.51,
+        13.76
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "up": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "north": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "south": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "west": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "east": {
+          "texture": "#interior_pendant_enamel"
+        }
+      }
+    },
+    {
+      "from": [
+        3.04,
+        2.49,
+        3.04
+      ],
+      "to": [
+        12.96,
+        3.67,
+        12.96
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "up": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "north": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "south": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "west": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "east": {
+          "texture": "#interior_pendant_enamel"
+        }
+      }
+    },
+    {
+      "from": [
+        4.36,
+        3.65,
+        4.36
+      ],
+      "to": [
+        11.64,
+        4.54,
+        11.64
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "up": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "north": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "south": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "west": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "east": {
+          "texture": "#interior_pendant_enamel"
+        }
+      }
+    },
+    {
+      "from": [
+        6.6,
+        4.48,
+        6.6
+      ],
+      "to": [
+        9.4,
+        6.78,
+        9.4
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "up": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "north": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "south": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "west": {
+          "texture": "#interior_pendant_enamel"
+        },
+        "east": {
+          "texture": "#interior_pendant_enamel"
+        }
+      }
+    },
+    {
+      "from": [
+        7,
+        0.8,
+        7
+      ],
+      "to": [
+        9,
+        2.96,
+        9
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_pendant_bulb"
+        },
+        "up": {
+          "texture": "#interior_pendant_bulb"
+        },
+        "north": {
+          "texture": "#interior_pendant_bulb"
+        },
+        "south": {
+          "texture": "#interior_pendant_bulb"
+        },
+        "west": {
+          "texture": "#interior_pendant_bulb"
+        },
+        "east": {
+          "texture": "#interior_pendant_bulb"
+        }
+      }
+    },
+    {
+      "from": [
+        7.56,
+        6.74,
+        7.56
+      ],
+      "to": [
+        8.44,
+        7.43,
+        8.44
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "up": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "north": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "south": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "west": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "east": {
+          "texture": "#interior_pendant_dark_metal"
+        }
+      }
+    },
+    {
+      "from": [
+        7.88,
+        7.39,
+        7.88
+      ],
+      "to": [
+        8.12,
+        15.23,
+        8.12
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "up": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "north": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "south": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "west": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "east": {
+          "texture": "#interior_pendant_dark_metal"
+        }
+      }
+    },
+    {
+      "from": [
+        7.02,
+        15.15,
+        7.02
+      ],
+      "to": [
+        8.98,
+        16,
+        8.98
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "up": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "north": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "south": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "west": {
+          "texture": "#interior_pendant_dark_metal"
+        },
+        "east": {
+          "texture": "#interior_pendant_dark_metal"
+        }
+      }
+    }
+  ]
+}

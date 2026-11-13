@@ -24,7 +24,8 @@
     "snow": "minecraft:block/snow",
     "cardboard": "minecraft:block/brown_concrete",
     "dry_grass": "minecraft:block/hay_block_side",
-    "particle": "darkwinter:block/decor/aged_concrete"
+    "particle": "darkwinter:block/construction/b4_concrete",
+    "b4_concrete": "darkwinter:block/construction/b4_concrete"
   },
   "display": {
     "gui": {

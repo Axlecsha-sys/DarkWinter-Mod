@@ -16,15 +16,22 @@ void main() {
     vec3 color=source.rgb;
     float blocked=0.0;
     float worldDistance=sky?Air.w:length(p);
-    if(!sky) n=nlNormal(DepthSampler,texCoord,p);
-    if(!sky && Flags.x>.5 && Flags.w<.5 && Sun.w>.001) {
+    bool shadowReceiver=!sky && Flags.x>.5 && Flags.w<.5 && Sun.w>.001;
+    bool normalDebug=Flags.z>4.5 && Flags.z<5.5;
+    if(!sky && (shadowReceiver || normalDebug)) n=nlNormal(DepthSampler,texCoord,p);
+    if(shadowReceiver) {
         float facing=max(dot(n,Sun.xyz),0.0);
         vec3 q=nlLightCoord(p+n*Options.w);
         float validPlane=smoothstep(.025,.08,facing);
-        float lit=nlSurfaceShadow(ShadowSampler,q,nlReceiverGradient(n),Shadow.z);
-        blocked=(1.0-lit)*nlCoverage(q)*Sun.w*validPlane;
-        float lowSun=0.35 + 0.65*smoothstep(.05,.20,Sun.y);
+        float coverage=nlCoverage(q);
         float farShadowFade=1.0-smoothstep(85.0,180.0,worldDistance);
+        bool shadowDebug=Flags.z>1.5 && Flags.z<2.5;
+        // These factors made the final contribution exactly zero even before sampling.
+        if(coverage>0.0 && validPlane>0.0 && (farShadowFade>0.0 || shadowDebug)) {
+            float lit=nlSurfaceShadow(ShadowSampler,q,nlReceiverGradient(n),Shadow.z);
+            blocked=(1.0-lit)*coverage*Sun.w*validPlane;
+        }
+        float lowSun=0.35 + 0.65*smoothstep(.05,.20,Sun.y);
         float darkness=blocked*Shadow.w*(.36+.54*facing)*lowSun*farShadowFade;
         color*=vec3(1.0)-darkness*vec3(1.0,.90,.76);
     }

@@ -1,0 +1,704 @@
+{
+  "schema": "darkwinter-snow-storage-comparison-v1",
+  "recordedAt": "2026-11-12T01:25:26.144Z",
+  "status": "code_and_correctness_complete_performance_not_accepted",
+  "scope": "Fabric/WKE Java hot snow geometry and lookup storage; immutable published GPU buffers. Not all mod objects or physical RAM placement.",
+  "changes": [
+    "Final cap triangles streamed into primitive vertex/index buffers.",
+    "Exclusive scratch pool: up to 16 MiB array storage, 512 slots, small flat-cell initial capacity.",
+    "Indexed per-vertex shading, reuse of boundary shading.",
+    "Skip normal-only neighbor tessellation for unchanged immutable halo pressure.",
+    "Verify previous coordinate/edge lookup changes with pinned adapter."
+  ],
+  "versions": {
+    "baseline": {
+      "sha256": "cacef23b5d488cb02f5b0b6beaca27c63ea09bc058054788758038381faeb775",
+      "path": "F:\\DarkWinter\\build\\WKE\\snow-v2\\candidate\\dark-winter-cacef23b5d488cb02f5b0b6beaca27c63ea09bc058054788758038381faeb775.jar"
+    },
+    "intermediate": {
+      "sha256": "716f49b1ec74f0594a959a4ac7812cad7900b740667238d0f20a732d3a45b141",
+      "path": "C:/workspace/DarkWinter-snow-storage/artifacts/dark-winter-716f49b1ec74f0594a959a4ac7812cad7900b740667238d0f20a732d3a45b141.jar"
+    },
+    "candidate": {
+      "sha256": "f5441158aff639b2a1ac5bdb6319b4f7eca2d8cb903072b4e89fa1e581ac5ce5",
+      "path": "F:\\DarkWinter\\build\\WKE\\snow-v2\\candidate\\dark-winter-f5441158aff639b2a1ac5bdb6319b4f7eca2d8cb903072b4e89fa1e581ac5ce5.jar",
+      "delivery": "F:/DarkWinter/build/libs/dark-winter-1.0.1.jar"
+    }
+  },
+  "inputs": {
+    "sourceWorld": "F:\\DarkWinter\\build\\WKE\\snow-v2\\world\\20261108-185707-048\\save",
+    "sourceFiles": 1435,
+    "identicalSourceManifest": true,
+    "sameScenarioAndSdk": true,
+    "bitwiseIdenticalTrajectory": false,
+    "scope": "Same pinned save and commands. Native input/frame timing differs; no causal FPS claim from one pair."
+  },
+  "game": {
+    "baseline": {
+      "run": "C:/workspace/DarkWinter-snow-storage/run/placement-surfaces-20261112-110327-713",
+      "completed": false,
+      "failure": "java.lang.AssertionError: Actual-world collision pressure check failed: phase=after-native-writes parity=true maxErrorMm=0.0 nonfinite=0 dense=missing maxLogical=275 causalWrite={owner=[7260, 75, 1781], x=7260.823222021613, z=1781.3540822697312, source=pre-write-ray--1, samePointPrewarmed=true, ownerChunkPrewarmed=true, newCavityContributors=4, maximumNewCavityMillimeters=137.35897777833807, postWriteFullMillimeters=137.35897777833807, samePostWriteFieldWithoutNewPlacementsMillimeters=137.15452575683594, causalWriteIncreaseMillimeters=0.20445202150213504, indexedOracleErrorMillimeters=0.0, fullScanOracleErrorMillimeters=0.0, preWriteReferenceMillimeters=137.5, passes=true}",
+      "nativeDistanceMeters": 58.859581193347516,
+      "hotGeneratedToAppliedMilliseconds": {
+        "count": 386,
+        "maximum": 164.0547,
+        "p50": 43.8833,
+        "p95": 72.9483
+      },
+      "framesAndHeap": {
+        "scope": "Actual end-extraction intervals including SDK pacing; sampled JVM heap, not total process RAM or GPU time.",
+        "phases": [
+          {
+            "frames": 311,
+            "phase": "fresh-route",
+            "dropped": 0,
+            "samples": 310,
+            "heapUsedBytes": {
+              "minimum": 1656137392,
+              "peak": 2502270216,
+              "last": 2502270216
+            },
+            "milliseconds": {
+              "p99": 262.459,
+              "maximum": 309.412,
+              "p50": 35.4001,
+              "p95": 71.7241
+            },
+            "heapCommittedPeakBytes": 2856321024
+          },
+          {
+            "frames": 297,
+            "phase": "dense-return",
+            "dropped": 0,
+            "samples": 296,
+            "heapUsedBytes": {
+              "minimum": 1778006336,
+              "peak": 2504367368,
+              "last": 2042170736
+            },
+            "milliseconds": {
+              "p99": 395.6599,
+              "maximum": 509.1999,
+              "p50": 38.7486,
+              "p95": 88.6183
+            },
+            "heapCommittedPeakBytes": 2856321024
+          },
+          {
+            "frames": 1526,
+            "phase": "idle-with-tracks",
+            "dropped": 0,
+            "samples": 1525,
+            "heapUsedBytes": {
+              "minimum": 1743646264,
+              "peak": 2684011352,
+              "last": 1743646264
+            },
+            "milliseconds": {
+              "p99": 20.3679,
+              "maximum": 90.3582,
+              "p50": 7.1452,
+              "p95": 9.663
+            },
+            "heapCommittedPeakBytes": 2856321024
+          }
+        ]
+      },
+      "contacts": {
+        "generated": 523,
+        "unpublished": 0,
+        "publishFrames": {
+          "count": 523,
+          "maximum": 0,
+          "p50": 0,
+          "p95": 0
+        },
+        "firstEligibleDrawFrames": {
+          "count": 1903,
+          "maximum": 0,
+          "p50": 0,
+          "p95": 0
+        }
+      },
+      "production": {
+        "patches": 400,
+        "patchCells": 1398,
+        "patchNanos": 13447508500,
+        "tessellationWallNanos": 9315018800,
+        "packingWallNanos": 4168320900,
+        "worstPatchNanos": 163571300,
+        "exactRangeReuses": 70,
+        "refinedTriangles": 1711406
+      },
+      "gc": {
+        "count": 55,
+        "totalMilliseconds": 493.48910000000006,
+        "p50Milliseconds": 8.9329,
+        "p95Milliseconds": 21.8632,
+        "maxMilliseconds": 38.2884
+      },
+      "sampledHeapPeakBytes": 2684011352
+    },
+    "intermediate": {
+      "run": "C:/workspace/DarkWinter-snow-storage/run/placement-surfaces-20261112-110839-787",
+      "completed": false,
+      "failure": "java.lang.AssertionError: Actual-world collision pressure check failed: phase=after-native-writes parity=true maxErrorMm=0.0 nonfinite=0 dense=missing maxLogical=282 causalWrite={owner=[7260, 75, 1781], x=7260.823222021613, z=1781.3540822697312, source=pre-write-ray--1, samePointPrewarmed=true, ownerChunkPrewarmed=true, newCavityContributors=5, maximumNewCavityMillimeters=137.5, postWriteFullMillimeters=137.5, samePostWriteFieldWithoutNewPlacementsMillimeters=-0.0, causalWriteIncreaseMillimeters=137.5, indexedOracleErrorMillimeters=0.0, fullScanOracleErrorMillimeters=0.0, preWriteReferenceMillimeters=-0.0, passes=true}",
+      "nativeDistanceMeters": 58.79672533467553,
+      "hotGeneratedToAppliedMilliseconds": {
+        "p50": 44.5484,
+        "maximum": 93.3056,
+        "count": 411,
+        "p95": 75.3359
+      },
+      "framesAndHeap": {
+        "phases": [
+          {
+            "heapCommittedPeakBytes": 2856321024,
+            "milliseconds": {
+              "p50": 36.7289,
+              "maximum": 907.3107,
+              "p99": 253.345,
+              "p95": 92.4543
+            },
+            "heapUsedBytes": {
+              "minimum": 1599843392,
+              "last": 2226029624,
+              "peak": 2266938784
+            },
+            "samples": 301,
+            "dropped": 0,
+            "phase": "fresh-route",
+            "frames": 302
+          },
+          {
+            "heapCommittedPeakBytes": 2946498560,
+            "milliseconds": {
+              "p50": 47.9387,
+              "maximum": 548.1873,
+              "p99": 463.9987,
+              "p95": 100.9622
+            },
+            "heapUsedBytes": {
+              "minimum": 1880317400,
+              "last": 2818790256,
+              "peak": 2818790256
+            },
+            "samples": 240,
+            "dropped": 0,
+            "phase": "dense-return",
+            "frames": 241
+          },
+          {
+            "heapCommittedPeakBytes": 3080716288,
+            "milliseconds": {
+              "p50": 7.1557,
+              "maximum": 411.6196,
+              "p99": 21.8023,
+              "p95": 12.654
+            },
+            "heapUsedBytes": {
+              "minimum": 1812335216,
+              "last": 2547481992,
+              "peak": 2821935984
+            },
+            "samples": 1506,
+            "dropped": 0,
+            "phase": "idle-with-tracks",
+            "frames": 1507
+          }
+        ],
+        "scope": "Actual end-extraction intervals including SDK pacing; sampled JVM heap, not total process RAM or GPU time."
+      },
+      "contacts": {
+        "generated": 546,
+        "unpublished": 0,
+        "publishFrames": {
+          "p50": 0,
+          "maximum": 0,
+          "count": 546,
+          "p95": 0
+        },
+        "firstEligibleDrawFrames": {
+          "p50": 0,
+          "maximum": 0,
+          "count": 1972,
+          "p95": 0
+        }
+      },
+      "production": {
+        "patches": 404,
+        "patchCells": 1472,
+        "patchNanos": 14068965200,
+        "tessellationWallNanos": 9881717800,
+        "packingWallNanos": 4243774700,
+        "worstPatchNanos": 114261600,
+        "exactRangeReuses": 82,
+        "refinedTriangles": 1762848,
+        "triangleScratchAllocations": 52340,
+        "triangleScratchReuses": 8879,
+        "triangleScratchRetainedBytes": 8970240,
+        "triangleScratchBuffers": 32
+      },
+      "gc": {
+        "count": 52,
+        "totalMilliseconds": 417.08919999999995,
+        "p50Milliseconds": 7.4912,
+        "p95Milliseconds": 16.842,
+        "maxMilliseconds": 34.9744
+      },
+      "sampledHeapPeakBytes": 2821935984
+    },
+    "candidate": {
+      "run": "C:/workspace/DarkWinter-snow-storage/run/placement-surfaces-20261112-111618-931",
+      "completed": false,
+      "failure": "java.lang.AssertionError: Actual-world collision pressure check failed: phase=after-native-writes parity=true maxErrorMm=0.0 nonfinite=0 dense=missing maxLogical=250 causalWrite={owner=[7260, 75, 1781], x=7260.823222021613, z=1781.3540822697312, source=pre-write-ray--1, samePointPrewarmed=true, ownerChunkPrewarmed=true, newCavityContributors=4, maximumNewCavityMillimeters=137.38102904676535, postWriteFullMillimeters=137.38102904676535, samePostWriteFieldWithoutNewPlacementsMillimeters=137.15797424316406, causalWriteIncreaseMillimeters=0.22305480360128627, indexedOracleErrorMillimeters=0.0, fullScanOracleErrorMillimeters=0.0, preWriteReferenceMillimeters=137.5, passes=true}",
+      "nativeDistanceMeters": 60.050664735823396,
+      "hotGeneratedToAppliedMilliseconds": {
+        "p50": 42.1674,
+        "p95": 77.9975,
+        "count": 392,
+        "maximum": 190.5741
+      },
+      "framesAndHeap": {
+        "phases": [
+          {
+            "milliseconds": {
+              "p50": 31.2865,
+              "p95": 65.4108,
+              "p99": 259.4071,
+              "maximum": 367.5364
+            },
+            "heapCommittedPeakBytes": 2944401408,
+            "frames": 319,
+            "phase": "fresh-route",
+            "dropped": 0,
+            "samples": 318,
+            "heapUsedBytes": {
+              "peak": 2489180496,
+              "last": 2025685696,
+              "minimum": 2025685696
+            }
+          },
+          {
+            "milliseconds": {
+              "p50": 11.1326,
+              "p95": 94.1366,
+              "p99": 423.8744,
+              "maximum": 651.0945
+            },
+            "heapCommittedPeakBytes": 3147825152,
+            "frames": 365,
+            "phase": "dense-return",
+            "dropped": 0,
+            "samples": 364,
+            "heapUsedBytes": {
+              "peak": 2583712576,
+              "last": 2051014656,
+              "minimum": 1927296288
+            }
+          },
+          {
+            "milliseconds": {
+              "p50": 7.1604,
+              "p95": 14.4254,
+              "p99": 26.717,
+              "maximum": 91.0145
+            },
+            "heapCommittedPeakBytes": 3147825152,
+            "frames": 1480,
+            "phase": "idle-with-tracks",
+            "dropped": 0,
+            "samples": 1479,
+            "heapUsedBytes": {
+              "peak": 2989318544,
+              "last": 2337208576,
+              "minimum": 1897752800
+            }
+          }
+        ],
+        "scope": "Actual end-extraction intervals including SDK pacing; sampled JVM heap, not total process RAM or GPU time."
+      },
+      "contacts": {
+        "generated": 522,
+        "unpublished": 0,
+        "publishFrames": {
+          "p50": 0,
+          "p95": 0,
+          "count": 522,
+          "maximum": 0
+        },
+        "firstEligibleDrawFrames": {
+          "p50": 0,
+          "p95": 0,
+          "count": 1897,
+          "maximum": 0
+        }
+      },
+      "production": {
+        "patches": 399,
+        "patchCells": 1422,
+        "patchNanos": 13612264600,
+        "tessellationWallNanos": 9592096800,
+        "packingWallNanos": 4039876400,
+        "worstPatchNanos": 156718400,
+        "exactRangeReuses": 65,
+        "refinedTriangles": 1769724,
+        "triangleScratchAllocations": 27320,
+        "triangleScratchReuses": 32183,
+        "triangleScratchRetainedBytes": 0,
+        "triangleScratchBuffers": 0
+      },
+      "gc": {
+        "count": 49,
+        "totalMilliseconds": 543.7586,
+        "p50Milliseconds": 10.0079,
+        "p95Milliseconds": 22.5182,
+        "maxMilliseconds": 73.3412
+      },
+      "sampledHeapPeakBytes": 2989318544
+    }
+  },
+  "storm": {
+    "baseline": {
+      "completed": false,
+      "failure": "java.lang.AssertionError: Strong-weather final hot publication retains the same25ms p95 and100ms maximum thresholds",
+      "distance": 39.975262904916704,
+      "hot": {
+        "count": 205,
+        "maximum": 138.9365,
+        "p50": 62.0759,
+        "p95": 118.9417
+      },
+      "framesAndHeap": {
+        "scope": "Actual end-extraction intervals including SDK pacing; sampled JVM heap, not total process RAM or GPU time.",
+        "phases": [
+          {
+            "frames": 586,
+            "phase": "storm-repeat",
+            "dropped": 0,
+            "samples": 585,
+            "heapUsedBytes": {
+              "minimum": 1802034032,
+              "peak": 2887057472,
+              "last": 2669393088
+            },
+            "milliseconds": {
+              "p99": 172.6483,
+              "maximum": 366.8987,
+              "p50": 19.4038,
+              "p95": 101.5023
+            },
+            "heapCommittedPeakBytes": 3124756480
+          },
+          {
+            "frames": 85,
+            "phase": "storm-drain",
+            "dropped": 0,
+            "samples": 84,
+            "heapUsedBytes": {
+              "minimum": 1783055552,
+              "peak": 2676551936,
+              "last": 1815288080
+            },
+            "milliseconds": {
+              "p99": 72.5726,
+              "maximum": 72.5726,
+              "p50": 10.5664,
+              "p95": 19.3354
+            },
+            "heapCommittedPeakBytes": 3124756480
+          }
+        ]
+      }
+    },
+    "intermediate": {
+      "completed": false,
+      "failure": "java.lang.AssertionError: Native admission patrol remains physically traversable on the saved path",
+      "measuredHotCount": 0
+    },
+    "candidate": {
+      "completed": false,
+      "failure": "java.lang.AssertionError: Native admission patrol stays within the unchanged saved-path corridor",
+      "measuredHotCount": 0
+    },
+    "comparisonAccepted": false
+  },
+  "fixedInputReplay": {
+    "scope": "Separate warm JVMs, identical frozen real owner fixture; five measured cold/warm pairs after five warmups, not game FPS. Cold clears retained pressure/AO/field caches, not JVM.",
+    "baseline": {
+      "completed": true,
+      "sha": "cacef23b5d488cb02f5b0b6beaca27c63ea09bc058054788758038381faeb775",
+      "fixtureSha": "3417c03c16f14c1486d76757f13e663d0705c0bb2480a147d4d38e82f3326210",
+      "packedParity": true,
+      "coldMedian": 58.9155,
+      "warmMedian": 10.362,
+      "firstContactCold": 9.4959,
+      "firstContactWarm": 2.6707,
+      "samples": [
+        {
+          "mode": "cold",
+          "wall": 60.486,
+          "tessellation": 44.3428,
+          "pack": 16.0792,
+          "vertices": 9636
+        },
+        {
+          "mode": "warm",
+          "wall": 11.364,
+          "tessellation": 9.1344,
+          "pack": 2.1441,
+          "vertices": 9636
+        },
+        {
+          "mode": "cold",
+          "wall": 59.1218,
+          "tessellation": 44.4485,
+          "pack": 14.6408,
+          "vertices": 9636
+        },
+        {
+          "mode": "warm",
+          "wall": 10.362,
+          "tessellation": 8.2503,
+          "pack": 2.0784,
+          "vertices": 9636
+        },
+        {
+          "mode": "cold",
+          "wall": 58.9155,
+          "tessellation": 44.1993,
+          "pack": 14.684,
+          "vertices": 9636
+        },
+        {
+          "mode": "warm",
+          "wall": 10.0899,
+          "tessellation": 8.0286,
+          "pack": 2.0226,
+          "vertices": 9636
+        },
+        {
+          "mode": "cold",
+          "wall": 58.4798,
+          "tessellation": 43.757,
+          "pack": 14.6871,
+          "vertices": 9636
+        },
+        {
+          "mode": "warm",
+          "wall": 11.0493,
+          "tessellation": 8.3776,
+          "pack": 2.6388,
+          "vertices": 9636
+        },
+        {
+          "mode": "cold",
+          "wall": 58.5246,
+          "tessellation": 43.2702,
+          "pack": 15.2165,
+          "vertices": 9636
+        },
+        {
+          "mode": "warm",
+          "wall": 9.8806,
+          "tessellation": 7.8998,
+          "pack": 1.9453,
+          "vertices": 9636
+        },
+        {
+          "mode": "weather-warm",
+          "wall": 22.3444,
+          "tessellation": 15.0361,
+          "pack": 7.2784,
+          "vertices": 9636
+        },
+        {
+          "mode": "weather-cold",
+          "wall": 60.73,
+          "tessellation": 43.5173,
+          "pack": 17.1795,
+          "vertices": 9636
+        },
+        {
+          "mode": "added-contact-warm",
+          "wall": 44.4306,
+          "tessellation": 33.8673,
+          "pack": 10.5341,
+          "vertices": 10404
+        },
+        {
+          "mode": "added-contact-cold",
+          "wall": 58.1373,
+          "tessellation": 45.0726,
+          "pack": 13.0313,
+          "vertices": 10404
+        }
+      ],
+      "cohortCount": 9
+    },
+    "candidate": {
+      "completed": true,
+      "sha": "f5441158aff639b2a1ac5bdb6319b4f7eca2d8cb903072b4e89fa1e581ac5ce5",
+      "fixtureSha": "3417c03c16f14c1486d76757f13e663d0705c0bb2480a147d4d38e82f3326210",
+      "packedParity": true,
+      "coldMedian": 58.7917,
+      "warmMedian": 8.9879,
+      "firstContactCold": 8.1351,
+      "firstContactWarm": 2.1844,
+      "samples": [
+        {
+          "mode": "cold",
+          "wall": 63.3974,
+          "tessellation": 49.2507,
+          "pack": 14.0979,
+          "vertices": 9636
+        },
+        {
+          "mode": "warm",
+          "wall": 8.9771,
+          "tessellation": 7.62,
+          "pack": 1.3078,
+          "vertices": 9636
+        },
+        {
+          "mode": "cold",
+          "wall": 58.7917,
+          "tessellation": 44.704,
+          "pack": 14.045,
+          "vertices": 9636
+        },
+        {
+          "mode": "warm",
+          "wall": 8.4938,
+          "tessellation": 7.2486,
+          "pack": 1.2074,
+          "vertices": 9636
+        },
+        {
+          "mode": "cold",
+          "wall": 59.3336,
+          "tessellation": 43.9255,
+          "pack": 15.3692,
+          "vertices": 9636
+        },
+        {
+          "mode": "warm",
+          "wall": 10.2584,
+          "tessellation": 8.3848,
+          "pack": 1.7894,
+          "vertices": 9636
+        },
+        {
+          "mode": "cold",
+          "wall": 57.8734,
+          "tessellation": 43.9451,
+          "pack": 13.8896,
+          "vertices": 9636
+        },
+        {
+          "mode": "warm",
+          "wall": 9.3754,
+          "tessellation": 7.6416,
+          "pack": 1.6934,
+          "vertices": 9636
+        },
+        {
+          "mode": "cold",
+          "wall": 55.2554,
+          "tessellation": 41.4572,
+          "pack": 13.7538,
+          "vertices": 9636
+        },
+        {
+          "mode": "warm",
+          "wall": 8.9879,
+          "tessellation": 7.286,
+          "pack": 1.6601,
+          "vertices": 9636
+        },
+        {
+          "mode": "weather-warm",
+          "wall": 21.6254,
+          "tessellation": 14.3526,
+          "pack": 7.2405,
+          "vertices": 9636
+        },
+        {
+          "mode": "weather-cold",
+          "wall": 57.6145,
+          "tessellation": 44.4754,
+          "pack": 13.0999,
+          "vertices": 9636
+        },
+        {
+          "mode": "added-contact-warm",
+          "wall": 44.3834,
+          "tessellation": 34.294,
+          "pack": 10.0534,
+          "vertices": 10404
+        },
+        {
+          "mode": "added-contact-cold",
+          "wall": 65.4998,
+          "tessellation": 51.852,
+          "pack": 13.544,
+          "vertices": 10404
+        }
+      ],
+      "cohortCount": 9
+    },
+    "sameFixture": true
+  },
+  "correctness": {
+    "buildJob": "91191fa98d7d4c729b181ac16a761f50",
+    "buildExitCode": 0,
+    "offlinePassed": true,
+    "legacyNumericPackedParity": {
+      "bytes": 902592,
+      "vertices": 18804,
+      "triangles": 6268,
+      "owners": 4,
+      "bitwiseEqual": true
+    },
+    "pool": {
+      "simultaneousOwners": 512,
+      "completed": true,
+      "clearedIdentities": true,
+      "exclusiveLeases": true,
+      "retainedBytes": 557056,
+      "rounds": 4,
+      "reusedBuffers": 1536,
+      "newBuffers": 512
+    },
+    "chunkAdmission": {
+      "residentFrames": 257,
+      "rejectsStaleRevision": true,
+      "completed": true,
+      "retainsEarlierFrames": true,
+      "scope": "actual installFrame with minimal complete fields; statics restored"
+    },
+    "pureGeometryAssertions": 11315168,
+    "independentHeightProbes": 714574,
+    "maximumProductionHeightErrorMillimeters": 6.188510102305145,
+    "heightLimitMillimeters": 6.25,
+    "finalReplayJob": "5982268b109344c99b79d93dbec6be2b",
+    "finalReplayExitCode": 0,
+    "baselineReplaySubtaskPassed": true,
+    "baselineReplayCombinedJob": "91744c933d8d4d63a88c355dce452cd0",
+    "baselineReplayCombinedExitCode": 1,
+    "combinedJobFailure": "Second nested GradleBuild on same included path rejected; candidate replay rerun alone and passed."
+  },
+  "limitations": [
+    "Dense >512 real-world ledger acceptance unexercised: max 275 baseline, 282 intermediate, 250 candidate. Collision oracle error zero; thresholds unchanged.",
+    "Final game contact budget p95 <=25 ms / max <=100 ms not met.",
+    "Strong weather comparisons blocked by admission patrol checks on both candidate runs.",
+    "Frame intervals include SDK pacing. Heap sampled JVM heap, not total process RAM. Allocation sampling is not an exact byte counter.",
+    "No reduction of whole-client peak heap or overall gameplay frame time proven.",
+    "F nearly full; test copies on C. Only this session incomplete copy removed and intermediate artifact archived with SHA verification. Original saves and baseline preserved."
+  ],
+  "nextWork": [
+    "Reduce cold pressure-field and support/normal/shading queries: top JFR methods SnowFieldEnvelope.Cache.sample, SnowSurfaceShading.sameSupport, ReliefCache.get.",
+    "Make wind-route admission reproducible without lowering corridor/performance requirements.",
+    "Repeat controlled game scenario after computational changes and verify dense ledger separately."
+  ]
+}

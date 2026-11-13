@@ -4,13 +4,11 @@ package com.dark.winter.registry;
 import com.dark.winter.equipment.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 
 public final class ModItems {
@@ -24,7 +22,7 @@ public final class ModItems {
     public static final Item KNIT_CAP = gear("knit_cap", GearSlot.HAT, 130, 35, 5);
     public static final Item FUR_HAT = gear("fur_hat", GearSlot.HAT, 350, 70, 25);
     public static final Item JACKET = gear("jacket", GearSlot.JACKET, 950, 30, 30);
-    public static final Item WINTER_PARKA = gear("winter_parka", GearSlot.JACKET, 1900, 85, 65);
+    public static final Item WINTER_PARKA = gear("winter_parka", GearSlot.JACKET, 2200, 85, 65);
     public static final Item HIKING_BACKPACK = gear("hiking_backpack", GearSlot.BACKPACK, 1600, 0, 55);
     public static final Item WORK_BOOTS = gear("work_boots", GearSlot.FOOTWEAR, 1400, 25, 45);
     public static final Item WINTER_BOOTS = gear("winter_boots", GearSlot.FOOTWEAR, 2100, 75, 70);
@@ -102,7 +100,6 @@ public final class ModItems {
     public static Map<String, Item> all() { return java.util.Collections.unmodifiableMap(ITEMS); }
 
     public static void initialize() {
-        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES)
-                .register(output -> ITEMS.values().forEach(output::accept));
+        // Force equipment registration before the DarkWinter creative categories are built.
     }
 }

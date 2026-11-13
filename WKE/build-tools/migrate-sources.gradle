@@ -1,0 +1,45 @@
+// One-time, explicit, non-destructive source relocation. Never loaded by normal builds.
+import groovy.json.JsonOutput
+import java.nio.file.Files
+import java.security.MessageDigest
+
+tasks.register('wkeMigrateSources') {
+    group='wke'
+    description='Relocate existing native sources into WKE after checking canonical paths and content hashes.'
+    notCompatibleWithConfigurationCache('Explicit one-time source relocation.')
+    doLast {
+        def root=projectDir.canonicalFile.toPath()
+        def pairs=[['native/darkwinter-core','WKE/core'],['experiments/voxel-faces/native','WKE/kernels/voxel-faces']]
+        def digest={ File f -> MessageDigest.getInstance('SHA-256').digest(Files.readAllBytes(f.toPath())).encodeHex().toString() }
+        def checked=[]
+        pairs.each { pair ->
+            def source=file(pair[0]).canonicalFile
+            def target=file(pair[1]).canonicalFile
+            if(!source.toPath().startsWith(root)||!target.toPath().startsWith(root)||source.toPath()==root||target.toPath()==root)
+                throw new GradleException('Migration path escaped the project.')
+            if(!source.isDirectory()||target.exists())throw new GradleException('Expected an existing source and absent target: '+pair)
+            def hashes=[:]
+            Files.walk(source.toPath()).withCloseable { paths ->
+                paths.forEach { path ->
+                    if(Files.isSymbolicLink(path))throw new GradleException('Symbolic links are not accepted by this migration: '+path)
+                    if(Files.isRegularFile(path))hashes[source.toPath().relativize(path).toString().replace('\\','/')]=digest(path.toFile())
+                }
+            }
+            if(hashes.isEmpty())throw new GradleException('Empty source: '+source)
+            checked.add([source:source,target:target,sourceRelative:pair[0],targetRelative:pair[1],hashes:hashes])
+        }
+        def plan=[schema:1,engine:'WinterKore Engine',moves:checked.collect{[source:it.sourceRelative,target:it.targetRelative,sha256:it.hashes]}]
+        def planFile=file('WKE/source-migration-plan.json')
+        if(planFile.exists())throw new GradleException('Existing migration plan requires inspection before another attempt.')
+        planFile.text=JsonOutput.prettyPrint(JsonOutput.toJson(plan))+'\n'
+        checked.each { item ->
+            Files.createDirectories(item.target.parentFile.toPath())
+            Files.move(item.source.toPath(),item.target.toPath())
+            item.hashes.each { relative,expected ->
+                if(digest(new File(item.target,relative))!=expected)throw new GradleException('Moved file hash mismatch: '+relative)
+            }
+            logger.lifecycle('WKE_MOVED '+item.sourceRelative+' -> '+item.targetRelative+' ('+item.hashes.size()+' files)')
+        }
+        file('WKE/source-migration.json').text=JsonOutput.prettyPrint(JsonOutput.toJson(plan+[completed:true]))+'\n'
+    }
+}

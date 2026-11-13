@@ -3,6 +3,9 @@ package com.dark.winter.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -16,7 +19,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import org.jspecify.annotations.Nullable;
 
 /** Two authored, permanent visual variants, enabled only by explicit catalogue metadata. */
-public final class SnowVariantFurnitureBlock extends FurnitureBlock {
+public class SnowVariantFurnitureBlock extends FurnitureBlock {
     public static final BooleanProperty SNOWY = BooleanProperty.create("snowy");
 
     public SnowVariantFurnitureBlock(FurnitureCatalog.Entry definition, Properties properties) {
@@ -39,6 +42,17 @@ public final class SnowVariantFurnitureBlock extends FurnitureBlock {
     @Override
     protected BlockState copyVisualState(BlockState source, BlockState target) {
         return target.setValue(SNOWY, source.getValue(SNOWY));
+    }
+
+    @Override
+    protected void afterAssemblyRemoval(Level level, BlockPos origin, BlockState formerRoot) {
+        if (!(level instanceof ServerLevel server) || formerRoot.getValue(PART) != 0
+                || !SnowyPlantFloorRestore.floorPart(formerRoot)) return;
+        var facing=formerRoot.getValue(FACING);
+        for(int part=0;part<definition().parts().size();part++){
+            BlockPos offset=partOffset(part,facing);
+            if(offset.getY()==0)SnowyPlantFloorRestore.enqueue(server,origin.offset(offset));
+        }
     }
 
     @Override

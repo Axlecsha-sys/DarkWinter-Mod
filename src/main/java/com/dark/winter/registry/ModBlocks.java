@@ -4,14 +4,12 @@ package com.dark.winter.registry;
 import com.dark.winter.block.WallSegmentBlock;
 import com.dark.winter.block.FloorSegmentBlock;
 import com.dark.winter.block.FrozenWindowBlock;
-import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -39,6 +37,7 @@ public final class ModBlocks {
     public static final Block WEATHERED_WALL_SEGMENT_DARK = registerWeatheredWall("weathered_wall_segment_dark");
     public static final Block WEATHERED_WALL_SEGMENT_PATCHWORK = registerWeatheredWall("weathered_wall_segment_patchwork");
     public static final Block WEATHERED_WALL_SEGMENT_PAINTED = registerWeatheredWall("weathered_wall_segment_painted");
+    public static final Block CABIN_WALL_SEGMENT = registerWeatheredWall("cabin_wall_segment");
 
     public static final Block FLOOR_SEGMENT = registerFloor("floor_segment");
     public static final Block WEATHERED_FLOOR_SEGMENT_GRAY = registerFloor("weathered_floor_segment_gray");
@@ -88,6 +87,7 @@ public final class ModBlocks {
     }
 
     public static String wallMaterialKey(net.minecraft.world.item.ItemStack stack) {
+        if (stack.is(CABIN_WALL_SEGMENT.asItem())) return "wall.material.darkwinter.cabin";
         if (stack.is(WEATHERED_WALL_SEGMENT_GRAY.asItem()) || stack.is(WEATHERED_FLOOR_SEGMENT_GRAY.asItem()) || stack.is(FROZEN_WINDOW_GRAY.asItem())) return "wall.material.darkwinter.gray";
         if (stack.is(WEATHERED_WALL_SEGMENT_DARK.asItem()) || stack.is(WEATHERED_FLOOR_SEGMENT_DARK.asItem()) || stack.is(FROZEN_WINDOW_DARK.asItem())) return "wall.material.darkwinter.dark";
         if (stack.is(WEATHERED_WALL_SEGMENT_PATCHWORK.asItem()) || stack.is(WEATHERED_FLOOR_SEGMENT_PATCHWORK.asItem())) return "wall.material.darkwinter.patchwork";
@@ -122,21 +122,7 @@ public final class ModBlocks {
     }
 
     public static void initialize() {
-        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS).register(output -> {
-            output.accept(WALL_SEGMENT.asItem());
-            output.accept(WEATHERED_WALL_SEGMENT_GRAY.asItem());
-            output.accept(WEATHERED_WALL_SEGMENT_DARK.asItem());
-            output.accept(WEATHERED_WALL_SEGMENT_PATCHWORK.asItem());
-            output.accept(WEATHERED_WALL_SEGMENT_PAINTED.asItem());
-            output.accept(FLOOR_SEGMENT.asItem());
-            output.accept(WEATHERED_FLOOR_SEGMENT_GRAY.asItem());
-            output.accept(WEATHERED_FLOOR_SEGMENT_DARK.asItem());
-            output.accept(WEATHERED_FLOOR_SEGMENT_PATCHWORK.asItem());
-            output.accept(WEATHERED_FLOOR_SEGMENT_PAINTED.asItem());
-            output.accept(FROZEN_WINDOW.asItem());
-            output.accept(FROZEN_WINDOW_GRAY.asItem());
-            output.accept(FROZEN_WINDOW_DARK.asItem());
-        });
+        // Force structural block registration before the DarkWinter creative categories are built.
     }
 
     private ModBlocks() {}

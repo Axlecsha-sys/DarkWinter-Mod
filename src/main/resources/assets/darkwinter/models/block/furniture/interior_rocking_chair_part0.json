@@ -1,0 +1,269 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "cabin_linen": "darkwinter:block/construction/cabin_linen",
+    "interior_rocker_plaid": "darkwinter:block/interior/interior_rocker_plaid",
+    "interior_honey_timber": "darkwinter:block/interior/interior_honey_timber",
+    "interior_dark_timber": "darkwinter:block/interior/interior_dark_timber",
+    "particle": "darkwinter:block/interior/interior_dark_timber"
+  },
+  "elements": [
+    {
+      "from": [
+        2.5,
+        0,
+        0.56
+      ],
+      "to": [
+        3.94,
+        1.58,
+        15.44
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_dark_timber"
+        },
+        "up": {
+          "texture": "#interior_dark_timber"
+        },
+        "north": {
+          "texture": "#interior_dark_timber"
+        },
+        "south": {
+          "texture": "#interior_dark_timber"
+        },
+        "west": {
+          "texture": "#interior_dark_timber"
+        },
+        "east": {
+          "texture": "#interior_dark_timber"
+        }
+      }
+    },
+    {
+      "from": [
+        2.57,
+        1.25,
+        2.8
+      ],
+      "to": [
+        3.87,
+        7.6,
+        5.04
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_dark_timber"
+        },
+        "up": {
+          "texture": "#interior_dark_timber"
+        },
+        "north": {
+          "texture": "#interior_dark_timber"
+        },
+        "south": {
+          "texture": "#interior_dark_timber"
+        },
+        "west": {
+          "texture": "#interior_dark_timber"
+        },
+        "east": {
+          "texture": "#interior_dark_timber"
+        }
+      }
+    },
+    {
+      "from": [
+        2.57,
+        1.28,
+        10.78
+      ],
+      "to": [
+        3.87,
+        7.6,
+        13.41
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_dark_timber"
+        },
+        "up": {
+          "texture": "#interior_dark_timber"
+        },
+        "north": {
+          "texture": "#interior_dark_timber"
+        },
+        "south": {
+          "texture": "#interior_dark_timber"
+        },
+        "west": {
+          "texture": "#interior_dark_timber"
+        },
+        "east": {
+          "texture": "#interior_dark_timber"
+        }
+      }
+    },
+    {
+      "from": [
+        12.06,
+        0,
+        0.56
+      ],
+      "to": [
+        13.5,
+        1.58,
+        15.44
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_dark_timber"
+        },
+        "up": {
+          "texture": "#interior_dark_timber"
+        },
+        "north": {
+          "texture": "#interior_dark_timber"
+        },
+        "south": {
+          "texture": "#interior_dark_timber"
+        },
+        "west": {
+          "texture": "#interior_dark_timber"
+        },
+        "east": {
+          "texture": "#interior_dark_timber"
+        }
+      }
+    },
+    {
+      "from": [
+        12.13,
+        1.25,
+        2.8
+      ],
+      "to": [
+        13.43,
+        7.6,
+        5.04
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_dark_timber"
+        },
+        "up": {
+          "texture": "#interior_dark_timber"
+        },
+        "north": {
+          "texture": "#interior_dark_timber"
+        },
+        "south": {
+          "texture": "#interior_dark_timber"
+        },
+        "west": {
+          "texture": "#interior_dark_timber"
+        },
+        "east": {
+          "texture": "#interior_dark_timber"
+        }
+      }
+    },
+    {
+      "from": [
+        12.13,
+        1.28,
+        10.78
+      ],
+      "to": [
+        13.43,
+        7.6,
+        13.41
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_dark_timber"
+        },
+        "up": {
+          "texture": "#interior_dark_timber"
+        },
+        "north": {
+          "texture": "#interior_dark_timber"
+        },
+        "south": {
+          "texture": "#interior_dark_timber"
+        },
+        "west": {
+          "texture": "#interior_dark_timber"
+        },
+        "east": {
+          "texture": "#interior_dark_timber"
+        }
+      }
+    },
+    {
+      "from": [
+        2.3,
+        7.5,
+        3.47
+      ],
+      "to": [
+        13.7,
+        9.96,
+        12.67
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_dark_timber"
+        },
+        "up": {
+          "texture": "#interior_dark_timber"
+        },
+        "north": {
+          "texture": "#interior_dark_timber"
+        },
+        "south": {
+          "texture": "#interior_dark_timber"
+        },
+        "west": {
+          "texture": "#interior_dark_timber"
+        },
+        "east": {
+          "texture": "#interior_dark_timber"
+        }
+      }
+    },
+    {
+      "from": [
+        2.18,
+        9.96,
+        11.95
+      ],
+      "to": [
+        13.82,
+        16,
+        15.08
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_dark_timber"
+        },
+        "up": {
+          "texture": "#interior_dark_timber"
+        },
+        "north": {
+          "texture": "#interior_dark_timber"
+        },
+        "south": {
+          "texture": "#interior_dark_timber"
+        },
+        "west": {
+          "texture": "#interior_dark_timber"
+        },
+        "east": {
+          "texture": "#interior_dark_timber"
+        }
+      }
+    }
+  ]
+}

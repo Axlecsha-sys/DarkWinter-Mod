@@ -1,0 +1,8 @@
+{
+  "feature": "darkwinter:test_forest_snow_cover",
+  "placement": [
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

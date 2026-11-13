@@ -1,0 +1,6 @@
+{
+  "feature": "darkwinter:test_ground_plants",
+  "placement": [
+    { "type": "minecraft:biome" }
+  ]
+}

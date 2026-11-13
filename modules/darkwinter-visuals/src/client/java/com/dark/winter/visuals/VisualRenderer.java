@@ -3,12 +3,10 @@ package com.dark.winter.visuals;
 
 import com.mojang.blaze3d.ProjectionType;
 import com.dark.winter.client.weather.WeatherClient;
-import com.mojang.blaze3d.framegraph.FrameGraphBuilder;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.resource.GraphicsResourceAllocator;
-import com.mojang.blaze3d.resource.ResourceHandle;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.renderpearl.api.GpuFormat;
 import com.mojang.renderpearl.api.buffers.GpuBufferSlice;
@@ -20,7 +18,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.ProjectionMatrixBuffer;
 import net.minecraft.client.renderer.ShaderManager;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayerGroup;
@@ -36,9 +33,14 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.LinkedHashMap;
+import com.winterkore.engine.graphics.effects.WkeShadowGrid;
+import com.winterkore.engine.graphics.lighting.WkeSnowLighting;
+import com.winterkore.engine.surface.client.SnowSurfaceClient;
+import com.winterkore.engine.render.effects.WkePostGraphExecutor;
+import com.winterkore.engine.render.effects.WkeParticleReactiveMask;
 import java.util.Optional;
 import java.util.OptionalDouble;
-import java.util.Set;
 
 /** Owns the native shadow target and the single postprocessing chain. Client/render thread only. */
 public final class VisualRenderer implements AutoCloseable {
@@ -47,12 +49,13 @@ public final class VisualRenderer implements AutoCloseable {
     static {
         ClientPlayConnectionEvents.DISCONNECT.register((listener, client) -> {
             VisualRenderer renderer = activeRenderer.get();
+            Object disconnectedWorld = renderer == null ? null : renderer.world;
             if (renderer != null) client.execute(() -> {
-                // LevelRenderer survives a world disconnect; no further world render need occur.
-                // Minecraft's executor owns the render thread and all TextureTarget operations.
-                renderer.filmHistory.close();
-                renderer.frame.filmHistoryValid = false;
-                renderer.frameReady = false;
+                // A queued old disconnect must not close resources of a newly opened world.
+                if (renderer.world == disconnectedWorld) {
+                    ((SceneAccess) client.levelRenderer).darkwinter$releaseVisualResources(renderer);
+                    renderer.close();
+                }
             });
         });
     }
@@ -60,8 +63,15 @@ public final class VisualRenderer implements AutoCloseable {
     private static final Identifier SHADOW = Identifier.fromNamespaceAndPath("darkwinter_visuals", "shadow");
     private final VisualConfig config = VisualConfig.shared();
     private final SceneFrame frame = new SceneFrame();
-    private final ShadowGrid grid = new ShadowGrid();
+    private WkeSnowLighting.Sunlight snowLight = WkeSnowLighting.overcast();
+    private final WkeShadowGrid grid = new WkeShadowGrid();
+    private final WkePostGraphExecutor effectGraph = new WkePostGraphExecutor();
+    private final TemporalResolveHistory temporalHistory = new TemporalResolveHistory();
+    private final WkeParticleReactiveMask reactiveMask = new WkeParticleReactiveMask();
     private final FilmHistory filmHistory = new FilmHistory();
+    private static final boolean FUSED_COMPOSITE = Boolean.parseBoolean(System.getProperty("darkwinter.visuals.fusedComposite", "true"));
+    private final ShadowDepthTerrain shadowDepth = new ShadowDepthTerrain();
+    private final ShadowCaptureCache shadowCache = new ShadowCaptureCache();
     private final long startNanos = System.nanoTime();
     private TextureTarget shadowTarget;
     private ProjectionMatrixBuffer shadowProjection;
@@ -78,11 +88,50 @@ public final class VisualRenderer implements AutoCloseable {
 
     public static boolean needsStableDepth() { return stableDepthRequested; }
 
+    /** Snapshot diagnostics only outside a performance capture, on the render owner. */
+    public static Map<String,Object> shadowCacheStatistics() {
+        VisualRenderer renderer=activeRenderer.get();
+        return renderer==null?Map.of("available",false):renderer.shadowCache.statistics();
+    }
+
+    /** Implemented effects and observed submissions; this does not claim completed GPU execution. */
+    public static Map<String,Object> effectsStatus() {
+        VisualRenderer renderer=activeRenderer.get();
+        if(renderer==null) return Map.of("available",false);
+        Map<String,Object> status=new LinkedHashMap<>(renderer.effectGraph.statistics());
+        status.put("available",renderer.frameReady&&!renderer.resolveFailed);
+        status.put("shadowMapValid",renderer.frame.shadowValid&&!renderer.shadowFailed);
+        status.put("quality",renderer.config.quality.name());
+        status.put("sceneBytes",SceneFrame.BYTES);
+        status.put("antialiasRequested",renderer.config.antialiasEnabled);
+        status.put("filmRequested",renderer.config.filmEnabled);
+        status.put("temporalAntialias",TemporalResolveHistory.statistics());
+        status.put("particleReactiveMask",renderer.reactiveMask.statistics());
+        return Map.copyOf(status);
+    }
+
+    /** Actual images bound during the last resolved graph; retained across the history swap for diagnostics. */
+    public static RenderTarget reactiveMaskTarget() {
+        VisualRenderer renderer=activeRenderer.get();
+        return renderer==null?null:renderer.reactiveMask.target();
+    }
+    public static RenderTarget reactiveMaskHistoryTarget() {
+        VisualRenderer renderer=activeRenderer.get();
+        return renderer==null?null:renderer.reactiveMask.historyTarget();
+    }
+
     /** The same captured scene drives early sky, terrain backgrounds and the final post chain. */
     public static SceneFrame currentFrame() {
         VisualRenderer renderer=activeRenderer.get();
         return renderer!=null && renderer.frameReady && !renderer.resolveFailed
                 && renderer.world==Minecraft.getInstance().level?renderer.frame:null;
+    }
+
+    /** Actual extracted solar input for snow material lighting; independent of the post-pass lifetime. */
+    public static WkeSnowLighting.Sunlight snowLighting() {
+        VisualRenderer renderer=activeRenderer.get();
+        return renderer!=null && renderer.frameReady && renderer.world==Minecraft.getInstance().level
+                ? renderer.snowLight : WkeSnowLighting.overcast();
     }
 
     public static boolean ordinaryAtmosphere(ClientLevel level,
@@ -96,16 +145,18 @@ public final class VisualRenderer implements AutoCloseable {
     /** Vanilla distance fog must remain available if our world atmosphere is disabled or fails. */
     public static boolean controlsAtmosphere(ClientLevel level) {
         VisualRenderer renderer = activeRenderer.get();
-        return com.dark.winter.client.TestingAccess.enabled("atmosphere") && renderer != null && renderer.world == level && renderer.frameReady && !renderer.resolveFailed
-                && com.dark.winter.client.TestingAccess.pipeline(renderer.config.enabled) && com.dark.winter.client.TestingAccess.resolve("atmosphere",renderer.config.winterHaze) && renderer.config.debug == 0
-                && WeatherClient.active();
+        if(renderer==null||renderer.world!=level||!renderer.frameReady||renderer.resolveFailed)return false;
+        var lab=renderer.frame.lab;
+        return module(lab,"atmosphere",true)&&pipeline(lab,renderer.config.enabled)
+                &&module(lab,"atmosphere",renderer.config.winterHaze)&&renderer.config.debug==0&&WeatherClient.active(lab);
     }
 
     /** Runs BEFORE vanilla prepares its main-view chunk draw list. No deferred terrain draw handles. */
     public void renderShadow(SceneAccess scene, GameRenderer game, LevelRenderState state,
                              GpuBufferSlice terrainFog) {
         config.poll();
-        stableDepthRequested = com.dark.winter.client.TestingAccess.pipeline(config.enabled);
+        frame.lab=com.dark.winter.client.TestingAccess.presentation();
+        stableDepthRequested = pipeline(frame.lab,config.enabled);
         frameReady = false;
         frame.shadowValid = false;
         Object activeWorld = Minecraft.getInstance().level;
@@ -119,16 +170,25 @@ public final class VisualRenderer implements AutoCloseable {
             resourceEpoch = SceneFrame.resourceEpoch; configRevision = config.revision;
             shadowFailed = resolveFailed = false; grid.reset(); frozenAngle = Double.NaN;
             filmHistory.invalidate();
+            temporalHistory.invalidate();
+            reactiveMask.invalidate();
+            shadowCache.clearConfig();
         }
-        if (!com.dark.winter.client.TestingAccess.pipeline(config.enabled) || resolveFailed || activeWorld == null || !state.cameraRenderState.initialized) {
+        if (!pipeline(frame.lab,config.enabled) || resolveFailed || activeWorld == null || !state.cameraRenderState.initialized) {
+            shadowCache.clearOff();
             filmHistory.invalidate();
+            temporalHistory.invalidate();
+            reactiveMask.invalidate();
             return;
         }
         var camera = state.cameraRenderState;
         boolean surfaceWorld = state.skyRenderState.skybox != Skybox.NONE && state.skyRenderState.skybox != Skybox.END;
         if ((config.overworldOnly && !surfaceWorld) || camera.isPanoramicMode
                 || camera.fogType == FogType.LAVA || camera.fogType == FogType.POWDER_SNOW) {
+            shadowCache.clearOff();
             filmHistory.invalidate();
+            temporalHistory.invalidate();
+            reactiveMask.invalidate();
             return;
         }
 
@@ -137,7 +197,7 @@ public final class VisualRenderer implements AutoCloseable {
             frame.config = config;
             var client=Minecraft.getInstance();
             frame.weather = WeatherInput.snapshot(state.skyRenderState.rainBrightness,
-                    client.getDeltaTracker().getGameTimeDeltaPartialTick(false));
+                    client.getDeltaTracker().getGameTimeDeltaPartialTick(false),frame.lab);
             double angle = state.skyRenderState.sunAngle; // Already radians, from SkyRenderer render state.
             if (config.freezeSun) {
                 if (!Double.isFinite(frozenAngle)) frozenAngle = angle;
@@ -145,7 +205,7 @@ public final class VisualRenderer implements AutoCloseable {
             } else frozenAngle = Double.NaN;
             // The same extracted solar position drives the visible sun AND the shadow map.
             SolarEphemeris.Position geographic = config.geographicSun
-                    ? SolarRuntime.current(Minecraft.getInstance().level) : null;
+                    ? SolarRuntime.current(Minecraft.getInstance().level,frame.lab) : null;
             if (geographic != null) {
                 frame.sun.set((float)geographic.x(), (float)geographic.y(), (float)geographic.z()).normalize();
             } else {
@@ -158,12 +218,13 @@ public final class VisualRenderer implements AutoCloseable {
                     ? smoothstep(0.35f, 5.0f, (float)geographic.elevationDegrees())
                     : smoothstep(.04f, .22f, frame.sun.y);
             frame.intensity = surfaceWorld ? elevation * directSun * frame.weather.sunVisibility()
-                    * (WeatherClient.active()?1f:1-.70f*frame.weather.cloudCover()) : 0;
+                    * (WeatherClient.active(frame.lab)?1f:1-.70f*frame.weather.cloudCover()) : 0;
             frame.inFluid = camera.fogType != FogType.NONE;
             frame.atmosphereAllowed=ordinaryAtmosphere(client.level,camera);
-            frame.weatherSky=frame.atmosphereAllowed && com.dark.winter.client.TestingAccess.enabled("weather");
+            frame.weatherSky=frame.atmosphereAllowed && module(frame.lab,"weather",true);
             frame.backgroundAvailable=com.dark.winter.visuals.vanillafog.VanillaFogRenderer.current()!=null;
             if (frame.inFluid) frame.intensity = 0;
+            snowLight=WkeSnowLighting.sunlight(frame.sun.x,frame.sun.y,frame.sun.z,frame.intensity);
             frame.inverseViewProjection.set(((ProjectionAccess)(Object)game).darkwinter$renderProjection())
                     .mul(camera.viewRotationMatrix).invert();
             frame.cameraHeight = (float)camera.pos.y;
@@ -177,17 +238,36 @@ public final class VisualRenderer implements AutoCloseable {
             var nativeBackground=com.dark.winter.visuals.vanillafog.VanillaFogRenderer.current();
             if(frame.weatherSky && nativeBackground!=null && !nativeBackground.weatherSky().prepare(frame))
                 frame.weatherSky=false;
-            if (shadowFailed || !com.dark.winter.client.TestingAccess.resolve("visuals",config.shadows) || frame.intensity <= .001f) return;
+            if (shadowFailed || !module(frame.lab,"visuals",config.shadows) || frame.intensity <= .001f) {
+                shadowCache.clearOff();
+                return;
+            }
 
             float radius = config.quality.radius;
             // Preserve the proven stable original grid in vanilla fallback mode.
-            ShadowGrid.Capture capture = geographic == null
+            WkeShadowGrid.Capture capture = geographic == null
                     ? grid.capture(camera.pos.x,camera.pos.y,camera.pos.z,angle,radius,config.quality.resolution)
                     : grid.captureSun(camera.pos.x,camera.pos.y,camera.pos.z,
                             frame.sun.x,frame.sun.y,frame.sun.z,radius,config.quality.resolution);
             Matrix4f lightView = new Matrix4f().set(capture.view());
             Matrix4f lightProjection = new Matrix4f().ortho(-radius,radius,-radius,radius,6*radius,.1f,true);
             Matrix4f lightClip = new Matrix4f(lightProjection).mul(lightView);
+            var atlas = client.getTextureManager().getTexture(TextureAtlas.LOCATION_BLOCKS).getTextureView();
+            var filtering = game.gameRenderState().optionsRenderState.textureFiltering;
+            boolean reuseBackend = ShadowCaptureCache.requested()
+                    && "Vulkan".equalsIgnoreCase(RenderSystem.getDevice().getDeviceInfo().backendName());
+            long captureNanos=System.nanoTime();
+            long terrainEpoch=ShadowCaptureCache.terrainEpoch(),animationEpoch=ShadowCaptureCache.animationEpoch();
+            if (shadowCache.reuse(reuseBackend,world,resourceEpoch,configRevision,shadowTarget,atlas,filtering,
+                    shadowDepth.cacheMode(),currentResolution,config.quality.ordinal(),radius,frame.clipRange,
+                    camera.pos.x,camera.pos.y,camera.pos.z,lightClip,terrainEpoch,animationEpoch,captureNanos)) {
+                if (terrainEpoch==ShadowCaptureCache.terrainEpoch() && animationEpoch==ShadowCaptureCache.animationEpoch()) {
+                    shadowCache.copyMatrix(frame.shadowFromRelative);
+                    frame.shadowValid=true;
+                    return;
+                }
+                shadowCache.rejectRacedReuse();
+            }
             // Use light model-view DIRECTLY. No inverse(cameraRotation) cancellation in projection.
             ChunkSectionsToRender terrain = scene.darkwinter$prepareShadowTerrain(lightView, lightClip);
             RenderSystem.resizeAllAutoStorageIndexBuffers();
@@ -203,14 +283,22 @@ public final class VisualRenderer implements AutoCloseable {
                 RenderSystem.setProjectionMatrix(shadowProjection.getBuffer(lightProjection), ProjectionType.ORTHOGRAPHIC);
                 RenderSystem.setShaderFog(terrainFog);
                 game.lighting().setupFor(Lighting.Entry.LEVEL);
-                var atlas = Minecraft.getInstance().getTextureManager()
-                        .getTexture(TextureAtlas.LOCATION_BLOCKS).getTextureView();
+                // Resolve both candidate programs before any depth draw; native shading is the fallback.
+                boolean depthOnlyShadow = shadowDepth.prepare(terrain);
+                // Upload and prepare immutable snow caster handles before entering an active GPU render pass.
+                SnowSurfaceClient.prepareShadowCasters(lightView,lightClip,camera.pos.x,camera.pos.y,camera.pos.z);
                 try (RenderPass pass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(
                         () -> "DarkWinter Visuals / shadow capture",
                         shadowTarget.getColorTextureView(), Optional.of(new Vector4f(0)),
                         shadowTarget.getDepthTextureView(), OptionalDouble.of(0.0))) {
                     RenderSystem.bindDefaultUniforms(pass);
-                    terrain.renderGroup(ChunkSectionLayerGroup.OPAQUE,pass,terrainSampler,atlas,false);
+                    if (depthOnlyShadow) {
+                        shadowDepth.renderPrepared(terrain,pass,terrainSampler,atlas,game.lightmap());
+                    } else {
+                        terrain.renderGroup(ChunkSectionLayerGroup.OPAQUE,pass,terrainSampler,atlas,false);
+                    }
+                    // Terrain caps claimed by snow have been omitted from chunk meshes. Cast their exact published replacements.
+                    SnowSurfaceClient.drawShadow(pass,lightView,lightClip,camera.pos.x,camera.pos.y,camera.pos.z);
                 }
             } finally {
                 com.dark.winter.visuals.vanillafog.VanillaFogRenderer.restore(cameraBackground);
@@ -221,7 +309,12 @@ public final class VisualRenderer implements AutoCloseable {
             // Publish map + the EXACT matrix that produced it together, in this frame.
             frame.shadowFromRelative.set(lightClip);
             frame.shadowValid = true;
+            shadowCache.captured(reuseBackend,world,resourceEpoch,configRevision,shadowTarget,atlas,filtering,
+                    shadowDepth.cacheMode(),currentResolution,config.quality.ordinal(),radius,frame.clipRange,
+                    camera.pos.x,camera.pos.y,camera.pos.z,lightClip,terrainEpoch,animationEpoch,
+                    ShadowCaptureCache.terrainEpoch(),ShadowCaptureCache.animationEpoch(),captureNanos);
         } catch (RuntimeException error) {
+            shadowCache.clearError();
             shadowFailed = true; frame.shadowValid = false;
             VisualConfig.LOG.error("RC2 shadow capture disabled after an error. Film pass can still run. "
                     + "Reload resources to retry; do not hide this exception.",error);
@@ -233,7 +326,7 @@ public final class VisualRenderer implements AutoCloseable {
         double dt=lastWeatherNanos==0 || client.isPaused()?0:Math.min((now-lastWeatherNanos)*1e-9,.25);
         lastWeatherNanos=now;
         // Integrate velocity: changing weather never multiplies accumulated time by a new speed.
-        double speed=WeatherClient.active()?frame.weather.windSpeed():.12;
+        double speed=WeatherClient.active(frame.lab)?frame.weather.windSpeed():.12;
         double vx=frame.weather.windX()*speed, vz=frame.weather.windZ()*speed;
         cloudDriftX+=vx*18.0*dt;
         cloudDriftZ+=vz*18.0*dt;
@@ -248,6 +341,8 @@ public final class VisualRenderer implements AutoCloseable {
                         GraphicsResourceAllocator allocator) {
         if (!frameReady || resolveFailed || shadowTarget==null) {
             filmHistory.invalidate();
+            temporalHistory.invalidate();
+            reactiveMask.invalidate();
             return;
         }
         SceneFrame previous = SceneFrame.active;
@@ -256,37 +351,45 @@ public final class VisualRenderer implements AutoCloseable {
         GpuBufferSlice oldFog = RenderSystem.getShaderFog();
         GpuBufferSlice oldLights = RenderSystem.getShaderLights();
         try {
-            SceneFrame.active = frame;
-            Identifier chainId = Identifier.fromNamespaceAndPath("darkwinter_visuals",
-                    config.quality.name().toLowerCase(Locale.ROOT));
-            RenderTarget main = game.mainRenderTarget();
-            filmHistory.prepare(Minecraft.getInstance(), state, main, frame, config);
-            PostChain chain = shaders.getPostChain(chainId,Set.of(MAIN,SHADOW,
-                    FilmHistory.CURRENT_RAW, FilmHistory.PREVIOUS_FRAME, FilmHistory.HELD_FRAME,
-                    com.dark.winter.visuals.vanillafog.VanillaFogRenderer.SKY_BACKGROUND,
-                    com.dark.winter.visuals.vanillafog.VanillaFogRenderer.CLOUD_BACKGROUND));
-            if (chain==null) throw new IllegalStateException("Cannot load "+chainId+". See the first shader error above.");
-            FrameGraphBuilder graph = new FrameGraphBuilder();
-            Map<Identifier,ResourceHandle<RenderTarget>> targets = new HashMap<>();
-            targets.put(MAIN,graph.importExternal("DarkWinter world",main));
-            targets.put(SHADOW,graph.importExternal("DarkWinter shadow",shadowTarget));
-            filmHistory.importTargets(graph, targets);
             var background=com.dark.winter.visuals.vanillafog.VanillaFogRenderer.latest();
             boolean backgroundReady=background!=null && background.cloudTarget()!=null;
             frame.backgroundAvailable=backgroundReady;
+            boolean fusedComposite = FUSED_COMPOSITE && backgroundReady && config.debug == 0 && !frame.inFluid
+                    && "Vulkan".equalsIgnoreCase(RenderSystem.getDevice().getDeviceInfo().backendName());
+            RenderTarget main = game.mainRenderTarget();
+            filmHistory.prepare(Minecraft.getInstance(), state, main, frame, config);
+            var camera=state.cameraRenderState;
+            boolean reactiveReady=reactiveMask.prepare(main,frame.inverseViewProjection,
+                    camera.pos.x,camera.pos.y,camera.pos.z,SceneFrame.resourceEpoch,
+                    config.enabled && config.antialiasEnabled && config.debug==0);
+            // Missing producer coverage must never permit an unmarked temporal contribution.
+            if(!reactiveReady) temporalHistory.invalidate();
+            temporalHistory.prepare(Minecraft.getInstance(), state, main, frame, config);
+            if(!TemporalResolveHistory.temporalReady()) reactiveMask.clearHistory();
+            SceneFrame.active = frame;
+            Map<Identifier,RenderTarget> targets = new HashMap<>();
+            targets.put(MAIN,main);
+            targets.put(SHADOW,shadowTarget);
+            filmHistory.bindTargets(targets);
+            temporalHistory.bindTargets(targets);
+            reactiveMask.bindTargets(targets);
             targets.put(com.dark.winter.visuals.vanillafog.VanillaFogRenderer.SKY_BACKGROUND,
-                    graph.importExternal("DarkWinter native sky background",backgroundReady?background.skyTarget():main));
+                    backgroundReady?background.skyTarget():main);
             targets.put(com.dark.winter.visuals.vanillafog.VanillaFogRenderer.CLOUD_BACKGROUND,
-                    graph.importExternal("DarkWinter native cloud background",backgroundReady?background.cloudTarget():main));
-            PostChain.TargetBundle bundle = new PostChain.TargetBundle() {
-                @Override public void replace(Identifier id, ResourceHandle<RenderTarget> value) { targets.put(id,value); }
-                @Override public ResourceHandle<RenderTarget> get(Identifier id) { return targets.get(id); }
-            };
-            chain.addToFrame(graph,main.width,main.height,bundle);
-            graph.execute(allocator);
+                    backgroundReady?background.cloudTarget():main);
+            effectGraph.execute(shaders,main,targets,config.quality.name().toLowerCase(Locale.ROOT),
+                    fusedComposite,allocator,SceneFrame.resourceEpoch);
+            if(reactiveReady) {
+                temporalHistory.capture();
+                // This is true after the first successful warm-up capture as well.
+                if(TemporalResolveHistory.temporalReady()) reactiveMask.capture();
+            } else temporalHistory.invalidate();
             filmHistory.capture();
         } catch (RuntimeException error) {
             filmHistory.invalidate();
+            temporalHistory.invalidate();
+            reactiveMask.invalidate();
+            shadowCache.clearError();
             resolveFailed=true;
             VisualConfig.LOG.error("RC2 post chain disabled after an error; reload resources to retry.",error);
         } finally {
@@ -309,15 +412,33 @@ public final class VisualRenderer implements AutoCloseable {
                 shadowTarget.getColorTexture(),new Vector4f(0),shadowTarget.getDepthTexture(),0.0);
         currentResolution=n;
     }
+    private static boolean module(com.dark.winter.testing.TestingPresentation lab,String name,boolean ordinary) {
+        return lab==null?ordinary:lab.enabled(name);
+    }
+    private static boolean pipeline(com.dark.winter.testing.TestingPresentation lab,boolean ordinary) {
+        return lab==null?ordinary:lab.enabled("visuals")||lab.enabled("weather")||lab.enabled("atmosphere");
+    }
     private static float smoothstep(float a,float b,float x) {
         float t=Math.max(0,Math.min(1,(x-a)/(b-a))); return t*t*(3-2*t);
     }
     private void release() {
+        shadowCache.clearRelease();
         filmHistory.close();
+        temporalHistory.close();
+        reactiveMask.close();
+        effectGraph.invalidate();
         if (shadowTarget!=null) { shadowTarget.destroyBuffers(); shadowTarget=null; }
         if (shadowProjection!=null) { shadowProjection.close(); shadowProjection=null; }
         if (terrainSampler!=null) { terrainSampler.close(); terrainSampler=null; }
         currentResolution=0; frame.shadowValid=false; grid.reset(); frozenAngle=Double.NaN;
     }
-    @Override public void close() { release(); }
+    @Override public void close() {
+        release();
+        world = null;
+        frameReady = false;
+        frame.filmHistoryValid = false;
+        frame.weather = null;
+        frame.lab = null;
+        lastWeatherNanos = 0;
+    }
 }

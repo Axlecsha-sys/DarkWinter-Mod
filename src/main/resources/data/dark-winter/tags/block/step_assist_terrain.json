@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "minecraft:grass_block",
+    "darkwinter:test_snowy_grass_slab",
     "minecraft:dirt",
     "minecraft:coarse_dirt",
     "minecraft:podzol",

@@ -1,0 +1,8 @@
+{
+  "required": true,
+  "package": "com.winterkore.engine.surface.host.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": ["PlayerSnowTravelMixin","SnowEntityCollisionMixin","SnowExtendedCollisionMixin"],
+  "client": ["SnowNativeSectionMixin","SnowNativeCompileTaskMixin"],
+  "injectors": {"defaultRequire": 1}
+}

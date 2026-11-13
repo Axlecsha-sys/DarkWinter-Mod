@@ -1,0 +1,144 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "minecraft:block/dirt",
+    "bottom": "minecraft:block/dirt",
+    "side": "darkwinter:block/terrain/grass_side_z5",
+    "top": "minecraft:block/grass_block_top",
+    "overlay": "minecraft:block/grass_block_side_overlay"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        8,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#bottom",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "north": {
+          "texture": "#side",
+          "uv": [
+            0,
+            0,
+            16,
+            8
+          ],
+          "cullface": "north"
+        },
+        "east": {
+          "texture": "#side",
+          "uv": [
+            0,
+            0,
+            16,
+            8
+          ],
+          "cullface": "east"
+        },
+        "south": {
+          "texture": "#side",
+          "uv": [
+            0,
+            0,
+            16,
+            8
+          ],
+          "cullface": "south"
+        },
+        "west": {
+          "texture": "#side",
+          "uv": [
+            0,
+            0,
+            16,
+            8
+          ],
+          "cullface": "west"
+        },
+        "up": {
+          "texture": "#top",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "tintindex": 0,
+          "cullface": "up"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        8,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#overlay",
+          "uv": [
+            0,
+            0,
+            16,
+            8
+          ],
+          "tintindex": 0,
+          "cullface": "north"
+        },
+        "east": {
+          "texture": "#overlay",
+          "uv": [
+            0,
+            0,
+            16,
+            8
+          ],
+          "tintindex": 0,
+          "cullface": "east"
+        },
+        "south": {
+          "texture": "#overlay",
+          "uv": [
+            0,
+            0,
+            16,
+            8
+          ],
+          "tintindex": 0,
+          "cullface": "south"
+        },
+        "west": {
+          "texture": "#overlay",
+          "uv": [
+            0,
+            0,
+            16,
+            8
+          ],
+          "tintindex": 0,
+          "cullface": "west"
+        }
+      }
+    }
+  ]
+}

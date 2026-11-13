@@ -1,0 +1,133 @@
+// Stage 5: native player. Build-only SDK export never ships in the standalone runtime.
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+def playerSource=file('native/darkwinter-client')
+def playerStamp=new Date().format('yyyyMMdd-HHmmss-SSS')
+def playerDist=file('build/core/player-client')
+def playerRasterShaders=['raster.vert.spv','raster.frag.spv','shadow.vert.spv','shadow.frag.spv']
+def playerExecute={List<String> args->
+ def p=new ProcessBuilder(args).directory(projectDir).redirectErrorStream(true).start()
+ String out=p.inputStream.getText('UTF-8');int code=p.waitFor()
+ if(!out.isBlank())logger.lifecycle(out.trim())
+ if(code!=0)throw new GradleException('Player command failed ('+code+'): '+args[0])
+ out.trim()
+}
+def playerSha={File f->java.security.MessageDigest.getInstance('SHA-256').digest(f.bytes).encodeHex().toString()}
+if(gradle.startParameter.taskNames.any{it.tokenize(':').last()=='coreExportPlayer'}){
+ def exportRun='build/run/corePlayerExport-'+playerStamp
+ fabricApi.configureTests {createSourceSet=true;modId='darkwinter-player-export';enableGameTests=false;enableClientGameTests=true;clearRunDirectory=false}
+ sourceSets.gametest {
+  java.setSrcDirs(['native/darkwinter-client/export-player/java'])
+  resources.setSrcDirs(['native/darkwinter-client/export-player/resources'])
+ }
+ tasks.register('corePreparePlayerExport'){
+  doLast{def config=file(exportRun+'/config/darkwinter');config.mkdirs();new File(config,'visuals.properties').text='enabled=false\n'}
+ }
+ loom.runs.named('clientGameTest'){
+  runDir=exportRun;vmArg '-Dfabric.client.gametest.modid=darkwinter-player-export'
+  vmArg '-Ddarkwinter.playerExport='+file('build/core/player-source').absolutePath
+  vmArg '-Ddarkwinter.playerWorld='+file('build/core/biome-source/world.dwv').absolutePath
+  vmArg '--enable-native-access=ALL-UNNAMED';vmArg '-Xmx8G'
+  programArg '--graphicsBackend';programArg 'VULKAN'
+ }
+ tasks.named('runClientGameTest'){
+  dependsOn 'corePreparePlayerExport';timeout=Duration.ofMinutes(12)
+  notCompatibleWithConfigurationCache('Owned player SDK export against read-only native snapshot.')
+  doLast{if(!file('build/core/player-source/avatar.json').isFile()||!new JsonSlurper().parse(file('build/core/player-source/scene.json')).completed)throw new GradleException('Player export incomplete')}
+ }
+ tasks.register('coreExportPlayer'){group='build';dependsOn 'runClientGameTest'}
+}
+
+// Extra transition checks use an isolated in-memory fixture, never user saves.
+tasks.register('coreCheckPlayerTransitions'){
+ group='verification'
+ notCompatibleWithConfigurationCache('Player state transition regression.')
+ doLast{
+  File bin=file('build/core/player-transition-checks/player-transition-checks.exe');bin.parentFile.mkdirs()
+  def compiler=file('build/voxel-faces/toolchains/zig-0.14.1/zig.exe')
+  if(playerSha(compiler)!='1ddf230367e07738c4a769eae66c1db7469e37bd520e81c86356453d0db2b9fd')throw new GradleException('Compiler integrity')
+  def args=[compiler.absolutePath,'c++','-std=c++20','-O2','-fno-fast-math','-ffp-contract=off','-pthread','-static','-target','x86_64-windows-gnu']
+  args+=['native/darkwinter-client/checks/player-transition-checks.cpp','native/darkwinter-client/src/player.cpp','WKE/runtime/src/scene.cpp','WKE/core/src/core.cpp','WKE/core/src/format.cpp'].collect{file(it).absolutePath}
+  playerExecute(args+['-o',bin.absolutePath])
+  File report=file('build/core/player-transition-checks/'+playerStamp)
+  playerExecute([bin.absolutePath,file('build/core/world-client').absolutePath,report.absolutePath])
+  file('build/core/latest-player-transitions.json').text=new File(report,'checks.json').getText('UTF-8')
+ }
+}
+
+def playerUpdateRun=file('build/core/player-update-runs/'+playerStamp)
+tasks.register('coreBuildPlayerUpdate'){
+ group='build';dependsOn 'coreClientHeaders','coreVmaHeaders','corePackBiome','coreCompileWorldShader','corePackSounds'
+ notCompatibleWithConfigurationCache('Separate native distribution preserves any running prior build.')
+ doLast{
+  playerDist.mkdirs()
+  def base=file('build/core/world-client')
+  ['world.dwv','assets.dwa','biome.json','bvh.json','camera.txt','ui.dwu','ui_regular.ttf','license.txt','ui-sources.json','footsteps.dws','trace.comp.spv','README_RU.txt'].each{n->java.nio.file.Files.copy(new File(base,n).toPath(),new File(playerDist,n).toPath(),java.nio.file.StandardCopyOption.REPLACE_EXISTING)}
+  playerRasterShaders.each{name->java.nio.file.Files.copy(new File(base,name).toPath(),new File(playerDist,name).toPath(),java.nio.file.StandardCopyOption.REPLACE_EXISTING)}
+  copy{from new File(base,'visuals');into new File(playerDist,'visuals')}
+  copy{from new File(base,'licenses');into new File(playerDist,'licenses')}
+  playerExecute(['python',new File(playerSource,'build-tools/pack-player.py').absolutePath,projectDir.absolutePath,playerDist.absolutePath])
+  def compiler=file('build/voxel-faces/toolchains/zig-0.14.1/zig.exe')
+  if(playerSha(compiler)!='1ddf230367e07738c4a769eae66c1db7469e37bd520e81c86356453d0db2b9fd')throw new GradleException('Compiler integrity')
+  def args=[compiler.absolutePath,'c++','-std=c++20','-O3','-fno-fast-math','-ffp-contract=off','-Wall','-Wextra','-Wpedantic','-Wno-missing-field-initializers','-pthread','-static','-target','x86_64-windows-gnu','-DUNICODE','-D_UNICODE','-DNOMINMAX','-DVMA_VULKAN_VERSION=1001000','-DVMA_STATIC_VULKAN_FUNCTIONS=0','-DVMA_DYNAMIC_VULKAN_FUNCTIONS=1','-isystem',file('build/core/deps/VulkanMemoryAllocator-3.3.0').absolutePath,'-I'+file('build/core/deps/Vulkan-Headers-1.3.296/include').absolutePath]
+  args+=['world_main.cpp','player.cpp','audio.cpp','ui.cpp','renderer.cpp','scene.cpp','vma.cpp','generation.cpp','streaming.cpp'].collect{wkeNativeFile(new File(playerSource,'src/'+it)).absolutePath}
+  args+=['core.cpp','format.cpp'].collect{file('WKE/core/src/'+it).absolutePath}
+  playerExecute(args+['-Wl,--subsystem,windows','-luser32','-lshell32','-lgdi32','-lwinmm','-o',new File(playerDist,'DarkWinter.exe').absolutePath])
+  copy {from 'build/core/deps/VulkanMemoryAllocator-3.3.0/LICENSE.txt';into new File(playerDist,'licenses');rename {'VulkanMemoryAllocator-MIT.txt'}}
+  def hashes=[:];(['DarkWinter.exe','world.dwv','assets.dwa','ui.dwu','trace.comp.spv','ui_regular.ttf','collision.dwc','avatar.dwp','footsteps.dws']+playerRasterShaders).each{hashes[it]=playerSha(new File(playerDist,it))}
+  File visualDirectory=new File(playerDist,'visuals')
+  fileTree(visualDirectory).files.findAll{it.isFile()}.sort{it.absolutePath}.each{f->
+   String relative=visualDirectory.toPath().relativize(f.toPath()).toString().replace('\\','/')
+   hashes['visuals/'+relative]=playerSha(f)
+  }
+  hashes['licenses/VulkanMemoryAllocator-MIT.txt']=playerSha(new File(playerDist,'licenses/VulkanMemoryAllocator-MIT.txt'))
+  new File(playerDist,'build-receipt.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([schema:5,completed:true,artifactSha256:hashes,renderer:'Vulkan raster + original DarkWinter visual graph',runtime:'Native C++/Win32/Vulkan; no JVM',playerCollisionSource:'Exact imported snapshot, block tags and explicit authored terrain']))+'\n'
+ }
+}
+tasks.register('coreVerifyPlayerUpdate'){
+ group='verification';dependsOn 'coreBuildPlayerUpdate'
+ notCompatibleWithConfigurationCache('Native updated player and world checks in owned fixtures.')
+ doLast{
+  playerUpdateRun.mkdirs()
+  def compiler=file('build/voxel-faces/toolchains/zig-0.14.1/zig.exe')
+  ['player-checks','player-transition-checks'].each{name->
+   File bin=new File(playerUpdateRun,name+'.exe')
+   def args=[compiler.absolutePath,'c++','-std=c++20','-O2','-fno-fast-math','-ffp-contract=off','-pthread','-static','-target','x86_64-windows-gnu']
+   args+=['native/darkwinter-client/checks/'+name+'.cpp','native/darkwinter-client/src/player.cpp','WKE/runtime/src/scene.cpp','WKE/core/src/core.cpp','WKE/core/src/format.cpp'].collect{file(it).absolutePath}
+   playerExecute(args+['-o',bin.absolutePath])
+   playerExecute([bin.absolutePath,playerDist.absolutePath,new File(playerUpdateRun,name).absolutePath])
+  }
+  [['world',720,'--exercise-ui']].each{check->
+   File report=new File(playerUpdateRun,check[0]);report.mkdirs()
+   playerExecute([new File(playerDist,'DarkWinter.exe').absolutePath,'--hidden','--verify',check[2],'--frames',check[1].toString(),'--report',report.absolutePath])
+   def result=new JsonSlurper().parse(new File(report,'stage6.json'))
+   if(!result.completed)throw new GradleException(check[0]+' exercise incomplete')
+   new File(playerUpdateRun,check[0]+'-receipt.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,run:report.absolutePath,result:result]))+'\n'
+  }
+ }
+}
+tasks.register('coreAuditPlayerUpdate'){
+ group='verification';dependsOn 'coreVerifyPlayerUpdate'
+ notCompatibleWithConfigurationCache('Updated package checks and receipt publication.')
+ doLast{
+  File audit=new File(playerUpdateRun,'audit')
+  playerExecute(['python',new File(playerSource,'build-tools/audit-world.py').absolutePath,projectDir.absolutePath,audit.absolutePath,playerDist.absolutePath,new File(playerUpdateRun,'world-receipt.json').absolutePath,'DarkWinter-Player-Windows-x64.zip'])
+  file('build/core/latest-player-update.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([completed:true,dist:playerDist.absolutePath,run:playerUpdateRun.absolutePath,audit:new File(audit,'audit.json').absolutePath]))+'\n'
+ }
+}
+tasks.register('coreRunPlayerUpdate'){
+ group='application';dependsOn 'coreAuditPlayerUpdate'
+ notCompatibleWithConfigurationCache('Interactive native player update.')
+ doLast{
+  File report=file('build/core/player-interactive/'+playerStamp);report.mkdirs()
+  def builder=new ProcessBuilder([new File(playerDist,'DarkWinter.exe').absolutePath,'--saves',file('build/core/world-client/saves').absolutePath,'--report',report.absolutePath]).directory(playerDist)
+  def environment=new HashMap(builder.environment());builder.environment().clear()
+  ['SystemRoot','WINDIR','TEMP','TMP','USERPROFILE','LOCALAPPDATA','APPDATA'].each{key->if(environment[key]!=null)builder.environment()[key]=environment[key]}
+  builder.environment()['PATH']=new File(System.getenv('SystemRoot'),'System32').absolutePath
+  def process=builder.start();Thread.sleep(2500)
+  if(new File(report,'error.json').isFile())throw new GradleException(new File(report,'error.json').getText('UTF-8'))
+  if(!process.isAlive())throw new GradleException('Updated native client exited during startup')
+  file('build/core/latest-player-interactive.json').text=JsonOutput.prettyPrint(JsonOutput.toJson([started:true,pid:process.pid(),report:report.absolutePath]))+'\n'
+  logger.lifecycle('CORE_PLAYER_STARTED '+process.pid())
+ }
+}

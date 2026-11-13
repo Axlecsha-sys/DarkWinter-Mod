@@ -1,0 +1,183 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "interior_black_iron": "darkwinter:block/interior/interior_black_iron",
+    "interior_dulled_brass": "darkwinter:block/interior/interior_dulled_brass",
+    "interior_book_pages": "darkwinter:block/interior/interior_book_pages",
+    "interior_lamp_linen": "darkwinter:block/interior/interior_lamp_linen",
+    "interior_lamp_linen_inner": "darkwinter:block/interior/interior_lamp_linen_inner",
+    "interior_olive_glaze": "darkwinter:block/interior/interior_olive_glaze",
+    "particle": "darkwinter:block/interior/interior_olive_glaze"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        3.90029,
+        1.0,
+        5.23524
+      ],
+      "to": [
+        9.42982,
+        6.52953,
+        10.76476
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_olive_glaze"
+        },
+        "up": {
+          "texture": "#interior_olive_glaze"
+        },
+        "north": {
+          "texture": "#interior_olive_glaze"
+        },
+        "south": {
+          "texture": "#interior_olive_glaze"
+        },
+        "west": {
+          "texture": "#interior_olive_glaze"
+        },
+        "east": {
+          "texture": "#interior_olive_glaze"
+        }
+      }
+    },
+    {
+      "from": [
+        1.89448,
+        7.68151,
+        3.22943
+      ],
+      "to": [
+        11.43562,
+        15.0,
+        12.77057
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_lamp_linen"
+        },
+        "up": {
+          "texture": "#interior_lamp_linen"
+        },
+        "north": {
+          "texture": "#interior_lamp_linen"
+        },
+        "south": {
+          "texture": "#interior_lamp_linen"
+        },
+        "west": {
+          "texture": "#interior_lamp_linen"
+        },
+        "east": {
+          "texture": "#interior_lamp_linen"
+        }
+      }
+    },
+    {
+      "from": [
+        8.41336,
+        1.08132,
+        8.70474
+      ],
+      "to": [
+        14.10552,
+        1.32527,
+        11.51016
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_black_iron"
+        },
+        "up": {
+          "texture": "#interior_black_iron"
+        },
+        "north": {
+          "texture": "#interior_black_iron"
+        },
+        "south": {
+          "texture": "#interior_black_iron"
+        },
+        "west": {
+          "texture": "#interior_black_iron"
+        },
+        "east": {
+          "texture": "#interior_black_iron"
+        }
+      }
+    }
+  ]
+}

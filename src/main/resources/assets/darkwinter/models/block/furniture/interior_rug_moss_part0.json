@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "interior_rug_moss": "darkwinter:block/interior/interior_rug_moss",
+    "particle": "darkwinter:block/interior/interior_rug_moss"
+  },
+  "elements": [
+    {
+      "from": [
+        1.8,
+        0,
+        2.1
+      ],
+      "to": [
+        16,
+        0.31,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#interior_rug_moss"
+        },
+        "up": {
+          "texture": "#interior_rug_moss"
+        },
+        "north": {
+          "texture": "#interior_rug_moss"
+        },
+        "south": {
+          "texture": "#interior_rug_moss"
+        },
+        "west": {
+          "texture": "#interior_rug_moss"
+        },
+        "east": {
+          "texture": "#interior_rug_moss"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+    "schema": 1,
+    "engine": "WinterKore Engine",
+    "moves": [
+        {
+            "source": "native/darkwinter-core",
+            "target": "WKE/core",
+            "sha256": {
+                "checks/cpp/checks.cpp": "7a18e9547f59d972772e0fa99d2d0259920df860b84b96fec5e52d914bf13d01",
+                "checks/java/com/dark/winter/core/CoreBridgeChecks.java": "de06deacda5c5f8b79adfe9ff01b0c289bfda81c0ce3f4470f93c4d5ce08f446",
+                "CMakeLists.txt": "62c2488f0075c67b66d73e65875531c7538aeb0437ef9f5f5fc5a1f89b90dfd5",
+                "include/dw_core.h": "75e518ea6acd2711f8c43e7aa333a6122e59792139db44d59f210d864d7b71a2",
+                "README.md": "74f7fd6f3785a88738b748f52128416b71e02e6c50875165f7d2bd3d818599f1",
+                "src/cli.cpp": "91a18075aad81e41e4ebc464b8beca6c55a450caa31185ec5b94074292c1234f",
+                "src/core.cpp": "6115faeed635679713b438ba7c31cf7c1a996d9da74fcab17d14e6889981524b",
+                "src/format.cpp": "77ceb40d331aeadd9aa5b73d3dfa2619a2eb825f47368e78425f5db6b473292c",
+                "src/jobs.hpp": "d557370d763dd80c1bf99d817b262a77b1f5902b9e62bc977fac2f1dacfb479c",
+                "src/world.hpp": "f0a1f762656ecad96c4006688e3bc105e69a40aaf84f24e677af289ebc5df789",
+                "tests/checks.cpp": "3ab850540a5feb9d9f1400423e33357d5fce8546f17ac8e46ccd7f024c2d9072"
+            }
+        },
+        {
+            "source": "experiments/voxel-faces/native",
+            "target": "WKE/kernels/voxel-faces",
+            "sha256": {
+                "CMakeLists.txt": "b60daf04a6ccad8b362ea2ee57c792f599c2f847693644668cd0f76bf56a845d",
+                "voxel_faces.cpp": "af066b4462ff8e5ec7cc654b721c451edc2bfc8e1d158a21e2be89aa453c74a3"
+            }
+        }
+    ],
+    "completed": true
+}

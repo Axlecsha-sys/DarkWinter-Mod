@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "locker_h_hardware": "darkwinter:block/decor/locker_h_hardware",
+    "door_pale": "darkwinter:block/construction/door_pale",
+    "particle": "darkwinter:block/construction/door_pale"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        4
+      ],
+      "faces": {
+        "down": {
+          "texture": "#door_pale"
+        },
+        "up": {
+          "texture": "#door_pale"
+        },
+        "north": {
+          "texture": "#door_pale"
+        },
+        "south": {
+          "texture": "#door_pale"
+        },
+        "west": {
+          "texture": "#door_pale"
+        },
+        "east": {
+          "texture": "#door_pale"
+        }
+      }
+    }
+  ]
+}

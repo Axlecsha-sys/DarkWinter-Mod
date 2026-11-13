@@ -3,8 +3,15 @@ package com.dark.winter.registry;
 
 import com.dark.winter.DarkWinter;
 import com.dark.winter.block.FurnitureBlock;
+import com.dark.winter.block.DiningChairBlock;
 import com.dark.winter.block.FurnitureBlockItem;
+import com.dark.winter.block.StorageFurnitureBlock;
 import com.dark.winter.block.SnowVariantFurnitureBlock;
+import com.dark.winter.block.PotFillFurnitureBlock;
+import com.dark.winter.block.PanelDoorBlock;
+import com.dark.winter.block.FenceGateFurnitureBlock;
+import com.dark.winter.block.CurtainedWindowBlock;
+import com.dark.winter.block.RoofSegmentBlock;
 import com.dark.winter.block.FurnitureCatalog;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -36,14 +43,37 @@ public final class ModFurniture {
             Identifier id = Identifier.fromNamespaceAndPath(DarkWinter.MOD_ID, entry.id());
             ResourceKey<Block> blockKey = ResourceKey.create(Registries.BLOCK, id);
             ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, id);
-            FurnitureBlock block = entry.snowVariants()
-                    ? new SnowVariantFurnitureBlock(entry, properties(entry.material()).setId(blockKey))
-                    : new FurnitureBlock(entry, properties(entry.material()).setId(blockKey));
+            BlockBehaviour.Properties settings = properties(entry.material()).setId(blockKey);
+            if (entry.id().equals("cabin_wall_lantern") || entry.id().equals("interior_cabin_pendant"))
+                settings.lightLevel(state -> 12);
+            if (entry.id().equals("cabin_wood_stove")) settings.lightLevel(state -> 9);
+            var storage = StorageFurnitureBlock.Kind.forId(entry.id());
+            FurnitureBlock block = entry.id().equals("utility_pole")
+                    ? new com.dark.winter.block.RoadUtilityPoleBlock(entry, settings)
+                    : entry.id().equals(DiningChairBlock.ID)
+                    ? new DiningChairBlock(entry, settings)
+                    : entry.id().equals(PotFillFurnitureBlock.ID)
+                    ? new PotFillFurnitureBlock(entry, settings)
+                    : PanelDoorBlock.isDoorId(entry.id())
+                    ? new PanelDoorBlock(entry, settings)
+                    : CurtainedWindowBlock.isCurtained(entry.id())
+                    ? new CurtainedWindowBlock(entry, settings)
+                    : RoofSegmentBlock.isRoofId(entry.id())
+                    ? new RoofSegmentBlock(entry, settings)
+                    : FenceGateFurnitureBlock.isGateId(entry.id())
+                    ? new FenceGateFurnitureBlock(entry, settings)
+                    : storage != null
+                    ? new StorageFurnitureBlock(entry, settings, storage)
+                    : entry.snowVariants()
+                    ? new SnowVariantFurnitureBlock(entry, settings)
+                    : new FurnitureBlock(entry, settings);
             Registry.register(BuiltInRegistries.BLOCK, blockKey, block);
             Registry.register(BuiltInRegistries.ITEM, itemKey, new FurnitureBlockItem(block,
                     new Item.Properties().setId(itemKey).useBlockDescriptionPrefix()));
             BLOCKS.put(entry.id(), block);
         }
+        com.dark.winter.block.SnowyPlantFloorRestore.initialize();
+        com.dark.winter.block.RoadWires.initialize();
         DarkWinter.LOGGER.info("Registered {} decorative furniture blocks", BLOCKS.size());
     }
 

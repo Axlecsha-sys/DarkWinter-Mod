@@ -45,7 +45,7 @@ public abstract class PauseMenuLayoutMixin extends Screen {
         }
         for(var b:buttons) {
             b.setWidth(com.dark.winter.client.MenuStyle.rowWidth(width));b.setHeight(buttonHeight);
-            b.setPosition(com.dark.winter.client.MenuStyle.left(width),top+row++*step);
+            b.setPosition(com.dark.winter.client.UiLayout.pauseLeft(width),top+row++*step);
         }
     }
 }

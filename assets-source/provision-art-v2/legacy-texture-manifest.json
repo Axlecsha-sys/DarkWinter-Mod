@@ -1,0 +1,20 @@
+{
+  "group": "legacy_pantry",
+  "tool": "built-in image_gen",
+  "original": {
+    "path": "assets-source/provision-art-v2/legacy_pantry-original.png",
+    "width": 1536,
+    "height": 1024,
+    "size": 3511248,
+    "sha256": "8901a34d3e2a41fc5d1c7ffd09c6a26aa255bddf3b75dd93e42af0bd49592a7a"
+  },
+  "production": {
+    "path": "src/main/resources/assets/darkwinter/textures/block/decor/provision_v2_legacy_labels.png",
+    "width": 1536,
+    "height": 1024,
+    "size": 3511248,
+    "sha256": "8901a34d3e2a41fc5d1c7ffd09c6a26aa255bddf3b75dd93e42af0bd49592a7a"
+  },
+  "atlas": "minecraft:blocks",
+  "reason": "Placed blocks require the BLOCKS atlas; original label pixels copied unchanged."
+}

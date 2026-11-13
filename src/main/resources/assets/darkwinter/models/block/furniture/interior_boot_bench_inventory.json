@@ -1,0 +1,308 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "home_set_warm_pine": "darkwinter:block/interior/home_set_warm_pine",
+    "home_set_worn_iron": "darkwinter:block/interior/home_set_worn_iron",
+    "home_set_galvanized_zinc": "darkwinter:block/interior/home_set_galvanized_zinc",
+    "particle": "darkwinter:block/interior/home_set_warm_pine"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        1.67308,
+        4.03846,
+        4.67308
+      ],
+      "to": [
+        2.85577,
+        11.0,
+        5.71154
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        1.67308,
+        4.03846,
+        10.43269
+      ],
+      "to": [
+        2.85577,
+        11.0,
+        11.47115
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        13.14423,
+        4.03846,
+        4.67308
+      ],
+      "to": [
+        14.32692,
+        11.0,
+        5.71154
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        13.14423,
+        4.03846,
+        10.43269
+      ],
+      "to": [
+        14.32692,
+        11.0,
+        11.47115
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        1.0,
+        11.0,
+        3.86538
+      ],
+      "to": [
+        15.0,
+        11.96154,
+        12.13462
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        2.64423,
+        5.43269,
+        4.53846
+      ],
+      "to": [
+        13.35577,
+        5.98077,
+        11.36538
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        2.98077,
+        5.98077,
+        4.88462
+      ],
+      "to": [
+        13.01923,
+        7.55769,
+        11.17308
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_galvanized_zinc"
+        },
+        "up": {
+          "texture": "#home_set_galvanized_zinc"
+        },
+        "north": {
+          "texture": "#home_set_galvanized_zinc"
+        },
+        "south": {
+          "texture": "#home_set_galvanized_zinc"
+        },
+        "west": {
+          "texture": "#home_set_galvanized_zinc"
+        },
+        "east": {
+          "texture": "#home_set_galvanized_zinc"
+        }
+      }
+    }
+  ]
+}

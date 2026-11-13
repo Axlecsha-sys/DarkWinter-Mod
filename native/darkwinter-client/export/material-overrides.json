@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "materials": [
+    {
+      "sprite": "darkwinter:block/test_spruce_bark",
+      "source": "src/main/resources/assets/darkwinter/textures/block/native_spruce_bark.png",
+      "sourceSha256": "a47a904fd47de5068e2297f19eb2cdc6ce6a250be4920c4d50a827364276e492",
+      "width": 256,
+      "height": 256,
+      "method": "nearest authored-grid export",
+      "note": "Generated 1254px master; native export retains the existing 256px UV/material contract."
+    },
+    {
+      "sprite": "darkwinter:block/native_spruce_endgrain",
+      "append": true,
+      "source": "src/main/resources/assets/darkwinter/textures/block/native_spruce_endgrain.png",
+      "sourceSha256": "e01e0673063645fd8444102a4625511b2fec146ee4423d7ac4091be6b4d4142f",
+      "width": 128,
+      "height": 128,
+      "method": "nearest authored-grid export",
+      "note": "Opaque end-grain tile for native log cut caps."
+    }
+  ]
+}

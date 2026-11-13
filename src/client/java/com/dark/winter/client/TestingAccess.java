@@ -14,19 +14,20 @@ public final class TestingAccess {
         var server=Minecraft.getInstance().getSingleplayerServer();
         return TestingServer.isTesting(server)?TestingServer.settings(server):null;
     }
-    public static boolean pipeline(boolean ordinary) {
-        if(OnlineTestingView.active())return OnlineTestingView.enabled("visuals")||OnlineTestingView.enabled("weather")||OnlineTestingView.enabled("atmosphere");
+    public static com.dark.winter.testing.TestingPresentation presentation(){
+        var online=OnlineTestingView.presentation();
+        if(online!=null)return online;
         var server=Minecraft.getInstance().getSingleplayerServer();
-        return TestingServer.isTesting(server)?(TestingServer.enabled(server,"visuals")||TestingServer.enabled(server,"weather")||TestingServer.enabled(server,"atmosphere")):ordinary;
+        return TestingServer.isTesting(server)?TestingServer.presentation(server):null;
+    }
+    public static boolean pipeline(boolean ordinary) {
+        var value=presentation();
+        return value==null?ordinary:value.enabled("visuals")||value.enabled("weather")||value.enabled("atmosphere");
     }
     public static boolean resolve(String module,boolean ordinary) {
-        if(OnlineTestingView.active())return OnlineTestingView.enabled(module);
-        var server=Minecraft.getInstance().getSingleplayerServer();
-        return TestingServer.isTesting(server)?TestingServer.enabled(server,module):ordinary;
+        var value=presentation();return value==null?ordinary:value.enabled(module);
     }
     public static boolean enabled(String module) {
-        if(OnlineTestingView.active())return OnlineTestingView.enabled(module);
-        var server=Minecraft.getInstance().getSingleplayerServer();
-        return server==null||TestingServer.enabled(server,module);
+        var value=presentation();return value==null||value.enabled(module);
     }
 }

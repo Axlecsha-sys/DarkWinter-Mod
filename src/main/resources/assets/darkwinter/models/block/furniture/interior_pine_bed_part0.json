@@ -1,0 +1,173 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "home_set_warm_pine": "darkwinter:block/interior/home_set_warm_pine",
+    "home_set_worn_iron": "darkwinter:block/interior/home_set_worn_iron",
+    "home_set_bed_linen": "darkwinter:block/interior/home_set_bed_linen",
+    "home_set_maple_quilt": "darkwinter:block/interior/home_set_maple_quilt",
+    "particle": "darkwinter:block/interior/home_set_warm_pine"
+  },
+  "elements": [
+    {
+      "from": [
+        0.88,
+        0,
+        0.87
+      ],
+      "to": [
+        2.6,
+        8.53,
+        2.59
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        13.399999999999999,
+        0,
+        0.87
+      ],
+      "to": [
+        15.12,
+        8.53,
+        2.59
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        2.24,
+        2.34,
+        1.25
+      ],
+      "to": [
+        13.76,
+        7.53,
+        2.17
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_warm_pine"
+        },
+        "up": {
+          "texture": "#home_set_warm_pine"
+        },
+        "north": {
+          "texture": "#home_set_warm_pine"
+        },
+        "south": {
+          "texture": "#home_set_warm_pine"
+        },
+        "west": {
+          "texture": "#home_set_warm_pine"
+        },
+        "east": {
+          "texture": "#home_set_warm_pine"
+        }
+      }
+    },
+    {
+      "from": [
+        1.94,
+        2.28,
+        2.15
+      ],
+      "to": [
+        14.06,
+        6.82,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_bed_linen"
+        },
+        "up": {
+          "texture": "#home_set_bed_linen"
+        },
+        "north": {
+          "texture": "#home_set_bed_linen"
+        },
+        "south": {
+          "texture": "#home_set_bed_linen"
+        },
+        "west": {
+          "texture": "#home_set_bed_linen"
+        },
+        "east": {
+          "texture": "#home_set_bed_linen"
+        }
+      }
+    },
+    {
+      "from": [
+        0.94,
+        2.62,
+        2.27
+      ],
+      "to": [
+        15.06,
+        6.82,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#home_set_maple_quilt"
+        },
+        "up": {
+          "texture": "#home_set_maple_quilt"
+        },
+        "north": {
+          "texture": "#home_set_maple_quilt"
+        },
+        "south": {
+          "texture": "#home_set_maple_quilt"
+        },
+        "west": {
+          "texture": "#home_set_maple_quilt"
+        },
+        "east": {
+          "texture": "#home_set_maple_quilt"
+        }
+      }
+    }
+  ]
+}

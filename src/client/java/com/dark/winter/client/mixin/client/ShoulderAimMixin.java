@@ -1,4 +1,4 @@
-// Aligns shoulder-camera ray casts with the native interaction target.
+// Aligns displaced camera ray casts with the native interaction target.
 
 package com.dark.winter.client.mixin.client;
 
@@ -41,8 +41,7 @@ public abstract class ShoulderAimMixin {
 
         if (client.level == null
                 || client.player == null
-                || client.options.getCameraType()
-                != CameraType.THIRD_PERSON_BACK
+                || client.options.getCameraType() == CameraType.THIRD_PERSON_FRONT
                 || client.getCameraEntity() != client.player) {
             return original;
         }
@@ -64,6 +63,10 @@ public abstract class ShoulderAimMixin {
 
         Vec3 playerEyes =
                 client.player.getEyePosition(partialTicks);
+
+        // Keep vanilla targeting when the view does not have a horizontal eye displacement.
+        if (client.options.getCameraType().isFirstPerson()
+                && cameraPos.subtract(playerEyes).horizontalDistanceSqr() < 1e-6) return original;
 
         double range = client.player.blockInteractionRange();
 
@@ -172,13 +175,22 @@ public abstract class ShoulderAimMixin {
         // Если между игроком и целью другая стена,
         // взаимодействовать нельзя.
         if (playerHit.getType() == HitResult.Type.BLOCK
-                && !playerHit.getBlockPos().equals(
-                cameraHit.getBlockPos()
-        )) {
+                && !darkwinter$sameTarget(client, playerHit, cameraHit)) {
             return darkwinter$miss(cameraPos, direction, range);
         }
 
         return cameraHit;
+    }
+
+    private static boolean darkwinter$sameTarget(Minecraft client, BlockHitResult first, BlockHitResult second) {
+        var firstPos = first.getBlockPos();
+        var secondPos = second.getBlockPos();
+        if (firstPos.equals(secondPos)) return true;
+        var firstState = client.level.getBlockState(firstPos);
+        var secondState = client.level.getBlockState(secondPos);
+        return firstState.getBlock() instanceof com.dark.winter.block.FenceGateFurnitureBlock gate
+                && secondState.is(gate)
+                && gate.origin(firstPos, firstState).equals(gate.origin(secondPos, secondState));
     }
 
     private HitResult darkwinter$miss(

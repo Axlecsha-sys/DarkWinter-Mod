@@ -1,0 +1,53 @@
+{
+  "date": "2026-11-10",
+  "userInstruction": "Заканчивай, все норм",
+  "stage": "Complete; further art changes not requested",
+  "meshSha256": "6443d45baa80bd12b305f443a95eaa7f83158fbcc6b8c5b7712dcca4e1eeeaa4",
+  "textureManifest": [
+    {
+      "id": "pantry",
+      "prepared": "F:\\DarkWinter\\build\\provision-art\\pantry.png",
+      "resource": "src/client/resources/assets/darkwinter/textures/item/provisions/pantry.png",
+      "size": 712735,
+      "sha256": "3f064f708c915752d1bdb5b5b4c4733502b1550a7bac80be1823464414380f7a",
+      "original_sha256": "6c192ffc7d47950e1a3f53996cd5205ae4cae1540807e6175f3c85e7f2653a11",
+      "conversion": "Uniform 50% reduction only; no repainting"
+    },
+    {
+      "id": "snacks",
+      "prepared": "F:\\DarkWinter\\build\\provision-art\\snacks.png",
+      "resource": "src/client/resources/assets/darkwinter/textures/item/provisions/snacks.png",
+      "size": 714839,
+      "sha256": "be797793795cbb5ee22e2df62050c5a1e725b58eb34c7b6f4d6a99b2f0477728",
+      "original_sha256": "3794ccdcd059caabca1b249c27e13fdae13df396e6a4cb36abce6483639b0567",
+      "conversion": "Uniform 50% reduction only; no repainting"
+    },
+    {
+      "id": "dry_goods",
+      "prepared": "F:\\DarkWinter\\build\\provision-art\\dry_goods.png",
+      "resource": "src/client/resources/assets/darkwinter/textures/item/provisions/dry_goods.png",
+      "size": 729793,
+      "sha256": "5e35d0dede6a287358394257741f2f92d0b531199a702bfe68973093e4296129",
+      "original_sha256": "7f5598debd5461e36c435df6bc442641f5be6ace89589218d057d012ead2ccf5",
+      "conversion": "Uniform 50% reduction only; no repainting"
+    },
+    {
+      "id": "cold_drinks",
+      "prepared": "F:\\DarkWinter\\build\\provision-art\\cold_drinks.png",
+      "resource": "src/client/resources/assets/darkwinter/textures/item/provisions/cold_drinks.png",
+      "size": 717014,
+      "sha256": "6105f9e1c8e017192cee31f3e1715d80a3e51bc4256eba0a5386732927f5d8aa",
+      "original_sha256": "2b19dc919a96b909693e16ab675670e0fb79b37b1fe98f09a8273adb403a68d1",
+      "conversion": "Uniform 50% reduction only; no repainting"
+    },
+    {
+      "id": "northern_drinks",
+      "prepared": "F:\\DarkWinter\\build\\provision-art\\northern_drinks.png",
+      "resource": "src/client/resources/assets/darkwinter/textures/item/provisions/northern_drinks.png",
+      "size": 715473,
+      "sha256": "9eaaa4627f4113d023c4371074c519b9aa66b2f80cf345d880b4940d10a00a92",
+      "original_sha256": "8a7b1e158c1e618958ec22bdd608f32397e925b8f43875d97fbae10ff5d5353b",
+      "conversion": "Uniform 50% reduction only; no repainting"
+    }
+  ]
+}

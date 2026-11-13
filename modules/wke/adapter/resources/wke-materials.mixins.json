@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "com.winterkore.engine.material.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "WkeMaterialMipmapMixin",
+    "WkeFoliageBindingMixin",
+    "WkeFoliagePipelineMixin",
+    "WkeFoliageDeviceMixin",
+    "WkeFoliageAtlasMixin"
+  ]
+}

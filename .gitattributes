@@ -16,6 +16,14 @@
 *.py text eol=lf
 *.rs text eol=lf
 *.go text eol=lf
+*.c text eol=lf
+*.cc text eol=lf
+*.cpp text eol=lf
+*.cxx text eol=lf
+*.h text eol=lf
+*.hpp text eol=lf
+*.cmake text eol=lf
+CMakeLists.txt text eol=lf
 *.sh text eol=lf
 *.ps1 text eol=crlf
 *.cmd text eol=crlf

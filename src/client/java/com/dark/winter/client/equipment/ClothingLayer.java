@@ -86,10 +86,6 @@ public final class ClothingLayer extends RenderLayer<AvatarRenderState, PlayerMo
         draw(model,outfit,null,true,poses,collector,light,0);
     }
 
-    static ModelPart firstPersonBodyGeometry(ClothingMeshes.Piece piece) {
-        return FirstPersonSurfaces.garment(piece);
-    }
-
     static void submitGrip(PlayerModel neutral,ModelPart arm,Player player,PoseStack poses,SubmitNodeCollector collector,int light) {
         if (player.isInvisible()) return;
         int outfit = outfit(player);
@@ -110,7 +106,7 @@ public final class ClothingLayer extends RenderLayer<AvatarRenderState, PlayerMo
 
     private static void draw(PlayerModel model,int outfit,ModelPart onlyArm,boolean bodyOnly,PoseStack poses,SubmitNodeCollector collector,int light,int outline) {
         boolean thirdPerson=ThirdPersonBodyModel.isThirdPerson(model);
-        int bootDesign=thirdPerson&&!bodyOnly&&onlyArm==null
+        int bootDesign=(thirdPerson&&!bodyOnly||CharacterVisuals.hasWorldLegs(model))&&onlyArm==null
                 ?CinematicWardrobe.design(GearSlot.FOOTWEAR,variant(outfit,GearSlot.FOOTWEAR)):0;
         for (GearSlot slot:SLOTS) {
             List<ClothingMeshes.Piece> pieces=renderPieces(model,slot,variant(outfit,slot),onlyArm,bodyOnly);
@@ -118,23 +114,26 @@ public final class ClothingLayer extends RenderLayer<AvatarRenderState, PlayerMo
             for (ClothingMeshes.Piece piece:pieces) {
                 ModelPart bone=HumanJoints.parent(model,piece.bone());
                 if (onlyArm!=null && bone!=onlyArm) continue;
-                if (bodyOnly && (bone==model.head || bone==model.leftArm || bone==model.rightArm)) continue;
-                // Only fabric hidden inside the new boot shafts is fitted; FP and legacy outfits keep their source geometry.
-                ClothingMeshes.Piece fitted=slot==GearSlot.PANTS&&bootDesign>0?CinematicBoots.tuckTrousers(piece,bootDesign):piece;
-                ModelPart geometry=thirdPerson?ThirdPersonBodyModel.garment(fitted):piece.geometry();
-                if(bodyOnly) { geometry=firstPersonBodyGeometry(piece); if(geometry==null)continue; }
+                if (bodyOnly && !bone.visible) continue;
+                boolean worldLeg=CharacterVisuals.worldLegBone(model,piece.bone());
+                // World feet use the same sewn shell and boot-shaft fit in both camera modes.
+                ClothingMeshes.Piece fitted=slot==GearSlot.PANTS&&bootDesign>0&&(thirdPerson||worldLeg)?CinematicBoots.tuckTrousers(piece,bootDesign):piece;
+                ModelPart geometry=thirdPerson||worldLeg?ThirdPersonBodyModel.garment(fitted):piece.geometry();
+                if (bodyOnly && bone==model.body && FirstPersonSurfaces.coverNearCamera(piece)) continue;
                 poses.pushPose();
                 HumanJoints.transform(model,piece.bone(),poses);
-                if(ThirdPersonBodyModel.isThirdPerson(model)) ThirdPersonBodyModel.fit(piece.bone(),poses);
-                collector.submitModelPart(geometry,poses,RenderTypes.entityCutout(renderTexture(model,slot,variant(outfit,slot),onlyArm,bodyOnly,piece.color())),light,OverlayTexture.NO_OVERLAY,null,piece.color(),outline);
+                if(thirdPerson||worldLeg) ThirdPersonBodyModel.fit(piece.bone(),poses);
+                Identifier texture=renderTexture(model,slot,variant(outfit,slot),onlyArm,bodyOnly,piece.color());
+                var renderType=bodyOnly?RenderTypes.entityCutoutCull(texture):RenderTypes.entityCutout(texture);
+                collector.submitModelPart(geometry,poses,renderType,light,OverlayTexture.NO_OVERLAY,null,piece.color(),outline);
                 poses.popPose();
             }
         }
     }
 
-    /** The approved parka replaces only the complete third-person garment, never FP arms/body. */
+    /** Use the approved parka on the shared world rig, including the first-person body. */
     private static boolean expeditionView(PlayerModel model,GearSlot slot,int variant,ModelPart onlyArm,boolean bodyOnly) {
-        return onlyArm==null&&!bodyOnly&&ThirdPersonBodyModel.isThirdPerson(model)
+        return onlyArm==null&&ThirdPersonBodyModel.isThirdPerson(model)
                 &&slot==GearSlot.JACKET&&CinematicWardrobe.design(slot,variant)==1;
     }
 

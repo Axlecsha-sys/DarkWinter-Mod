@@ -28,14 +28,42 @@ public class DarkWinterClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         UiPreferences.initialize();
+        com.dark.winter.client.placement.AnchorsClient.init();
+        com.dark.winter.client.placement.PlacedItemsClient.init();
+        com.dark.winter.client.core.CoreCommands.initialize();
+        com.dark.winter.client.vector.SvgHud.initialize();
+        com.dark.winter.client.text.SmoothUiText.initialize();
+        com.dark.winter.client.inventory.InventoryPortraitLighting.initialize();
+        com.dark.winter.client.interaction.DeadwoodClient.initialize();
+        com.dark.winter.client.voice.ProtagonistVoiceClient.initialize();
+        com.dark.winter.client.voice.BreathingClient.initialize();
+        com.dark.winter.client.diagnostics.performance.PerformanceClient.initialize();
+        com.dark.winter.client.fixes.voxel.VoxelFaceRuntime.initialize();
+        com.dark.winter.client.fixes.mesh.SolidVertexDeduplicator.initialize();
+        com.dark.winter.client.fixes.mesh.ChunkMeshRuntime.initialize();
+        // Compose game atmosphere adaptation before WKE clones the complete terrain pipeline state.
+        com.winterkore.engine.render.WkeRendererRuntime.setTerrainPreprocessor(
+                com.dark.winter.visuals.vanillafog.VanillaFogPipelines::terrain);
+        com.winterkore.engine.render.WkeRendererRuntime.initialize();
         TestingClient.init();
         com.dark.winter.client.online.OnlineClientRuntime.init();
         com.dark.winter.testing.TestingServer.setClientModules((level,module)->TestingAccess.enabled(module));
         com.dark.winter.client.lab.LabClient.initialize();
 
         ThinTreeModels.init();
+        SnowBiomePresentation.init();
         TestSpruceModels.init();
+        TestGroundSnowModels.init();
+		TestTerrainBlockColors.init();
+        TestSnowTerrainModels.init();
+        TestSnowSlabModels.init();
+        TestRootSoilModels.init();
+        com.dark.winter.client.highlight.ModelHighlight.init();
         FurnitureMeshModels.init();
+        FurniturePlacementPreviewRenderer.initialize();
+        FurniturePlacementControls.initialize(BUILDING_CATEGORY);
+        ProvisionItemModels.init();
+        com.dark.winter.client.inventory.ProvisionGuiPreview.initialize();
         SpruceNeedleRenderer.init();
         DarkWinterInventoryHooks.init();
         com.dark.winter.client.equipment.BackpackLayer.init();
@@ -48,6 +76,7 @@ public class DarkWinterClient implements ClientModInitializer {
                 com.dark.winter.client.weather.WeatherClient.active()
                         ? com.dark.winter.client.weather.WeatherClient.climate(1) : null);
         com.dark.winter.client.weather.WeatherEffects.init();
+        com.winterkore.engine.surface.client.SnowSurfaceClient.init();
         com.dark.winter.client.loading.WorldPreloadClient.init();
 
         HudElementRegistry.removeElement(VanillaHudElements.HEALTH_BAR);
@@ -80,6 +109,7 @@ public class DarkWinterClient implements ClientModInitializer {
             }
 
             if (com.dark.winter.client.loading.WorldPreloadClient.active()) return;
+            com.dark.winter.client.interaction.HousePassageClient.tick(client);
             SprintStamina.tick(client);
 
             if (!worldWasLoaded) {
@@ -154,29 +184,10 @@ public class DarkWinterClient implements ClientModInitializer {
     private void darkwinter$setupControls(
             net.minecraft.client.Minecraft client
     ) {
-        // Бег — Left Shift
-        client.options.keySprint.setKey(
-                InputConstants.Type.KEYBOARD.getOrCreate(
-                        InputConstants.KEY_LSHIFT
-                )
-        );
-
-        // Приседание — Left Ctrl
-        client.options.keyShift.setKey(
-                InputConstants.Type.KEYBOARD.getOrCreate(
-                        InputConstants.KEY_LCONTROL
-                )
-        );
-
-        // Отключаем спринт двойным W
+        // Key defaults are installed before options.txt loads; world entry must preserve saved bindings.
+        if (client.options.sprintWindow().get() == 0) return;
         client.options.sprintWindow().set(0);
-
-        // Обновляем привязки клавиш
-        KeyMapping.resetMapping();
-
-        // Сохраняем управление
         client.options.save();
     }
-
 
 }

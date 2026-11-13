@@ -18,7 +18,8 @@ public final class ModBlockEntities {
                     ModBlocks.WEATHERED_WALL_SEGMENT_GRAY,
                     ModBlocks.WEATHERED_WALL_SEGMENT_DARK,
                     ModBlocks.WEATHERED_WALL_SEGMENT_PATCHWORK,
-                    ModBlocks.WEATHERED_WALL_SEGMENT_PAINTED).build()
+                    ModBlocks.WEATHERED_WALL_SEGMENT_PAINTED,
+                    ModBlocks.CABIN_WALL_SEGMENT).build()
     );
 
     public static void initialize() {}

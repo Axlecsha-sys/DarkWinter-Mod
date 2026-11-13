@@ -1,0 +1,150 @@
+{
+  "collect_deadwood": {
+    "subtitle": "subtitles.darkwinter.collect_deadwood",
+    "sounds": [
+      {
+        "name": "darkwinter:interaction/collect_deadwood",
+        "preload": true
+      }
+    ]
+  },
+  "protagonist.cold": {
+    "sounds": [
+      {
+        "name": "darkwinter:protagonist/cold",
+        "preload": true
+      }
+    ]
+  },
+  "protagonist.wind": {
+    "sounds": [
+      {
+        "name": "darkwinter:protagonist/wind",
+        "preload": true
+      }
+    ]
+  },
+  "protagonist.hungry": {
+    "sounds": [
+      {
+        "name": "darkwinter:protagonist/hungry",
+        "preload": true
+      }
+    ]
+  },
+  "protagonist.thirsty": {
+    "sounds": [
+      {
+        "name": "darkwinter:protagonist/thirsty",
+        "preload": true
+      }
+    ]
+  },
+  "protagonist.exhausted": {
+    "sounds": [
+      {
+        "name": "darkwinter:protagonist/exhausted",
+        "preload": true
+      }
+    ]
+  },
+  "protagonist.warmth": {
+    "sounds": [
+      {
+        "name": "darkwinter:protagonist/warmth",
+        "preload": true
+      }
+    ]
+  },
+  "protagonist.traffic": {
+    "sounds": [
+      {
+        "name": "darkwinter:protagonist/traffic",
+        "preload": true
+      }
+    ]
+  },
+  "protagonist.coming_back": {
+    "sounds": [
+      {
+        "name": "darkwinter:protagonist/coming_back",
+        "preload": true
+      }
+    ]
+  },
+  "protagonist.little_things": {
+    "sounds": [
+      {
+        "name": "darkwinter:protagonist/little_things",
+        "preload": true
+      }
+    ]
+  },
+  "protagonist.view": {
+    "sounds": [
+      {
+        "name": "darkwinter:protagonist/view",
+        "preload": true
+      }
+    ]
+  },
+  "protagonist.breath.running": {
+    "sounds": [
+      {
+        "name": "darkwinter:protagonist/breathing/running_loop",
+        "preload": true
+      }
+    ]
+  },
+  "protagonist.breath.jump": {
+    "sounds": [
+      {
+        "name": "darkwinter:protagonist/breathing/jump_01",
+        "preload": true
+      }
+    ]
+  },
+  "ambient.forest_bird": {
+    "sounds": [
+      {
+        "name": "darkwinter:ambient/forest_bird_01",
+        "attenuation_distance": 48,
+        "preload": true
+      },
+      {
+        "name": "darkwinter:ambient/forest_bird_02",
+        "attenuation_distance": 48,
+        "preload": true
+      },
+      {
+        "name": "darkwinter:ambient/forest_bird_03",
+        "attenuation_distance": 48,
+        "preload": true
+      }
+    ]
+  },
+  "ambient.forest_creak": {
+    "sounds": [
+      {
+        "name": "darkwinter:ambient/forest_creak_01",
+        "attenuation_distance": 32,
+        "preload": true
+      },
+      {
+        "name": "darkwinter:ambient/forest_creak_02",
+        "attenuation_distance": 32,
+        "preload": true
+      },
+      {
+        "name": "darkwinter:ambient/forest_creak_03",
+        "attenuation_distance": 32,
+        "preload": true
+      },
+      {
+        "name": "darkwinter:ambient/forest_creak_04",
+        "attenuation_distance": 32,
+        "preload": true
+      }
+    ]
+  }
+}

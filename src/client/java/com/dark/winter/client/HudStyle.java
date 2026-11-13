@@ -4,6 +4,8 @@ package com.dark.winter.client;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
+import com.dark.winter.client.vector.SvgHud;
+import com.dark.winter.client.vector.MenuSurface;
 
 /** One UI palette, font and optical treatment. No world-render or gameplay state. */
 public final class HudStyle {
@@ -13,19 +15,19 @@ public final class HudStyle {
     private static final float TEXT_WIDTH=1.0f;
     private HudStyle() {}
     public static Component font(Component text){return text.copy().withStyle(s->s.withFont(FONT));}
+    public static boolean usesUiFont(net.minecraft.util.FormattedCharSequence text){
+        boolean[] matches={false};
+        text.accept((index,style,codepoint)->{if(Character.isWhitespace(codepoint))return true;matches[0]=FONT.equals(style.getFont());return false;});
+        return matches[0];
+    }
     /** Hierarchy is size/contrast, not the engine's synthetic bold on a TTF. */
     public static Component strong(Component text){return font(text).copy().withStyle(style->style.withBold(false).withItalic(false));}
     public static int width(Component text){return Math.round(Minecraft.getInstance().font.width(font(text))*TEXT_WIDTH);}
     public static void well(GuiGraphicsExtractor g,int cx,int cy,int radius){UiArt.shadow(g,cx,cy,radius,1f);}
     public static void panel(GuiGraphicsExtractor g,int x,int y,int w,int h) {
         if(w<=0||h<=0) return;
-        g.fillGradient(x,y,x+w,y+h,0x6D12232E,0xA507121C);
-        g.fillGradient(x+1,y+1,x+w-1,y+Math.min(h/2,22),0x25395666,0x00395666);
-        g.fill(x,y,x+1,y+h,0x99698493);g.fill(x,y,x+w,y+1,0x70537384);
-        g.fill(x,y+h-1,x+w,y+h,0x70537384);g.fill(x+w-1,y,x+w,y+h,0x50537384);
-        g.fill(x+1,y+1,x+2,y+h-1,0x70010910);
-        g.fill(x,y,x+Math.min(18,w),y+1,0xCBC2D9E1);
-        halo(g,x,y,w,h,STABLE,.18f);
+        SvgHud.surface(g,x,y,w,h,MenuSurface.PANEL,0,0xFF7897A7);
+        g.fill(x+2,y,x+Math.min(18,w-2),y+1,0xA6C2D9E1);
         analog(g,x+2,y+2,w-4,h-4,false);
     }
     /** Quieter, thinner glass only for the in-game weather instrument.

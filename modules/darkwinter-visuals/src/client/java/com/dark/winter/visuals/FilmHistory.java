@@ -1,10 +1,10 @@
 // Retains ungraded world frames for bounded temporal film exposure.
 package com.dark.winter.visuals;
 
-import com.mojang.blaze3d.framegraph.FrameGraphBuilder;
+import com.winterkore.engine.graphics.effects.WkeMotionBlurEnvelope;
+
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.pipeline.TextureTarget;
-import com.mojang.blaze3d.resource.ResourceHandle;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
@@ -21,6 +21,7 @@ final class FilmHistory implements AutoCloseable {
     static final Identifier PREVIOUS_FRAME = id("previous_frame");
     static final Identifier HELD_FRAME = id("held_frame");
     private static final long MAX_GAP_NANOS = 250_000_000L;
+    private final WkeMotionBlurEnvelope shutter = new WkeMotionBlurEnvelope();
 
     TextureTarget currentRaw, previousRaw, heldRaw;
     boolean valid, allowCapture, captureHeld;
@@ -34,12 +35,15 @@ final class FilmHistory implements AutoCloseable {
 
     void prepare(Minecraft client, LevelRenderState state, RenderTarget main,
                  SceneFrame frame, VisualConfig config) {
+        // The post graph still writes CURRENT_RAW and reflects both history samplers while film is OFF.
+        // Keep initialized targets alive; only temporal capture/rotation is disabled below.
         ensureTargets(main);
         frame.filmHistoryValid = false;
+        frame.filmShutterWeight = frame.filmHeldWeight = frame.filmInterlaceWeight = 0;
         frame.filmDeltaSeconds = 0;
         frame.filmHeldAgeSeconds = 0;
         frame.filmFieldPhase = 0;
-        boolean temporalEnabled = com.dark.winter.client.TestingAccess.enabled("visuals") && config.atmosphere && config.filmStrength > 0 && config.debug == 0
+        boolean temporalEnabled = (frame.lab==null||frame.lab.enabled("visuals")) && config.filmEnabled && config.atmosphere && config.filmStrength > 0 && config.debug == 0
                 && (config.shutterStrength > 0 || config.stepPrintStrength > 0 || config.interlaceStrength > 0);
         if (!temporalEnabled || client.isPaused() || client.gui.screen() != null) {
             invalidate();
@@ -53,6 +57,18 @@ final class FilmHistory implements AutoCloseable {
             invalidate();
             elapsed = 0;
         }
+        double seconds=elapsed*1e-9;
+        double angularSpeed=0,linearSpeed=0;
+        if(valid && seconds>0 && previousPosition!=null) {
+            angularSpeed=Math.hypot(Math.IEEEremainder(camera.yRot-previousYaw,360.0),
+                    camera.xRot-previousPitch)/seconds;
+            linearSpeed=Math.sqrt(camera.pos.distanceToSqr(previousPosition))/seconds;
+        }
+        frame.filmShutterWeight=shutter.update(seconds,angularSpeed,linearSpeed,config.shutterStrength);
+        // Frozen/alternating raw images must not leave detached replicas during a camera turn.
+        float temporalRetention=shutter.temporalRetention();
+        frame.filmHeldWeight=config.stepPrintStrength*temporalRetention;
+        frame.filmInterlaceWeight=config.interlaceStrength*temporalRetention;
         rememberCamera(client, camera);
         lastNanos = now;
         heldPeriodNanos = Math.max(1L, (long)(1_000_000_000.0 / Math.max(1f, config.stepPrintFps)));
@@ -65,17 +81,15 @@ final class FilmHistory implements AutoCloseable {
         frame.filmFieldPhase = (now / 20_000_000L) & 1L;
     }
 
-    void importTargets(FrameGraphBuilder graph, Map<Identifier, ResourceHandle<RenderTarget>> targets) {
-        targets.put(CURRENT_RAW, graph.importExternal("DarkWinter ungraded world", currentRaw));
-        targets.put(PREVIOUS_FRAME, graph.importExternal("DarkWinter previous ungraded world", previousRaw));
-        targets.put(HELD_FRAME, graph.importExternal("DarkWinter held ungraded world", heldRaw));
+    void bindTargets(Map<net.minecraft.resources.Identifier,RenderTarget> targets) {
+        targets.put(CURRENT_RAW,currentRaw);
+        targets.put(PREVIOUS_FRAME,previousRaw);
+        targets.put(HELD_FRAME,heldRaw);
     }
 
     /** Called after the post graph has consumed the old images and completed its render passes. */
     void capture() {
         if (!allowCapture) return;
-        previousRaw.copyColorFrom(currentRaw);
-        rawCaptures++;
         if (captureHeld) {
             heldRaw.copyColorFrom(currentRaw);
             heldCaptures++;
@@ -88,12 +102,19 @@ final class FilmHistory implements AutoCloseable {
                 nextHeldNanos += periods * heldPeriodNanos;
             }
         }
+        // The graph has finished reading the previous image. Reuse its target for the
+        // next raw output; the freshly rendered target itself becomes the history.
+        TextureTarget reusable = previousRaw;
+        previousRaw = currentRaw;
+        currentRaw = reusable;
+        rawCaptures++;
         valid = true;
     }
 
     void invalidate() {
         if (valid || allowCapture || cameraKnown || lastNanos != 0) resets++;
         valid = allowCapture = captureHeld = cameraKnown = false;
+        shutter.reset();
         lastNanos = lastHeldNanos = nextHeldNanos = 0;
         previousPosition = null;
         previousCameraEntity = previousCameraType = null;

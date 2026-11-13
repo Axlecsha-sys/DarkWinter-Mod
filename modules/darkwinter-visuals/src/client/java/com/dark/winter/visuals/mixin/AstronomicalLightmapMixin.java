@@ -1,7 +1,7 @@
 // Applies astronomical sky illumination while retaining native block light.
 package com.dark.winter.visuals.mixin;
 
-import com.dark.winter.visuals.SolarDaylight;
+import com.dark.winter.visuals.AstronomicalSkylight;
 import com.dark.winter.visuals.SolarEphemeris;
 import com.dark.winter.visuals.SolarRuntime;
 import com.dark.winter.client.weather.WeatherClient;
@@ -9,7 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LightmapRenderStateExtractor;
 import net.minecraft.client.renderer.state.LightmapRenderState;
-import net.minecraft.world.attribute.EnvironmentAttributes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,24 +21,31 @@ public abstract class AstronomicalLightmapMixin {
     private void darkwinter$geographicSkyLight(LightmapRenderState state,float partialTicks,CallbackInfo ci) {
         Minecraft client = Minecraft.getInstance();
         ClientLevel level = client.level;
-        if (level == null || client.player == null) return;
+        if (level == null || client.player == null) {
+            AstronomicalSkylight.clear();
+            return;
+        }
         // Lightmap extraction occurs earlier than SkyRenderer extraction in Minecraft 26.3.
         // Capture now, rather than accidentally using yesterday's/previous frame's sun.
         SolarRuntime.capture(level,partialTicks);
         SolarEphemeris.Position sun = SolarRuntime.current(level);
-        if (sun == null) return;
-        // Vanilla only refreshes these values on a game tick. Multiplying the previous
-        // renderState every frame compounds twilight/weather darkness at higher FPS.
-        // Re-read precisely the same source used by the installed 26.3 extractor.
-        float baseline=client.gameRenderer.mainCamera().attributeProbe()
-                .getValue(EnvironmentAttributes.SKY_LIGHT_FACTOR,partialTicks);
+        if (sun == null) {
+            AstronomicalSkylight.clear();
+            return;
+        }
+        // The native camera attribute already includes the vanilla clock's night factor.
+        // Keep static dimension/biome modifiers, then apply geographic daylight exactly once.
+        float baseline=AstronomicalSkylight.staticFactor(level,client.gameRenderer.mainCamera().position());
         float weather=1f;
-        if (WeatherClient.active()) {
+        boolean customWeather=WeatherClient.active();
+        if (customWeather) {
             float visibility=WeatherClient.sample(partialTicks).sunVisibility();
             // Diffuse skylight survives dense clouds: overcast 1, snow .775, blizzard .55.
             weather=.5f+.5f*Math.clamp(visibility,0f,1.1f);
         }
-        state.skyFactor = Math.clamp(baseline*SolarDaylight.illumination((float) sun.elevationDegrees())*weather,0f,1f);
+        float skylight=AstronomicalSkylight.factor(baseline,(float) sun.elevationDegrees(),weather);
+        state.skyFactor = customWeather?skylight:AstronomicalSkylight.nativeWeather(
+                skylight,level.getRainLevel(partialTicks),level.getThunderLevel(partialTicks));
         state.needsUpdate = true; // Rebuild each frame while the sun moves.
     }
 }

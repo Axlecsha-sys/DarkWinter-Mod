@@ -1,0 +1,129 @@
+{
+  "project": "DarkWinter",
+  "date": "2026-11-06",
+  "status": "partially_prepared_generation_blocked_by_free_quota",
+  "approved_reference": {
+    "file": "running_breath.wav",
+    "source_file": "C:\\workspace\\DarkWinter_Breathing_Processed_20261106\\A_processed.wav",
+    "source_library_file_id": "libfile_84cd071ed1508191b970794c1338d1d8",
+    "sha256": "6cf60c7ae6f01425e161e21378376cfae9c0c27599a2fe2e3f9bb6ce2e844dbe",
+    "author_feedback": "A пиздатый пойдет",
+    "approval_status": "approved"
+  },
+  "files": [
+    {
+      "id": "breath.running",
+      "file": "running_breath.wav",
+      "duration_seconds": 12,
+      "sha256": "6cf60c7ae6f01425e161e21378376cfae9c0c27599a2fe2e3f9bb6ce2e844dbe",
+      "review_status": "approved"
+    },
+    {
+      "id": "breath.jump.01",
+      "role": "jump_effort",
+      "source_sha256": "73f6caa9228b49eec9588f996797644025bcee66590168c576fca19025d98da5",
+      "output_file": "jump_breath_01.wav",
+      "expected_seconds": 2,
+      "target_weighted_rms_dbfs": -23.5,
+      "seed": 294711,
+      "generation_event_id": "6c7e7e9964504646b6d0cc9ee4fe85dc",
+      "original_url": "https://darkwinter-audio-online.bouncygoose19.chatgpt.site/audio/effects-6c7e7e9964504646b6d0cc9ee4fe85dc-0.wav",
+      "file": "jump_breath_01.wav",
+      "output_sha256": "008567c63e656e073d5475bdc0103e1c66e5589485d0ef2cf5a8b3d4eb325671",
+      "duration_seconds": 2,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16,
+      "weighted_active_rms_dbfs": -23.499998385818284,
+      "sample_peak_dbfs": -8.47425303936114,
+      "estimated_intersample_peak_4x_dbfs": -8.47425303936114,
+      "dc_removed": 0.0001224370770443594,
+      "isolated_clicks_repaired": 0,
+      "spectral_clean": {
+        "applied": false,
+        "quiet_floor_dbfs": -95.34721519915365,
+        "reason": "floor_below_minus_80_dbfs"
+      },
+      "deesser_max_reduction_db": 0.27825225691401956,
+      "compressor_max_reduction_db": 2.8950691354766707,
+      "limiter_max_bound_db": 0,
+      "overloaded_samples": 0,
+      "review_status": "awaiting_author_listening"
+    }
+  ],
+  "pending": [
+    {
+      "id": "breath.walking",
+      "duration_seconds": 12,
+      "description": "Quiet unhurried walking breathing"
+    },
+    {
+      "id": "breath.jump.02",
+      "duration_seconds": 2,
+      "description": "Slightly stronger and rougher effort exhale"
+    },
+    {
+      "id": "breath.jump.03",
+      "duration_seconds": 2,
+      "description": "Softer breathy effort exhale with a short recovery inhale"
+    }
+  ],
+  "quota_error": {
+    "error": "You have exceeded your ZeroGPU quota (90s requested vs. 0s left). Try again in 0:00:00. Authenticate with a Hugging Face token for more quota - https://huggingface.co/settings/tokens",
+    "duration": 10,
+    "visible": true,
+    "title": "ZeroGPU quota exceeded"
+  },
+  "game_integration": "not_connected",
+  "subjective_review": "Only the running reference is approved. The new jump recording needs author listening.",
+  "local_directory": "C:\\workspace\\DarkWinter_Breathing_Set_A_20261106",
+  "saved_assets": [
+    {
+      "file_name": "jump_breath_01.wav",
+      "library_file_id": "libfile_92d6b91131088191b59a43665d1fe00a",
+      "local_path": "C:\\workspace\\DarkWinter_Breathing_Set_A_20261106\\jump_breath_01.wav"
+    },
+    {
+      "file_name": "jump_01_source.wav",
+      "library_file_id": "libfile_1353bfd538408191a9aafee4a3416d25",
+      "local_path": "C:\\workspace\\DarkWinter_Breathing_Set_A_20261106\\originals\\jump_01_source.wav"
+    },
+    {
+      "file_name": "breathing_set.json",
+      "library_file_id": "libfile_b60153efa2548191997571b1ac23261b",
+      "local_path": "C:\\workspace\\DarkWinter_Breathing_Set_A_20261106\\breathing_set.json"
+    },
+    {
+      "file_name": "new_assets_processing.json",
+      "library_file_id": "libfile_f3f7eab4a0708191872973a8b9ed087a",
+      "local_path": "C:\\workspace\\DarkWinter_Breathing_Set_A_20261106\\new_assets_processing.json"
+    }
+  ],
+  "project_source_assets": {
+    "directory": "assets-source/audio/protagonist/breathing",
+    "manifest": "assets-source/audio/protagonist/breathing/breathing.json",
+    "files": [
+      {
+        "id": "breath.running",
+        "file": "running_breath.wav",
+        "sha256": "6cf60c7ae6f01425e161e21378376cfae9c0c27599a2fe2e3f9bb6ce2e844dbe",
+        "duration_seconds": 12
+      },
+      {
+        "id": "breath.jump.01",
+        "file": "jump_breath_01.wav",
+        "sha256": "008567c63e656e073d5475bdc0103e1c66e5589485d0ef2cf5a8b3d4eb325671",
+        "duration_seconds": 2
+      }
+    ],
+    "game_integration": "not_connected",
+    "verification": {
+      "source_and_destination_sha256": "pass",
+      "wav_structure": "pass",
+      "gradle_transfer_job_id": "94e514fa21084418beefaa60b80b47f4",
+      "transfer_exit_code": 0,
+      "build_file_restored": true,
+      "gameplay_test": "not_run_source_assets_only"
+    }
+  }
+}

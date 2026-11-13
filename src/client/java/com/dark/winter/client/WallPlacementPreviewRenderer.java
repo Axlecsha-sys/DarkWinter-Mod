@@ -3,6 +3,8 @@ package com.dark.winter.client;
 
 import com.dark.winter.component.WallBuildManager;
 import com.dark.winter.component.WallShape;
+import com.dark.winter.placement.AnchorRuntime;
+import com.dark.winter.placement.SurfacePlacement;
 import com.dark.winter.registry.ModBlocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -15,6 +17,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 
 import java.util.Collection;
@@ -70,6 +73,10 @@ public final class WallPlacementPreviewRenderer {
         BlockPlaceContext context = new BlockPlaceContext(
                 client.player, InteractionHand.MAIN_HAND, held, hit
         );
+        SurfacePlacement.preview(context, planned -> prepareAndDraw(client, held, planned));
+    }
+
+    private static void prepareAndDraw(Minecraft client,ItemStack held,BlockPlaceContext context) {
         BlockPos origin = context.getClickedPos();
         var heldBlock = ((net.minecraft.world.item.BlockItem) held.getItem()).getBlock();
         var placementState = heldBlock.getStateForPlacement(context);
@@ -84,7 +91,8 @@ public final class WallPlacementPreviewRenderer {
         previewValid = context.canPlace() && placementState != null
                 && placementState.canSurvive(client.level, origin)
                 && client.level.isUnobstructed(placementState, origin,
-                        CollisionContext.placementContext(client.player));
+                        CollisionContext.placementContext(client.player))
+                && SurfacePlacement.validateCandidate(context, placementState);
 
         GizmoStyle style = previewValid ? VALID_STYLE : INVALID_STYLE;
         // A rejected placement still needs a useful red outline at the intended position.
@@ -92,9 +100,12 @@ public final class WallPlacementPreviewRenderer {
         if (previewState.hasProperty(com.dark.winter.block.WallSegmentBlock.FACING)) {
             previewState = previewState.setValue(com.dark.winter.block.WallSegmentBlock.FACING, previewFacing);
         }
+        // Draw the candidate's own shape at its planned physical position, even when storage is rejected.
+        Vec3 offset = SurfacePlacement.plannedOffset(context, previewState);
         for (BlockPos pos : previewPositions) {
-            for (AABB box : previewState.getShape(client.level, pos, CollisionContext.empty()).toAabbs()) {
-                Gizmos.cuboid(box.move(pos), style, false);
+            Vec3 physicalOrigin = Vec3.atLowerCornerOf(pos).add(offset);
+            for (AABB box : AnchorRuntime.rawShape(client.level, pos, previewState, false).toAabbs()) {
+                Gizmos.cuboid(box.move(physicalOrigin), style, false);
             }
         }
     }

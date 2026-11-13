@@ -2,11 +2,15 @@
 package com.dark.winter.visuals;
 
 import net.fabricmc.loader.api.FabricLoader;
+import com.winterkore.engine.graphics.WkeGraphicsPolicy;
+import com.winterkore.engine.render.effects.WkePostGraphExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
+import java.nio.file.AtomicMoveNotSupportedException;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Properties;
@@ -18,14 +22,18 @@ public final class VisualConfig {
     public static VisualConfig shared() { return SHARED; }
     public static final Logger LOG = LoggerFactory.getLogger("DarkWinter/Visuals");
     public enum Quality {
-        LOW(768, 32f, 8), BALANCED(1024, 40f, 12), HIGH(2048, 56f, 16);
+        LOW("low"), BALANCED("balanced"), HIGH("high");
         public final int resolution, steps;
         public final float radius;
-        Quality(int resolution, float radius, int steps) {
-            this.resolution = resolution; this.radius = radius; this.steps = steps;
+        Quality(String id) {
+            var shared=WkePostGraphExecutor.quality(id);
+            resolution=shared.shadowResolution(); radius=shared.shadowRadius(); steps=shared.volumeSteps();
         }
     }
     public boolean enabled = true, shadows = true, atmosphere = true, volume = true;
+    // Independent of the artistic grade and its legacy filmStrength blend.
+    public boolean filmEnabled = WkeGraphicsPolicy.DEFAULT_FILM_ENABLED;
+    public boolean antialiasEnabled = true;
     public boolean overworldOnly = true, flipDepthY = false, flipShadowY = false, freezeSun = false;
     public Quality quality = Quality.BALANCED;
     public float shadowStrength = .50f, fogDensity = .0009f, maxFog = .055f;
@@ -73,6 +81,8 @@ public final class VisualConfig {
             Quality q = Quality.valueOf(p.getProperty("quality", "BALANCED").trim().toUpperCase(Locale.ROOT));
             boolean en = bool(p,"enabled",true), sh = bool(p,"shadows",true);
             boolean at = bool(p,"atmosphere",true), vo = bool(p,"volume",true);
+            boolean nextFilmEnabled = bool(p,"filmEnabled",WkeGraphicsPolicy.DEFAULT_FILM_ENABLED);
+            boolean nextAntialiasEnabled = bool(p,"antialiasEnabled",true);
             boolean ow = bool(p,"overworldOnly",true), fd = bool(p,"flipDepthY",false);
             boolean fs = bool(p,"flipShadowY",false), freeze = bool(p,"freezeSun",false);
             boolean geo = bool(p,"geographicSun",true);
@@ -123,7 +133,7 @@ public final class VisualConfig {
             hazeDensity=h[0]; hazeBaseHeight=h[1]; hazeHeightFalloff=h[2];
             hazeStartDistance=h[3]; hazeDetailStrength=h[4]; hazeAirDensity=h[5];
             hazeWindSpeed=h[6]; hazeEdgeStart=h[7]; hazeEdgeEnd=h[8];
-            quality=q; enabled=en; shadows=sh; atmosphere=at; volume=vo;
+            quality=q; enabled=en; shadows=sh; atmosphere=at; volume=vo; filmEnabled=nextFilmEnabled; antialiasEnabled=nextAntialiasEnabled;
             geographicSun=geo; latitude=nextLat; longitude=nextLon;
             utcOffsetHours=nextOffset; northRotation=nextNorth;
             calendarStartDay=nextDay; calendarDaysPerMinecraftDay=nextSpeed; visualDayLengthMultiplier=nextDayLength;
@@ -135,12 +145,72 @@ public final class VisualConfig {
             stepPrintStrength=film[3]; stepPrintFps=film[4];
             debug=(int)n[15]; lastModified=modified; revision++;
             LOG.info("RC2: quality={}, shadows={}, volume={}, film={}, debug={}, config={}",
-                    quality,shadows,volume,atmosphere,debug,path);
+                    quality,shadows,volume,filmEnabled,debug,path);
         } catch (IOException | IllegalArgumentException e) {
             LOG.warn("Invalid visuals configuration. Last valid settings retained: {}", e.toString());
             try { lastModified=Files.getLastModifiedTime(path).toMillis(); } catch (IOException ignored) { }
         }
     }
+    /** Reads the persisted flag even when the settings screen opens before the first world frame. */
+    public boolean isFilmEnabled() {
+        poll();
+        return filmEnabled;
+    }
+
+    public boolean isAntialiasEnabled() { poll(); return antialiasEnabled; }
+    public Quality graphicsQuality() { poll(); return quality; }
+    public boolean setGraphicsQuality(Quality value) {
+        return value != null && setSetting("quality",value.name(),() -> quality=value);
+    }
+
+    /** Preserve authored and unknown properties; only the selected implemented feature changes. */
+    public boolean setFilmEnabled(boolean value) { return setBooleanSetting("filmEnabled",value); }
+    public boolean setAntialiasEnabled(boolean value) { return setBooleanSetting("antialiasEnabled",value); }
+
+    private boolean setBooleanSetting(String key,boolean value) {
+        return setSetting(key,Boolean.toString(value),() -> {
+            if(key.equals("filmEnabled")) filmEnabled=value;
+            else antialiasEnabled=value;
+        });
+    }
+
+    private boolean setSetting(String key,String value,Runnable apply) {
+        poll();
+        Path temporary=null;
+        try {
+            Properties properties=new Properties();
+            if(Files.exists(path)) try(Reader reader=Files.newBufferedReader(path)) { properties.load(reader); }
+            String current=switch(key) {
+                case "filmEnabled" -> Boolean.toString(filmEnabled);
+                case "antialiasEnabled" -> Boolean.toString(antialiasEnabled);
+                case "quality" -> quality.name();
+                default -> throw new IllegalArgumentException("Unknown implemented WKE setting "+key);
+            };
+            boolean alreadyStored=value.equalsIgnoreCase(properties.getProperty(key,"").trim());
+            if(current.equalsIgnoreCase(value)&&alreadyStored) return true;
+            if(!alreadyStored) {
+                properties.setProperty(key,value);
+                Files.createDirectories(path.getParent());
+                temporary=Files.createTempFile(path.getParent(),"visuals-setting-",".properties.tmp");
+                try(var writer=Files.newBufferedWriter(temporary)) { properties.store(writer,"DarkWinter rendering settings"); }
+                try { Files.move(temporary,path,StandardCopyOption.ATOMIC_MOVE,StandardCopyOption.REPLACE_EXISTING); }
+                catch(AtomicMoveNotSupportedException unsupported) { Files.move(temporary,path,StandardCopyOption.REPLACE_EXISTING); }
+            }
+            apply.run();
+            long previousRevision=revision;
+            lastModified=Long.MIN_VALUE; lastCheck=0; poll();
+            if(revision==previousRevision) revision++;
+            LOG.info("WKE setting {}={}, authored settings retained",key,value);
+            return true;
+        } catch(IOException|IllegalArgumentException error) {
+            LOG.warn("Cannot persist WKE setting {}: {}",key,error.toString());
+            return false;
+        } finally {
+            if(temporary!=null) try { Files.deleteIfExists(temporary); }
+            catch(IOException error) { LOG.warn("Cannot remove temporary effect settings: {}",error.toString()); }
+        }
+    }
+
     private static boolean bool(Properties p,String key,boolean fallback) {
         String v=p.getProperty(key,Boolean.toString(fallback)).trim();
         if (!v.equalsIgnoreCase("true") && !v.equalsIgnoreCase("false"))

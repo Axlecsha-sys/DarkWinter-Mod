@@ -1,0 +1,147 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "locker_h_hardware": "darkwinter:block/decor/locker_h_hardware",
+    "door_pale": "darkwinter:block/construction/door_pale",
+    "particle": "darkwinter:block/construction/door_pale"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        4.5,
+        1.0,
+        7.125
+      ],
+      "to": [
+        11.5,
+        8.0,
+        8.875
+      ],
+      "faces": {
+        "down": {
+          "texture": "#door_pale"
+        },
+        "up": {
+          "texture": "#door_pale"
+        },
+        "north": {
+          "texture": "#door_pale"
+        },
+        "south": {
+          "texture": "#door_pale"
+        },
+        "west": {
+          "texture": "#door_pale"
+        },
+        "east": {
+          "texture": "#door_pale"
+        }
+      }
+    },
+    {
+      "from": [
+        4.5,
+        8.0,
+        7.125
+      ],
+      "to": [
+        11.5,
+        15.0,
+        8.875
+      ],
+      "faces": {
+        "down": {
+          "texture": "#door_pale"
+        },
+        "up": {
+          "texture": "#door_pale"
+        },
+        "north": {
+          "texture": "#door_pale"
+        },
+        "south": {
+          "texture": "#door_pale"
+        },
+        "west": {
+          "texture": "#door_pale"
+        },
+        "east": {
+          "texture": "#door_pale"
+        }
+      }
+    }
+  ]
+}

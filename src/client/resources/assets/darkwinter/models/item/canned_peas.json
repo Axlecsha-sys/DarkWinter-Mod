@@ -1,0 +1,150 @@
+{
+  "parent": "minecraft:block/block",
+  "gui_light": "side",
+  "ambientocclusion": true,
+  "textures": {
+    "label_0": "darkwinter:item/provisions_v2/pantry",
+    "metal": "darkwinter:item/provisions_v2/materials",
+    "particle": "darkwinter:item/provisions_v2/pantry"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        12,
+        8,
+        0
+      ],
+      "scale": [
+        1.08,
+        1.08,
+        1.08
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.65,
+        0.65,
+        0.65
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        2,
+        1
+      ],
+      "scale": [
+        0.55,
+        0.55,
+        0.55
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        -25,
+        0
+      ],
+      "translation": [
+        1,
+        1,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        2,
+        1
+      ],
+      "scale": [
+        0.55,
+        0.55,
+        0.55
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        0,
+        25,
+        0
+      ],
+      "translation": [
+        -1,
+        1,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        4.7,
+        2.8,
+        4.7
+      ],
+      "to": [
+        11.3,
+        13.2,
+        11.3
+      ],
+      "faces": {
+        "up": {
+          "texture": "#label_0"
+        },
+        "down": {
+          "texture": "#label_0"
+        },
+        "north": {
+          "texture": "#label_0"
+        },
+        "south": {
+          "texture": "#label_0"
+        },
+        "east": {
+          "texture": "#label_0"
+        },
+        "west": {
+          "texture": "#label_0"
+        }
+      }
+    }
+  ]
+}

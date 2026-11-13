@@ -20,16 +20,24 @@ final class FirstPersonSurfaces {
 
     static ModelPart garment(ClothingMeshes.Piece piece) {
         if(piece.bone()!=ClothingMeshes.Bone.BODY)return piece.geometry();
-        if(piece.role()==ClothingMeshes.SurfaceRole.COLLAR || piece.role()==ClothingMeshes.SurfaceRole.HOOD
-                || piece.role()==ClothingMeshes.SurfaceRole.FLAP)return null;
+        if(coverNearCamera(piece) || piece.role()==ClothingMeshes.SurfaceRole.FLAP)return null;
         return piece.role()==ClothingMeshes.SurfaceRole.MAIN
-                ? TORSOS.computeIfAbsent(piece.geometry(),FirstPersonSurfaces::torso) : piece.geometry();
+                ? torso(piece.geometry()) : piece.geometry();
+    }
+
+    static boolean coverNearCamera(ClothingMeshes.Piece piece) {
+        return piece.role()==ClothingMeshes.SurfaceRole.COLLAR || piece.role()==ClothingMeshes.SurfaceRole.HOOD;
     }
 
     static ModelPart bodyRoot(boolean slim) {
         ModelPart source = HumanBodyModel.createRoot(slim);
+        ModelPart worldLegs = ThirdPersonBodyModel.createRoot(slim);
         Map<String, ModelPart> children = new LinkedHashMap<>();
-        for (String name : List.of("darkwinter_human", "head", "left_arm", "right_arm", "left_leg", "right_leg")) children.put(name, source.getChild(name));
+        // The view-only torso keeps its close-camera cut. Feet retain the exact world rig:
+        // baking each articulated bone avoids a nonuniform root scale shearing bent knees.
+        for (String name : List.of("darkwinter_human", "head", "left_arm", "right_arm")) children.put(name, source.getChild(name));
+        for (String name : List.of("left_leg", "right_leg")) children.put(name, worldLegs.getChild(name));
+        children.put("darkwinter_world_legs", new ModelPart(List.of(), Map.of()));
         ModelPart body = source.getChild("body");
         Map<String, ModelPart> layers = Map.of("jacket", torso(body.getChild("jacket")),
                 "neck", new ModelPart(List.of(), Map.of()), "underwear", body.getChild("underwear"));
@@ -39,7 +47,9 @@ final class FirstPersonSurfaces {
         return new ModelPart(List.of(), children);
     }
 
-    static ModelPart torso(ModelPart source) { return new ModelPart(torsoCubes(source), Map.of()); }
+    static ModelPart torso(ModelPart source) {
+        return TORSOS.computeIfAbsent(source, part -> new ModelPart(torsoCubes(part), Map.of()));
+    }
 
     private static List<ModelPart.Cube> torsoCubes(ModelPart source) {
         List<ModelPart.Cube> cubes = new ArrayList<>();
